@@ -28,8 +28,8 @@ namespace Vts.Test.Extensions
         public void Validate_HasFlag_returns_correct_values()
         {
             const Days meetingDays = Days.Tuesday | Days.Thursday;
-            Assert.IsTrue(meetingDays.HasFlag(Days.Tuesday));
-            Assert.IsFalse(meetingDays.HasFlag(Days.Monday));
+            Assert.That(meetingDays.HasFlag(Days.Tuesday), Is.True);
+            Assert.That(meetingDays.HasFlag(Days.Monday), Is.False);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Vts.Test.Extensions
         {
             var meetingDays = Days.Tuesday;
             meetingDays = meetingDays.Add(Days.Thursday);
-            Assert.IsTrue(meetingDays == (Days.Tuesday | Days.Thursday));
+            Assert.That(meetingDays == (Days.Tuesday | Days.Thursday), Is.True);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Vts.Test.Extensions
         public void Validate_Remove_returns_correct_values()
         {
             const Days meetingDays = Days.Tuesday | Days.Thursday;
-            Assert.IsTrue(meetingDays.Remove(Days.Tuesday) == Days.Thursday);
+            Assert.That(meetingDays.Remove(Days.Tuesday) == Days.Thursday, Is.True);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Vts.Test.Extensions
         {
             const Days meetingDays = Days.Thursday;
             var removed = meetingDays.Remove(Days.Tuesday);
-            Assert.IsTrue(removed == Days.Thursday);
+            Assert.That(removed == Days.Thursday, Is.True);
         }
 
         [Test]
@@ -75,14 +75,14 @@ namespace Vts.Test.Extensions
         public void Validate_GetInternationalizedString_returns_string()
         {
             const ChromophoreCoefficientType enumToStringify = ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
-            Assert.AreEqual("vol. frac.", enumToStringify.GetInternationalizedString());
+            Assert.That(enumToStringify.GetInternationalizedString(), Is.EqualTo("vol. frac."));
         }
 
         [Test]
         public void Validate_GetInternationalizedString_returns_empty_string()
         {
             const Days enumToStringify = Days.Saturday;
-            Assert.AreEqual("", enumToStringify.GetInternationalizedString());
+            Assert.That(enumToStringify.GetInternationalizedString(), Is.EqualTo(""));
         }
     }
 }

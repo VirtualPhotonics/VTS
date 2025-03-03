@@ -114,7 +114,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         {
             foreach (var infile in _listOfMcppInfiles)
             {
-                Assert.IsTrue(File.Exists("infile_" + infile + ".txt"));
+                Assert.That(File.Exists("infile_" + infile + ".txt"), Is.True);
             }
         }
 
@@ -128,12 +128,12 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             var arguments = new string[] { "infile=infile_PostProcessor_ROfRhoTOfRho.txt" };
             Program.Main(arguments);
             // verify results folder exists
-            Assert.IsTrue(Directory.Exists("PostProcessor_ROfRhoTOfRho"));
+            Assert.That(Directory.Exists("PostProcessor_ROfRhoTOfRho"), Is.True);
             // verify infile gets written to output folder
-            Assert.IsTrue(File.Exists("PostProcessor_ROfRhoTOfRho/PostProcessor_ROfRhoTOfRho.txt"));
+            Assert.That(File.Exists("PostProcessor_ROfRhoTOfRho/PostProcessor_ROfRhoTOfRho.txt"), Is.True);
             // verify detectors specified in MCPP infile get written
-            Assert.IsTrue(File.Exists("PostProcessor_ROfRhoTOfRho/ROfRho.txt"));
-            Assert.IsTrue(File.Exists("PostProcessor_ROfRhoTOfRho/TOfRho.txt"));
+            Assert.That(File.Exists("PostProcessor_ROfRhoTOfRho/ROfRho.txt"), Is.True);
+            Assert.That(File.Exists("PostProcessor_ROfRhoTOfRho/TOfRho.txt"), Is.True);
         }
 
         /// <summary>
@@ -145,40 +145,40 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             var arguments = new string[] { "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt" };
             Program.Main(arguments);
             // verify results folder exists
-            Assert.IsTrue(Directory.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime"));
+            Assert.That(Directory.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime"), Is.True);
             // verify infile gets written to output folder
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/PostProcessor_pMC_ROfRhoROfRhoAndTime.txt"));
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/PostProcessor_pMC_ROfRhoROfRhoAndTime.txt"), Is.True);
             // verify detectors specified in MCPP infile get written
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoReference.txt"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoReference"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoReference_2"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus1p5.txt"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus1p5"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus1p5_2"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus0p5.txt"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus0p5"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus0p5_2"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5.txt"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5"));
-            Assert.IsFalse(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5_2"));
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoReference.txt"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoReference"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoReference_2"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus1p5.txt"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus1p5"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus1p5_2"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus0p5.txt"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus0p5"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRho_mus0p5_2"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5.txt"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5_2"), Is.False);
             // added regular detectors into this infile in PPInputProvider -> verify they are there
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRho.txt"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRho"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRhoAndTime.txt"));
-            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRhoAndTime"));
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRho.txt"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRho"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRhoAndTime.txt"), Is.True);
+            Assert.That(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRhoAndTime"), Is.True);
             // check that can read detectors in
             var readDetector = DetectorIO.ReadDetectorFromFile(
                 "pMCROfRhoReference", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
-            Assert.IsInstanceOf<IDetector>(readDetector);
+            Assert.That(readDetector, Is.InstanceOf<IDetector>());
             readDetector = DetectorIO.ReadDetectorFromFile(
                 "pMCROfRhoAndTime_mus1p5", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
-            Assert.IsInstanceOf<IDetector>(readDetector);
+            Assert.That(readDetector, Is.InstanceOf<IDetector>());
             readDetector = DetectorIO.ReadDetectorFromFile(
                 "ROfRho", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
-            Assert.IsInstanceOf<IDetector>(readDetector);
+            Assert.That(readDetector, Is.InstanceOf<IDetector>());
             readDetector = DetectorIO.ReadDetectorFromFile(
                 "ROfRhoAndTime", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
-            Assert.IsInstanceOf<IDetector>(readDetector);
+            Assert.That(readDetector, Is.InstanceOf<IDetector>());
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
                 "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt", "outpath=test"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("test"));
+            Assert.That(Directory.Exists("test"), Is.True);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
                 "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt", "inpath=test", "outpath=test2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("test2"));
+            Assert.That(Directory.Exists("test2"), Is.True);
         }
     }
 }

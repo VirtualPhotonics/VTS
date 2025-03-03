@@ -15,7 +15,7 @@ namespace Vts.Test.Factories
             foreach (var fsType in EnumHelper.GetValues<ForwardSolverType>())
             {
                 var fs = SolverFactory.GetForwardSolver(fsType);
-                Assert.IsNotNull(fs, "The requested instance matching " + fsType + " returned null from the call to GetForwardSolver().");
+                Assert.That(fs, Is.Not.Null, "The requested instance matching " + fsType + " returned null from the call to GetForwardSolver().");
             }
         }
 
@@ -26,7 +26,7 @@ namespace Vts.Test.Factories
         public void GetForwardSolver_returns_null()
         {
             var fs = SolverFactory.GetForwardSolver("NotAForwardSolver");
-            Assert.IsNull(fs);
+            Assert.That(fs, Is.Null);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Vts.Test.Factories
             foreach (var oType in EnumHelper.GetValues<OptimizerType>())
             {
                 var o = SolverFactory.GetOptimizer(oType);
-                Assert.IsNotNull(o, "The requested instance matching " + oType + " returned null from the call to GetOptimizer().");
+                Assert.That(o, Is.Not.Null, "The requested instance matching " + oType + " returned null from the call to GetOptimizer().");
             }
         }
 
@@ -49,7 +49,7 @@ namespace Vts.Test.Factories
         public void GetOptimizer_returns_null()
         {
             var o = SolverFactory.GetOptimizer("NotAnOptimizer");
-            Assert.IsNull(o);
+            Assert.That(o, Is.Null);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Vts.Test.Factories
             foreach (var sType in EnumHelper.GetValues<ScatteringType>())
             {
                 var s = SolverFactory.GetScattererType(sType);
-                Assert.IsNotNull(s, "The requested instance matching " + sType + " returned null from the call to GetScattererType().");
+                Assert.That(s, Is.Not.Null, "The requested instance matching " + sType + " returned null from the call to GetScattererType().");
             }
         }
 
@@ -72,7 +72,7 @@ namespace Vts.Test.Factories
         public void GetScattererType_returns_null()
         {
             var s = SolverFactory.GetScattererType("NotAScatterer");
-            Assert.IsNull(s);
+            Assert.That(s, Is.Null);
         }
     }
 }

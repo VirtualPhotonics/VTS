@@ -28,14 +28,14 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_infiniteCylinder_properties()
         {
-            Assert.AreEqual(0.0, _infiniteCylinderTissueRegion.Center.X);
-            Assert.AreEqual(0.0, _infiniteCylinderTissueRegion.Center.Y);
-            Assert.AreEqual(3.0, _infiniteCylinderTissueRegion.Center.Z);
-            Assert.AreEqual(1.0, _infiniteCylinderTissueRegion.Radius);
-            Assert.AreEqual(0.01, _infiniteCylinderTissueRegion.RegionOP.Mua);
-            Assert.AreEqual(1.0,_infiniteCylinderTissueRegion.RegionOP.Musp);
-            Assert.AreEqual(0.8, _infiniteCylinderTissueRegion.RegionOP.G);
-            Assert.AreEqual(1.4, _infiniteCylinderTissueRegion.RegionOP.N);
+            Assert.That(_infiniteCylinderTissueRegion.Center.X, Is.EqualTo(0.0));
+            Assert.That(_infiniteCylinderTissueRegion.Center.Y, Is.EqualTo(0.0));
+            Assert.That(_infiniteCylinderTissueRegion.Center.Z, Is.EqualTo(3.0));
+            Assert.That(_infiniteCylinderTissueRegion.Radius, Is.EqualTo(1.0));
+            Assert.That(_infiniteCylinderTissueRegion.RegionOP.Mua, Is.EqualTo(0.01));
+            Assert.That(_infiniteCylinderTissueRegion.RegionOP.Musp, Is.EqualTo(1.0));
+            Assert.That(_infiniteCylinderTissueRegion.RegionOP.G, Is.EqualTo(0.8));
+            Assert.That(_infiniteCylinderTissueRegion.RegionOP.N, Is.EqualTo(1.4));
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
             var result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
         /// <summary>
         /// Validate method OnBoundary return correct Boolean.
@@ -58,13 +58,13 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             // OnBoundary returns false if *exactly* on boundary
             var result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             // but returns true if outside infinite cylinder which doesn't make sense but it is how code is written
             // and all unit tests (linux included) are based on this wrong return
             result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 0.5));
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         /// <summary>
@@ -74,21 +74,21 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_SurfaceNormal_method_returns_correct_result()
         {
             var result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 2.0)); // top of cyl
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(-1, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(-1));
             result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 4.0)); // bottom of cyl
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(1, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(1));
             // select a more random location on the surface of the cylinder
             const double x = 0.3; // pick any x value and determine z on cylinder
             var z = Math.Sqrt(_infiniteCylinderTissueRegion.Radius * _infiniteCylinderTissueRegion.Radius - x * x);
             const double y = 1.11; // pick any y value
             result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(x, y, z));
-            Assert.IsTrue(Math.Abs(result.Ux - 0.145072) < 1e-6);
-            Assert.AreEqual(0, result.Uy); // surface normal on infinite cylinder should *always* have Uz=0
-            Assert.IsTrue(Math.Abs(result.Uz + 0.989421) < 1e-6);
+            Assert.That(Math.Abs(result.Ux - 0.145072) < 1e-6, Is.True);
+            Assert.That(result.Uy, Is.EqualTo(0)); // surface normal on infinite cylinder should *always* have Uz=0
+            Assert.That(Math.Abs(result.Uz + 0.989421) < 1e-6, Is.True);
         }
 
         /// <summary>
@@ -107,16 +107,16 @@ namespace Vts.Test.MonteCarlo.Tissues
                 S = 2.0 // definitely intersect
             };
             var result = _infiniteCylinderTissueRegion.RayIntersectBoundary(photon, out var distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             photon.S = 0.5; // definitely don't intersect
             result = _infiniteCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(false));
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             photon.S = 1.0; // ends right at boundary => both out and no intersection
             result = _infiniteCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(false));
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
         }
 
     }

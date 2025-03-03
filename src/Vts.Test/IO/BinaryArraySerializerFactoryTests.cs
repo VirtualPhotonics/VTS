@@ -377,16 +377,16 @@ public class BinaryArraySerializerFactoryTests
                 secondMoment, "SecondMoment", "_2") : null
         };
         var serializers = allSerializers.Where(s => s is not null).ToArray();
-        Assert.AreEqual(tallySecondMoment ? 2 : 1, serializers.Length);
-        Assert.AreEqual("Mean", serializers[0].Name);
-        Assert.AreEqual("", serializers[0].FileTag);
-        Assert.IsInstanceOf<Action<BinaryReader>>(serializers[0].ReadData);
-        Assert.IsInstanceOf<Action<BinaryWriter>>(serializers[0].WriteData);
+        Assert.That(serializers.Length, Is.EqualTo(tallySecondMoment ? 2 : 1));
+        Assert.That(serializers[0].Name, Is.EqualTo("Mean"));
+        Assert.That(serializers[0].FileTag, Is.EqualTo(""));
+        Assert.That(serializers[0].ReadData, Is.InstanceOf<Action<BinaryReader>>());
+        Assert.That(serializers[0].WriteData, Is.InstanceOf<Action<BinaryWriter>>());
         if (!tallySecondMoment) return;
-        Assert.AreEqual("SecondMoment", serializers[1].Name);
-        Assert.AreEqual("_2", serializers[1].FileTag);
-        Assert.IsInstanceOf<Action<BinaryReader>>(serializers[1].ReadData);
-        Assert.IsInstanceOf<Action<BinaryWriter>>(serializers[1].WriteData);
+        Assert.That(serializers[1].Name, Is.EqualTo("SecondMoment"));
+        Assert.That(serializers[1].FileTag, Is.EqualTo("_2"));
+        Assert.That(serializers[1].ReadData, Is.InstanceOf<Action<BinaryReader>>());
+        Assert.That(serializers[1].WriteData, Is.InstanceOf<Action<BinaryWriter>>());
     }
 
     [Test]
@@ -423,13 +423,13 @@ public class BinaryArraySerializerFactoryTests
             BinaryArraySerializerFactory.GetSerializer(
                 _doubleArray6d, "Mean6d", "FileTag6")
         };
-        Assert.AreEqual(6, serializers.Length);
+        Assert.That(serializers.Length, Is.EqualTo(6));
         for (var i = 0; i < serializers.Length; i++)
         {
-            Assert.AreEqual($"Mean{i + 1}d", serializers[i].Name);
-            Assert.AreEqual($"FileTag{i + 1}", serializers[i].FileTag);
-            Assert.IsInstanceOf<Action<BinaryReader>>(serializers[i].ReadData);
-            Assert.IsInstanceOf<Action<BinaryWriter>>(serializers[i].WriteData);
+            Assert.That(serializers[i].Name, Is.EqualTo($"Mean{i + 1}d"));
+            Assert.That(serializers[i].FileTag, Is.EqualTo($"FileTag{i + 1}"));
+            Assert.That(serializers[i].ReadData, Is.InstanceOf<Action<BinaryReader>>());
+            Assert.That(serializers[i].WriteData, Is.InstanceOf<Action<BinaryWriter>>());
         }
         VerifyBinaryReadWriteActions(serializers);
     }
@@ -452,13 +452,13 @@ public class BinaryArraySerializerFactoryTests
             BinaryArraySerializerFactory.GetSerializer(
                 _complexArray6d, "Mean6d", "FileTag6")
         };
-        Assert.AreEqual(6, serializers.Length);
+        Assert.That(serializers.Length, Is.EqualTo(6));
         for (var i = 0; i < serializers.Length; i++)
         {
-            Assert.AreEqual($"Mean{i + 1}d", serializers[i].Name);
-            Assert.AreEqual($"FileTag{i + 1}", serializers[i].FileTag);
-            Assert.IsInstanceOf<Action<BinaryReader>>(serializers[i].ReadData);
-            Assert.IsInstanceOf<Action<BinaryWriter>>(serializers[i].WriteData);
+            Assert.That(serializers[i].Name, Is.EqualTo($"Mean{i + 1}d"));
+            Assert.That(serializers[i].FileTag, Is.EqualTo($"FileTag{i + 1}"));
+            Assert.That(serializers[i].ReadData, Is.InstanceOf<Action<BinaryReader>>());
+            Assert.That(serializers[i].WriteData, Is.InstanceOf<Action<BinaryWriter>>());
         }
         VerifyBinaryReadWriteActions(serializers);
     }

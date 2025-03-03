@@ -13,10 +13,10 @@ namespace Vts.Test.Common
         {
             var r = new FloatRange(0f, 9f, 10);
 
-            Assert.AreEqual(0f, r.Start);
-            Assert.AreEqual(9f, r.Stop);
-            Assert.AreEqual(1f, r.Delta);
-            Assert.AreEqual(10, r.Count);
+            Assert.That(r.Start, Is.EqualTo(0f));
+            Assert.That(r.Stop, Is.EqualTo(9f));
+            Assert.That(r.Delta, Is.EqualTo(1f));
+            Assert.That(r.Count, Is.EqualTo(10));
         }
 
         [Test]
@@ -24,16 +24,16 @@ namespace Vts.Test.Common
         {
             var r = new FloatRange();
 
-            Assert.AreEqual(0f, r.Start);
-            Assert.AreEqual(1f, r.Stop);
-            Assert.AreEqual(1f, r.Delta);
-            Assert.AreEqual(2, r.Count);
+            Assert.That(r.Start, Is.EqualTo(0f));
+            Assert.That(r.Stop, Is.EqualTo(1f));
+            Assert.That(r.Delta, Is.EqualTo(1f));
+            Assert.That(r.Count, Is.EqualTo(2));
         }
 
         [Test]
         public void Validate_class_is_serializable()
         {
-            Assert.IsInstanceOf<FloatRange>(new FloatRange().Clone<FloatRange>());
+            Assert.That(new FloatRange().Clone<FloatRange>(), Is.InstanceOf<FloatRange>());
         }
 
         [Test]
@@ -43,12 +43,12 @@ namespace Vts.Test.Common
 
             var deserializedR = r.Clone<FloatRange>();
 
-            Assert.IsNotNull(deserializedR);
+            Assert.That(deserializedR, Is.Not.Null);
 
-            Assert.AreEqual(0f, deserializedR.Start);
-            Assert.AreEqual(9f, deserializedR.Stop);
-            Assert.AreEqual(1f, deserializedR.Delta);
-            Assert.AreEqual(10, deserializedR.Count);
+            Assert.That(deserializedR.Start, Is.EqualTo(0f));
+            Assert.That(deserializedR.Stop, Is.EqualTo(9f));
+            Assert.That(deserializedR.Delta, Is.EqualTo(1f));
+            Assert.That(deserializedR.Count, Is.EqualTo(10));
         }
 
         [Test]
@@ -59,8 +59,8 @@ namespace Vts.Test.Common
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(0f, delta);
-            Assert.AreEqual(1, count);
+            Assert.That(delta, Is.EqualTo(0f));
+            Assert.That(count, Is.EqualTo(1));
         }
 
         [Test]
@@ -71,8 +71,8 @@ namespace Vts.Test.Common
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(10f, delta);
-            Assert.AreEqual(1, count);
+            Assert.That(delta, Is.EqualTo(10f));
+            Assert.That(count, Is.EqualTo(1));
         }
 
         [Test]
@@ -83,8 +83,8 @@ namespace Vts.Test.Common
             var count = r.Count;
             var delta = r.Delta;
 
-            Assert.AreEqual(3, count);
-            Assert.AreEqual(0f, delta);
+            Assert.That(count, Is.EqualTo(3));
+            Assert.That(delta, Is.EqualTo(0f));
         }
 
         [Test]
@@ -94,10 +94,10 @@ namespace Vts.Test.Common
 
             var values = r.ToArray();
 
-            Assert.AreEqual(3, values.Length);
+            Assert.That(values.Length, Is.EqualTo(3));
             foreach (var value in values)
             {
-                Assert.AreEqual(10f, value);
+                Assert.That(value, Is.EqualTo(10f));
             }
         }
 
@@ -105,14 +105,14 @@ namespace Vts.Test.Common
         public void Test_clone()
         {
             var floatRange = new FloatRange(0f, 10f);
-            Assert.IsInstanceOf<FloatRange>(floatRange.Clone());
+            Assert.That(floatRange.Clone(), Is.InstanceOf<FloatRange>());
         }
 
         [Test]
         public void Test_ToString()
         {
             var floatRange = new FloatRange(0f, 9f, 10);
-            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", floatRange.ToString());
+            Assert.That(floatRange.ToString(), Is.EqualTo("Start: 0, Stop: 9, Count: 10, Delta: 1"));
         }
     }
 }

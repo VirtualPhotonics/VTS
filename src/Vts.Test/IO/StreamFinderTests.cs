@@ -42,7 +42,7 @@ namespace Vts.Test.IO
         public void validate_get_file_stream()
         {
             var stream = StreamFinder.GetFileStream("StreamFinderTests_file.txt", FileMode.Create);
-            Assert.IsNotNull(stream);
+            Assert.That(stream, Is.Not.Null);
             stream.Close();
         }
 
@@ -52,7 +52,7 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             var stream = StreamFinder.GetFileStreamFromResources("Resources/streamfindertest/resourcefile.txt", assemblyName);
-            Assert.IsNotNull(stream);
+            Assert.That(stream, Is.Not.Null);
         }
 
     }

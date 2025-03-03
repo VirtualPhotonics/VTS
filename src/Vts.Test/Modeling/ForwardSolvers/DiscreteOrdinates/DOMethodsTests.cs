@@ -13,10 +13,10 @@ namespace Vts.Test.Modeling.ForwardSolvers.DiscreteOrdinates
         public void Test_GaussLegendre_returns_correct_value()
         {
             var response = DOMethods.GaussLegendre(2);
-            Assert.IsTrue(response.mu.Length > 0);
-            Assert.IsTrue(response.wt.Length > 0);
-            Assert.AreEqual(-0.577, response.mu[0], 0.001);
-            Assert.AreEqual(1.0, response.wt[0], 0.1);
+            Assert.That(response.mu.Length > 0, Is.True);
+            Assert.That(response.wt.Length > 0, Is.True);
+            Assert.That(response.mu[0], Is.EqualTo(-0.577).Within(0.001));
+            Assert.That(response.wt[0], Is.EqualTo(1.0).Within(0.1));
         }
 
         [Test]
@@ -24,14 +24,14 @@ namespace Vts.Test.Modeling.ForwardSolvers.DiscreteOrdinates
         {
             var response = DOMethods.GenFokkerPlanckEddington(new[] { 0.1, 0.2, 0.3, 0.4 }, new[] { 0.1, 0.2, 0.3 },
                 new[] { 0.1, 0.2, 0.3 }, 2);
-            Assert.AreEqual(2, response.Dimension);
+            Assert.That(response.Dimension, Is.EqualTo(2));
         }
 
         [Test]
         public void Test_LaplaceBelTrami_returns_correct_value()
         {
             var response = DOMethods.LaplaceBelTrami(new[] { 0.1, 0.2, 0.3, 0.4 }, new[] { 0.1, 0.2, 0.3, 0.4 }, 4);
-            Assert.AreEqual(4, response.Dimension);
+            Assert.That(response.Dimension, Is.EqualTo(4));
         }
 
         [Ignore("Need to find the correct parameters to test")]
@@ -40,7 +40,7 @@ namespace Vts.Test.Modeling.ForwardSolvers.DiscreteOrdinates
         {
             var response = DOMethods.PWHalfSpace(0.1, 1.0, new double[] { 2, 4, 6, 8, 10, 12, 14, 16 }, new double[] { 2, 4, 6, 8, 10, 12, 14, 16 },
                 new SquareMatrix(8), 8);
-            Assert.IsTrue(response.Length > 0);
+            Assert.That(response.Length > 0, Is.True);
         }
 
         [Test]

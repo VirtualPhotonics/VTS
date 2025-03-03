@@ -10,14 +10,14 @@ namespace Vts.Test.Common.Logging
         public void Test_get_default_nlog_factory()
         {
             var loggerFactory = LoggerFactoryLocator.GetDefaultNLogFactory();
-            Assert.IsInstanceOf<ILoggerFactory>(loggerFactory);
+            Assert.That(loggerFactory, Is.InstanceOf<ILoggerFactory>());
         }
 
         [Test]
         public void Test_create_nlog_logger()
         {
             var logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(LoggerFactoryLocatorTests));
-            Assert.IsInstanceOf<ILogger>(logger);
+            Assert.That(logger, Is.InstanceOf<ILogger>());
         }
     }
 }
