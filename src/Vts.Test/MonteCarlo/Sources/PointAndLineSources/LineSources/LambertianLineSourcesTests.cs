@@ -32,7 +32,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new LambertianLineSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new LambertianLineSourceInput(
                     1.0, // line length
@@ -43,7 +43,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
             Assert.IsNotNull(source);
@@ -72,13 +72,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[54]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[55]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[56]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[54]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[55]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[56]), Is.LessThan(_validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[57]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[58]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[59]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[57]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[58]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[59]), Is.LessThan(_validationData.AcceptablePrecision));
         }
 
         /// <summary>
@@ -105,13 +105,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[60]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[61]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[62]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[60]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[61]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[62]), Is.LessThan(_validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[63]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[64]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[65]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[63]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[64]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[65]), Is.LessThan(_validationData.AcceptablePrecision));
         }
 
     }

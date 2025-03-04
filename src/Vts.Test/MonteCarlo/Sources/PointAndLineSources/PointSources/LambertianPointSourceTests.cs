@@ -28,27 +28,27 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void Validate_source_input_with_flat_profile_type()
+        public void Validate_source_input()
         {
             // check default constructor
             var si = new LambertianPointSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new LambertianPointSourceInput(
                     new Position(0, 0, 0),
                     0
             );
-            Assert.IsInstanceOf<LambertianPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<LambertianPointSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<LambertianPointSource>(source);
+            Assert.That(source, Is.InstanceOf<LambertianPointSource>());
         }
 
         /// <summary>
         /// Validate General Constructor of Lambertian Point Source
         /// </summary>
         [Test]
-        public void Validate_general_constructor_with_flat_profiletype_for_lambertian_point_source_test()
+        public void Validate_general_constructor_for_lambertian_point_source_test()
         {
             Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();         
@@ -63,13 +63,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[34]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[35]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[36]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[34]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[35]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[36]), Is.LessThan(_validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[37]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[38]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[39]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[37]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[38]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[39]), Is.LessThan(_validationData.AcceptablePrecision));
         }
 
         /// <summary>
@@ -86,10 +86,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 LambertOrder = 1
             };
 
-            Assert.IsTrue(
+            Assert.That(
                 ps.PointLocation.X == 1.0 &&
                 ps.PointLocation.Y == 2.0 &&
-                ps.PointLocation.Z == 3.0
+                ps.PointLocation.Z == 3.0, Is.True
             );
         }
 
@@ -99,13 +99,13 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void Validate_default_constructor_with_position()
         {
-            var ps = new LambertianPointSourceInput();
+            var ps = new LambertianPointSourceInput(); 
 
-            Assert.IsTrue(
+            Assert.That(
                 ps.PointLocation != null &&
                 ps.PointLocation.X == 0.0 &&
                 ps.PointLocation.Y == 0.0 &&
-                ps.PointLocation.Z == 0.0
+                ps.PointLocation.Z == 0.0, Is.True
             );
         }
     }
