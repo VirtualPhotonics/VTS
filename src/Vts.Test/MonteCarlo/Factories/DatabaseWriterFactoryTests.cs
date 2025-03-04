@@ -51,28 +51,28 @@ namespace Vts.Test.MonteCarlo.Factories
                 DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.DiffuseReflectance,
                     Directory.GetCurrentDirectory(), "");
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(diffuseReflectanceDb);
+            Assert.That(diffuseReflectanceDb, Is.InstanceOf<PhotonDatabaseWriter>());
             diffuseReflectanceDb.Close();
             var diffuseTransmittanceDb =
                 DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.DiffuseTransmittance,
                     Directory.GetCurrentDirectory(), "");
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(diffuseTransmittanceDb);
+            Assert.That(diffuseTransmittanceDb, Is.InstanceOf<PhotonDatabaseWriter>());
             diffuseTransmittanceDb.Close();
             var specularDb = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
                 DatabaseType.SpecularReflectance,
                 Directory.GetCurrentDirectory(), "");
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(specularDb);
+            Assert.That(specularDb, Is.InstanceOf<PhotonDatabaseWriter>());
             specularDb.Close();
             var pMcDiffuseReflectanceDb = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
                 DatabaseType.pMCDiffuseReflectance,
                 Directory.GetCurrentDirectory(), "");
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(pMcDiffuseReflectanceDb);
+            Assert.That(pMcDiffuseReflectanceDb, Is.InstanceOf<PhotonDatabaseWriter>());
             pMcDiffuseReflectanceDb.Close();
             var pMcDiffuseTransmittanceDb = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
                 DatabaseType.pMCDiffuseTransmittance,
                 Directory.GetCurrentDirectory(), "");
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(pMcDiffuseTransmittanceDb);
+            Assert.That(pMcDiffuseTransmittanceDb, Is.InstanceOf<PhotonDatabaseWriter>());
             pMcDiffuseTransmittanceDb.Close();
             // check if enum set to something out of range
             var fakeDatabaseType = (DatabaseType)Enum.GetNames(typeof(DatabaseType)).Length + 1;
@@ -93,28 +93,28 @@ namespace Vts.Test.MonteCarlo.Factories
                     tissue,
                     Directory.GetCurrentDirectory(), 
                     "");
-            Assert.IsNull(diffuseReflectanceDb);
+            Assert.That(diffuseReflectanceDb, Is.Null);
             var diffuseTransmittanceDb =
                 DatabaseWriterFactory.GetCollisionInfoDatabaseWriter(
                     DatabaseType.DiffuseTransmittance,
                     tissue,
                     Directory.GetCurrentDirectory(), 
                     "");
-            Assert.IsNull(diffuseTransmittanceDb);
+            Assert.That(diffuseTransmittanceDb, Is.Null);
             var specularDb = 
                 DatabaseWriterFactory.GetCollisionInfoDatabaseWriter(
                 DatabaseType.SpecularReflectance,
                 tissue,
                 Directory.GetCurrentDirectory(), 
                 "");
-            Assert.IsNull(specularDb);
+            Assert.That(specularDb, Is.Null);
             var pMcDiffuseReflectanceDb = 
                 DatabaseWriterFactory.GetCollisionInfoDatabaseWriter(
                 DatabaseType.pMCDiffuseReflectance,
                 tissue,
                 Directory.GetCurrentDirectory(), 
                 "");
-            Assert.IsInstanceOf<CollisionInfoDatabaseWriter>(pMcDiffuseReflectanceDb);
+            Assert.That(pMcDiffuseReflectanceDb, Is.InstanceOf<CollisionInfoDatabaseWriter>());
             pMcDiffuseReflectanceDb.Close();
             var pMcDiffuseTransmittanceDb = 
                 DatabaseWriterFactory.GetCollisionInfoDatabaseWriter(
@@ -122,7 +122,7 @@ namespace Vts.Test.MonteCarlo.Factories
                 tissue,
                 Directory.GetCurrentDirectory(), 
                 "");
-            Assert.IsInstanceOf<CollisionInfoDatabaseWriter>(pMcDiffuseTransmittanceDb);
+            Assert.That(pMcDiffuseTransmittanceDb, Is.InstanceOf<CollisionInfoDatabaseWriter>());
             pMcDiffuseTransmittanceDb.Close();
             // check if enum set to something out of range
             var fakeDatabaseType = (DatabaseType)Enum.GetNames(typeof(DatabaseType)).Length + 1;

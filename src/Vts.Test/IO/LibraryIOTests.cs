@@ -22,7 +22,7 @@ namespace Vts.Test.IO
             var assemblyCount = assembliesBefore.Length;
             LibraryIO.EnsureDllIsLoaded(dllPath);
             var assembliesAfter = AppDomain.CurrentDomain.GetAssemblies();
-            Assert.Greater(assembliesAfter.Length, assemblyCount);
+            Assert.That(assembliesAfter.Length, Is.GreaterThan(assemblyCount));
         }
     }
 }

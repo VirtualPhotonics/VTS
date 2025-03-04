@@ -14,7 +14,7 @@ namespace Vts.Test.Common.Math
             var p = new double[] { 1, 2, 3 };
             var pOfX = new double[] { 2, 4, 6 };
             var expectedValue = Statistics.ExpectedValue(p, pOfX);
-            Assert.AreEqual(28.0, expectedValue);
+            Assert.That(expectedValue, Is.EqualTo(28.0));
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Vts.Test.Common.Math
             var dx = new double[] { 2, 2, 2, 2 };
             var dy = new double[] { 2, 2, 2, 2 };
             var meanSamplingDepth = Statistics.MeanSamplingDepth(array, x, y, dx, dy);
-            Assert.AreEqual(2.5, meanSamplingDepth);
+            Assert.That(meanSamplingDepth, Is.EqualTo(2.5));
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Vts.Test.Common.Math
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("Dimensions of array must be dimension of x * dimension of y", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("Dimensions of array must be dimension of x * dimension of y"));
                     throw;
                 }
             });

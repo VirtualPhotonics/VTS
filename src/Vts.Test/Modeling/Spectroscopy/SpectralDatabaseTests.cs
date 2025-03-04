@@ -61,20 +61,20 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_get_spectrum_value()
         {
             var spectrum = SpectralDatabase.GetSpectrumValue("H2O", 600);
-            Assert.AreEqual(0.000222, spectrum, 0.000001);
+            Assert.That(spectrum, Is.EqualTo(0.000222).Within(0.000001));
         }
 
         [Test]
         public void Test_save_database_to_file()
         {
-            Assert.IsTrue(FileIO.FileExists("dictionary.json"));
+            Assert.That(FileIO.FileExists("dictionary.json"), Is.True);
         }
 
         [Test]
         public void Test_get_spectrum_value_returns_0()
         {
             var spectrum = SpectralDatabase.GetSpectrumValue("", 600);
-            Assert.AreEqual(0, spectrum);
+            Assert.That(spectrum, Is.EqualTo(0));
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Validate_loading_spectral_database_from_file_in_resources()
         {
             var testDictionary = SpectralDatabase.GetDefaultDatabaseFromFileInResources();
-            Assert.IsNotNull(testDictionary);
+            Assert.That(testDictionary, Is.Not.Null);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Validate_serializing_spectral_database()
         {
             _chromophoreSpectrumDictionary.WriteToJson("SpectralDictionary.txt");
-            Assert.IsTrue(FileIO.FileExists("SpectralDictionary.txt"));
+            Assert.That(FileIO.FileExists("SpectralDictionary.txt"), Is.True);
         }
 
         /// <summary>
@@ -104,8 +104,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_get_database_from_file()
         {
             var chromophoreSpectrumDictionary = SpectralDatabase.GetDatabaseFromFile("dictionary.json");
-            Assert.IsNotNull(chromophoreSpectrumDictionary);
-            Assert.IsInstanceOf<ChromophoreSpectrumDictionary>(chromophoreSpectrumDictionary);
+            Assert.That(chromophoreSpectrumDictionary, Is.Not.Null);
+            Assert.That(chromophoreSpectrumDictionary, Is.InstanceOf<ChromophoreSpectrumDictionary>());
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var comparisonDictionary = CreateDictionary();
             var chromophoreSpectrumDictionary = SpectralDatabase.GetDatabaseFromFile("dictionary.json");
-            Assert.AreEqual(comparisonDictionary["HbO2"].Wavelengths[2], chromophoreSpectrumDictionary["HbO2"].Wavelengths[2]);
+            Assert.That(chromophoreSpectrumDictionary["HbO2"].Wavelengths[2], Is.EqualTo(comparisonDictionary["HbO2"].Wavelengths[2]));
         }
 
         /// <summary>
@@ -148,13 +148,13 @@ namespace Vts.Test.Modeling.Spectroscopy
             var testDictionary = myChromophoreList.ToDictionary();
             SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
             testDictionary.WriteToJson("dictionary2.json");
-            Assert.IsTrue(FileIO.FileExists("dictionary2.json"));
+            Assert.That(FileIO.FileExists("dictionary2.json"), Is.True);
         }
 
         [Test]
         public void Test_get_spectra_from_file_null_stream()
         {
-            Assert.IsNull(SpectralDatabase.GetSpectraFromFile(null, true));
+            Assert.That(SpectralDatabase.GetSpectraFromFile(null, true), Is.Null);
         }
 
         [Test]
@@ -207,8 +207,8 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, true);
             var testDictionary = testSpectra.ToDictionary();
-            Assert.IsInstanceOf<List<ChromophoreSpectrum>>(testSpectra);
-            Assert.IsInstanceOf<ChromophoreSpectrumDictionary>(testDictionary);
+            Assert.That(testSpectra, Is.InstanceOf<List<ChromophoreSpectrum>>());
+            Assert.That(testDictionary, Is.InstanceOf<ChromophoreSpectrumDictionary>());
         }
 
         /// <summary>
@@ -235,16 +235,16 @@ namespace Vts.Test.Modeling.Spectroscopy
                 var line = readFile.ReadLine();
                 row = line.Split('\t');
             }
-            Assert.AreEqual(testDictionary["Hb"].Wavelengths[lineNumber], Convert.ToDouble(row[0]));
+            Assert.That(Convert.ToDouble(row[0]), Is.EqualTo(testDictionary["Hb"].Wavelengths[lineNumber]));
             // dc: this would be only for MolarExtinctionCoefficient or FractionalExtinctionCoefficient, not MolarAbsorptionCoefficient or FractionalAbsorptionCoefficient
             // multiply the value by ln(10)
             // double k =  Math.Log(10)
             const double k = 1D;
             var spectra = Convert.ToDouble(row[1]) * k;
             // test that the values in the text stream match the ones in the object
-            Assert.AreEqual(testDictionary["HbO2"].Spectrum[lineNumber], spectra);
+            Assert.That(spectra, Is.EqualTo(testDictionary["HbO2"].Spectrum[lineNumber]));
             spectra = Convert.ToDouble(row[2]) * k;
-            Assert.AreEqual(testDictionary["Hb"].Spectrum[lineNumber], spectra);
+            Assert.That(spectra, Is.EqualTo(testDictionary["Hb"].Spectrum[lineNumber]));
         }
 
         /// <summary>
@@ -257,8 +257,8 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, false);
             var testDictionary = testSpectra.ToDictionary();
-            Assert.IsInstanceOf<List<ChromophoreSpectrum>>(testSpectra);
-            Assert.IsInstanceOf<ChromophoreSpectrumDictionary>(testDictionary);
+            Assert.That(testSpectra, Is.InstanceOf<List<ChromophoreSpectrum>>());
+            Assert.That(testDictionary, Is.InstanceOf<ChromophoreSpectrumDictionary>());
         }
 
         /// <summary>
@@ -269,12 +269,12 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var testDictionary = SpectralDatabase.GetDefaultDatabaseFromFileInResources();
             SpectralDatabase.WriteDatabaseToFiles(testDictionary);
-            Assert.IsTrue(FileIO.FileExists("absorber-Fat.txt"));
-            Assert.IsTrue(FileIO.FileExists("absorber-H2O.txt"));
-            Assert.IsTrue(FileIO.FileExists("absorber-Hb.txt"));
-            Assert.IsTrue(FileIO.FileExists("absorber-HbO2.txt"));
-            Assert.IsTrue(FileIO.FileExists("absorber-Melanin.txt"));
-            Assert.IsTrue(FileIO.FileExists("absorber-Nigrosin.txt"));
+            Assert.That(FileIO.FileExists("absorber-Fat.txt"), Is.True);
+            Assert.That(FileIO.FileExists("absorber-H2O.txt"), Is.True);
+            Assert.That(FileIO.FileExists("absorber-Hb.txt"), Is.True);
+            Assert.That(FileIO.FileExists("absorber-HbO2.txt"), Is.True);
+            Assert.That(FileIO.FileExists("absorber-Melanin.txt"), Is.True);
+            Assert.That(FileIO.FileExists("absorber-Nigrosin.txt"), Is.True);
         }
 
         private static ChromophoreSpectrumDictionary CreateDictionary()

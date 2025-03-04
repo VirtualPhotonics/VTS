@@ -121,7 +121,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new FluorescenceEmissionAOfRhoAndZSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new FluorescenceEmissionAOfRhoAndZSourceInput(
                         "sourcetest", 
@@ -129,10 +129,10 @@ namespace Vts.Test.MonteCarlo.Sources
                         0, 
                         SourcePositionSamplingType.CDF
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// Test to make sure GetFinalPosition produces correct distribution of sources and weights
@@ -153,22 +153,22 @@ namespace Vts.Test.MonteCarlo.Sources
                 // verify that photons start within range of midpoints of voxels in bounding cylinder
                 var rho = Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X + 
                     photon.DP.Position.Y * photon.DP.Position.Y);
-                Assert.IsTrue(rho <= 3.5);
-                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - _rhoZLoaderCdf.TotalAbsorbedEnergy) < 1e-6);
+                Assert.That(rho <= 3.5, Is.True);
+                Assert.That(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5, Is.True);
+                Assert.That(Math.Abs(photon.DP.Weight - _rhoZLoaderCdf.TotalAbsorbedEnergy) < 1e-6, Is.True);
                 var iRho = (int)(Math.Floor(rho));
                 var iZ = (int)(Math.Floor(photon.DP.Position.Z));
                 countArray[iRho, iZ] += 1;
             }
             // check that countArray is > 1 in region of AOfRhoAndZ
-            Assert.AreEqual(11, countArray[0, 0]);
-            Assert.AreEqual(0, countArray[0, 1]);
-            Assert.AreEqual(28, countArray[1, 0]);
-            Assert.AreEqual(0, countArray[1, 1]);
-            Assert.AreEqual(61, countArray[2, 0]);
-            Assert.AreEqual(0, countArray[2, 1]);
-            Assert.AreEqual(0, countArray[3, 0]);
-            Assert.AreEqual(0, countArray[3, 1]);
+            Assert.That(countArray[0, 0], Is.EqualTo(11));
+            Assert.That(countArray[0, 1], Is.EqualTo(0));
+            Assert.That(countArray[1, 0], Is.EqualTo(28));
+            Assert.That(countArray[1, 1], Is.EqualTo(0));
+            Assert.That(countArray[2, 0], Is.EqualTo(61));
+            Assert.That(countArray[2, 1], Is.EqualTo(0));
+            Assert.That(countArray[3, 0], Is.EqualTo(0));
+            Assert.That(countArray[3, 1], Is.EqualTo(0));
         }
         /// <summary>
         /// test switch statement in GetFinalPositionAndWeight method for setting other

@@ -15,7 +15,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
         public void validate_default_constructor()
         {
             var collisionInfo = new CollisionInfo();
-            Assert.IsInstanceOf<CollisionInfo>(collisionInfo);
+            Assert.That(collisionInfo, Is.InstanceOf<CollisionInfo>());
         }
 
         /// <summary>
@@ -30,10 +30,10 @@ namespace Vts.Test.MonteCarlo.PhotonData
             collisionInfo.Add(subRegionCollisionInfo1);
             collisionInfo.Add(subRegionCollisionInfo2);
             var clone = collisionInfo.Clone();
-            Assert.IsInstanceOf<CollisionInfo>(clone);
-            Assert.AreEqual(collisionInfo[0].NumberOfCollisions, clone[0].NumberOfCollisions);
+            Assert.That(clone, Is.InstanceOf<CollisionInfo>());
+            Assert.That(clone[0].NumberOfCollisions, Is.EqualTo(collisionInfo[0].NumberOfCollisions));
             clone[0].NumberOfCollisions = 200;
-            Assert.AreNotEqual(collisionInfo[0].NumberOfCollisions, clone[0].NumberOfCollisions);
+            Assert.That(clone[0].NumberOfCollisions, Is.Not.EqualTo(collisionInfo[0].NumberOfCollisions));
         }
     }
 }

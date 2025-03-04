@@ -12,23 +12,23 @@ namespace Vts.Test.Range
         public void Test_default_constructor()
         {
             var rangeMock = Substitute.ForPartsOf<TestRange>();
-            Assert.AreEqual("Start: 0, Stop: 0, Count: 1, Delta: 0", rangeMock.ToString());
+            Assert.That(rangeMock.ToString(), Is.EqualTo("Start: 0, Stop: 0, Count: 1, Delta: 0"));
         }
 
         [Test]
         public void Test_range_to_string()
         {
             var range = new IntRange(0, 9, 10);
-            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", range.ToString());
+            Assert.That(range.ToString(), Is.EqualTo("Start: 0, Stop: 9, Count: 10, Delta: 1"));
         }
 
         [Test]
         public void Test_range_delta()
         {
             var range = new IntRange(0, 9, 10);
-            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", range.ToString());
+            Assert.That(range.ToString(), Is.EqualTo("Start: 0, Stop: 9, Count: 10, Delta: 1"));
             range.Delta = 2;
-            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 2", range.ToString());
+            Assert.That(range.ToString(), Is.EqualTo("Start: 0, Stop: 9, Count: 10, Delta: 2"));
         }
     }
 

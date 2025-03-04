@@ -25,12 +25,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void Constructor_test()
         {
             _nurbsGenerator = new NurbsGenerator(NurbsGeneratorType.SpatialFrequencyDomain);
-            Assert.AreEqual(NurbsGeneratorType.SpatialFrequencyDomain, _nurbsGenerator.GeneratorType);
-            Assert.IsInstanceOf<NurbsValues>(_nurbsGenerator.TimeValues);
-            Assert.IsInstanceOf<NurbsValues>(_nurbsGenerator.SpaceValues);
-            Assert.IsInstanceOf<double[,]>(_nurbsGenerator.ControlPoints);
-            Assert.IsInstanceOf<double[]>(_nurbsGenerator.NativeTimes);
-            Assert.IsInstanceOf<List<BSplinesCoefficients>>(_nurbsGenerator.TimeKnotSpanPolynomialCoefficients);
+            Assert.That(_nurbsGenerator.GeneratorType, Is.EqualTo(NurbsGeneratorType.SpatialFrequencyDomain));
+            Assert.That(_nurbsGenerator.TimeValues, Is.InstanceOf<NurbsValues>());
+            Assert.That(_nurbsGenerator.SpaceValues, Is.InstanceOf<NurbsValues>());
+            Assert.That(_nurbsGenerator.ControlPoints, Is.InstanceOf<double[,]>());
+            Assert.That(_nurbsGenerator.NativeTimes, Is.InstanceOf<double[]>());
+            Assert.That(_nurbsGenerator.TimeKnotSpanPolynomialCoefficients, Is.InstanceOf<List<BSplinesCoefficients>>());
 
         }
 
@@ -41,7 +41,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] controlPoints = { 1.0, 2.0, 3.0 };
             var result = _nurbsGenerator.MultiplyControlPointsAndPolynomialCoefficients(polynomialCoefficients, controlPoints);
             double[] expectedResult = { 6.0, 12.0, 18.0 };
-            Assert.AreEqual(expectedResult, result, "The multiplied control points should be equal to the expected values.");
+            Assert.That(result, Is.EqualTo(expectedResult), "The multiplied control points should be equal to the expected values.");
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
             catch (ArgumentException e)
             {
-                Assert.AreEqual("Negative parametric point not acceptable as input.", e.Message);
+                Assert.That(e.Message, Is.EqualTo("Negative parametric point not acceptable as input."));
             }
             catch (Exception)
             {
@@ -72,7 +72,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] controlPoints = { 1.0, 1.0, 1.0, 1.0 };
             var nurbsValues = new NurbsValues(knots, 1, 1.0, controlPoints);
             var result = _nurbsGenerator.BinarySearch(nurbsValues, 0.1);
-            Assert.AreEqual(2, result, "The point lies in the third span, the returned index should be 2.");
+            Assert.That(result, Is.EqualTo(2), "The point lies in the third span, the returned index should be 2.");
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] controlPoints = { 1.0, 1.0, 1.0, 1.0 };
             var nurbsValues = new NurbsValues(knots, 2, 1.0, controlPoints);
             var result = _nurbsGenerator.BinarySearch(nurbsValues, 0.5);
-            Assert.AreEqual(3, result, "The point lies in the fourth span, the returned index should be 3.");
+            Assert.That(result, Is.EqualTo(3), "The point lies in the fourth span, the returned index should be 3.");
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var basisFunctions = _nurbsGenerator.EvaluateBasisFunctions(4, 0.5, nurbsValues);
             var result = basisFunctions.Sum();
 
-            Assert.Less(1.0 - result, 0.00001, "The sum of the basis functions should be equal to one, within the rounding error.");
+            Assert.That(1.0 - result, Is.LessThan(0.00001), "The sum of the basis functions should be equal to one, within the rounding error.");
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var nurbsValues = new NurbsValues(knots, 2, 3.0, controlPoints);
 
             var result = 3.204 - _nurbsGenerator.EvaluateCurvePoint(2, basisFunction, nurbsValues);
-            Assert.Less(result, 0.00001, "The returned value should be the same as the example at page 69 of the book 'An introduction to NURBS', within the rounding error.");
+            Assert.That(result, Is.LessThan(0.00001), "The returned value should be the same as the example at page 69 of the book 'An introduction to NURBS', within the rounding error.");
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] spaceBasisFunctions = { 1.0 / 32.0, 0.25, 19.0 / 32.0, 1.0 / 8.0 };
 
             var result = 62.5 - _nurbsGenerator.EvaluateSurfacePoint(timeSpanIndex, timeBasisFunctions, spaceSpanIndex, spaceBasisFunctions);
-            Assert.Less(result, 0.00001, "The returned value should be the same as the example at page 216 of the book 'An introduction to NURBS', within the rounding error.");
+            Assert.That(result, Is.LessThan(0.00001), "The returned value should be the same as the example at page 216 of the book 'An introduction to NURBS', within the rounding error.");
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[,] polynomialCoefs = { { 1.0, 0.0, 0.0 }, { -2.0, 2.0, 0.0 }, { 1.0, -3.0 / 2.0, 1.0 / 2.0 } };
             double[] controlPoints = { 1.0, 1.0, 1.0 };
             var result = Math.Abs(1.0 - _nurbsGenerator.EvaluateKnotSpanIntegralValue(0.0, polynomialCoefs, controlPoints, 0.0, 1.0, 1.0));
-            Assert.Less(result, 0.000001, "The Value should be as the example from the Nurbs Book at page 55, within the rounding error.");
+            Assert.That(result, Is.LessThan(0.000001), "The Value should be as the example from the Nurbs Book at page 55, within the rounding error.");
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[,] polynomialCoefs = { { 1.0, 1.0, 1.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 } };
             double[] controlPoints = { 1.0, 2.0, 3.0 };
             var result = _nurbsGenerator.EvaluateKnotSpanIntegralValue(1.0, polynomialCoefs, controlPoints, 0.0, 1.0, 1.0);
-            Assert.AreEqual(6.0 * (1.0 - 1.0 / Math.E), result, "The Value should be as the example from the Nurbs Book at page 55.");
+            Assert.That(result, Is.EqualTo(6.0 * (1.0 - 1.0 / Math.E)), "The Value should be as the example from the Nurbs Book at page 55.");
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[,] polynomialCoefs = { { 0.0, 0.0, 0.0 }, { 1.0, 1.0, 1.0 }, { 0.0, 0.0, 0.0 } };
             double[] controlPoints = { 1.0, 2.0, 3.0 };
             var result = _nurbsGenerator.EvaluateKnotSpanIntegralValue(1.0, polynomialCoefs, controlPoints, 0.0, 1.0, 1.0);
-            Assert.AreEqual(6.0 * (1.0 - 2.0 / Math.E), result, "The Value should be as the example from the Nurbs Book at page 55.");
+            Assert.That(result, Is.EqualTo(6.0 * (1.0 - 2.0 / Math.E)), "The Value should be as the example from the Nurbs Book at page 55.");
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var result = Math.Abs(6.0 * (2.0 - 5.0 / Math.E) -
                                   _nurbsGenerator.EvaluateKnotSpanIntegralValue(1.0, polynomialCoefs, controlPoints, 0.0, 1.0, 1.0));
-            Assert.Less(result, 0.000001, "The Value should be as the example from the Nurbs Book at page 55, within the rounding error.");
+            Assert.That(result, Is.LessThan(0.000001), "The Value should be as the example from the Nurbs Book at page 55, within the rounding error.");
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                                           { 1.0, 1.0, 1.0, 1.0, 0.0 }};
             double[] controlPoints = { 1.0, 2.0, 3.0, 4.0, 5.0 };
             var result = _nurbsGenerator.EvaluateKnotSpanIntegralValue(1.0, polynomialCoefs, controlPoints, 0.0, 1.0, 1.0);
-            Assert.AreEqual(10.0 * (6.0 - 16.0 / Math.E), result, "The Value should be as the example from the Nurbs Book at page 55.");
+            Assert.That(result, Is.EqualTo(10.0 * (6.0 - 16.0 / Math.E)), "The Value should be as the example from the Nurbs Book at page 55.");
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
             catch (ArgumentException e)
             {
-                Assert.AreEqual("Degree is too high.", e.Message);
+                Assert.That(e.Message, Is.EqualTo("Degree is too high."));
             }
             catch (Exception)
             {
@@ -203,7 +203,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void IntegrateExponentialMultipliedBySinglePolynomial_ConstantFunction_ReturnsCorrectArea()
         {
             var result = _nurbsGenerator.IntegrateExponentialMultipliedByMomomial(0, 0, 1.0, 0.0, 1.0);
-            Assert.AreEqual(1.0, result, "the integral value of a constant function equal 1 in the interval [0,1] should be 1.");
+            Assert.That(result, Is.EqualTo(1.0), "the integral value of a constant function equal 1 in the interval [0,1] should be 1.");
         }
 
         [Test]
@@ -211,7 +211,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         {
             double[] nullCoefficents = { 0.0, 0.0, 0.0 };
             var result = _nurbsGenerator.IntegrateExponentialMultipliedByPolynomial(0.0, nullCoefficents, 0, 100);
-            Assert.AreEqual(0.0, result, "The integral value of a null function should be zero.");
+            Assert.That(result, Is.EqualTo(0.0), "The integral value of a null function should be zero.");
         }
 
         [Test]
@@ -241,7 +241,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             };
 
             var result = _nurbsGenerator.EvaluateNurbsCurveFourierTransform(1.0, 2.0, 3.0);
-            Assert.IsInstanceOf<Complex>(result);
+            Assert.That(result, Is.InstanceOf<Complex>());
         }
 
         [Test]
@@ -272,7 +272,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             };
 
             var result = _nurbsGenerator.EvaluateNurbsCurveFourierTransform(1.0, 2.0, 3.0);
-            Assert.IsInstanceOf<Complex>(result);
+            Assert.That(result, Is.InstanceOf<Complex>());
         }
 
         [Test]
@@ -286,8 +286,8 @@ namespace Vts.Test.Modeling.ForwardSolvers
             nurbsValues.KnotVector = knots;
 
             var result = _nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.time);
-            Assert.IsInstanceOf<double>(result);
-            Assert.AreEqual(0.5, result);
+            Assert.That(result, Is.InstanceOf<double>());
+            Assert.That(result, Is.EqualTo(0.5));
         }
 
         [Test]
@@ -301,8 +301,8 @@ namespace Vts.Test.Modeling.ForwardSolvers
             nurbsValues.KnotVector = knots;
 
             var result = _nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.space);
-            Assert.IsInstanceOf<double>(result);
-            Assert.AreEqual(0.5, result);
+            Assert.That(result, Is.InstanceOf<double>());
+            Assert.That(result, Is.EqualTo(0.5));
         }
 
         [Test]
@@ -336,8 +336,8 @@ namespace Vts.Test.Modeling.ForwardSolvers
             nurbsValues.MaxValue = 0.5;
 
             var result = _nurbsGenerator.ComputePointOutOfSurface(0.5, 0.5, 0.1);
-            Assert.IsInstanceOf<double>(result);
-            Assert.AreEqual(0.1, result, 0.01);
+            Assert.That(result, Is.InstanceOf<double>());
+            Assert.That(result, Is.EqualTo(0.1).Within(0.01));
         }
 
         [Test]
@@ -362,7 +362,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             _nurbsGenerator.ControlPoints = controlPoints;
             nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
             var result = _nurbsGenerator.FindSpan(nurbsValues, 1.0);
-            Assert.AreEqual(4, result);
+            Assert.That(result, Is.EqualTo(4));
         }
 
         [Test]
@@ -377,7 +377,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             _nurbsGenerator.ControlPoints = controlPoints;
             nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
             var result = _nurbsGenerator.FindSpan(nurbsValues, 1.0);
-            Assert.AreEqual(4, result);
+            Assert.That(result, Is.EqualTo(4));
         }
 
         [Test]
@@ -413,7 +413,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
             nurbsValues.KnotVector = knots;
             var result = _nurbsGenerator.ComputePointOutOfSurface(1.0, 1.0, 0);
-            Assert.AreEqual(0.0, result);
+            Assert.That(result, Is.EqualTo(0.0));
         }
 
         [Test]
@@ -435,7 +435,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] knots = { 0, 0.1, 0.01, 0.02, 0.1, 0.2, 0.3, 0.4 };
             nurbsValues.KnotVector = knots;
             var result = _nurbsGenerator.ComputePointOutOfSurface(1.0, 7, 0);
-            Assert.AreEqual(double.NaN, result);
+            Assert.That(result, Is.EqualTo(double.NaN));
         }
 
         [Test]
@@ -449,7 +449,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             _nurbsGenerator.SpaceValues = nurbsValues;
             nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
             var result = _nurbsGenerator.ComputePointOutOfSurface(1.0, 1.0, 0);
-            Assert.AreEqual(0.0, result);
+            Assert.That(result, Is.EqualTo(0.0));
         }
 
         /// <summary>

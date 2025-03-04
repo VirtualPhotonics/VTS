@@ -13,7 +13,7 @@ namespace Vts.Test.Common.Math
         {
             Func<double, double> f = value => value * 2;
             var result = Integration.IntegrateAdaptiveSimpsonRule(f, 2, 4, 2);
-            Assert.AreEqual(12, result);
+            Assert.That(result, Is.EqualTo(12));
         }
 
         [Test]
@@ -21,7 +21,7 @@ namespace Vts.Test.Common.Math
         {
             Func<double, double> f = value => value * 2;
             var result = Integration.IntegrateSimpsonRule(f, 2, 4);
-            Assert.AreEqual(12, result);
+            Assert.That(result, Is.EqualTo(12));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Vts.Test.Common.Math
         {
             Func<double, double> f = value => value * 2;
             var result = Integration.AdaptiveRecursiveSimpson(f, 2, 4, 10, 2);
-            Assert.AreEqual(12.66, result, 0.01);
+            Assert.That(result, Is.EqualTo(12.66).Within(0.01));
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Vts.Test.Common.Math
         {
             Func<double, double> f = value => value * 2;
             var result = Integration.AdaptiveRecursiveSimpson(f, 2, 4, 0, 2);
-            Assert.AreEqual(12, result, 0.01);
+            Assert.That(result, Is.EqualTo(12).Within(0.01));
         }
     }
 }

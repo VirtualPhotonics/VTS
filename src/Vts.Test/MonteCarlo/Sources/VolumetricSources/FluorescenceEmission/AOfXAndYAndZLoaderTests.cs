@@ -119,42 +119,42 @@ namespace Vts.Test.MonteCarlo.Sources
             var loader = _xyzLoaderCdf;
             // check that arrays are of correct dimension
             // note that what gets loaded as fluorescent source has dimensions one less than absorbed energy map
-            Assert.AreEqual(loader.MapOfXAndYAndZ.GetLength(0), loader.X.Count - 3);
-            Assert.AreEqual(loader.MapOfXAndYAndZ.GetLength(1), loader.Y.Count - 3);
-            Assert.AreEqual(loader.MapOfXAndYAndZ.GetLength(2), loader.Z.Count - 2);
-            Assert.AreEqual(loader.PDFOfXAndYAndZ.GetLength(0), loader.X.Count - 3);
-            Assert.AreEqual(loader.PDFOfXAndYAndZ.GetLength(1), loader.Y.Count - 3);
-            Assert.AreEqual(loader.PDFOfXAndYAndZ.GetLength(2), loader.Z.Count - 2);
-            Assert.AreEqual(loader.CDFOfXAndYAndZ.GetLength(0), loader.X.Count - 3);
-            Assert.AreEqual(loader.CDFOfXAndYAndZ.GetLength(1), loader.Y.Count - 3);
-            Assert.AreEqual(loader.CDFOfXAndYAndZ.GetLength(2), loader.Z.Count - 2);
+            Assert.That(loader.X.Count - 3, Is.EqualTo(loader.MapOfXAndYAndZ.GetLength(0)));
+            Assert.That(loader.Y.Count - 3, Is.EqualTo(loader.MapOfXAndYAndZ.GetLength(1)));
+            Assert.That(loader.Z.Count - 2, Is.EqualTo(loader.MapOfXAndYAndZ.GetLength(2)));
+            Assert.That(loader.X.Count - 3, Is.EqualTo(loader.PDFOfXAndYAndZ.GetLength(0)));
+            Assert.That(loader.Y.Count - 3, Is.EqualTo(loader.PDFOfXAndYAndZ.GetLength(1)));
+            Assert.That(loader.Z.Count - 2, Is.EqualTo(loader.PDFOfXAndYAndZ.GetLength(2)));
+            Assert.That(loader.X.Count - 3, Is.EqualTo(loader.CDFOfXAndYAndZ.GetLength(0)));
+            Assert.That(loader.Y.Count - 3, Is.EqualTo(loader.CDFOfXAndYAndZ.GetLength(1)));
+            Assert.That(loader.Z.Count - 2, Is.EqualTo(loader.CDFOfXAndYAndZ.GetLength(2)));
             // check that Map is only 1 in region of infinite cylinder
-            Assert.AreEqual(0, loader.MapOfXAndYAndZ[0, 0, 0]);
-            Assert.AreEqual(0, loader.MapOfXAndYAndZ[0, 0, 1]);
-            Assert.AreEqual(0, loader.MapOfXAndYAndZ[0, 1, 0]);
-            Assert.AreEqual(0, loader.MapOfXAndYAndZ[0, 1, 1]);
-            Assert.AreEqual(1, loader.MapOfXAndYAndZ[1, 0, 0]);
-            Assert.AreEqual(1, loader.MapOfXAndYAndZ[1, 0, 1]);
-            Assert.AreEqual(1, loader.MapOfXAndYAndZ[1, 1, 0]);
-            Assert.AreEqual(1, loader.MapOfXAndYAndZ[1, 1, 1]);
+            Assert.That(loader.MapOfXAndYAndZ[0, 0, 0], Is.EqualTo(0));
+            Assert.That(loader.MapOfXAndYAndZ[0, 0, 1], Is.EqualTo(0));
+            Assert.That(loader.MapOfXAndYAndZ[0, 1, 0], Is.EqualTo(0));
+            Assert.That(loader.MapOfXAndYAndZ[0, 1, 1], Is.EqualTo(0));
+            Assert.That(loader.MapOfXAndYAndZ[1, 0, 0], Is.EqualTo(1));
+            Assert.That(loader.MapOfXAndYAndZ[1, 0, 1], Is.EqualTo(1));
+            Assert.That(loader.MapOfXAndYAndZ[1, 1, 0], Is.EqualTo(1));
+            Assert.That(loader.MapOfXAndYAndZ[1, 1, 1], Is.EqualTo(1));
             // check that PDF is correct
-            Assert.AreEqual(0, loader.PDFOfXAndYAndZ[0, 0, 0]);
-            Assert.AreEqual(0, loader.PDFOfXAndYAndZ[0, 0, 1]);
-            Assert.AreEqual(0, loader.PDFOfXAndYAndZ[0, 1, 0]);
-            Assert.AreEqual(0, loader.PDFOfXAndYAndZ[0, 1, 1]);
-            Assert.IsTrue(Math.Abs(loader.PDFOfXAndYAndZ[1, 0, 0] - 0.216666) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.PDFOfXAndYAndZ[1, 0, 1] - 0.233333) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.PDFOfXAndYAndZ[1, 1, 0] - 0.266666) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.PDFOfXAndYAndZ[1, 1, 1] - 0.283333) < 1e-6);
+            Assert.That(loader.PDFOfXAndYAndZ[0, 0, 0], Is.EqualTo(0));
+            Assert.That(loader.PDFOfXAndYAndZ[0, 0, 1], Is.EqualTo(0));
+            Assert.That(loader.PDFOfXAndYAndZ[0, 1, 0], Is.EqualTo(0));
+            Assert.That(loader.PDFOfXAndYAndZ[0, 1, 1], Is.EqualTo(0));
+            Assert.That(Math.Abs(loader.PDFOfXAndYAndZ[1, 0, 0] - 0.216666) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.PDFOfXAndYAndZ[1, 0, 1] - 0.233333) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.PDFOfXAndYAndZ[1, 1, 0] - 0.266666) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.PDFOfXAndYAndZ[1, 1, 1] - 0.283333) < 1e-6, Is.True);
             // check that CDF is only !=0 in region of infinite cylinder and increasing with z,y,x order
-            Assert.AreEqual(0, loader.CDFOfXAndYAndZ[0, 0, 0]);
-            Assert.AreEqual(0, loader.CDFOfXAndYAndZ[0, 0, 1]);
-            Assert.AreEqual(0, loader.CDFOfXAndYAndZ[0, 1, 0]);
-            Assert.AreEqual(0, loader.CDFOfXAndYAndZ[0, 1, 1]);
-            Assert.IsTrue(Math.Abs(loader.CDFOfXAndYAndZ[1, 0, 0] - 0.216666) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.CDFOfXAndYAndZ[1, 0, 1] - 0.45) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.CDFOfXAndYAndZ[1, 1, 0] - 0.716666) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.CDFOfXAndYAndZ[1, 1, 1] - 1.0) < 1e-6);
+            Assert.That(loader.CDFOfXAndYAndZ[0, 0, 0], Is.EqualTo(0));
+            Assert.That(loader.CDFOfXAndYAndZ[0, 0, 1], Is.EqualTo(0));
+            Assert.That(loader.CDFOfXAndYAndZ[0, 1, 0], Is.EqualTo(0));
+            Assert.That(loader.CDFOfXAndYAndZ[0, 1, 1], Is.EqualTo(0));
+            Assert.That(Math.Abs(loader.CDFOfXAndYAndZ[1, 0, 0] - 0.216666) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.CDFOfXAndYAndZ[1, 0, 1] - 0.45) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.CDFOfXAndYAndZ[1, 1, 0] - 0.716666) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.CDFOfXAndYAndZ[1, 1, 1] - 1.0) < 1e-6, Is.True);
         }
     }
 }

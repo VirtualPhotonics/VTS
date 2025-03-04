@@ -59,18 +59,18 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_GetRegionIndex_method_returns_correct_result()
         {
             var index = _oneLayerTissueBoundedByCylinder.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
             index = _oneLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 2.5)); // inside cylinder
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             index = _oneLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 0)); // on cylinder is considered in
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             // two layer results
             index = _twoLayerTissueBoundedByCylinder.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
-            Assert.AreEqual(4, index);
+            Assert.That(index, Is.EqualTo(4));
             index = _twoLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 2.5)); // inside cylinder
-            Assert.AreEqual(2, index);
+            Assert.That(index, Is.EqualTo(2));
             index = _twoLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 0)); // on cylinder is considered in
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 3,
                 new Random());
             var index = _oneLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             photon = new Photon( // on side of cylinder pointed out of it
                 new Position(-1, 0, 1),
                 new Direction(-1.0, 0, 0),
@@ -96,7 +96,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _oneLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
             // two layer results
             photon = new Photon( // on side of cylinder pointed into LAYER 1
                 new Position(-1, 0, 0.5),
@@ -106,7 +106,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 4,
                 new Random());
             index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             photon = new Photon( // on side of cylinder in LAYER 1 pointed out of it
                 new Position(-1, 0, 0.5),
                 new Direction(-1.0, 0, 0),
@@ -115,7 +115,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(4, index);
+            Assert.That(index, Is.EqualTo(4));
             photon = new Photon( // on side of cylinder pointed into LAYER 2
                 new Position(-1, 0, 1.5),
                 new Direction(1.0, 0, 0),
@@ -124,7 +124,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 4,
                 new Random());
             index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(2, index);
+            Assert.That(index, Is.EqualTo(2));
             photon = new Photon( // on side of cylinder in LAYER 2 pointed out of it
                 new Position(-1, 0, 1.5),
                 new Direction(-1.0, 0, 0),
@@ -133,7 +133,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(4, index);
+            Assert.That(index, Is.EqualTo(4));
         }
 
         /// <summary>
@@ -150,12 +150,12 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var cosTheta = _twoLayerTissueBoundedByCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1, cosTheta);
+            Assert.That(cosTheta, Is.EqualTo(1));
             // put on side of cylinder pointing in
             photon.DP.Position = new Position(1.0, 1.0, 5.0);
             photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
             cosTheta = _twoLayerTissueBoundedByCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.IsTrue(Math.Abs(cosTheta - 1/Math.Sqrt(2)) < 1e-6);
+            Assert.That(Math.Abs(cosTheta - 1/Math.Sqrt(2)) < 1e-6, Is.True);
         }
 
     }

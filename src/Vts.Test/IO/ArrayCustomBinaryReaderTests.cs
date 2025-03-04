@@ -25,8 +25,8 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[2] { 3, 2 };
                         var doubleArray = (double[,])new ArrayCustomBinaryReader<double>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[0,1], doubleArray[0,1]);
-                        Assert.AreEqual(6.2, doubleArray[0, 1]);
+                        Assert.That(doubleArray[0, 1], Is.EqualTo(array[0,1]));
+                        Assert.That(doubleArray[0, 1], Is.EqualTo(6.2));
                     }
                 }
             }
@@ -50,8 +50,8 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[3] { 3, 2, 2 };
                         var ushortArray = (ushort[,,])new ArrayCustomBinaryReader<ushort>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[0, 1, 0], ushortArray[0, 1, 0]);
-                        Assert.AreEqual(11, ushortArray[2, 1, 0]);
+                        Assert.That(ushortArray[0, 1, 0], Is.EqualTo(array[0, 1, 0]));
+                        Assert.That(ushortArray[2, 1, 0], Is.EqualTo(11));
                     }
                 }
             }
@@ -75,8 +75,8 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[2] { 2, 2 };
                         var byteArray = (byte[,])new ArrayCustomBinaryReader<byte>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[1,0], byteArray[1,0]);
-                        Assert.AreEqual(1, byteArray[1,1]);
+                        Assert.That(byteArray[1,0], Is.EqualTo(array[1,0]));
+                        Assert.That(byteArray[1,1], Is.EqualTo(1));
                     }
                 }
             }
@@ -100,8 +100,8 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[2] { 2, 2 };
                         var complexArray = (Complex[,])new ArrayCustomBinaryReader<Complex>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[0, 0], complexArray[0, 0]);
-                        Assert.AreEqual(complexArray[1, 0], new Complex(1.1, 9.0));
+                        Assert.That(complexArray[0, 0], Is.EqualTo(array[0, 0]));
+                        Assert.That(new Complex(1.1, 9.0), Is.EqualTo(complexArray[1, 0]));
                     }
                 }
             }
@@ -125,8 +125,8 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[2] { 2, 3 };
                         var floatArray = (float[,])new ArrayCustomBinaryReader<float>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[0, 2], floatArray[0, 2]);
-                        Assert.AreEqual(0.85F, floatArray[1, 1]);
+                        Assert.That(floatArray[0, 2], Is.EqualTo(array[0, 2]));
+                        Assert.That(floatArray[1, 1], Is.EqualTo(0.85F));
                     }
                 }
             }

@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 // check that can read detector 
                 var readDetector = DetectorIO.ReadDetectorFromFile(
                     detector.Name, "");
-                Assert.IsInstanceOf<IDetector>(readDetector);
+                Assert.That(readDetector, Is.InstanceOf<IDetector>());
             }
         }
     }

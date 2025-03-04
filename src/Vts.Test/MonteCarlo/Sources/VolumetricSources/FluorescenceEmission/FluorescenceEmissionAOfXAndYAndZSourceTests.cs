@@ -123,7 +123,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new FluorescenceEmissionAOfXAndYAndZSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new FluorescenceEmissionAOfXAndYAndZSourceInput(
                 "sourcetest",
@@ -131,10 +131,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 0,
                 SourcePositionSamplingType.CDF
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// Test to make sure GetFinalPosition produces correct distribution of sources and weights
@@ -154,23 +154,23 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = _fluorEmissionAOfXAndYAndZSourceCdf.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
-                Assert.IsTrue(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5);
-                Assert.IsTrue(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 0.75);
-                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - _xyzLoaderCdf.TotalAbsorbedEnergy) < 1e-6);
+                Assert.That(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5, Is.True);
+                Assert.That(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 0.75, Is.True);
+                Assert.That(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5, Is.True);
+                Assert.That(Math.Abs(photon.DP.Weight - _xyzLoaderCdf.TotalAbsorbedEnergy) < 1e-6, Is.True);
                 var ix = (int)(photon.DP.Position.X + 0.5) + 1;
                 var iz =(int)Math.Floor(photon.DP.Position.Z);
                 countArray[ix, 0, iz] += 1;
             }
             // check that countArray is only 1 in region of infinite cylinder
-            Assert.AreEqual(0,countArray[0, 0, 0]);
-            Assert.AreEqual(0,countArray[0, 0, 1]);
-            Assert.AreEqual(0,countArray[0, 1, 0]);
-            Assert.AreEqual(0,countArray[0, 1, 1]);
-            Assert.AreEqual(51,countArray[1, 0, 0]);
-            Assert.AreEqual(49,countArray[1, 0, 1]);
-            Assert.AreEqual(0, countArray[1, 1, 0]);
-            Assert.AreEqual(0, countArray[1, 1, 1]);
+            Assert.That(countArray[0,0,0], Is.EqualTo(0));
+            Assert.That(countArray[0,0,1], Is.EqualTo(0));
+            Assert.That(countArray[0,1,0], Is.EqualTo(0));
+            Assert.That(countArray[0,1,1], Is.EqualTo(0));
+            Assert.That(countArray[1,0,0], Is.EqualTo(51));
+            Assert.That(countArray[1,0,1], Is.EqualTo(49));
+            Assert.That(countArray[1,1,0], Is.EqualTo(0));
+            Assert.That(countArray[1,1,1], Is.EqualTo(0));
         }
         /// <summary>
         /// Test to make sure GetFinalPosition produces correct distribution of sources and weights
@@ -188,17 +188,17 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = _fluorEmissionAOfXAndYAndZSourceUnif.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
-                Assert.IsTrue(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5);
-                Assert.IsTrue(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 7.5);
-                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 2.5);
+                Assert.That(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5, Is.True);
+                Assert.That(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 7.5, Is.True);
+                Assert.That(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 2.5, Is.True);
                 // verify sampling is proceeding in coded sequence
                 // detector x=[-2 2] 4 bins, y=[-10 10] 4 bins, z=[0 3] 3 bins
                 var ix = (int)((photon.DP.Position.X + 1.0)/_xyzLoaderUnif.X.Delta) + 1;
                 var iy = (int)((photon.DP.Position.Y + 10.0)/_xyzLoaderUnif.Y.Delta);
                 var iz = (int)(Math.Floor(photon.DP.Position.Z)/_xyzLoaderUnif.Z.Delta);
                 // verify weight at location is equal to AOfXAndYAndZ 
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - 
-                                       _xyzLoaderUnif.AOfXAndYAndZ[ix, iy, iz] * xyzNorm) < 1e-6);
+                Assert.That(Math.Abs(photon.DP.Weight - 
+                                     _xyzLoaderUnif.AOfXAndYAndZ[ix, iy, iz] * xyzNorm), Is.LessThan(1e-6));
             }
         }
         /// <summary>

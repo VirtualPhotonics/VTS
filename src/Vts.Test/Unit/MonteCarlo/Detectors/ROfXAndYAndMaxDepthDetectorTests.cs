@@ -51,30 +51,30 @@ public class ROfXAndYAndMaxDepthDetectorTests
 
         DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
 
-        Assert.AreEqual(1, detector.Mean[0, 0, 0]);
-        Assert.AreEqual(2, detector.Mean[0, 0, 1]);
-        Assert.AreEqual(3, detector.Mean[0, 0, 2]);
-        Assert.AreEqual(4, detector.Mean[0, 1, 0]);
-        Assert.AreEqual(5, detector.Mean[0, 1, 1]);
-        Assert.AreEqual(6, detector.Mean[0, 1, 2]);
-        Assert.AreEqual(7, detector.Mean[1, 0, 0]);
-        Assert.AreEqual(8, detector.Mean[1, 0, 1]);
-        Assert.AreEqual(9, detector.Mean[1, 0, 2]);
-        Assert.AreEqual(10, detector.Mean[1, 1, 0]);
-        Assert.AreEqual(11, detector.Mean[1, 1, 1]);
-        Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+        Assert.That(detector.Mean[0, 0, 0], Is.EqualTo(1));
+        Assert.That(detector.Mean[0, 0, 1], Is.EqualTo(2));
+        Assert.That(detector.Mean[0, 0, 2], Is.EqualTo(3));
+        Assert.That(detector.Mean[0, 1, 0], Is.EqualTo(4));
+        Assert.That(detector.Mean[0, 1, 1], Is.EqualTo(5));
+        Assert.That(detector.Mean[0, 1, 2], Is.EqualTo(6));
+        Assert.That(detector.Mean[1, 0, 0], Is.EqualTo(7));
+        Assert.That(detector.Mean[1, 0, 1], Is.EqualTo(8));
+        Assert.That(detector.Mean[1, 0, 2], Is.EqualTo(9));
+        Assert.That(detector.Mean[1, 1, 0], Is.EqualTo(10));
+        Assert.That(detector.Mean[1, 1, 1], Is.EqualTo(11));
+        Assert.That(detector.Mean[1, 1, 2], Is.EqualTo(12));
         if (!tallySecondMoment) return;
-        Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
-        Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
-        Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
-        Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
-        Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
-        Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
-        Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
-        Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
-        Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
-        Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
-        Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
-        Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
+        Assert.That(detector.SecondMoment[0, 0, 0], Is.EqualTo(13));
+        Assert.That(detector.SecondMoment[0, 0, 1], Is.EqualTo(14));
+        Assert.That(detector.SecondMoment[0, 0, 2], Is.EqualTo(15));
+        Assert.That(detector.SecondMoment[0, 1, 0], Is.EqualTo(16));
+        Assert.That(detector.SecondMoment[0, 1, 1], Is.EqualTo(17));
+        Assert.That(detector.SecondMoment[0, 1, 2], Is.EqualTo(18));
+        Assert.That(detector.SecondMoment[1, 0, 0], Is.EqualTo(19));
+        Assert.That(detector.SecondMoment[1, 0, 1], Is.EqualTo(20));
+        Assert.That(detector.SecondMoment[1, 0, 2], Is.EqualTo(21));
+        Assert.That(detector.SecondMoment[1, 1, 0], Is.EqualTo(22));
+        Assert.That(detector.SecondMoment[1, 1, 1], Is.EqualTo(23));
+        Assert.That(detector.SecondMoment[1, 1, 2], Is.EqualTo(24));
     }
 }

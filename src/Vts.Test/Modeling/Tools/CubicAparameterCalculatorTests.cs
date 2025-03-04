@@ -10,7 +10,7 @@ namespace Vts.Test.Modeling.Tools
         public void Test_CubicAparameterCalculator_returns_correct_value()
         {
             var result = CubicAparameterCalculator.GetA(5.0);
-            Assert.AreEqual(68.447, result, 0.001);
+            Assert.That(result, Is.EqualTo(68.447).Within(0.001));
 
         }
     }

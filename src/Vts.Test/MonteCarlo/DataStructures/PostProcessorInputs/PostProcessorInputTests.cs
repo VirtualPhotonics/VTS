@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual("results",iCloned.OutputName);
+            Assert.That(iCloned.OutputName, Is.EqualTo("results"));
         }
         /// <summary>
         ///  validate deserialization of PostProcessorInput when using FileIO
@@ -65,7 +65,7 @@ namespace Vts.Test.MonteCarlo
             new PostProcessorInput { DatabaseSimulationInputFilename = "results" }.ToFile("test.txt");
             var iCloned = PostProcessorInput.FromFile("test.txt");
 
-            Assert.AreEqual("results",iCloned.DatabaseSimulationInputFilename);
+            Assert.That(iCloned.DatabaseSimulationInputFilename, Is.EqualTo("results"));
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo
             var i = new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
             var iCloned = i.Clone();
 
-            Assert.AreEqual(10, iCloned.Rho.Start);
+            Assert.That(iCloned.Rho.Start, Is.EqualTo(10));
         }
         /// <summary>
         /// check that deserialized pMC detector input is correct when using FileIO
@@ -114,7 +114,7 @@ namespace Vts.Test.MonteCarlo
             new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToJson("test");
             var iCloned = FileIO.ReadFromJson<pMCROfRhoDetectorInput>("test");
 
-            Assert.AreEqual(10, iCloned.Rho.Start);
+            Assert.That(iCloned.Rho.Start, Is.EqualTo(10));
         }
     }
 }

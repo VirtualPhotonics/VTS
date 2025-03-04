@@ -24,7 +24,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new LambertianSurfaceEmittingCuboidalSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new LambertianSurfaceEmittingCuboidalSourceInput(
                     1.0,
@@ -35,10 +35,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// This test validated using geometry assumptions
@@ -75,28 +75,28 @@ namespace Vts.Test.MonteCarlo.Sources
                 if (Math.Abs(photon.DP.Position.X + cubeLengthX / 2 + translationFromOrigin.X) < 1e-10 ||
                     Math.Abs(photon.DP.Position.X - cubeLengthX / 2 + translationFromOrigin.X) < 1e-10)
                 {
-                    Assert.IsTrue(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
-                                  photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y);
-                    Assert.IsTrue(photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z &&
-                                  photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z);
+                    Assert.That(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
+                                  photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y, Is.True);
+                    Assert.That(photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z &&
+                                  photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z, Is.True);
                 }
                 // if on y is on 1 of 2 constant faces, make sure x and z are within boundaries
                 if (Math.Abs(photon.DP.Position.Y + cubeWidthY / 2 + translationFromOrigin.Y) < 1e-10 ||
                     Math.Abs(photon.DP.Position.Y - cubeWidthY / 2 + translationFromOrigin.Y) < 1e-10)
                 {
-                    Assert.IsTrue(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
-                                  photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X);
-                    Assert.IsTrue(photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z &&
-                                  photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z);
+                    Assert.That(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
+                                  photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X, Is.True);
+                    Assert.That(photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z &&
+                                  photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z, Is.True);
                 }
                 // if on z is on 1 of 2 constant faces, make sure x and y are within boundaries
                 if (Math.Abs(photon.DP.Position.Z - cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10 ||
                     Math.Abs(photon.DP.Position.Z + cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10)
                 {
-                    Assert.IsTrue(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
-                                  photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X);
-                    Assert.IsTrue(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
-                                  photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y);
+                    Assert.That(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
+                                  photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X, Is.True);
+                    Assert.That(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
+                                  photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y, Is.True);
                 }
             }
         }

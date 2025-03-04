@@ -47,10 +47,10 @@ namespace Vts.Test.MonteCarlo
 
             var outputs = MonteCarloSimulation.RunAll(sims);
 
-            Assert.NotNull(outputs[0]);
-            Assert.NotNull(outputs[1]);
-            Assert.True(outputs[0].Input.N == 30);
-            Assert.True(outputs[1].Input.N == 20);
+            Assert.That(outputs[0], Is.Not.Null);
+            Assert.That(outputs[1], Is.Not.Null);
+            Assert.That(outputs[0].Input.N, Is.EqualTo(30));
+            Assert.That(outputs[1].Input.N, Is.EqualTo(20));
         }
     }
 }

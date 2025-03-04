@@ -15,16 +15,16 @@ namespace Vts.Test.Common.Math
 
             var result = Convolution2D.RollFilter(input, 10, 20, 2);
 
-            Assert.IsTrue(result.Skip(2).Take(6).All(f => f == 0f));
-            Assert.IsTrue(result.Skip(12).Take(6).All(f => f == 0f));
+            Assert.That(result.Skip(2).Take(6).All(f => f == 0f), Is.True);
+            Assert.That(result.Skip(12).Take(6).All(f => f == 0f), Is.True);
 
-            Assert.IsTrue(result.Skip(22).Take(6).All(f => f == 1f));
-            Assert.IsTrue(result.Skip(32).Take(6).All(f => f == 1f));
+            Assert.That(result.Skip(22).Take(6).All(f => f == 1f), Is.True);
+            Assert.That(result.Skip(32).Take(6).All(f => f == 1f), Is.True);
             // ...
-            Assert.IsTrue(result.Skip(172).Take(6).All(f => f == 1f));
+            Assert.That(result.Skip(172).Take(6).All(f => f == 1f), Is.True);
 
-            Assert.IsTrue(result.Skip(182).Take(6).All(f => f == 0f));
-            Assert.IsTrue(result.Skip(192).Take(6).All(f => f == 0f));
+            Assert.That(result.Skip(182).Take(6).All(f => f == 0f), Is.True);
+            Assert.That(result.Skip(192).Take(6).All(f => f == 0f), Is.True);
         }
 
         [Ignore("Need to get a raw speckle image as an int array")]
@@ -40,7 +40,7 @@ namespace Vts.Test.Common.Math
             var rollColumnSquared = new int[2];
 
             Convolution2D.LsiRoll(raw, speckleContrast, speckleFlowIndex, rollRow, rollColumn, rollRowSquared, rollColumnSquared, 10, 20, 2, 5);
-            Assert.AreEqual(0, rollRow[0]);
+            Assert.That(rollRow[0], Is.EqualTo(0));
         }
     }
 }

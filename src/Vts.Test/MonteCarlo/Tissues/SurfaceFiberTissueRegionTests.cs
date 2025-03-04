@@ -30,14 +30,14 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_SurfaceFiber_properties()
         {
-            Assert.AreEqual(0.0,_surfaceFiberTissueRegion.Center.X);
-            Assert.AreEqual(0.0,_surfaceFiberTissueRegion.Center.Y);
-            Assert.AreEqual(2.0,_surfaceFiberTissueRegion.Center.Z);
-            Assert.AreEqual(1.0, _surfaceFiberTissueRegion.Radius);
-            Assert.AreEqual(0.01, _surfaceFiberTissueRegion.RegionOP.Mua);
-            Assert.AreEqual(1.0, _surfaceFiberTissueRegion.RegionOP.Musp);
-            Assert.AreEqual(0.8, _surfaceFiberTissueRegion.RegionOP.G);
-            Assert.AreEqual(1.4, _surfaceFiberTissueRegion.RegionOP.N);
+            Assert.That(_surfaceFiberTissueRegion.Center.X, Is.EqualTo(0.0));
+            Assert.That(_surfaceFiberTissueRegion.Center.Y, Is.EqualTo(0.0));
+            Assert.That(_surfaceFiberTissueRegion.Center.Z, Is.EqualTo(2.0));
+            Assert.That(_surfaceFiberTissueRegion.Radius, Is.EqualTo(1.0));
+            Assert.That(_surfaceFiberTissueRegion.RegionOP.Mua, Is.EqualTo(0.01));
+            Assert.That(_surfaceFiberTissueRegion.RegionOP.Musp, Is.EqualTo(1.0));
+            Assert.That(_surfaceFiberTissueRegion.RegionOP.G, Is.EqualTo(0.8));
+            Assert.That(_surfaceFiberTissueRegion.RegionOP.N, Is.EqualTo(1.4));
         }
 
     }

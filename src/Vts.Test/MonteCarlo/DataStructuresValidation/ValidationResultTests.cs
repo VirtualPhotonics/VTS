@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
         {
             // default constructor
             var validationResult = new ValidationResult();
-            Assert.IsInstanceOf<ValidationResult>(validationResult);
+            Assert.That(validationResult, Is.InstanceOf<ValidationResult>());
             // fully defined
             validationResult = new ValidationResult()
             {
@@ -24,7 +24,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 ValidationRule = "validationRule",
                 Remarks = "remarks"
             };
-            Assert.IsInstanceOf<ValidationResult>(validationResult);
+            Assert.That(validationResult, Is.InstanceOf<ValidationResult>());
         }
 
     }

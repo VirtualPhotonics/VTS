@@ -101,33 +101,33 @@ namespace Vts.Test.Factories
         [Test]
         public void IsSolverWithConstantValues_returns_true()
         {
-            Assert.IsTrue(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfFxAndFt));
-            Assert.IsTrue(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfFxAndZAndTime));
+            Assert.That(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfFxAndFt), Is.True);
+            Assert.That(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfFxAndZAndTime), Is.True);
         }
 
         [Test]
         public void IsSolverWithConstantValues_returns_false()
         {
-            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfRho));
-            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfFx));
-            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfRhoAndZ));
-            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfFxAndZ));
+            Assert.That(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfRho), Is.False);
+            Assert.That(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfFx), Is.False);
+            Assert.That(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfRhoAndZ), Is.False);
+            Assert.That(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfFxAndZ), Is.False);
         }
 
         [Test]
         public void IsComplexSolver_returns_true()
         {
-            Assert.IsTrue(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfFxAndFt));
-            Assert.IsTrue(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfRhoAndFt));
-            Assert.IsTrue(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfFxAndZAndFt));
-            Assert.IsTrue(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfRhoAndZAndFt));
+            Assert.That(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfFxAndFt), Is.True);
+            Assert.That(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfRhoAndFt), Is.True);
+            Assert.That(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfFxAndZAndFt), Is.True);
+            Assert.That(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfRhoAndZAndFt), Is.True);
         }
 
         [Test]
         public void IsComplexSolver_returns_false()
         {
-            Assert.IsFalse(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfRhoAndTime));
-            Assert.IsFalse(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfFxAndZAndTime));
+            Assert.That(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfRhoAndTime), Is.False);
+            Assert.That(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfFxAndZAndTime), Is.False);
         }
         #endregion
 
@@ -149,7 +149,7 @@ namespace Vts.Test.Factories
                     new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.IsTrue(Math.Abs(reflectance[0] - 0.021093) < 0.000001);
+            Assert.That(Math.Abs(reflectance[0] - 0.021093) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Vts.Test.Factories
                     new [] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.IsTrue(Math.Abs(reflectance[0] + 0.005571) < 0.000001);
+            Assert.That(Math.Abs(reflectance[0] + 0.005571) < 0.000001, Is.True);
         }
 
         // Multi-Axis ComputeReflectance Tests: the following 4 test parallel tests in 
@@ -212,21 +212,21 @@ namespace Vts.Test.Factories
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, rho0=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.044627) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[0] - 0.044627) < 0.000001, Is.True); // API match
             // [1] -> ops0=650, rho0=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.005561) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1] - 0.005561) < 0.000001, Is.True);
             // [2] -> ops0=650, rho1=1.635, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 0.036918) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[2] - 0.036918) < 0.000001, Is.True); // API match
             // [3] -> ops0=650, rho1=1.635, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 0.005058) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[3] - 0.005058) < 0.000001, Is.True);
             // [4] -> ops1=700, rho0=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 0.057913) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[4] - 0.057913) < 0.000001, Is.True); // API match
             // [5] -> ops1=700, rho0=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.010316) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5] - 0.010316) < 0.000001, Is.True);
             // [6] -> ops1=700, rho1=1.635, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 0.048509) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[6] - 0.048509) < 0.000001, Is.True); // API match
             // [7] -> ops1=700, rho1=1.635, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 0.009441) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[7] - 0.009441) < 0.000001, Is.True);
         }
 
         [Test]
@@ -268,37 +268,37 @@ namespace Vts.Test.Factories
             //           ... repeat above with imag, then next ops1...
 
             // [0] -> ops0=650, rho0=0.5, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.037577) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[0] - 0.037577) < 0.000001, Is.True);
             // [1] -> ops0=650, rho0=0.5, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.037513) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1] - 0.037513) < 0.000001, Is.True);
             // [2] -> ops0=650, rho1=1.635, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 0.009308) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[2] - 0.009308) < 0.000001, Is.True);
             // [3] -> ops0=650, rho1=1.635, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 0.009257) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[3] - 0.009257) < 0.000001, Is.True);
             // [4] -> ops1=700, rho0=0.5, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 0.036426) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[4] - 0.036426) < 0.000001, Is.True);
             // [5] -> ops1=700, rho0=0.5, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.036311) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5] - 0.036311) < 0.000001, Is.True);
             // [6] -> ops1=700, rho1=1.635, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 0.010659) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[6] - 0.010659) < 0.000001, Is.True);
             // [7] -> ops1=700, rho1=1.635, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 0.010560) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[7] - 0.010560) < 0.000001, Is.True);
             // [8] -> ops0=650, rho0=0.5, fts0=0.0 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[8] - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[8] - 0.0) < 0.000001, Is.True);
             // [9] -> ops0=650, rho0=0.5, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[9] + 0.001200) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[9] + 0.001200) < 0.000001, Is.True);
             // [10] -> ops0=650, rho1=1.635, fts0=0.0 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[10] - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[10] - 0.0) < 0.000001, Is.True);
             // [11] -> ops1=650, rho1=1.635, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[11] + 0.000674) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[11] + 0.000674) < 0.000001, Is.True);
             // [12] -> ops1=700, rho0=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[12] - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[12] - 0.0) < 0.000001, Is.True);
             // [13] -> ops1=700, rho0=0.5, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[13] + 0.001447) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[13] + 0.001447) < 0.000001, Is.True);
             // [14] -> ops1=700, rho1=1.635, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[14] - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[14] - 0.0) < 0.000001, Is.True);
             // [15] -> ops1=700, rho1=1.635, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[15] + 0.000929) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[15] + 0.000929) < 0.000001, Is.True);
         }
         [Test]
         public void Validate_ROfFxAndTime_With_Wavelength()
@@ -341,21 +341,21 @@ namespace Vts.Test.Factories
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 1.559579) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[0] - 1.559579) < 0.000001, Is.True);
             // [1] -> ops0=650, fx0=0.0, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.392302) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1] - 0.392302) < 0.000001, Is.True);
             // [2] -> ops0=650, fx1=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 5.024166e-12) < 0.000001e-12);
+            Assert.That(Math.Abs(rVsWavelength[2] - 5.024166e-12) < 0.000001e-12, Is.True);
             // [3] -> ops0=650, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 1.034161e-13) < 0.000001e-13);
+            Assert.That(Math.Abs(rVsWavelength[3] - 1.034161e-13) < 0.000001e-13, Is.True);
             // [4] -> ops1=700, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 2.219202) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[4] - 2.219202) < 0.000001, Is.True);
             // [5] -> ops1=700, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.797814) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5] - 0.797814) < 0.000001, Is.True);
             // [6] -> ops1=700, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 1.344535e-12) < 0.000001e-12);
+            Assert.That(Math.Abs(rVsWavelength[6] - 1.344535e-12) < 0.000001e-12, Is.True);
             // [7] -> ops1=700, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 2.053738e-13) < 0.000001e-13);
+            Assert.That(Math.Abs(rVsWavelength[7] - 2.053738e-13) < 0.000001e-13, Is.True);
         }
         [Test]
         public void Validate_ROfFxAndFt_With_Wavelength()
@@ -396,37 +396,37 @@ namespace Vts.Test.Factories
             //           ... repeat above with imag, then with ops1...
 
             // [0] -> ops0=650, fx0=0.0, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 1.890311) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[0] - 1.890311) < 0.000001, Is.True); // API match
             // [1] -> ops0=650, fx0=0.0, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 1.888462) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1] - 1.888462) < 0.000001, Is.True);
             // [2] -> ops0=650, fx1=0.5, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 0.562543) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[2] - 0.562543) < 0.000001, Is.True); // API match
             // [3] -> ops0=650, fx1=0.5, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 0.562548) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[3] - 0.562548) < 0.000001, Is.True);
             // [4] -> ops1=700, fx0=0.0, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 2.118766) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[4] - 2.118766) < 0.000001, Is.True); // API match
             // [5] -> ops1=700, fx0=0.0, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 2.113708) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5] - 2.113708) < 0.000001, Is.True);
             // [6] -> ops1=700, fx1=0.5, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 0.543542) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[6] - 0.543542) < 0.000001, Is.True); // API match
             // [7] -> ops1=700, fx1=0.5, fts1=0.5 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 0.543549) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[7] - 0.543549) < 0.000001, Is.True);
             // [8] -> ops0=650, fx0=0.0, fts0=0.0 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[8] - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[8] - 0.0) < 0.000001, Is.True); // API match
             // [9] -> ops0=650, fx0=0.0, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[9] + 0.045147) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[9] + 0.045147) < 0.000001, Is.True);
             // [10] -> ops0=650, fx1=0.5, fts0=0.0 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[10] - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[10] - 0.0) < 0.000001, Is.True); // API match
             // [11] -> ops0=650, fx1=0.5, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[11] + 0.000799) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[11] + 0.000799) < 0.000001, Is.True);
             // [12] -> ops1=700, fx0=0.0, fts0=0.0 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[12] - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[12] - 0.0) < 0.000001, Is.True); // API match
             // [13] -> ops1=700, fx0=0.0, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[13] + 0.071804) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[13] + 0.071804) < 0.000001, Is.True);
             // [14] -> ops1=700, fx1=0.5, fts0=0.0 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[14] - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[14] - 0.0) < 0.000001, Is.True); // API match
             // [15] -> ops1=700, fx1=0.5, fts1=0.5 imag
-            Assert.IsTrue(Math.Abs(rVsWavelength[15] + 0.000651) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[15] + 0.000651) < 0.000001, Is.True);
         }
 
         #endregion
@@ -448,7 +448,7 @@ namespace Vts.Test.Factories
                 // could have array of OPs, one set for each tissue region
                 new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0] - 0.188294) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0] - 0.188294) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace Vts.Test.Factories
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                     )
                 }, 0);
-            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0] - 0.188294) < 0.000001, Is.True);
         }
 
         [Test]
@@ -510,8 +510,8 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("The tissue region did not contain a valid layer region"));
-                    Assert.IsTrue(e.Message.Contains("tissueRegions"));
+                    Assert.That(e.Message.StartsWith("The tissue region did not contain a valid layer region"), Is.True);
+                    Assert.That(e.Message.Contains("tissueRegions"), Is.True);
                     throw;
                 }
             });
@@ -533,7 +533,7 @@ namespace Vts.Test.Factories
                 // could have array of OPs, one set for each tissue region
                 new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0] - 0.188294) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -556,7 +556,7 @@ namespace Vts.Test.Factories
                     new OpticalProperties(0.01, 1, 0.8, 1.4),
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0] - 0.188294) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -574,7 +574,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0] - 0.188294) < 0.000001, Is.True);
         }
 
         [Test]
@@ -594,7 +594,7 @@ namespace Vts.Test.Factories
                     )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(0.3, fluence[0]);
+            Assert.That(fluence[0], Is.EqualTo(0.3));
         }
 
         [Test]
@@ -608,7 +608,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(1.3, fluence[0]);
+            Assert.That(fluence[0], Is.EqualTo(1.3));
         }
 
         [Test]
@@ -622,7 +622,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(0.5, fluence[0]);
+            Assert.That(fluence[0], Is.EqualTo(0.5));
         }
 
         [Test]
@@ -636,7 +636,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(0.5, fluence[0]);
+            Assert.That(fluence[0], Is.EqualTo(0.5));
         }
 
         [Test]
@@ -650,7 +650,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(1.5, fluence[0]);
+            Assert.That(fluence[0], Is.EqualTo(1.5));
         }
 
         [Test]
@@ -664,7 +664,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(1.5, fluence[0]);
+            Assert.That(fluence[0], Is.EqualTo(1.5));
         }
 
         [Test]
@@ -684,7 +684,7 @@ namespace Vts.Test.Factories
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values."));
+                    Assert.That(e.Message.StartsWith("Specified argument was out of the range of valid values."), Is.True);
                     throw;
                 }
             });
@@ -707,7 +707,7 @@ namespace Vts.Test.Factories
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values."));
+                    Assert.That(e.Message.StartsWith("Specified argument was out of the range of valid values."), Is.True);
                     throw;
                 }
             });
@@ -730,7 +730,7 @@ namespace Vts.Test.Factories
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values."));
+                    Assert.That(e.Message.StartsWith("Specified argument was out of the range of valid values."), Is.True);
                     throw;
                 }
             });
@@ -756,7 +756,7 @@ namespace Vts.Test.Factories
                         )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0].Real - 0.188294) < 0.000001, Is.True);
         }
 
         [Test]
@@ -775,7 +775,7 @@ namespace Vts.Test.Factories
                     )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(1.1, fluence[0].Real);
+            Assert.That(fluence[0].Real, Is.EqualTo(1.1));
         }
 
         [Test]
@@ -794,7 +794,7 @@ namespace Vts.Test.Factories
                     )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0].Real - 24.288354) < 0.000001);
+            Assert.That(Math.Abs(fluence[0].Real - 24.288354) < 0.000001, Is.True);
         }
 
         [Test]
@@ -813,7 +813,7 @@ namespace Vts.Test.Factories
                     )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(1.7, fluence[0].Real);
+            Assert.That(fluence[0].Real, Is.EqualTo(1.7));
         }
 
         [Test]
@@ -832,7 +832,7 @@ namespace Vts.Test.Factories
                     )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(1.7, fluence[0].Real);
+            Assert.That(fluence[0].Real, Is.EqualTo(1.7));
         }
 
         /// <summary>
@@ -850,7 +850,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0].Real - 0.188294) < 0.000001, Is.True);
         }
 
         [Test]
@@ -873,7 +873,7 @@ namespace Vts.Test.Factories
                     )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.AreEqual(1.1, fluence[0].Real);
+            Assert.That(fluence[0].Real, Is.EqualTo(1.1));
         }
 
         /// <summary>
@@ -896,7 +896,7 @@ namespace Vts.Test.Factories
                     )
                 }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0].Real - 0.188294) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -914,7 +914,7 @@ namespace Vts.Test.Factories
                 independentValues,
                 new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
-            Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
+            Assert.That(Math.Abs(fluence[0].Real - 0.188294) < 0.000001, Is.True);
         }
 
         [Test]
@@ -936,8 +936,8 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("The tissue region did not contain a valid layer region"));
-                    Assert.IsTrue(e.Message.Contains("tissueRegions"));
+                    Assert.That(e.Message.StartsWith("The tissue region did not contain a valid layer region"), Is.True);
+                    Assert.That(e.Message.Contains("tissueRegions"), Is.True);
                     throw;
                 }
             });
@@ -966,8 +966,8 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values"));
-                    Assert.IsTrue(e.Message.Contains("type"));
+                    Assert.That(e.Message.StartsWith("Specified argument was out of the range of valid values"), Is.True);
+                    Assert.That(e.Message.Contains("type"), Is.True);
                     throw;
                 }
             });
@@ -996,8 +996,8 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values"));
-                    Assert.IsTrue(e.Message.Contains("axis"));
+                    Assert.That(e.Message.StartsWith("Specified argument was out of the range of valid values"), Is.True);
+                    Assert.That(e.Message.Contains("axis"), Is.True);
                     throw;
                 }
             });
@@ -1026,8 +1026,8 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values"));
-                    Assert.IsTrue(e.Message.Contains("axis"));
+                    Assert.That(e.Message.StartsWith("Specified argument was out of the range of valid values"), Is.True);
+                    Assert.That(e.Message.Contains("axis"), Is.True);
                     throw;
                 }
             });
@@ -1057,7 +1057,7 @@ namespace Vts.Test.Factories
                 initialGuessOPsAndXAxis
                 );
             // solution is a double array with converged solution OPs
-            Assert.IsTrue(Math.Abs(solution[1] - 3.75515) < 0.00001);
+            Assert.That(Math.Abs(solution[1] - 3.75515) < 0.00001, Is.True);
         }
 
         [Test]
@@ -1078,7 +1078,7 @@ namespace Vts.Test.Factories
                 initialGuessOPsAndXAxis
             );
             // solution is a double array with converged solution OPs
-            Assert.IsTrue(Math.Abs(solution[0] - 0.000000028) < 0.000000001);
+            Assert.That(Math.Abs(solution[0] - 0.000000028) < 0.000000001, Is.True);
         }
 
         [Test]
@@ -1099,7 +1099,7 @@ namespace Vts.Test.Factories
                 initialGuessOPsAndXAxis
             );
             // solution is a double array with converged solution OPs
-            Assert.IsTrue(Math.Abs(solution[1] - 3.61248) < 0.00001);
+            Assert.That(Math.Abs(solution[1] - 3.61248) < 0.00001, Is.True);
         }
 
         [Test]
@@ -1120,7 +1120,7 @@ namespace Vts.Test.Factories
                 initialGuessOPsAndXAxis
             );
             // solution is a double array with converged solution OPs
-            Assert.IsTrue(Math.Abs(solution[1] - 3.75530) < 0.00001);
+            Assert.That(Math.Abs(solution[1] - 3.75530) < 0.00001, Is.True);
         }
 
         /// <summary>
@@ -1145,7 +1145,7 @@ namespace Vts.Test.Factories
                 initialGuessOPsAndXAxis
             );
             // solution is a double array with converged solution OPs
-            Assert.IsTrue(Math.Abs(solution[1] - 3.75515) < 0.00001);
+            Assert.That(Math.Abs(solution[1] - 3.75515) < 0.00001, Is.True);
         }
         /// <summary>
         /// Test against the ComputationFactory class SolveInverse routine using IForwardSolver and
@@ -1175,7 +1175,7 @@ namespace Vts.Test.Factories
                 lowerBounds,
                 upperBounds);
             // solution is a double array with converged solution OPs
-            Assert.IsTrue(Math.Abs(solution[1] - 3.75530) < 0.00001);
+            Assert.That(Math.Abs(solution[1] - 3.75530) < 0.00001, Is.True);
         }
 
         /// <summary>
@@ -1207,7 +1207,7 @@ namespace Vts.Test.Factories
                 upperBounds
             );
             // solution is a double array with converged solution OPs
-            Assert.IsTrue(Math.Abs(solution[1] - 3.75530) < 0.00001);
+            Assert.That(Math.Abs(solution[1] - 3.75530) < 0.00001, Is.True);
         }
         #endregion
 
@@ -1227,7 +1227,7 @@ namespace Vts.Test.Factories
                 _firstAxis,
                 _secondAxis);
             // solution is linearized PHD, column major
-            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+            Assert.That(Math.Abs(phd[0] - 0.010336) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -1246,7 +1246,7 @@ namespace Vts.Test.Factories
                 _secondAxis
             );
             // solution is linearized PHD, column major
-            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+            Assert.That(Math.Abs(phd[0] - 0.010336) < 0.000001, Is.True);
         }
         /// <summary>
         /// Test against the ComputationFactory class GetPHD routine using enum forward solver type
@@ -1267,7 +1267,7 @@ namespace Vts.Test.Factories
                 _secondAxis
             );
             // solution is linearized PHD, column major
-            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+            Assert.That(Math.Abs(phd[0] - 0.010336) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -1289,7 +1289,7 @@ namespace Vts.Test.Factories
                 _secondAxis
             );
             // solution is linearized PHD, column major
-            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+            Assert.That(Math.Abs(phd[0] - 0.010336) < 0.000001, Is.True);
         }
         #endregion
 
@@ -1302,7 +1302,7 @@ namespace Vts.Test.Factories
         {
             const double mua = 0.1;
             var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_realFluence, mua);
-            Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
+            Assert.That(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -1313,7 +1313,7 @@ namespace Vts.Test.Factories
         {
             const double mua = 0.1;
             var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_complexFluence, mua);
-            Assert.IsTrue(Math.Abs(absorbedEnergy.First().Real - 0.018829) < 0.000001);
+            Assert.That(Math.Abs(absorbedEnergy.First().Real - 0.018829) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -1326,7 +1326,7 @@ namespace Vts.Test.Factories
             // define muas so that top 2 rows have one value, bottom have different value (matrix is column major)
             var muas = new[] { 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2 };
             var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_realFluence.AsEnumerable(), muas.AsEnumerable());
-            Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
+            Assert.That(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001, Is.True);
         }
 
         [Test]
@@ -1343,7 +1343,7 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("The arguments fluence and muas must be same length", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("The arguments fluence and muas must be same length"));
                     throw;
                 }
             });
@@ -1363,7 +1363,7 @@ namespace Vts.Test.Factories
                     new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.IsTrue(Math.Abs(reflectance[0] - 0.016882) < 0.000001);
+            Assert.That(Math.Abs(reflectance[0] - 0.016882) < 0.000001, Is.True);
         }
 
         [Test]
@@ -1380,7 +1380,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.IsTrue(Math.Abs(reflectance[0] - 0.000012) < 0.000001);
+            Assert.That(Math.Abs(reflectance[0] - 0.000012) < 0.000001, Is.True);
         }
 
         [Test]
@@ -1397,7 +1397,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.IsTrue(Math.Abs(reflectance[0] - 0.000022) < 0.000001);
+            Assert.That(Math.Abs(reflectance[0] - 0.000022) < 0.000001, Is.True);
         }
 
         [Test]
@@ -1414,7 +1414,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.IsTrue(Math.Abs(reflectance[0] - 0.02018) < 0.00001);
+            Assert.That(Math.Abs(reflectance[0] - 0.02018) < 0.00001, Is.True);
         }
 
         [Test]
@@ -1431,7 +1431,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.IsTrue(Math.Abs(reflectance[0] - 0.01688) < 0.00001);
+            Assert.That(Math.Abs(reflectance[0] - 0.01688) < 0.00001, Is.True);
         }
 
         [Test]
@@ -1466,7 +1466,7 @@ namespace Vts.Test.Factories
                     },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.AreEqual(0.2, reflectance[0]);
+            Assert.That(reflectance[0], Is.EqualTo(0.2));
         }
 
         [Test]
@@ -1487,7 +1487,7 @@ namespace Vts.Test.Factories
                     },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.AreEqual(0.5, reflectance[0]);
+            Assert.That(reflectance[0], Is.EqualTo(0.5));
         }
 
         [Test]
@@ -1512,7 +1512,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.AreEqual(0.011430, reflectance[0], 0.000001);
+            Assert.That(reflectance[0], Is.EqualTo(0.011430).Within(0.000001));
         }
 
         [Test]
@@ -1537,7 +1537,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.AreEqual(0.000207, reflectance[0], 0.000001);
+            Assert.That(reflectance[0], Is.EqualTo(0.000207).Within(0.000001));
         }
 
         [Test]
@@ -1559,7 +1559,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.AreEqual(0.9, reflectance[0], 0.001);
+            Assert.That(reflectance[0], Is.EqualTo(0.9).Within(0.001));
         }
 
         [Test]
@@ -1581,7 +1581,7 @@ namespace Vts.Test.Factories
                     new double[] { 1, 2, 3 },
                     new double[] { 1, 2, 3 }
                 });
-            Assert.AreEqual(1.3, reflectance[0]);
+            Assert.That(reflectance[0], Is.EqualTo(1.3));
         }
 
     }

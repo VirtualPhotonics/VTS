@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CircularAngledFromCircleSourceInput();
-            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CircularAngledFromCircleSourceInput>());
             // check full definition
             si = new CircularAngledFromCircleSourceInput(
                     10.0,
@@ -34,10 +34,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                     0
             );
-            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CircularAngledFromCircleSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<CircularAngledFromCircleSource>(source);
+            Assert.That(source, Is.InstanceOf<CircularAngledFromCircleSource>());
         }
         /// <summary>
         /// This test different from others in that it is validated by geometrically
@@ -67,12 +67,12 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside radius
-            Assert.IsTrue(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                    photon.DP.Position.Y * photon.DP.Position.Y) <= radiusOnTissue);
+            Assert.That(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
+                                    photon.DP.Position.Y * photon.DP.Position.Y), Is.LessThanOrEqualTo(radiusOnTissue));
             // make sure angle is less than 45 degrees
-            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
+            Assert.That(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2), Is.True);
         }
         /// <summary>
         /// This test different from others in that it is validated by geometrically
@@ -103,12 +103,12 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside radius
-            Assert.IsTrue(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                    photon.DP.Position.Y * photon.DP.Position.Y) <= radiusOnTissue);
+            Assert.That(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
+                                    photon.DP.Position.Y * photon.DP.Position.Y), Is.LessThanOrEqualTo(radiusOnTissue));
             // make sure angle is 45 degrees
-            Assert.IsTrue(Math.Abs(photon.DP.Direction.Uz - (1 / Math.Sqrt(2))) < 1e-6);
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - (1 / Math.Sqrt(2))) < 1e-6, Is.True);
         }
         /// <summary>
         /// This test different from others in that it is validated by geometrically
@@ -139,12 +139,12 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside radius
-            Assert.IsTrue(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                    photon.DP.Position.Y * photon.DP.Position.Y) <= radiusOnTissue);
+            Assert.That(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
+                                    photon.DP.Position.Y * photon.DP.Position.Y), Is.LessThanOrEqualTo(radiusOnTissue));
             // make sure angle is not 45 degrees
-            Assert.IsTrue(Math.Abs(photon.DP.Direction.Uz - (1 / Math.Sqrt(2))) > 1e-6);
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - (1 / Math.Sqrt(2))) > 1e-6, Is.True);
         }
     }
 }

@@ -45,18 +45,18 @@ public class pMCROfXAndYDetectorTests
 
         DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
 
-        Assert.AreEqual(1, detector.Mean[0, 0]);
-        Assert.AreEqual(2, detector.Mean[0, 1]);
-        Assert.AreEqual(3, detector.Mean[0, 2]);
-        Assert.AreEqual(4, detector.Mean[1, 0]);
-        Assert.AreEqual(5, detector.Mean[1, 1]);
-        Assert.AreEqual(6, detector.Mean[1, 2]);
+        Assert.That(detector.Mean[0, 0], Is.EqualTo(1));
+        Assert.That(detector.Mean[0, 1], Is.EqualTo(2));
+        Assert.That(detector.Mean[0, 2], Is.EqualTo(3));
+        Assert.That(detector.Mean[1, 0], Is.EqualTo(4));
+        Assert.That(detector.Mean[1, 1], Is.EqualTo(5));
+        Assert.That(detector.Mean[1, 2], Is.EqualTo(6));
         if (!tallySecondMoment) return;
-        Assert.AreEqual(7, detector.SecondMoment[0, 0]);
-        Assert.AreEqual(8, detector.SecondMoment[0, 1]);
-        Assert.AreEqual(9, detector.SecondMoment[0, 2]);
-        Assert.AreEqual(10, detector.SecondMoment[1, 0]);
-        Assert.AreEqual(11, detector.SecondMoment[1, 1]);
-        Assert.AreEqual(12, detector.SecondMoment[1, 2]);
+        Assert.That(detector.SecondMoment[0, 0], Is.EqualTo(7));
+        Assert.That(detector.SecondMoment[0, 1], Is.EqualTo(8));
+        Assert.That(detector.SecondMoment[0, 2], Is.EqualTo(9));
+        Assert.That(detector.SecondMoment[1, 0], Is.EqualTo(10));
+        Assert.That(detector.SecondMoment[1, 1], Is.EqualTo(11));
+        Assert.That(detector.SecondMoment[1, 2], Is.EqualTo(12));
     }
 }

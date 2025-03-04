@@ -45,7 +45,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 detectorInput
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
             // redefine detector number of perturbed region to pass validation
             ((dMCdROfRhodMuaDetectorInput) detectorInput.First()).PerturbedRegionsIndices = new List<int> {1};
             input = new SimulationInput(
@@ -57,7 +57,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 detectorInput
             );
             result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
         }
     }
 }

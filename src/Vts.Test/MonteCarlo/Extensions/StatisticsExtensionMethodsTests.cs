@@ -28,37 +28,37 @@ namespace Vts.Test.MonteCarlo.Extensions
             // found so clear before testing.
             dp.StateFlag = dp.StateFlag.Add(PhotonStateType.PseudoReflectedTissueBoundary);
             statistics.TrackDeathStatistics(dp);
-            Assert.AreEqual(1, statistics.NumberOfPhotonsOutTopOfTissue);
+            Assert.That(statistics.NumberOfPhotonsOutTopOfTissue, Is.EqualTo(1));
             dp.StateFlag = dp.StateFlag.Remove(PhotonStateType.PseudoReflectedTissueBoundary);
 
             dp.StateFlag = dp.StateFlag.Add(PhotonStateType.PseudoTransmittedTissueBoundary);
             statistics.TrackDeathStatistics(dp);
-            Assert.AreEqual(1, statistics.NumberOfPhotonsOutBottomOfTissue);
+            Assert.That(statistics.NumberOfPhotonsOutBottomOfTissue, Is.EqualTo(1));
             dp.StateFlag = dp.StateFlag.Remove(PhotonStateType.PseudoTransmittedTissueBoundary);
 
             dp.StateFlag = dp.StateFlag.Add(PhotonStateType.Absorbed);
             statistics.TrackDeathStatistics(dp);
-            Assert.AreEqual(1, statistics.NumberOfPhotonsAbsorbed);
+            Assert.That(statistics.NumberOfPhotonsAbsorbed, Is.EqualTo(1));
             dp.StateFlag = dp.StateFlag.Remove(PhotonStateType.Absorbed);
 
             dp.StateFlag = dp.StateFlag.Add(PhotonStateType.PseudoSpecularTissueBoundary);
             statistics.TrackDeathStatistics(dp);
-            Assert.AreEqual(1, statistics.NumberOfPhotonsSpecularReflected);
+            Assert.That(statistics.NumberOfPhotonsSpecularReflected, Is.EqualTo(1));
             dp.StateFlag = dp.StateFlag.Remove(PhotonStateType.PseudoSpecularTissueBoundary);
 
             dp.StateFlag = dp.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
             statistics.TrackDeathStatistics(dp);
-            Assert.AreEqual(1, statistics.NumberOfPhotonsKilledOverMaximumCollisions);
+            Assert.That(statistics.NumberOfPhotonsKilledOverMaximumCollisions, Is.EqualTo(1));
             dp.StateFlag = dp.StateFlag.Remove(PhotonStateType.KilledOverMaximumCollisions);
 
             dp.StateFlag = dp.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
             statistics.TrackDeathStatistics(dp);
-            Assert.AreEqual(1, statistics.NumberOfPhotonsKilledOverMaximumPathLength);
+            Assert.That(statistics.NumberOfPhotonsKilledOverMaximumPathLength, Is.EqualTo(1));
             dp.StateFlag = dp.StateFlag.Remove(PhotonStateType.KilledOverMaximumPathLength);
 
             dp.StateFlag = dp.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
             statistics.TrackDeathStatistics(dp);
-            Assert.AreEqual(1, statistics.NumberOfPhotonsKilledByRussianRoulette);
+            Assert.That(statistics.NumberOfPhotonsKilledByRussianRoulette, Is.EqualTo(1));
         }
     }
 }

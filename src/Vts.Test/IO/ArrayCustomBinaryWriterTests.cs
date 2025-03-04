@@ -25,7 +25,7 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[1] { 5 };
                         var byteArray = (byte[])new ArrayCustomBinaryReader<byte>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[4], byteArray[4]);
+                        Assert.That(byteArray[4], Is.EqualTo(array[4]));
                     }
                 }
             }
@@ -49,7 +49,7 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[1] { 3 };
                         var doubleArray = (double[])new ArrayCustomBinaryReader<double>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[0], doubleArray[0]);
+                        Assert.That(doubleArray[0], Is.EqualTo(array[0]));
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[1] { 3 };
                         var floatArray = (float[])new ArrayCustomBinaryReader<float>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[2], floatArray[2]);
+                        Assert.That(floatArray[2], Is.EqualTo(array[2]));
                     }
                 }
             }
@@ -97,7 +97,7 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[1] { 4 };
                         var ushortArray = (ushort[])new ArrayCustomBinaryReader<ushort>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[1], ushortArray[1]);
+                        Assert.That(ushortArray[1], Is.EqualTo(array[1]));
                     }
                 }
             }
@@ -121,7 +121,7 @@ namespace Vts.Test.IO
                     {
                         var dims = new int[1] { 2 };
                         var complexArray = (Complex[])new ArrayCustomBinaryReader<Complex>(dims).ReadFromBinary(br);
-                        Assert.AreEqual(array[0], complexArray[0]);
+                        Assert.That(complexArray[0], Is.EqualTo(array[0]));
                     }
                 }
             }

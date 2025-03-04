@@ -42,8 +42,8 @@ namespace Vts.Test.Modeling
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
 
-            Assert.Less(Math.Abs(convergedMua - 0.01), 1e-6);
-            Assert.Less(Math.Abs(convergedMusp - 1.0), 1e-6);
+            Assert.That(Math.Abs(convergedMua - 0.01), Is.LessThan(1e-6));
+            Assert.That(Math.Abs(convergedMusp - 1.0), Is.LessThan(1e-6));
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace Vts.Test.Modeling
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
 
-            Assert.Less(Math.Abs(convergedMua - 0.01), 0.002);
-            Assert.Less(Math.Abs(convergedMusp - 1.0), 0.11);
+            Assert.That(Math.Abs(convergedMua - 0.01), Is.LessThan(0.002));
+            Assert.That(Math.Abs(convergedMusp - 1.0), Is.LessThan(0.11));
         }
 
         /// <summary>
@@ -116,8 +116,8 @@ namespace Vts.Test.Modeling
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
 
-            Assert.Less(Math.Abs(convergedMua - 0.01), 1e-6);
-            Assert.Less(Math.Abs(convergedMusp - 1.0), 1e-6);
+            Assert.That(Math.Abs(convergedMua - 0.01), Is.LessThan(1e-6));
+            Assert.That(Math.Abs(convergedMusp - 1.0), Is.LessThan(1e-6));
         }
 
         /// <summary>  
@@ -152,8 +152,8 @@ namespace Vts.Test.Modeling
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
 
-            Assert.Less(Math.Abs(convergedMua - 0.01), 1e-6);
-            Assert.Less(Math.Abs(convergedMusp - 1.0), 1e-6);
+            Assert.That(Math.Abs(convergedMua - 0.01), Is.LessThan(1e-6));
+            Assert.That(Math.Abs(convergedMusp - 1.0), Is.LessThan(1e-6));
         }
 
     } 

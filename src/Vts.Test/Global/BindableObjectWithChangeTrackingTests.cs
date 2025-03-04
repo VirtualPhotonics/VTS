@@ -9,7 +9,7 @@ namespace Vts.Test
         public void Test_SetProperty()
         {
             var myTestClass = new BindableTestClass { First = 6 };
-            Assert.IsTrue(myTestClass.SettingsChanged);
+            Assert.That(myTestClass.SettingsChanged, Is.True);
         }
 
         [Test]
@@ -17,22 +17,22 @@ namespace Vts.Test
         {
             var myTestClass = new BindableTestClass { First = 6 };
             myTestClass.Reset();
-            Assert.IsFalse(myTestClass.SettingsChanged);
+            Assert.That(myTestClass.SettingsChanged, Is.False);
             myTestClass.First = 0;
-            Assert.AreEqual(0, myTestClass.First);
-            Assert.IsTrue(myTestClass.SettingsChanged);
+            Assert.That(myTestClass.First, Is.EqualTo(0));
+            Assert.That(myTestClass.SettingsChanged, Is.True);
             myTestClass.First = 2;
-            Assert.IsTrue(myTestClass.SettingsChanged);
+            Assert.That(myTestClass.SettingsChanged, Is.True);
         }
 
         [Test]
         public void Test_HandleChangeTracking_unchanged()
         {
             var myTestClass = new BindableTestClass { First = 0 };
-            Assert.AreEqual(0, myTestClass.First);
-            Assert.IsTrue(myTestClass.SettingsChanged);
+            Assert.That(myTestClass.First, Is.EqualTo(0));
+            Assert.That(myTestClass.SettingsChanged, Is.True);
             myTestClass.First = 0;
-            Assert.IsFalse(myTestClass.SettingsChanged);
+            Assert.That(myTestClass.SettingsChanged, Is.False);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Vts.Test
         {
             var myTestClass = new BindableTestClass { First = 0 };
             myTestClass.Reset();
-            Assert.IsFalse(myTestClass.SettingsChanged);
+            Assert.That(myTestClass.SettingsChanged, Is.False);
         }
     }
 }

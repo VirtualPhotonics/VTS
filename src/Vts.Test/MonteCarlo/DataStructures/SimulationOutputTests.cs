@@ -30,9 +30,9 @@ namespace Vts.Test.MonteCarlo
 
             var detector = (ROfAngleDetector)output.ResultsDictionary["testName"];
             var angle = detector.Angle;
-            Assert.AreEqual(0d, angle.Start);
-            Assert.AreEqual(Math.PI, angle.Stop);
-            Assert.AreEqual(10, angle.Count);
+            Assert.That(angle.Start, Is.EqualTo(0d));
+            Assert.That(angle.Stop, Is.EqualTo(Math.PI));
+            Assert.That(angle.Count, Is.EqualTo(10));
         }
 
     }

@@ -41,7 +41,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var chromophoreSpectrum = CreateChromophoreSpectrum();
             chromophoreSpectrum.WriteToJson("ChromophoreSpectrum.txt");
-            Assert.IsTrue(FileIO.FileExists("ChromophoreSpectrum.txt"));
+            Assert.That(FileIO.FileExists("ChromophoreSpectrum.txt"), Is.True);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             chromophoreSpectrum.WriteToJson("ChromophoreSpectrum.txt");
 
             var chromophoreSpectrumRead = FileIO.ReadFromJson<ChromophoreSpectrum>("ChromophoreSpectrum.txt");
-            Assert.IsInstanceOf<ChromophoreSpectrum>(chromophoreSpectrumRead);
+            Assert.That(chromophoreSpectrumRead, Is.InstanceOf<ChromophoreSpectrum>());
         }
 
         private static ChromophoreSpectrum CreateChromophoreSpectrum()

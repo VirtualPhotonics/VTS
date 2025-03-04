@@ -44,7 +44,7 @@ namespace Vts.Test.MonteCarlo
             var savedRNG5 = savedRNG.NextDouble();
             // normal processing next rng
             var rng5 = rng.NextDouble();
-            Assert.IsTrue(rng5 == savedRNG5);
+            Assert.That(rng5 == savedRNG5, Is.True);
         }
 
     }

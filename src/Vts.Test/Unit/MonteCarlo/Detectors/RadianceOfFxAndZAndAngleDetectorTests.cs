@@ -64,30 +64,30 @@ public class RadianceOfFxAndZAndAngleDetectorTests
 
         DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
 
-        Assert.AreEqual(1 + Complex.ImaginaryOne, detector.Mean[0, 0, 0]);
-        Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[0, 0, 1]);
-        Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[0, 0, 2]);
-        Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[0, 1, 0]);
-        Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[0, 1, 1]);
-        Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[0, 1, 2]);
-        Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.Mean[1, 0, 0]);
-        Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.Mean[1, 0, 1]);
-        Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.Mean[1, 0, 2]);
-        Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.Mean[1, 1, 0]);
-        Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.Mean[1, 1, 1]);
-        Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.Mean[1, 1, 2]);
+        Assert.That(detector.Mean[0, 0, 0], Is.EqualTo(1 + Complex.ImaginaryOne));
+        Assert.That(detector.Mean[0, 0, 1], Is.EqualTo(2 + 2 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[0, 0, 2], Is.EqualTo(3 + 3 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[0, 1, 0], Is.EqualTo(4 + 4 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[0, 1, 1], Is.EqualTo(5 + 5 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[0, 1, 2], Is.EqualTo(6 + 6 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[1, 0, 0], Is.EqualTo(7 + 7 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[1, 0, 1], Is.EqualTo(8 + 8 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[1, 0, 2], Is.EqualTo(9 + 9 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[1, 1, 0], Is.EqualTo(10 + 10 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[1, 1, 1], Is.EqualTo(11 + 11 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[1, 1, 2], Is.EqualTo(12 + 12 * Complex.ImaginaryOne));
         if (!tallySecondMoment) return;
-        Assert.AreEqual(13 + 13 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 0]);
-        Assert.AreEqual(14 + 14 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 1]);
-        Assert.AreEqual(15 + 15 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 2]);
-        Assert.AreEqual(16 + 16 * Complex.ImaginaryOne, detector.SecondMoment[0, 1, 0]);
-        Assert.AreEqual(17 + 17 * Complex.ImaginaryOne, detector.SecondMoment[0, 1, 1]);
-        Assert.AreEqual(18 + 18 * Complex.ImaginaryOne, detector.SecondMoment[0, 1, 2]);
-        Assert.AreEqual(19 + 19 * Complex.ImaginaryOne, detector.SecondMoment[1, 0, 0]);
-        Assert.AreEqual(20 + 20 * Complex.ImaginaryOne, detector.SecondMoment[1, 0, 1]);
-        Assert.AreEqual(21 + 21 * Complex.ImaginaryOne, detector.SecondMoment[1, 0, 2]);
-        Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.SecondMoment[1, 1, 0]);
-        Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.SecondMoment[1, 1, 1]);
-        Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.SecondMoment[1, 1, 2]);
+        Assert.That(detector.SecondMoment[0, 0, 0], Is.EqualTo(13 + 13 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[0, 0, 1], Is.EqualTo(14 + 14 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[0, 0, 2], Is.EqualTo(15 + 15 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[0, 1, 0], Is.EqualTo(16 + 16 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[0, 1, 1], Is.EqualTo(17 + 17 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[0, 1, 2], Is.EqualTo(18 + 18 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[1, 0, 0], Is.EqualTo(19 + 19 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[1, 0, 1], Is.EqualTo(20 + 20 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[1, 0, 2], Is.EqualTo(21 + 21 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[1, 1, 0], Is.EqualTo(22 + 22 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[1, 1, 1], Is.EqualTo(23 + 23 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[1, 1, 2], Is.EqualTo(24 + 24 * Complex.ImaginaryOne));
     }
 }

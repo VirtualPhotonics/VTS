@@ -47,12 +47,12 @@ public class pMCROfFxDetectorTests
 
         DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
 
-        Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0]);
-        Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[1]);
-        Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[2]);
+        Assert.That(detector.Mean[0], Is.EqualTo(1 + 1 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[1], Is.EqualTo(2 + 2 * Complex.ImaginaryOne));
+        Assert.That(detector.Mean[2], Is.EqualTo(3 + 3 * Complex.ImaginaryOne));
         if (!tallySecondMoment) return;
-        Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.SecondMoment[0]);
-        Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.SecondMoment[1]);
-        Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.SecondMoment[2]);
+        Assert.That(detector.SecondMoment[0], Is.EqualTo(4 + 4 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[1], Is.EqualTo(5 + 5 * Complex.ImaginaryOne));
+        Assert.That(detector.SecondMoment[2], Is.EqualTo(6 + 6 * Complex.ImaginaryOne));
     }
 }

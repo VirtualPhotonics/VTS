@@ -24,7 +24,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomVolumetricEllipsoidalSourceInput();
-            Assert.IsInstanceOf<CustomVolumetricEllipsoidalSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomVolumetricEllipsoidalSourceInput>());
             // check full definition
             si = new CustomVolumetricEllipsoidalSourceInput(
                     1.0,
@@ -37,10 +37,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsInstanceOf<CustomVolumetricEllipsoidalSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomVolumetricEllipsoidalSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<CustomVolumetricEllipsoidalSource>(source);
+            Assert.That(source, Is.InstanceOf<CustomVolumetricEllipsoidalSource>());
         }
         /// <summary>
         /// Validate General Constructor of Custom Flat VolumetricEllipsoidal Source
@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.Y - center.Y) * (photon.DP.Position.Y - center.Y) / (bParameter * bParameter) +
                     (photon.DP.Position.Z - center.Z) * (photon.DP.Position.Z - center.Z) / (cParameter * cParameter);
                 // check position is inside volume
-                Assert.IsTrue(inside <= 1.0);
+                Assert.That(inside <= 1.0, Is.True);
             }
 
         }
@@ -125,7 +125,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.Y - center.Y) / bParameter + (photon.DP.Position.Y - center.Y) / bParameter +
                     (photon.DP.Position.Z - center.Z) / cParameter + (photon.DP.Position.Z - center.Z) / cParameter;
                 // check position is inside volume
-                Assert.IsTrue(inside <= 1.0);
+                Assert.That(inside <= 1.0, Is.True);
             }
         }        
         

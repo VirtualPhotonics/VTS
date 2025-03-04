@@ -11,13 +11,13 @@ namespace Vts.Test.IO
         public void Test_known_types()
         {
             var knownTypes = KnownTypes.CurrentKnownTypes;
-            Assert.IsFalse(knownTypes.ContainsKey("OpticalProperties"));
+            Assert.That(knownTypes.ContainsKey("OpticalProperties"), Is.False);
             KnownTypes.Add(typeof(OpticalProperties));
             knownTypes = KnownTypes.CurrentKnownTypes;
-            Assert.IsTrue(knownTypes.ContainsKey("Vts.OpticalProperties"));
+            Assert.That(knownTypes.ContainsKey("Vts.OpticalProperties"), Is.True);
             KnownTypes.Add(typeof(Position));
             knownTypes = KnownTypes.CurrentKnownTypes;
-            Assert.IsTrue(knownTypes.ContainsKey("Vts.Common.Position"));
+            Assert.That(knownTypes.ContainsKey("Vts.Common.Position"), Is.True);
         }
     }
 }

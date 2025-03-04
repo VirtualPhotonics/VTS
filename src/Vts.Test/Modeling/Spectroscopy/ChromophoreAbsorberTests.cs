@@ -18,14 +18,14 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_concentration_units()
         {
             var concentrationUnits = _chromophoreAbsorber.ConcentrationUnits;
-            Assert.AreEqual("vol. frac.", concentrationUnits);
+            Assert.That(concentrationUnits, Is.EqualTo("vol. frac."));
         }
 
         [Test]
         public void Test_to_string()
         {
             var name = _chromophoreAbsorber.ToString();
-            Assert.AreEqual("H2O", name);
+            Assert.That(name, Is.EqualTo("H2O"));
         }
     }
 }

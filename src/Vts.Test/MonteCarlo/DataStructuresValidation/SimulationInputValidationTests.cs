@@ -26,7 +26,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 SourceInput = new CustomPointSourceInput { InitialTissueRegionIndex = 100 }
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 DetectorInputs = new List<IDetectorInput>()
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 }
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 DetectorInputs = new List<IDetectorInput> { new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()}
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                  }
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             input.Options.AbsorptionWeightingType = AbsorptionWeightingType.Analog;
             input.Options.RussianRouletteWeightThreshold = 0.1;
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var output = new StringWriter();
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(result.IsValid, Is.True); // only warning
             Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: off center ellipsoid in tissue with cylindrical detector defined: user discretion advised"));
         }
 
@@ -157,7 +157,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var output = new StringWriter();
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(result.IsValid, Is.True); // only warning
             Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined: user discretion advised"));
         }
 
@@ -186,7 +186,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var output = new StringWriter();
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(result.IsValid, Is.True); // only warning
             Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: voxel in tissue with cylindrical detector defined: user discretion advised"));
         }
 
@@ -204,7 +204,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput() }
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid); 
+            Assert.That(result.IsValid, Is.False); 
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var output = new StringWriter();
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(result.IsValid, Is.True); // only warning
             Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised"));
         }
 
@@ -247,7 +247,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 }
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var output = new StringWriter();
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(result.IsValid, Is.True); // only warning
             Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised"));
         }
 
@@ -300,7 +300,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var output = new StringWriter();
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(result.IsValid, Is.True); // only warning
             Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised"));
         }
 
@@ -328,7 +328,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 })
             };
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             };
             // verify when blood volume fraction size is same as tissue
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
             // create case when validation fails
             input = new SimulationInput
             {
@@ -466,7 +466,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             };
             // verify when blood volume fraction size is same as tissue
             result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
     }
 }

@@ -14,10 +14,10 @@ namespace Vts.Test.Common.Math
             var imaginary = new double[4] { -4.68e-4, -9.26e-4, -1.37e-3, -1.79e-3 };
             var phase = Convert.ToPhase(real, imaginary);
             // compare results with results calculated elsewhere (using perl script pham)
-            Assert.IsTrue(System.Math.Abs(phase[0] - 1.3207) < 0.001);
-            Assert.IsTrue(System.Math.Abs(phase[1] - 2.6247) < 0.001);
-            Assert.IsTrue(System.Math.Abs(phase[2] - 3.8992) < 0.001);
-            Assert.IsTrue(System.Math.Abs(phase[3] - 5.1143) < 0.001);
+            Assert.That(System.Math.Abs(phase[0] - 1.3207) < 0.001, Is.True);
+            Assert.That(System.Math.Abs(phase[1] - 2.6247) < 0.001, Is.True);
+            Assert.That(System.Math.Abs(phase[2] - 3.8992) < 0.001, Is.True);
+            Assert.That(System.Math.Abs(phase[3] - 5.1143) < 0.001, Is.True);
         }
         [Test]
         public void Validate_ToAmplitude_returns_correct_values()
@@ -26,10 +26,10 @@ namespace Vts.Test.Common.Math
             var imaginary = new double[4] { -4.68e-4, -9.26e-4, -1.37e-3, -1.79e-3 };
             var amp = Convert.ToAmplitude(real, imaginary);
             // compare results with results calculated elsewhere (using perl script pham)
-            Assert.IsTrue(System.Math.Abs(amp[0] - 0.0203) < 0.0001);
-            Assert.IsTrue(System.Math.Abs(amp[1] - 0.0202) < 0.0001);
-            Assert.IsTrue(System.Math.Abs(amp[2] - 0.0201) < 0.0001);
-            Assert.IsTrue(System.Math.Abs(amp[3] - 0.0201) < 0.0001);
+            Assert.That(System.Math.Abs(amp[0] - 0.0203) < 0.0001, Is.True);
+            Assert.That(System.Math.Abs(amp[1] - 0.0202) < 0.0001, Is.True);
+            Assert.That(System.Math.Abs(amp[2] - 0.0201) < 0.0001, Is.True);
+            Assert.That(System.Math.Abs(amp[3] - 0.0201) < 0.0001, Is.True);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Vts.Test.Common.Math
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("Error in ToPhase: real and imaginary arrays are not the same size!", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("Error in ToPhase: real and imaginary arrays are not the same size!"));
                     throw;
                 }
             });
@@ -64,7 +64,7 @@ namespace Vts.Test.Common.Math
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("Error in ToAmplitude: real and imaginary arrays are not the same size!", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("Error in ToAmplitude: real and imaginary arrays are not the same size!"));
                     throw;
                 }
             });

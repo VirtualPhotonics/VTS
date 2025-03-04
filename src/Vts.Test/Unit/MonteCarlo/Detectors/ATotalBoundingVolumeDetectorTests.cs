@@ -39,6 +39,6 @@ public class ATotalBoundingVolumeDetectorTests
         };
 
         var serializers = detector.GetBinarySerializers();
-        Assert.AreEqual(Array.Empty<BinaryArraySerializer>(), serializers);
+        Assert.That(serializers, Is.EqualTo(Array.Empty<BinaryArraySerializer>()));
     }
 }

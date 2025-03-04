@@ -15,8 +15,7 @@ namespace Vts.Test.Modeling
 
             for (int i = 0; i < JzeroZeros.Length; i++)
 			{
-			    Assert.Less(Math.Abs(AdvancedMath.BesselJ(0,JzeroZeros[i])), minThreshold,
-                    "Error occured at i = {0}",i);
+			    Assert.That(Math.Abs(AdvancedMath.BesselJ(0,JzeroZeros[i])), Is.LessThan(minThreshold), $"Error occured at i = {i}");
 			}   
         }
     }

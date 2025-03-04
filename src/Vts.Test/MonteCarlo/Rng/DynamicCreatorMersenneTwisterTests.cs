@@ -37,8 +37,8 @@ namespace Vts.Test.MonteCarlo
             {
                 //genrand_mt_return = rng.genrand_mt(ref mts)
                 RN = rng.NextDouble();
-                Assert.AreEqual(RN / reciprocal, cCodeResultsUints[i]);
-                Assert.IsTrue(Math.Abs(RN - cCodeResultsRNs[i]) < 0.000001);
+                Assert.That(cCodeResultsUints[i], Is.EqualTo(RN / reciprocal));
+                Assert.That(Math.Abs(RN - cCodeResultsRNs[i]) < 0.000001, Is.True);
             }
         }
 
@@ -76,9 +76,9 @@ namespace Vts.Test.MonteCarlo
             // compare output of mts0, mts1, mts2, ten times */
 
             for (int i = 0; i < 10; i++) {               
-                Assert.AreEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[0, i]);
-                Assert.AreEqual(rng1.NextDouble() / reciprocal, cCodeResultsUints[1, i]);
-                Assert.AreEqual(rng2.NextDouble() / reciprocal, cCodeResultsUints[2, i]);
+                Assert.That(cCodeResultsUints[0, i], Is.EqualTo(rng0.NextDouble() / reciprocal));
+                Assert.That(cCodeResultsUints[1, i], Is.EqualTo(rng1.NextDouble() / reciprocal));
+                Assert.That(cCodeResultsUints[2, i], Is.EqualTo(rng2.NextDouble() / reciprocal));
             }
         }
 
@@ -106,7 +106,7 @@ namespace Vts.Test.MonteCarlo
             var rng = new DynamicCreatorMersenneTwister(0);
             // get first MT id = 0
             mtss = rng.get_mt_parameters_st(32, 521, 3, 5, 4172, ref count);
-            Assert.IsTrue(mtss[0].state != null);
+            Assert.That(mtss[0].state != null, Is.True);
             for (int i = 0; i < count; i++)
             {
                 rng.sgenrand_mt((uint)seed[i], ref mtss[i]);
@@ -116,7 +116,7 @@ namespace Vts.Test.MonteCarlo
             {
                 for (int j = 0; j < count; j++)
                 {
-                    Assert.AreEqual(rng.genrand_mt(ref mtss[j]), cCodeResultsUints[j, i]);
+                    Assert.That(cCodeResultsUints[j, i], Is.EqualTo(rng.genrand_mt(ref mtss[j])));
                 }
             }
         }
@@ -138,14 +138,14 @@ namespace Vts.Test.MonteCarlo
             var rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
             for (int i = 0; i < 10; i++)
             {
-                Assert.AreEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
+                Assert.That(cCodeResultsUints[i], Is.EqualTo(rng0.NextDouble() / reciprocal));
             }
             // change only seed and verify results no longer match
             seed = 5678;
             rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
             for (int i = 0; i < 10; i++)
             {
-                Assert.AreNotEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
+                Assert.That(cCodeResultsUints[i], Is.Not.EqualTo(rng0.NextDouble() / reciprocal));
             }
             // change only streamSeed and verify results no longer match
             seed = 1234;  // set back to original value
@@ -153,7 +153,7 @@ namespace Vts.Test.MonteCarlo
             rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
             for (int i = 0; i < 10; i++)
             {
-                Assert.AreNotEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
+                Assert.That(cCodeResultsUints[i], Is.Not.EqualTo(rng0.NextDouble() / reciprocal));
             }
         }
     }

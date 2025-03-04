@@ -16,20 +16,20 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
-            Assert.IsTrue(virtualBoundaryType.IsSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSurfaceVirtualBoundary(), Is.True);
             virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
-            Assert.IsTrue(virtualBoundaryType.IsSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSurfaceVirtualBoundary(), Is.True);
             virtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
-            Assert.IsTrue(virtualBoundaryType.IsSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSurfaceVirtualBoundary(), Is.True);
             virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsTrue(virtualBoundaryType.IsSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSurfaceVirtualBoundary(), Is.True);
             virtualBoundaryType = VirtualBoundaryType.InternalSurface;
-            Assert.IsTrue(virtualBoundaryType.IsSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSurfaceVirtualBoundary(), Is.True);
             // validate those that are false
             virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
-            Assert.IsFalse(virtualBoundaryType.IsSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSurfaceVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.BoundingVolume;
-            Assert.IsFalse(virtualBoundaryType.IsSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSurfaceVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(
@@ -43,20 +43,20 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
-            Assert.IsTrue(virtualBoundaryType.IsVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsVolumeVirtualBoundary(), Is.True);
             virtualBoundaryType = VirtualBoundaryType.BoundingVolume;
-            Assert.IsTrue(virtualBoundaryType.IsVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsVolumeVirtualBoundary(), Is.True);
             // validate those that are false
             virtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
-            Assert.IsFalse(virtualBoundaryType.IsVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsVolumeVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
-            Assert.IsFalse(virtualBoundaryType.IsVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsVolumeVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
-            Assert.IsFalse(virtualBoundaryType.IsVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsVolumeVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsFalse(virtualBoundaryType.IsVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsVolumeVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.InternalSurface;
-            Assert.IsFalse(virtualBoundaryType.IsVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsVolumeVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(
@@ -71,12 +71,12 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
-            Assert.IsTrue(virtualBoundaryType.IsReflectanceSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsReflectanceSurfaceVirtualBoundary(), Is.True);
             virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsTrue(virtualBoundaryType.IsReflectanceSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsReflectanceSurfaceVirtualBoundary(), Is.True);
             // validate one that is false
             virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
-            Assert.IsFalse(virtualBoundaryType.IsReflectanceSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsReflectanceSurfaceVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(
@@ -90,10 +90,10 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
-            Assert.IsTrue(virtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary(), Is.True);
             // validate one that is false
             virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsFalse(virtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(
@@ -107,10 +107,10 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
-            Assert.IsTrue(virtualBoundaryType.IsSpecularSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSpecularSurfaceVirtualBoundary(), Is.True);
             // validate one that is false
             virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsFalse(virtualBoundaryType.IsSpecularSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsSpecularSurfaceVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(
@@ -124,10 +124,10 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.InternalSurface;
-            Assert.IsTrue(virtualBoundaryType.IsInternalSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsInternalSurfaceVirtualBoundary(), Is.True);
             // validate one that is false
             virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsFalse(virtualBoundaryType.IsInternalSurfaceVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsInternalSurfaceVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(
@@ -141,10 +141,10 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
-            Assert.IsTrue(virtualBoundaryType.IsGenericVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsGenericVolumeVirtualBoundary(), Is.True);
             // validate one that is false
             virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsFalse(virtualBoundaryType.IsGenericVolumeVirtualBoundary());
+            Assert.That(virtualBoundaryType.IsGenericVolumeVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(
@@ -158,16 +158,16 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
-            Assert.IsTrue(virtualBoundaryType.IspMCVirtualBoundary()); 
+            Assert.That(virtualBoundaryType.IspMCVirtualBoundary(), Is.True); 
             // validate one that is false
             virtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
-            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+            Assert.That(virtualBoundaryType.IspMCVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
-            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+            Assert.That(virtualBoundaryType.IspMCVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
-            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+            Assert.That(virtualBoundaryType.IspMCVirtualBoundary(), Is.False);
             virtualBoundaryType = VirtualBoundaryType.InternalSurface;
-            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+            Assert.That(virtualBoundaryType.IspMCVirtualBoundary(), Is.False);
             // check if enum set to something out of range
             virtualBoundaryType = (VirtualBoundaryType)Enum.GetNames(typeof(VirtualBoundaryType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(

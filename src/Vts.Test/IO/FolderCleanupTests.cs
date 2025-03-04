@@ -17,13 +17,13 @@ namespace Vts.Test.IO
             {
                 directory = $"directory_cleanup_{i}";
                 Directory.CreateDirectory(directory);
-                Assert.IsTrue(Directory.Exists(directory));
+                Assert.That(Directory.Exists(directory), Is.True);
             }
             FolderCleanup.DeleteDirectoryContaining(currentPath, "directory_cleanup");
             for (var i = 1; i < 4; i++)
             {
                 directory = $"directory_cleanup_{i}";
-                Assert.IsFalse(Directory.Exists(directory));
+                Assert.That(Directory.Exists(directory), Is.False);
             }
         }
 
@@ -36,13 +36,13 @@ namespace Vts.Test.IO
             {
                 file = $"file_cleanup_{i}.txt";
                 FileIO.WriteToTextFile("Text", file);
-                Assert.IsTrue(File.Exists(file));
+                Assert.That(File.Exists(file), Is.True);
             }
             FolderCleanup.DeleteFileContaining(currentPath, "file_cleanup");
             for (var i = 1; i < 4; i++)
             {
                 file = $"file_cleanup_{i}.txt";
-                Assert.IsFalse(File.Exists(file));
+                Assert.That(File.Exists(file), Is.False);
             }
         }
     }

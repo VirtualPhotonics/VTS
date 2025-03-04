@@ -43,4 +43,4 @@ $source="$matlabdir\vts_wrapper\*"
 
 Compress-Archive -Path $source -DestinationPath $archive -Force
 
-Read-Host -Prompt "Press Enter to exit MATLAB release process"
+Read-Host -Prompt "MATLAB release complete, press Enter to exit MATLAB release process"

@@ -117,24 +117,24 @@ namespace Vts.Test.MonteCarlo.Sources
             var loader = _rhozLoaderCdf;
             // check that arrays are of correct dimension (Count-2)
             // note that what gets loaded as fluorescent source has dimensions one less than absorbed energy map
-            Assert.AreEqual(loader.MapOfRhoAndZ.GetLength(0), loader.Rho.Count - 2);
-            Assert.AreEqual(loader.MapOfRhoAndZ.GetLength(1), loader.Z.Count - 2);
-            Assert.AreEqual(loader.PDFOfRhoAndZ.GetLength(0), loader.Rho.Count - 2);
-            Assert.AreEqual(loader.PDFOfRhoAndZ.GetLength(1), loader.Z.Count - 2);
-            Assert.AreEqual(loader.CDFOfRhoAndZ.GetLength(0), loader.Rho.Count - 2);
-            Assert.AreEqual(loader.CDFOfRhoAndZ.GetLength(1), loader.Z.Count - 2);
+            Assert.That(loader.Rho.Count - 2, Is.EqualTo(loader.MapOfRhoAndZ.GetLength(0)));
+            Assert.That(loader.Z.Count - 2, Is.EqualTo(loader.MapOfRhoAndZ.GetLength(1)));
+            Assert.That(loader.Rho.Count - 2, Is.EqualTo(loader.PDFOfRhoAndZ.GetLength(0)));
+            Assert.That(loader.Z.Count - 2, Is.EqualTo(loader.PDFOfRhoAndZ.GetLength(1)));
+            Assert.That(loader.Rho.Count - 2, Is.EqualTo(loader.CDFOfRhoAndZ.GetLength(0)));
+            Assert.That(loader.Z.Count - 2, Is.EqualTo(loader.CDFOfRhoAndZ.GetLength(1)));
             // check that Map is 1 in region of AOfRhoAndZ
-            Assert.AreEqual(1,loader.MapOfRhoAndZ[0, 0]);
-            Assert.AreEqual(1,loader.MapOfRhoAndZ[1, 0]);
-            Assert.AreEqual(1,loader.MapOfRhoAndZ[2, 0]);
+            Assert.That(loader.MapOfRhoAndZ[0, 0], Is.EqualTo(1));
+            Assert.That(loader.MapOfRhoAndZ[1, 0], Is.EqualTo(1));
+            Assert.That(loader.MapOfRhoAndZ[2, 0], Is.EqualTo(1));
             // check that PDF is correct
-            Assert.IsTrue(Math.Abs(loader.PDFOfRhoAndZ[0, 0] - 0.111111) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.PDFOfRhoAndZ[1, 0] - 0.333333) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.PDFOfRhoAndZ[2, 0] - 0.555555) < 1e-6);
+            Assert.That(Math.Abs(loader.PDFOfRhoAndZ[0, 0] - 0.111111) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.PDFOfRhoAndZ[1, 0] - 0.333333) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.PDFOfRhoAndZ[2, 0] - 0.555555) < 1e-6, Is.True);
             // check that CDF is only !=0 in region of infinite cylinder and increasing with z,y,x order
-            Assert.IsTrue(Math.Abs(loader.CDFOfRhoAndZ[0, 0] - 0.111111) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.CDFOfRhoAndZ[1, 0] - 0.444444) < 1e-6);
-            Assert.IsTrue(Math.Abs(loader.CDFOfRhoAndZ[2, 0] - 1.0) < 1e-6);
+            Assert.That(Math.Abs(loader.CDFOfRhoAndZ[0, 0] - 0.111111) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.CDFOfRhoAndZ[1, 0] - 0.444444) < 1e-6, Is.True);
+            Assert.That(Math.Abs(loader.CDFOfRhoAndZ[2, 0] - 1.0) < 1e-6, Is.True);
         }
 
     }

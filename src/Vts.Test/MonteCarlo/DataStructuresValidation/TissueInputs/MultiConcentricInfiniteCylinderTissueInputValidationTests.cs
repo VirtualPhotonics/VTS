@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that at least one tissue layer is defined
@@ -141,7 +141,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that infinite cylinders have same center
@@ -186,7 +186,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that infinite cylinders are entirely contained within tissue layer
@@ -230,7 +230,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
         }
     }
 }

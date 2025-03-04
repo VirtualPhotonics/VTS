@@ -30,8 +30,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center, 
                 radius, 
                 out distanceToBoundary);
-            Assert.IsTrue(intersection); // single intersection
-            Assert.Less(Math.Abs(distanceToBoundary - 0.5), 0.000001);
+            Assert.That(intersection, Is.True); // single intersection
+            Assert.That(Math.Abs(distanceToBoundary - 0.5), Is.LessThan(0.000001));
             position2 = new Position(1, 0, 0);
             intersection = CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
                 position1,
@@ -41,8 +41,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsFalse(intersection); // no intersection
-            Assert.Less(Math.Abs(distanceToBoundary - double.PositiveInfinity), 0.000001);
+            Assert.That(intersection, Is.False); // no intersection
+            Assert.That(Math.Abs(distanceToBoundary - double.PositiveInfinity), Is.LessThan(0.000001));
             position1 = new Position(0, 0, 0);
             position2 = new Position(0, 0, 2);
             intersection = CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
@@ -53,8 +53,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsTrue(intersection); // double intersection
-            Assert.Less(Math.Abs(distanceToBoundary - 0.5), 0.000001);
+            Assert.That(intersection, Is.True); // double intersection
+            Assert.That(Math.Abs(distanceToBoundary - 0.5), Is.LessThan(0.000001));
             // test cylinder with axis along y-axis
             position1 = new Position(0, 0, 0);
             position2 = new Position(0, 0, 1);
@@ -66,8 +66,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsTrue(intersection); // single intersection
-            Assert.Less(Math.Abs(distanceToBoundary - 0.5), 0.000001);
+            Assert.That(intersection, Is.True); // single intersection
+            Assert.That(Math.Abs(distanceToBoundary - 0.5), Is.LessThan(0.000001));
             position2 = new Position(1, 0, 0);
             intersection = CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
                 position1,
@@ -77,8 +77,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsFalse(intersection); // no intersection
-            Assert.Less(Math.Abs(distanceToBoundary - double.PositiveInfinity), 0.000001);
+            Assert.That(intersection, Is.False); // no intersection
+            Assert.That(Math.Abs(distanceToBoundary - double.PositiveInfinity), Is.LessThan(0.000001));
             position1 = new Position(0, 0, 0);
             position2 = new Position(0, 0, 2);
             intersection = CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
@@ -89,8 +89,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsTrue(intersection); // double intersection
-            Assert.Less(Math.Abs(distanceToBoundary - 0.5), 0.000001);
+            Assert.That(intersection, Is.True); // double intersection
+            Assert.That(Math.Abs(distanceToBoundary - 0.5), Is.LessThan(0.000001));
             // test cylinder with axis along z-axis
             position1 = new Position(1, 0, 1);
             position2 = new Position(0, 0, 1);
@@ -102,8 +102,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsTrue(intersection); // single intersection
-            Assert.Less(Math.Abs(distanceToBoundary - 0.5), 0.000001);
+            Assert.That(intersection, Is.True); // single intersection
+            Assert.That(Math.Abs(distanceToBoundary - 0.5), Is.LessThan(0.000001));
             position2 = new Position(1, 0, 0);
             intersection = CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
                 position1,
@@ -113,8 +113,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsFalse(intersection); // no intersection
-            Assert.Less(Math.Abs(distanceToBoundary - double.PositiveInfinity), 0.000001);
+            Assert.That(intersection, Is.False); // no intersection
+            Assert.That(Math.Abs(distanceToBoundary - double.PositiveInfinity), Is.LessThan(0.000001));
             position2 = new Position(-1, 0, 1);
             intersection = CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
                 position1,
@@ -124,8 +124,8 @@ namespace Vts.Test.MonteCarlo.Tissues
                 center,
                 radius,
                 out distanceToBoundary);
-            Assert.IsTrue(intersection); // double intersection
-            Assert.Less(Math.Abs(distanceToBoundary - 0.5), 0.000001);
+            Assert.That(intersection, Is.True); // double intersection
+            Assert.That(Math.Abs(distanceToBoundary - 0.5), Is.LessThan(0.000001));
         }
     }
 }

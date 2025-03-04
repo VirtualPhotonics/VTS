@@ -118,8 +118,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.SourceInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.ValidationRule != null);
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.ValidationRule != null, Is.True);
         }
     }
 }

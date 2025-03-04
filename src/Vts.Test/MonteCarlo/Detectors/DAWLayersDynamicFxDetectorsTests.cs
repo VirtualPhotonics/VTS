@@ -173,10 +173,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_ReflectedDynamicMTOfFxAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt[0, 0].Magnitude - 0.239141), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt[0, 1].Magnitude - 0.101220), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 0].Magnitude - 0.228981), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 1].Magnitude - 0.085544), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt[0, 0].Magnitude - 0.239141), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt[0, 1].Magnitude - 0.101220), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 0].Magnitude - 0.228981), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 1].Magnitude - 0.085544), Is.LessThan(0.000001));
             // verify mean integral over MT equals R(Fx) results
             var mtbins = ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.First(
                 d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist")).MTBins;
@@ -186,7 +186,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.RefDynMT_fxmt[0, i].Real + 
                     Complex.ImaginaryOne * _outputOneLayerTissue.RefDynMT_fxmt[0, i].Imaginary;
             }
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fx[0].Magnitude - integral.Magnitude), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_fx[0].Magnitude - integral.Magnitude), Is.LessThan(0.000001));
             // verify that sum of FractionalMT for a particular region and dynamic or static summed over
             // other indices equals Mean(fx,mt)
             var fxs = ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.First(
@@ -205,36 +205,36 @@ namespace Vts.Test.MonteCarlo.Detectors
                             Complex.ImaginaryOne * _outputOneLayerTissue.RefDynMT_fxmt_frac[i, j, m].Imaginary;
                     }
                     // NOTE: need to add real and imag and take mag at end rather than sum magnitude
-                    Assert.Less(Math.Abs(integral.Magnitude - _outputOneLayerTissue.RefDynMT_fxmt[i, j].Magnitude), 0.001);
+                    Assert.That(Math.Abs(integral.Magnitude - _outputOneLayerTissue.RefDynMT_fxmt[i, j].Magnitude), Is.LessThan(0.001));
                 }
             }
             // validate a few fractional values - indices Fx, mtbins, fraction
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_frac[0, 0, 1].Magnitude - 0.0098), 0.0001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_frac[0, 0, 2].Magnitude - 0.0094), 0.0001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_frac[0, 0, 1].Magnitude - 0.0098), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_frac[0, 0, 2].Magnitude - 0.0094), Is.LessThan(0.0001));
             // validate 2 layer tissue results 
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_frac[0, 0, 1].Magnitude - 0.0098), 0.0001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_frac[0, 0, 2].Magnitude - 0.0094), 0.0001);
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_frac[0, 0, 1].Magnitude - 0.0098), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_frac[0, 0, 2].Magnitude - 0.0094), Is.LessThan(0.0001));
             // validate dynamic results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_dynofz[0, 1].Magnitude - 0.9033), 0.0001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_dynofz[0, 1].Magnitude - 0.9033), 0.0001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_dynofz[0, 2].Magnitude - 0.8761), 0.0001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_dynofz[0, 2].Magnitude - 0.8761), 0.0001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_dynofz[0, 1].Magnitude - 0.9033), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_dynofz[0, 1].Magnitude - 0.9033), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_dynofz[0, 2].Magnitude - 0.8761), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_dynofz[0, 2].Magnitude - 0.8761), Is.LessThan(0.0001));
             // validate SubregionCollision static, dynamic count for one and two layer tissue
-            Assert.AreEqual(16883, _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 0]);
-            Assert.AreEqual(16572, _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 1]);
-            Assert.AreEqual(274, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 0]);
-            Assert.AreEqual(62, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 1]);
-            Assert.AreEqual(16707, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 0]);
-            Assert.AreEqual(16412, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 1]);
+            Assert.That(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 0], Is.EqualTo(16883));
+            Assert.That(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 1], Is.EqualTo(16572));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 0], Is.EqualTo(274));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 1], Is.EqualTo(62));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 0], Is.EqualTo(16707));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 1], Is.EqualTo(16412));
             // verify one layer totals equal two layer totals
             // note: the two layer static (or dynamic) sum will not equal the one layer static (or dynamic)
             // because of the random number call to determine which collisions are static vs dynamic
-            Assert.AreEqual(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1,0]+
-                            _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1,1],
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,0]+
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,1]+
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,0]+
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,1]);
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,0]+
+                        _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,1]+
+                        _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,0]+
+                        _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,1],
+                        Is.EqualTo(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 0] +
+                                   _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 1]));
         }
 
         // Transmitted Momentum Transfer of Fx and SubRegion
@@ -242,8 +242,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_TransmittedDynamicMTOfFxAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt[0, 9].Magnitude - 0.003957), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt2[0, 9].Magnitude - 0.001565), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt[0, 9].Magnitude - 0.003957), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt2[0, 9].Magnitude - 0.001565), Is.LessThan(0.000001));
             // make sure mean integral over MT equals T(Fx) results
             var mtbins = ((TransmittedDynamicMTOfFxAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.First(
                 d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist")).MTBins;
@@ -252,7 +252,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 integral += _outputOneLayerTissue.TransDynMT_fxmt[0, i].Magnitude;
             }
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_fx[0].Magnitude - integral), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.T_fx[0].Magnitude - integral), Is.LessThan(0.000001));
         }
 
     }

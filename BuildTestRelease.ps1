@@ -15,4 +15,4 @@ if (Get-Command "matlab" -ErrorAction SilentlyContinue)
   Invoke-Expression ".\BuildTestReleaseMATLAB.ps1 $vts_version"
 }
 
-Read-Host -Prompt "Press Enter to exit"
+Read-Host -Prompt "VTS build and release complete, press Enter to exit"

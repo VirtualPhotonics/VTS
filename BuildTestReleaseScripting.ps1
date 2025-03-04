@@ -19,4 +19,4 @@ $archive="$PWD\release\VTS_Scripting_v" + $version + ".zip"
 $source="$vtslevel\publish\local\*"
 Compress-Archive -Path $source -DestinationPath $archive -Force
 
-Read-Host -Prompt "Press Enter to exit Scripting release process"
+Read-Host -Prompt "Scripting release complete, press Enter to exit Scripting release process"
