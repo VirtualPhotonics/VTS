@@ -207,7 +207,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             foreach (var infile in _listOfInfiles)
             {
-                Assert.IsTrue(System.IO.File.Exists("infile_" + infile + ".txt"));
+                Assert.That(System.IO.File.Exists("infile_" + infile + ".txt"), Is.True);
             }
         }
 
@@ -222,7 +222,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 string[] arguments = new[] { "infile=" + "infile_" + infile + ".txt" };
 
                 var result = Program.Main(arguments);
-                Assert.IsTrue(result == 0);
+                Assert.That(result == 0, Is.True);
             }
         }
 
@@ -235,7 +235,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             var arguments = new[] { "infiles=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt,infile_two_layer_ROfRho.txt" };
 
             var result = Program.Main(arguments);
-            Assert.IsTrue(result == 0);
+            Assert.That(result == 0, Is.True);
         }
 
         /// <summary>
@@ -246,9 +246,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var arguments = new[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"));
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"), Is.True);
             // verify infile gets written to output folder
-            Assert.IsTrue(System.IO.File.Exists("one_layer_ROfRho_FluenceOfRhoAndZ/one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
+            Assert.That(System.IO.File.Exists("one_layer_ROfRho_FluenceOfRhoAndZ/one_layer_ROfRho_FluenceOfRhoAndZ.txt"), Is.True);
         }
 
         /// <summary>
@@ -267,9 +267,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             //    {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mus1,0.0001,0.0003,3"}
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results"
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"));
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"), Is.True);
         }
 
         /// <summary>
@@ -285,9 +285,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweeplist=mua1,3,0.01,0.02,0.03"};
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results"
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"));
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"), Is.True);
         }
 
         /// <summary>
@@ -304,10 +304,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "paramsweep=mus1,1.0,1.2,2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2"));
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2"), Is.True);
         }
 
         /// <summary>
@@ -321,8 +321,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=nphot,10,20,2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20"));
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20"), Is.True);
         }
 
         /// <summary>
@@ -338,10 +338,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "paramsweepdelta=mus1,1.0,1.2,0.1"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("two_layer_ROfRho_mua1_0.01_mus1_1.1"));
-            Assert.IsTrue(Directory.Exists("two_layer_ROfRho_mua1_0.02_mus1_1.2"));
-            Assert.IsTrue(Directory.Exists("two_layer_ROfRho_mua1_0.03_mus1_1.2"));
-            Assert.IsTrue(Directory.Exists("two_layer_ROfRho_mua1_0.04_mus1_1.2"));
+            Assert.That(Directory.Exists("two_layer_ROfRho_mua1_0.01_mus1_1.1"), Is.True);
+            Assert.That(Directory.Exists("two_layer_ROfRho_mua1_0.02_mus1_1.2"), Is.True);
+            Assert.That(Directory.Exists("two_layer_ROfRho_mua1_0.03_mus1_1.2"), Is.True);
+            Assert.That(Directory.Exists("two_layer_ROfRho_mua1_0.04_mus1_1.2"), Is.True);
         }
 
         /// <summary>
@@ -355,8 +355,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweeplist=seed,2,-1,0"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_seed_-1"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_seed_0"));
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_seed_-1"), Is.True);
+            Assert.That(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_seed_0"), Is.True);
         }
 
         /// <summary>
@@ -374,9 +374,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results" 
             // so following tests verify that that name got overwritten
-            Assert.IsTrue(Directory.Exists("myResults_mua1_0.01"));
-            Assert.IsTrue(Directory.Exists("myResults_mua1_0.02"));
-            Assert.IsTrue(Directory.Exists("myResults_mua1_0.03"));
+            Assert.That(Directory.Exists("myResults_mua1_0.01"), Is.True);
+            Assert.That(Directory.Exists("myResults_mua1_0.02"), Is.True);
+            Assert.That(Directory.Exists("myResults_mua1_0.03"), Is.True);
         }
 
         /// <summary>
@@ -389,11 +389,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // have to break up arg. strings, otherwise outname taken to be "myResults paramsweep..."
             var arguments = new[] { "infile=infile_pMC_one_layer_ROfRho_DAW.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("pMC_one_layer_ROfRho_DAW"));
-            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"));
-            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.txt"));
-            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"));
-            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt"));
+            Assert.That(Directory.Exists("pMC_one_layer_ROfRho_DAW"), Is.True);
+            Assert.That(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"), Is.True);
+            Assert.That(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.txt"), Is.True);
+            Assert.That(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"), Is.True);
+            Assert.That(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt"), Is.True);
         }
 
         /// <summary>
@@ -416,7 +416,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
 
             var arguments = new[] { $"infile={filename}" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Mus_only"));
+            Assert.That(Directory.Exists("unit_test_one_layer_ROfRho_Mus_only"), Is.True);
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             }
             var arguments = new[] { $"infile={filename}" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_only"));
+            Assert.That(Directory.Exists("unit_test_one_layer_ROfRho_Musp_only"), Is.True);
         }
 
         /// <summary>
@@ -457,13 +457,13 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 { $"infile={filename}" };
 
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"));
+            Assert.That(Directory.Exists("unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"), Is.True);
             var writtenInfile = SimulationInput.FromFile(
                 $"unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent/unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt");
             // infile specifies Mus=5.0 and Musp=1.2 with g=0.8
             // when there is inconsistency in Mus and Musp specification, code modifies Mus to conform to Musp
             // the following test verifies that Mus was modified accordingly
-            Assert.Less(Math.Abs(writtenInfile.TissueInput.Regions[1].RegionOP.Mus - 6.0), 1e-6);
+            Assert.That(Math.Abs(writtenInfile.TissueInput.Regions[1].RegionOP.Mus - 6.0), Is.LessThan( 1e-6));
         }
         /// <summary>
         /// Test to verify fluorescence emission infile runs successfully.  Test first runs MCCL with
@@ -477,15 +477,15 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // run excitation simulation
             var arguments = new[] { "infile=infile_infinite_cylinder_AOfXAndYAndZ.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("infinite_cylinder_AOfXAndYAndZ"));
+            Assert.That(Directory.Exists("infinite_cylinder_AOfXAndYAndZ"), Is.True);
             // verify infile and detector results gets written to output folder
-            Assert.IsTrue(System.IO.File.Exists("infinite_cylinder_AOfXAndYAndZ/infinite_cylinder_AOfXAndYAndZ.txt"));
-            Assert.IsTrue(System.IO.File.Exists("infinite_cylinder_AOfXAndYAndZ/AOfXAndYAndZ"));
+            Assert.That(System.IO.File.Exists("infinite_cylinder_AOfXAndYAndZ/infinite_cylinder_AOfXAndYAndZ.txt"), Is.True);
+            Assert.That(System.IO.File.Exists("infinite_cylinder_AOfXAndYAndZ/AOfXAndYAndZ"), Is.True);
             // run emission simulation
             arguments = new[] { "infile=infile_fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder"));
-            Assert.IsTrue(System.IO.File.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder/ROfXAndY"));
+            Assert.That(Directory.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder"), Is.True);
+            Assert.That(System.IO.File.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder/ROfXAndY"), Is.True);
         }
 
         /// <summary>
@@ -499,9 +499,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile=infile_two_layer_ROfRho.txt", "cpucount=4",
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("two_layer_ROfRho"));
+            Assert.That(Directory.Exists("two_layer_ROfRho"), Is.True);
             // verify infile gets written to output folder
-            Assert.IsTrue(System.IO.File.Exists("two_layer_ROfRho/two_layer_ROfRho.txt"));
+            Assert.That(System.IO.File.Exists("two_layer_ROfRho/two_layer_ROfRho.txt"), Is.True);
         }
         /// <summary>
         /// Test to verify cpucount gets changed to 1 if infile specifies database
@@ -514,7 +514,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile=infile_pMC_one_layer_ROfRho_DAW.txt", "cpucount=4",
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("pMC_one_layer_ROfRho_DAW"));
+            Assert.That(Directory.Exists("pMC_one_layer_ROfRho_DAW"), Is.True);
         }
         /// <summary>
         /// This test relies on the attribute [Benchmark] applied to 
@@ -536,7 +536,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             var arguments = new[] { "infile=infile_invalid.json" };
 
             var result = Program.Main(arguments);
-            Assert.AreEqual(2, result);
+            Assert.That(result, Is.EqualTo(2));
         }
 
         [Test]
@@ -545,7 +545,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             var arguments = new[] { "infile=infile_empty.json" };
 
             var result = Program.Main(arguments);
-            Assert.AreEqual(1, result);
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -553,7 +553,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var arguments = new[] { "undefined=true" };
             var result = Program.Main(arguments);
-            Assert.AreEqual(1, result);
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -561,7 +561,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var arguments = new[] { "help" };
             var result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
         }
 
         [Test]
@@ -569,28 +569,28 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var arguments = new[] { "help=infile" };
             var result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=outpath" };
             result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=outname" };
             result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=cpucount" };
             result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=paramsweep" };
             result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=paramsweepdelta" };
             result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=paramsweeplist" };
             result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=invalid" };
             result = Program.Main(arguments);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
         }
 
         [Test]
@@ -598,19 +598,19 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var version = Program.GetVersionNumber();
             var levels = version.Split('.').Length;
-            Assert.AreEqual(4, levels);
+            Assert.That(levels, Is.EqualTo(4));
             version = Program.GetVersionNumber(1);
             levels = version.Split('.').Length;
-            Assert.AreEqual(1, levels);
+            Assert.That(levels, Is.EqualTo(1));
             version = Program.GetVersionNumber(2);
             levels = version.Split('.').Length;
-            Assert.AreEqual(2, levels);
+            Assert.That(levels, Is.EqualTo(2));
             version = Program.GetVersionNumber(3);
             levels = version.Split('.').Length;
-            Assert.AreEqual(3, levels);
+            Assert.That(levels, Is.EqualTo(3));
             version = Program.GetVersionNumber(5);
             levels = version.Split('.').Length;
-            Assert.AreEqual(4, levels);
+            Assert.That(levels, Is.EqualTo(4));
         }
     }
 }

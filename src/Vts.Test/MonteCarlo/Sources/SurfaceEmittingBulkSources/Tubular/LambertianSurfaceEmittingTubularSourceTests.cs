@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new LambertianSurfaceEmittingTubularSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new LambertianSurfaceEmittingTubularSourceInput(
                 1.0,
@@ -31,10 +31,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// This test validated using geometry assumptions
@@ -66,12 +66,12 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = ps.GetNextPhoton(tissue);
                 // make sure initial x-y is on surface
-                Assert.IsTrue(tubeRadius - Math.Sqrt(
+                Assert.That(tubeRadius - Math.Sqrt(
                     photon.DP.Position.X * photon.DP.Position.X +
-                    photon.DP.Position.Y * photon.DP.Position.Y) < 0.00001);
+                    photon.DP.Position.Y * photon.DP.Position.Y), Is.LessThan(0.00001));
                 // make sure initial z is within height
-                Assert.IsTrue(photon.DP.Position.Z > tubeHeightZ / 2 - translationFromOrigin.Z &&
-                              photon.DP.Position.Z < tubeHeightZ / 2 + translationFromOrigin.Z);
+                Assert.That(photon.DP.Position.Z > tubeHeightZ / 2 - translationFromOrigin.Z &&
+                              photon.DP.Position.Z < tubeHeightZ / 2 + translationFromOrigin.Z, Is.True);
 
             }
         }

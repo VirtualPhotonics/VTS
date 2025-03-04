@@ -31,15 +31,15 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_Voxel_properties()
         {
-            Assert.AreEqual(-1, _voxelTissueRegion.X.Start);
-            Assert.AreEqual( 1, _voxelTissueRegion.X.Stop);
-            Assert.AreEqual(-1, _voxelTissueRegion.Y.Start);
-            Assert.AreEqual( 1, _voxelTissueRegion.Y.Stop);           
-            Assert.AreEqual( 1, _voxelTissueRegion.Z.Start, 1);
-            Assert.AreEqual( 3, _voxelTissueRegion.Z.Stop, 3);
-            Assert.AreEqual(0.0, _voxelTissueRegion.Center.X);
-            Assert.AreEqual(0.0, _voxelTissueRegion.Center.Y);
-            Assert.AreEqual(2.0, _voxelTissueRegion.Center.Z);
+            Assert.That(_voxelTissueRegion.X.Start, Is.EqualTo(-1));
+            Assert.That(_voxelTissueRegion.X.Stop, Is.EqualTo( 1));
+            Assert.That(_voxelTissueRegion.Y.Start, Is.EqualTo(-1));
+            Assert.That(_voxelTissueRegion.Y.Stop, Is.EqualTo( 1));           
+            Assert.That(_voxelTissueRegion.Z.Start, Is.EqualTo( 1).Within(1));
+            Assert.That(_voxelTissueRegion.Z.Stop, Is.EqualTo( 3).Within(3));
+            Assert.That(_voxelTissueRegion.Center.X, Is.EqualTo(0.0));
+            Assert.That(_voxelTissueRegion.Center.Y, Is.EqualTo(0.0));
+            Assert.That(_voxelTissueRegion.Center.Z, Is.EqualTo(2.0));
         }
         /// <summary>
         /// Validate method OnBoundary return correct boolean.
@@ -50,11 +50,11 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             // OnBoundary returns true if *exactly* on boundary
             var result = _voxelTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on boundary
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _voxelTissueRegion.OnBoundary(new Position(0, 0, 0.5)); // outside
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             result = _voxelTissueRegion.OnBoundary(new Position(0, 0, 2.0)); // inside
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
         /// <summary>
         /// Validate method ContainsPositions return correct boolean. ContainsPosition is true if inside
@@ -64,9 +64,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
             var result = _voxelTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _voxelTissueRegion.ContainsPosition(new Position(0, 0, 1.0)); // on boundary
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
         /// <summary>
         /// Validate method SurfaceNormal return correct normal vector
@@ -75,29 +75,29 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_SurfaceNormal_method_returns_correct_result()
         {
             var result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 1.0)); // top
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(-1,result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(-1));
             result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 3.0));  //bottom
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(1, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(1));
             result = _voxelTissueRegion.SurfaceNormal(new Position(1.0, 0, 2.0)); // right side
-            Assert.AreEqual(1, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(0, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(1));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(0));
             result = _voxelTissueRegion.SurfaceNormal(new Position(-1.0, 0, 2.0));  //left side
-            Assert.AreEqual(-1, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(0, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(-1));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(0));
             result = _voxelTissueRegion.SurfaceNormal(new Position(0.0, -1.0, 2.0)); // back side
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(-1, result.Uy);
-            Assert.AreEqual(0, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(-1));
+            Assert.That(result.Uz, Is.EqualTo(0));
             result = _voxelTissueRegion.SurfaceNormal(new Position(0.0, 1.0, 2.0));  //front side
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(1, result.Uy);
-            Assert.AreEqual(0, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(1));
+            Assert.That(result.Uz, Is.EqualTo(0));
         }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
@@ -116,16 +116,16 @@ namespace Vts.Test.MonteCarlo.Tissues
             };
             double distanceToBoundary;
             var result = _voxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.True);
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             photon.S = 0.5; // definitely don't intersect
             result = _voxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             photon.S = 1.0; // ends right at boundary => intersection
             result = _voxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.True);
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
         }
     }
 }

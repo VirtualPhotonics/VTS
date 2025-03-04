@@ -44,12 +44,12 @@ public class dMCdROfRhodMusDetectorTests
 
         DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
 
-        Assert.AreEqual(1, detector.Mean[0]);
-        Assert.AreEqual(2, detector.Mean[1]);
-        Assert.AreEqual(3, detector.Mean[2]);
+        Assert.That(detector.Mean[0], Is.EqualTo(1));
+        Assert.That(detector.Mean[1], Is.EqualTo(2));
+        Assert.That(detector.Mean[2], Is.EqualTo(3));
         if (!tallySecondMoment) return;
-        Assert.AreEqual(4, detector.SecondMoment[0]);
-        Assert.AreEqual(5, detector.SecondMoment[1]);
-        Assert.AreEqual(6, detector.SecondMoment[2]);
+        Assert.That(detector.SecondMoment[0], Is.EqualTo(4));
+        Assert.That(detector.SecondMoment[1], Is.EqualTo(5));
+        Assert.That(detector.SecondMoment[2], Is.EqualTo(6));
     }
 }

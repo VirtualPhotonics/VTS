@@ -20,30 +20,24 @@ namespace Vts.Test.MonteCarlo.Factories
         public void Demonstrate_GetDetectorController_successful_return()
         {
             var detectorList = new List<IDetector>() {new RDiffuseDetector()};
-            Assert.IsInstanceOf<IDetectorController>(
-                DetectorControllerFactory.GetDetectorController(
+            Assert.That(DetectorControllerFactory.GetDetectorController(
                 VirtualBoundaryType.DiffuseReflectance,
-                detectorList, null));
-            Assert.IsInstanceOf<IDetectorController>(
-                DetectorControllerFactory.GetDetectorController(
+                detectorList, null), Is.InstanceOf<IDetectorController>());
+            Assert.That(DetectorControllerFactory.GetDetectorController(
                     VirtualBoundaryType.DiffuseTransmittance,
-                    detectorList, null));
-            Assert.IsInstanceOf<IDetectorController>(
-                DetectorControllerFactory.GetDetectorController(
+                    detectorList, null), Is.InstanceOf<IDetectorController>());
+            Assert.That(DetectorControllerFactory.GetDetectorController(
                     VirtualBoundaryType.SpecularReflectance,
-                    detectorList, null));
-            Assert.IsInstanceOf<IDetectorController>(
-                DetectorControllerFactory.GetDetectorController(
+                    detectorList, null), Is.InstanceOf<IDetectorController>());
+            Assert.That(DetectorControllerFactory.GetDetectorController(
                     VirtualBoundaryType.InternalSurface,
-                    detectorList, null));
-            Assert.IsInstanceOf<IDetectorController>(
-                DetectorControllerFactory.GetDetectorController(
+                    detectorList, null), Is.InstanceOf<IDetectorController>());
+            Assert.That(DetectorControllerFactory.GetDetectorController(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    detectorList, null));
-            Assert.IsInstanceOf<IDetectorController>(
-                DetectorControllerFactory.GetDetectorController(
+                    detectorList, null), Is.InstanceOf<IDetectorController>());
+            Assert.That(DetectorControllerFactory.GetDetectorController(
                     VirtualBoundaryType.BoundingVolume,
-                    detectorList, null));
+                    detectorList, null), Is.InstanceOf<IDetectorController>());
         }
         /// <summary>
         /// Simulate erroneous invocation

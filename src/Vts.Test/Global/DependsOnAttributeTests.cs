@@ -10,9 +10,9 @@ namespace Vts.Test
         {
             var parameters = new[] { "one", "two", "three" };
             var dependsOnAttribute = new DependsOnAttribute(parameters);
-            Assert.AreEqual(parameters[0], dependsOnAttribute.Properties[0]);
-            Assert.AreEqual(parameters[1], dependsOnAttribute.Properties[1]);
-            Assert.AreEqual(parameters[2], dependsOnAttribute.Properties[2]);
+            Assert.That(dependsOnAttribute.Properties[0], Is.EqualTo(parameters[0]));
+            Assert.That(dependsOnAttribute.Properties[1], Is.EqualTo(parameters[1]));
+            Assert.That(dependsOnAttribute.Properties[2], Is.EqualTo(parameters[2]));
         }
     }
 }

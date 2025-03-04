@@ -40,13 +40,13 @@ namespace Vts.Test.MonteCarlo.Tissues
             var i = new MultiEllipsoidTissueInput();
             var ellipsoids = i.EllipsoidRegions;
             var layers = i.LayerRegions;
-            Assert.AreEqual(10.0, ellipsoids[0].Center.X);
-            Assert.AreEqual(0.0, ellipsoids[0].Center.Y);
-            Assert.AreEqual(10.0, ellipsoids[0].Center.Z); 
-            Assert.AreEqual(0.0, ellipsoids[1].Center.X);
-            Assert.AreEqual(0.0, ellipsoids[1].Center.Y);
-            Assert.AreEqual(40.0, ellipsoids[1].Center.Z);
-            Assert.AreEqual(25.0, layers[1].Center.Z);
+            Assert.That(ellipsoids[0].Center.X, Is.EqualTo(10.0));
+            Assert.That(ellipsoids[0].Center.Y, Is.EqualTo(0.0));
+            Assert.That(ellipsoids[0].Center.Z, Is.EqualTo(10.0)); 
+            Assert.That(ellipsoids[1].Center.X, Is.EqualTo(0.0));
+            Assert.That(ellipsoids[1].Center.Y, Is.EqualTo(0.0));
+            Assert.That(ellipsoids[1].Center.Z, Is.EqualTo(40.0));
+            Assert.That(layers[1].Center.Z, Is.EqualTo(25.0));
         }
         /// <summary>
         /// verify MultiEllipsoidTissueInput deserializes correctly
@@ -77,8 +77,8 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.EllipsoidRegions[1].RegionOP.Mus, i.EllipsoidRegions[1].RegionOP.Mus);
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mus, i.Regions[1].RegionOP.Mus);
+            Assert.That(i.EllipsoidRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.EllipsoidRegions[1].RegionOP.Mus));
+            Assert.That(i.Regions[1].RegionOP.Mus, Is.EqualTo(iCloned.Regions[1].RegionOP.Mus));
         }
         /// <summary>
         /// verify MultiEllipsoidTissueInput deserializes when using FileIO
@@ -109,8 +109,8 @@ namespace Vts.Test.MonteCarlo.Tissues
             i.WriteToJson("MultiLayerTissue.txt");
             var iCloned = FileIO.ReadFromJson<MultiEllipsoidTissueInput>("MultiLayerTissue.txt");
 
-            Assert.AreEqual(iCloned.EllipsoidRegions[1].RegionOP.Mus, i.EllipsoidRegions[1].RegionOP.Mus);
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mus, i.Regions[1].RegionOP.Mus);
+            Assert.That(i.EllipsoidRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.EllipsoidRegions[1].RegionOP.Mus));
+            Assert.That(i.Regions[1].RegionOP.Mus, Is.EqualTo(iCloned.Regions[1].RegionOP.Mus));
         }
         /// <summary>
         /// CreateTissue not implemented yet

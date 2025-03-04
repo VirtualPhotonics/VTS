@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new IsotropicVolumetricEllipsoidalSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new IsotropicVolumetricEllipsoidalSourceInput(
                     1.0,
@@ -34,10 +34,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// Validate General Constructor of Isotropic Flat VolumetricEllipsoidal Source
@@ -73,7 +73,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.X - center.X) * (photon.DP.Position.X - center.X) / (aParameter * aParameter) +
                     (photon.DP.Position.Y - center.Y) * (photon.DP.Position.Y - center.Y) / (bParameter * bParameter) +
                     (photon.DP.Position.Z - center.Z) * (photon.DP.Position.Z - center.Z) / (cParameter * cParameter);
-                Assert.IsTrue(inside <= 1.0);
+                Assert.That(inside <= 1.0, Is.True);
             }
 
         }
@@ -112,7 +112,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.X - center.X) / aParameter + (photon.DP.Position.X - center.X) / aParameter +
                     (photon.DP.Position.Y - center.Y) / bParameter + (photon.DP.Position.Y - center.Y) / bParameter +
                     (photon.DP.Position.Z - center.Z) / cParameter + (photon.DP.Position.Z - center.Z) / cParameter;
-                Assert.IsTrue(inside <= 1.0);
+                Assert.That(inside <= 1.0, Is.True);
             }
         }
 

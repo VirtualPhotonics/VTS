@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new LambertianSurfaceEmittingCylindricalFiberSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new LambertianSurfaceEmittingCylindricalFiberSourceInput(
                     1.0,
@@ -33,10 +33,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
 
         /// <summary>
@@ -72,13 +72,13 @@ namespace Vts.Test.MonteCarlo.Sources
             // make sure initial x-y position is on surface if not on bottom
             if (Math.Abs(photon.DP.Position.Z - 4) > 1e-10 ) // on sides
             {
-                Assert.IsTrue(Math.Abs(fiberRadius -
-                                       Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                                 photon.DP.Position.Y * photon.DP.Position.Y)) < 0.00001);
+                Assert.That(Math.Abs(fiberRadius -
+                                     Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X + 
+                                               photon.DP.Position.Y * photon.DP.Position.Y)), Is.LessThan(0.00001));
             }
             else // on bottom, make sure pointed down
             {
-                Assert.IsTrue(photon.DP.Direction.Uz > 0);
+                Assert.That(photon.DP.Direction.Uz > 0, Is.True);
             }
         }
     }

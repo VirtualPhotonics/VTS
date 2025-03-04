@@ -13,10 +13,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
         {
             double dRho;
             var rhoValues = LinearDiscreteHankelTransform.GetRho(0.1, 0.01, out dRho);
-            Assert.IsTrue(rhoValues.Length > 0);
-            Assert.AreEqual(0.9, dRho, 0.01);
-            Assert.AreEqual(0, rhoValues[0]);
-            Assert.AreEqual(0.909, rhoValues[1], 0.0001);
+            Assert.That(rhoValues.Length > 0, Is.True);
+            Assert.That(dRho, Is.EqualTo(0.9).Within(0.01));
+            Assert.That(rhoValues[0], Is.EqualTo(0));
+            Assert.That(rhoValues[1], Is.EqualTo(0.909).Within(0.0001));
         }
 
         [Test]
@@ -28,10 +28,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var monteCarloForwardSolver = new MonteCarloForwardSolver();
             var rOfRho = monteCarloForwardSolver.ROfRho(new OpticalProperties(), rhoValues);
             var value = LinearDiscreteHankelTransform.GetHankelTransform(rhoValues, rOfRho, dRho, 0.1);
-            Assert.AreEqual(0.185, value, 0.001);
-            Assert.AreEqual(0.9, dRho, 0.01);
-            Assert.AreEqual(0, rhoValues[0]);
-            Assert.AreEqual(0.909, rhoValues[1], 0.0001);
+            Assert.That(value, Is.EqualTo(0.185).Within(0.001));
+            Assert.That(dRho, Is.EqualTo(0.9).Within(0.01));
+            Assert.That(rhoValues[0], Is.EqualTo(0));
+            Assert.That(rhoValues[1], Is.EqualTo(0.909).Within(0.0001));
         }
 
         [Test]

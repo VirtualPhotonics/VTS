@@ -233,12 +233,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_dynamic_detector_tallies_are_zero_when_NA_is_zero()
         {
-            Assert.AreEqual(0.0, _outputNA0.RefDynMT_fxmt[0, 0].Magnitude);
-            Assert.AreEqual(0.0, _outputNA0.RefDynMT_rmt[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.RefDynMT_xymt[0, 0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.TransDynMT_fxmt[0, 0].Magnitude);
-            Assert.AreEqual(0.0, _outputNA0.TransDynMT_rmt[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.TransDynMT_xymt[0, 0, 0]);
+            Assert.That(_outputNA0.RefDynMT_fxmt[0, 0].Magnitude, Is.EqualTo(0.0));
+            Assert.That(_outputNA0.RefDynMT_rmt[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNA0.RefDynMT_xymt[0, 0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNA0.TransDynMT_fxmt[0, 0].Magnitude, Is.EqualTo(0.0));
+            Assert.That(_outputNA0.TransDynMT_rmt[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNA0.TransDynMT_xymt[0, 0, 0], Is.EqualTo(0.0));
         }
         /// <summary>
         /// test to validate partially open NA validation values taken from prior test run
@@ -248,10 +248,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_detector_tallies_when_NA_is_0p3()
         {
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_rmt[0, 0] - 0.006296), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_xymt[4, 4, 0] - 0.002490), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_rmt[2, 0] - 0.000469), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_xymt[1, 9, 1] - 0.000678), 0.000001);
+            Assert.That(Math.Abs(_outputNA0p3.RefDynMT_rmt[0, 0] - 0.006296), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNA0p3.RefDynMT_xymt[4, 4, 0] - 0.002490), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNA0p3.TransDynMT_rmt[2, 0] - 0.000469), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNA0p3.TransDynMT_xymt[1, 9, 1] - 0.000678), Is.LessThan(0.000001));
         }
 
         /// <summary>
@@ -262,10 +262,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_dynamic_detector_tallies_are_not_zero_when_NA_is_not_specified()
         {
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.RefDynMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.RefDynMT_xymt[0, 9, 1]);
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.TransDynMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.TransDynMT_xymt[0, 0, 0]);
+            Assert.That(_outputNoNASpecified.RefDynMT_rmt[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNASpecified.RefDynMT_xymt[0, 9, 1], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNASpecified.TransDynMT_rmt[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNASpecified.TransDynMT_xymt[0, 0, 0], Is.Not.EqualTo(0.0));
         }
 
     }

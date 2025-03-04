@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new IsotropicLineSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new IsotropicLineSourceInput(
                     1.0,
@@ -43,10 +43,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// Validate General Constructor of Isotropic Flat Line Source
@@ -69,13 +69,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[42]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[43]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[44]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[42]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[43]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[44]), Is.LessThan(_validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[45]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[46]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[47]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[45]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[46]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[47]), Is.LessThan(_validationData.AcceptablePrecision));
         }
 
         /// <summary>
@@ -101,14 +101,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[48]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[49]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[50]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[48]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[49]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[50]), Is.LessThan(_validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[51]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[52]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[53]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[51]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[52]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[53]), Is.LessThan(_validationData.AcceptablePrecision));
         }
-
     }
 }

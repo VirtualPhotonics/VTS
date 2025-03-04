@@ -32,7 +32,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new DirectionalRectangularSourceInput();
-            Assert.IsInstanceOf<DirectionalRectangularSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<DirectionalRectangularSourceInput>());
             // check full definition
             si = new DirectionalRectangularSourceInput(
                 0.0,
@@ -44,10 +44,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                 0
             );
-            Assert.IsInstanceOf<DirectionalRectangularSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<DirectionalRectangularSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<DirectionalRectangularSource>(source);
+            Assert.That(source, Is.InstanceOf<DirectionalRectangularSource>());
         }
         /// <summary>
         /// Validate General Constructor of Directional Flat Rectangular Source
@@ -73,13 +73,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[85]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[86]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[87]),  _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[85]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[86]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[87]), Is.LessThan( _validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[88]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[89]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[90]),  _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[88]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[89]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[90]), Is.LessThan( _validationData.AcceptablePrecision));
         }
 
 
@@ -108,13 +108,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[91]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[92]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[93]),  _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[91]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[92]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[93]), Is.LessThan( _validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[94]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[95]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[96]),  _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[94]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[95]), Is.LessThan( _validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[96]), Is.LessThan( _validationData.AcceptablePrecision));
         }
 
         /// <summary>
@@ -137,15 +137,15 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside radius
-            Assert.IsTrue(Math.Sqrt(
+            Assert.That(Math.Sqrt(
                 (photon.DP.Position.X - translationFromOrigin.X) *
                 (photon.DP.Position.X - translationFromOrigin.X) +
                 (photon.DP.Position.Y - translationFromOrigin.Y) *
-                (photon.DP.Position.Y - translationFromOrigin.Y)) <= radius);
+                (photon.DP.Position.Y - translationFromOrigin.Y)), Is.LessThanOrEqualTo(radius));
             // make sure angle is less than 45 degrees
-            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
+            Assert.That(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2), Is.True);
         }
         /// <summary>
         /// This test different from others in that it is validated by geometrically
@@ -175,12 +175,12 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside radius
-            Assert.IsTrue(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                    photon.DP.Position.Y * photon.DP.Position.Y) <= radiusOnTissue);
+            Assert.That(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
+                                    photon.DP.Position.Y * photon.DP.Position.Y), Is.LessThanOrEqualTo(radiusOnTissue));
             // make sure angle is less than 45 degrees
-            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
+            Assert.That(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2), Is.True);
         }
     }
 }
