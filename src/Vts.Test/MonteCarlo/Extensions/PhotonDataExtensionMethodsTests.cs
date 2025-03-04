@@ -66,7 +66,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                     databases, "", ""),
                 collisionInfoDatabases);
             dbController.WriteToSurfaceVirtualBoundaryDatabases(dp, collisionInfo);
-            Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance2"));
+            Assert.That(FileIO.FileExists("collisionInfoReflectance2"), Is.True);
             dbController.Dispose();
         }
         /// <summary>
@@ -99,16 +99,16 @@ namespace Vts.Test.MonteCarlo.Extensions
             // test various combinations
             // test for tru
             var result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterReflectance);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = dpTransmittance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterTransmittance);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterPmcReflectance);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             // test for false
             result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterTransmittance);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             result = dpTransmittance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterPmcReflectance);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             collisionInfoDatabaseWriterPmcReflectance.Close();
             collisionInfoDatabaseWriterReflectance.Close();
             collisionInfoDatabaseWriterTransmittance.Close();
@@ -129,7 +129,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             bool result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(true, result);
+            Assert.That(result, Is.EqualTo(true));
         }
         /// <summary>
         /// Validate IsWithinNA for partially open NA
@@ -147,7 +147,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             var result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(true, result);
+            Assert.That(result, Is.EqualTo(true));
             // now select direction right on NA
             var theta = Math.Asin(na / detectorRegionN);
             direction = new Direction(Math.Sin(theta), 0, -Math.Cos(theta)); // right on NA
@@ -158,7 +158,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(true, result);
+            Assert.That(result, Is.EqualTo(true));
             // now select direction outside of NA
             theta = Math.Asin( (na * (1.1)) / detectorRegionN);
             direction = new Direction(Math.Sin(theta), 0, -Math.Cos(theta)); 
@@ -169,7 +169,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(false, result);
+            Assert.That(result, Is.EqualTo(false));
         }
         /// <summary>
         /// Validate method agrees with Bargo theory [Bargo et al., AO 42(16) 2003]
@@ -211,9 +211,9 @@ namespace Vts.Test.MonteCarlo.Extensions
                 }
             }
             var etaC = na0P22Count / naOpenCount;
-            Assert.Less(Math.Abs(etaC - na0P22/detectorRegionN*(na0P22/detectorRegionN)), 0.001);
+            Assert.That(Math.Abs(etaC - na0P22/detectorRegionN*(na0P22/detectorRegionN)), Is.LessThan(0.001));
             etaC = na0P39Count / naOpenCount;
-            Assert.Less(Math.Abs(etaC - na0P39 / detectorRegionN * (na0P39 / detectorRegionN)), 0.001);
+            Assert.That(Math.Abs(etaC - na0P39 / detectorRegionN * (na0P39 / detectorRegionN)), Is.LessThan(0.001));
         }
     }
 }

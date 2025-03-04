@@ -83,7 +83,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
             // set pMC mua value to be negative
             ((pMCROfRhoDetectorInput) input.DetectorInputs[0]).PerturbedOps[1].Mua = -0.01;
             var result = PostProcessorInputValidation.ValidateInput(input,"");
-            Assert.IsTrue(result.ValidationRule.Equals("Tissue optical properties mua, mus', n need to be non-negative"));
+            Assert.That(result.ValidationRule.Equals("Tissue optical properties mua, mus', n need to be non-negative"), Is.True);
             // set pMC mua value back to being positive so passes rest of tests
             ((pMCROfRhoDetectorInput)input.DetectorInputs[0]).PerturbedOps[1].Mua = 0.01;
         }
@@ -94,8 +94,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
         public void Validate_input_folder_existence()
         {
             var result = PostProcessorInputValidation.ValidateInput(input, "");
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput: the input folder does not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput: the input folder does not exist"), Is.True);
         }
         /// <summary>
         /// Test to check for simulation input
@@ -123,12 +122,12 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
             
             // first check for no existence of simulation input file
             var result = PostProcessorInputValidation.ValidateInput(input, "");
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
             // now put file in place and test
             var simulationInput = new SimulationInput();
             simulationInput.ToFile(folderName + "/simulationInput.txt");
             result = PostProcessorInputValidation.ValidateInput(input, "");
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
             // remove directory so other tests don't have it
             FileIO.DeleteDirectory(folderName);
             // set back input
@@ -152,29 +151,25 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
             FileIO.CreateDirectory(folderName);
             // test detector that is defined in the OneTimeSetup input = pMC reflectance tally
             var result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  files DiffuseReflectanceDatabase or CollisionInfoDatabase do not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  files DiffuseReflectanceDatabase or CollisionInfoDatabase do not exist"), Is.True);
             // clear out detector list
             input.DetectorInputs.Clear();
             // add reflectance tally detector
             input.DetectorInputs.Add(new ROfRhoDetectorInput()); // this has IsReflectanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  file DiffuseReflectanceDatabase does not exist")); 
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  file DiffuseReflectanceDatabase does not exist"), Is.True); 
             // clear out detector list
             input.DetectorInputs.Clear();
             // add transmittance tally detector
             input.DetectorInputs.Add(new TOfRhoDetectorInput()); // this has IsTransmittanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist"), Is.True);
             // clear out detector list
             input.DetectorInputs.Clear();
             // add specular reflectance tally detector
             input.DetectorInputs.Add(new RSpecularDetectorInput()); // this has IsSpecularReflectanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  file SpecularReflectanceDatabase does not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  file SpecularReflectanceDatabase does not exist"), Is.True);
         }
     }
 }

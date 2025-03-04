@@ -166,16 +166,16 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void Validate_slanted_fiber_detector_produces_correct_results()
         {
             // check Mean of perpendicular fiber
-            Assert.Less(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorMeans[0] -
-                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorMeans[0]), 0.000001);
+            Assert.That(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorMeans[0] -
+                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorMeans[0]), Is.LessThan(0.000001));
             // check Second Moment of surface fiber with perpendicular recessed fiber
-            Assert.Less(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorSecondMoments[0] -
-                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorSecondMoments[0]), 0.000001);
+            Assert.That(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorSecondMoments[0] -
+                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorSecondMoments[0]), Is.LessThan(0.000001));
             // check TallyCount of surface fiber with perpendicular recessed fiber
-            Assert.Less(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorTallyCounts[0] - 
-                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorTallyCounts[0]), 0.000001);
+            Assert.That(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorTallyCounts[0] - 
+                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorTallyCounts[0]), Is.LessThan(0.000001));
             // check slanted fiber with prior test value
-            Assert.Less(Math.Abs(_outputSlantedRecessedFiber.AllSlantedRecessedFiberDetectorMeans[0] - 0.00586779), 0.000001);                     
+            Assert.That(Math.Abs(_outputSlantedRecessedFiber.AllSlantedRecessedFiberDetectorMeans[0] - 0.00586779), Is.LessThan(0.000001));                     
         }        
     }
 }

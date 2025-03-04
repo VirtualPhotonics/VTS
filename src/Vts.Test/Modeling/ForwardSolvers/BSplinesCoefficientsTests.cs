@@ -30,8 +30,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                                     };
             NurbsValues nurbsValues = new NurbsValues(knots, degree, 1.0, knots);
             bSplinesCoefficients = new BSplinesCoefficients(nurbsValues, 2);
-            Assert.AreEqual(knownValues, bSplinesCoefficients.Coefficients, 
-                            "Coefficients should be the same as the example on the Nurbs Book");
+            Assert.That(bSplinesCoefficients.Coefficients, Is.EqualTo(knownValues), "Coefficients should be the same as the example on the Nurbs Book");
         }
 
         /// <summary>
@@ -44,8 +43,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             int degree = 2;
             NurbsValues nurbsValues = new NurbsValues(knots, degree, 1.0, knots);
             bSplinesCoefficients = new BSplinesCoefficients(nurbsValues, 6);
-            Assert.AreEqual(0.0, bSplinesCoefficients.Coefficients.ToEnumerable<double>().Sum(),
-                            "Coefficients should be the same as the example on the Nurbs Book");
+            Assert.That(bSplinesCoefficients.Coefficients.ToEnumerable<double>().Sum(), Is.EqualTo(0.0), "Coefficients should be the same as the example on the Nurbs Book");
         }
 
         [TearDown]

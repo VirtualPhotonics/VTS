@@ -61,11 +61,11 @@ namespace Vts.Test.MonteCarlo
             var detector = DetectorFactory.GetDetector(detectorInput, tissue, rng);
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
             var weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
-            Assert.Less(Math.Abs(weight), 1e-6); // should be 0.0
+            Assert.That(Math.Abs(weight), Is.LessThan(1e-6)); // should be 0.0
             // turn on PhotonStateType
             dp.StateFlag = PhotonStateType.Absorbed;
             weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
-            Assert.Less(Math.Abs(weight - 1.0), 1e-6); // weight should be 1.0
+            Assert.That(Math.Abs(weight - 1.0), Is.LessThan(1e-6)); // weight should be 1.0
 
             // specify Discrete random walk process: previousDp weight = or != dp weight dictates resultsing weight
             tissue = TissueFactory.GetTissue(
@@ -76,11 +76,11 @@ namespace Vts.Test.MonteCarlo
             currentRegionIndex = 1;
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
             weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
-            Assert.Less(Math.Abs(weight - 0.001996), 1e-6); // should be 1.0 * 0.01/5.01
+            Assert.That(Math.Abs(weight - 0.001996), Is.LessThan(1e-6)); // should be 1.0 * 0.01/5.01
             // make previousDp weight = 0.9
             previousDp.Weight = 0.9;
             weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
-            Assert.Less(Math.Abs(weight), 1e-6); // weight should be 0.0
+            Assert.That(Math.Abs(weight), Is.LessThan(1e-6)); // weight should be 0.0
             previousDp.Weight = 1.0;  // set back weight for next test
 
             // specify Continuous random walk process: previousDp weight = or != dp weight dictates resultsing weight
@@ -92,11 +92,11 @@ namespace Vts.Test.MonteCarlo
             currentRegionIndex = 1;
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
             weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
-            Assert.Less(Math.Abs(weight - 0.1), 1e-6); // should be previousWeight - weight
+            Assert.That(Math.Abs(weight - 0.1), Is.LessThan(1e-6)); // should be previousWeight - weight
             // make previousDp weight = 0.9
             previousDp.Weight = 0.9;
             weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
-            Assert.Less(Math.Abs(weight), 1e-6); // weight should be 0.0
+            Assert.That(Math.Abs(weight), Is.LessThan(1e-6)); // weight should be 0.0
         }
         /// <summary>
         /// test for pMC weight factor for "terminal" detectors (e.g. reflectance)
@@ -161,7 +161,7 @@ namespace Vts.Test.MonteCarlo
                 perturbedOps,
                 referenceOps,
                 perturbedRegionsIndices);
-            Assert.Less(Math.Abs(weightFactor - 0.000123), 1e-6);
+            Assert.That(Math.Abs(weightFactor - 0.000123), Is.LessThan(1e-6));
             // set reference mus to 0
             referenceOps[1].Mus = 0; 
             weightFactor = _absorbAction(
@@ -170,7 +170,7 @@ namespace Vts.Test.MonteCarlo
                 perturbedOps,
                 referenceOps,
                 perturbedRegionsIndices);
-            Assert.Less(Math.Abs(weightFactor), 1e-6); // should be 0
+            Assert.That(Math.Abs(weightFactor), Is.LessThan(1e-6)); // should be 0
             // set reference mus back for next test
             referenceOps[1].Mus = 5.0;
 
@@ -188,7 +188,7 @@ namespace Vts.Test.MonteCarlo
                 perturbedOps,
                 referenceOps,
                 perturbedRegionsIndices);
-            Assert.Less(Math.Abs(weightFactor - 0.000123), 1e-6);
+            Assert.That(Math.Abs(weightFactor - 0.000123), Is.LessThan(1e-6));
             // set reference mus to 0
             referenceOps[1].Mus = 0;
             weightFactor = _absorbAction(
@@ -197,7 +197,7 @@ namespace Vts.Test.MonteCarlo
                 perturbedOps,
                 referenceOps,
                 perturbedRegionsIndices);
-            Assert.Less(Math.Abs(weightFactor), 1e-6); // should be 0
+            Assert.That(Math.Abs(weightFactor), Is.LessThan(1e-6)); // should be 0
         }
     }
 }

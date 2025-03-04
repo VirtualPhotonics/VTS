@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 detectorInput
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
             // test case where blood volume list count does not match number tissue regions
             detectorInput = new List<IDetectorInput>()
             {
@@ -74,7 +74,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 detectorInput
             );
             result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
     }
 }

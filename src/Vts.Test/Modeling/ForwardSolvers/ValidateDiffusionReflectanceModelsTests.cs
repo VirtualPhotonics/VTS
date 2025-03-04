@@ -40,7 +40,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(pointSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2)
                     - rOfRhos[irho]) / rOfRhos[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -54,7 +54,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(distributedPointSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2)
                     - rOfRhos[irho]) / rOfRhos[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -78,7 +78,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerPointSourceForwardSolver.ROfRho(ops, rhos[irho]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfRho(twoLayerTissue, rhos[irho]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult)/oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < _thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -95,7 +95,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(pointSourceForwardSolver.TemporalReflectance(dp, rhos[irho], t, f1, f2)
                     - rOfRhoAndTs[irho]) / rOfRhoAndTs[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -109,7 +109,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(distributedPointSourceForwardSolver.TemporalReflectance(dp, rhos[irho], t, f1, f2)
                     - rOfRhoAndTs[irho]) / rOfRhoAndTs[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -136,7 +136,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerForwardSolver.ROfRhoAndTime(ops, tempRhos[i], tempTimes[i]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfRhoAndTime(twoLayerTissue, tempRhos[i], tempTimes[i]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + tempRhos[i] +
+                Assert.That(relDiff < _thresholdValue, Is.True, "Test failed for rho =" + tempRhos[i] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -154,7 +154,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var relDiff = rOfRhoAndFts[irho] != 0
                     ? Math.Abs(pointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude - rOfRhoAndFts[irho]) / rOfRhoAndFts[irho]
                     : Math.Abs(pointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude);
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -170,7 +170,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                   ? Math.Abs(distributedPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude - rOfRhoAndFts[irho]) / rOfRhoAndFts[irho]
                   : Math.Abs(distributedPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude);
 
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                 "mm, with relative difference " + relDiff);
             }
         }
@@ -195,9 +195,9 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfRhoAndFt(twoLayerTissue, rhos[irho], ft);
                 var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
                 var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
-                Assert.IsTrue(relDiffRe < tighterThresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiffRe < tighterThresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with Real relative difference " + relDiffRe);
-                Assert.IsTrue(relDiffIm < tighterThresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiffIm < tighterThresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with Imaginary relative difference " + relDiffIm);
             }
         }
@@ -226,7 +226,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerNurbsForwardSolver.ROfFx(ops, fxs[ifx]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfFx(twoLayerTissue, fxs[ifx]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                Assert.That(relDiff < _thresholdValue, Is.True, "Test failed for fx =" + fxs[ifx] +
                     ", with relative difference " + relDiff);
             }
         }
@@ -252,7 +252,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerSdaForwardSolver.ROfFxAndTime(ops, fxs[i], times[i]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfFxAndTime(twoLayerTissue, fxs[i], times[i]);
                 var relDiffRe = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[i] +
+                Assert.That(relDiffRe < _thresholdValue, Is.True, "Test failed for fx =" + fxs[i] +
                     " and ft=", + times[i] + ", with relative difference " + relDiffRe);
             }
         }
@@ -277,9 +277,9 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfFxAndFt(twoLayerTissue, fxs[ifx], ft);
                 var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
                 var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
-                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                Assert.That(relDiffRe < _thresholdValue, Is.True, "Test failed for fx =" + fxs[ifx] +
                     " and ft=", +ft + ", with Real relative difference " + relDiffRe);
-                Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                Assert.That(relDiffIm < _thresholdValue, Is.True, "Test failed for fx =" + fxs[ifx] +
                     " and ft=", +ft + ", with Imag relative difference " + relDiffIm);
             }
         }
@@ -299,13 +299,13 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
-            Assert.NotNull(reflectanceVsWavelength);
-            Assert.AreEqual(3, reflectanceVsWavelength.Length);
+            Assert.That(reflectanceVsWavelength, Is.Not.Null);
+            Assert.That(reflectanceVsWavelength.Length, Is.EqualTo(3));
 
             // check that change in scattering changes the reflectance
-            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            Assert.That(reflectanceVsWavelength[0] != reflectanceVsWavelength[1], Is.True);
             // check that change in absorption changes the reflectance
-            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+            Assert.That(reflectanceVsWavelength[1] != reflectanceVsWavelength[2], Is.True);
         }
 
         [Test]
@@ -329,13 +329,13 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
-            Assert.NotNull(reflectanceVsWavelength);
-            Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
+            Assert.That(reflectanceVsWavelength, Is.Not.Null);
+            Assert.That(wvs.Length, Is.EqualTo(reflectanceVsWavelength.Length));
 
             // check that change in scattering changes the reflectance
-            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            Assert.That(reflectanceVsWavelength[0] != reflectanceVsWavelength[1], Is.True);
             // check that change in absorption changes the reflectance
-            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+            Assert.That(reflectanceVsWavelength[1] != reflectanceVsWavelength[2], Is.True);
         }
 
         [Test]
@@ -360,13 +360,13 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
-            Assert.NotNull(reflectanceVsWavelength);
-            Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
+            Assert.That(reflectanceVsWavelength, Is.Not.Null);
+            Assert.That(wvs.Length, Is.EqualTo(reflectanceVsWavelength.Length));
 
             // check that change in scattering changes the reflectance
-            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            Assert.That(reflectanceVsWavelength[0] != reflectanceVsWavelength[1], Is.True);
             // check that change in absorption changes the reflectance
-            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+            Assert.That(reflectanceVsWavelength[1] != reflectanceVsWavelength[2], Is.True);
         }
         #endregion
 
@@ -404,21 +404,21 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, rho0=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.044627) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[0] - 0.044627) < 0.000001, Is.True); // API match
             // [1] -> ops0=650, rho0=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.005561) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1] - 0.005561) < 0.000001, Is.True);
             // [2] -> ops0=650, rho1=1.635, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 0.036918) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[2] - 0.036918) < 0.000001, Is.True); // API match
             // [3] -> ops0=650, rho1=1.635, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 0.005058) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[3] - 0.005058) < 0.000001, Is.True);
             // [4] -> ops1=700, rho0=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 0.057913) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[4] - 0.057913) < 0.000001, Is.True); // API match
             // [5] -> ops1=700, rho0=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.010316) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5] - 0.010316) < 0.000001, Is.True);
             // [6] -> ops1=700, rho1=1.635, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 0.048509) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[6] - 0.048509) < 0.000001, Is.True); // API match
             // [7] -> ops1=700, rho1=1.635, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 0.009441) < 0.000001); 
+            Assert.That(Math.Abs(rVsWavelength[7] - 0.009441) < 0.000001, Is.True); 
         }
 
         [Test]
@@ -454,29 +454,29 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, rho0=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 0.037577) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[0].Real - 0.037577) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001, Is.True);
             // [1] -> ops0=650, rho0=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 0.037513) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[1].Imaginary + 0.001200) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1].Real - 0.037513) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[1].Imaginary + 0.001200) < 0.000001, Is.True);
             // [2] -> ops0=650, rho1=1.635, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.009308) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[2].Real - 0.009308) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001, Is.True);
             // [3] -> ops0=650, rho1=1.635, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.009257) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[3].Imaginary + 0.000674) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[3].Real - 0.009257) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[3].Imaginary + 0.000674) < 0.000001, Is.True);
             // [4] -> ops1=700, rho0=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 0.036426) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[4].Real - 0.036426) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001, Is.True);
             // [5] -> ops1=700, rho0=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 0.036311) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.001447) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5].Real - 0.036311) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[5].Imaginary + 0.001447) < 0.000001, Is.True);
             // [6] -> ops1=700, rho1=1.635, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.010659) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[6].Real - 0.010659) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001, Is.True);
             // [7] -> ops1=700, rho1=1.635, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.010560) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[7].Imaginary + 0.000929) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[7].Real - 0.010560) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[7].Imaginary + 0.000929) < 0.000001, Is.True);
         }
         [Test]
         public void validate_ROfFtAndTime_With_Wavelength()
@@ -511,21 +511,21 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 1.559579) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[0] - 1.559579) < 0.000001, Is.True);
             // [1] -> ops0=650, fx0=0.0, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.392302) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1] - 0.392302) < 0.000001, Is.True);
             // [2] -> ops0=650, fx1=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 5.024166e-12) < 0.000001e-12);
+            Assert.That(Math.Abs(rVsWavelength[2] - 5.024166e-12) < 0.000001e-12, Is.True);
             // [3] -> ops0=650, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 1.034161e-13) < 0.000001e-13);
+            Assert.That(Math.Abs(rVsWavelength[3] - 1.034161e-13) < 0.000001e-13, Is.True);
             // [4] -> ops1=700, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 2.219202) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[4] - 2.219202) < 0.000001, Is.True);
             // [5] -> ops1=700, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.797814) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5] - 0.797814) < 0.000001, Is.True);
             // [6] -> ops1=700, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 1.344535e-12) < 0.000001e-12);
+            Assert.That(Math.Abs(rVsWavelength[6] - 1.344535e-12) < 0.000001e-12, Is.True);
             // [7] -> ops1=700, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 2.053738e-13) < 0.000001e-13);
+            Assert.That(Math.Abs(rVsWavelength[7] - 2.053738e-13) < 0.000001e-13, Is.True);
         }
         [Test]
         public void validate_ROfFxAndFt_With_Wavelength()
@@ -560,29 +560,29 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, fx0=0.0, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 1.890311) < 0.000001); // API match
-            Assert.IsTrue(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[0].Real - 1.890311) < 0.000001, Is.True); // API match
+            Assert.That(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001, Is.True); // API match
             // [1] -> ops0=650, fx0=0.0, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 1.888462) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[1].Imaginary + 0.045147) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[1].Real - 1.888462) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[1].Imaginary + 0.045147) < 0.000001, Is.True);
             // [2] -> ops0=650, fx1=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.562543) < 0.000001); // API match
-            Assert.IsTrue(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[2].Real - 0.562543) < 0.000001, Is.True); // API match
+            Assert.That(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001, Is.True); // API match
             // [3] -> ops0=650, fx1=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.562548) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[3].Imaginary + 0.000799) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[3].Real - 0.562548) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[3].Imaginary + 0.000799) < 0.000001, Is.True);
             // [4] -> ops1=700, fx0=0.0, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 2.118766) < 0.000001); // API match
-            Assert.IsTrue(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[4].Real - 2.118766) < 0.000001, Is.True); // API match
+            Assert.That(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001, Is.True); // API match
             // [5] -> ops1=700, fx0=0.0, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 2.113708) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.071804) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[5].Real - 2.113708) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[5].Imaginary + 0.071804) < 0.000001, Is.True);
             // [6] -> ops1=700, fx1=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.543542) < 0.000001); // API match
-            Assert.IsTrue(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001); // API match
+            Assert.That(Math.Abs(rVsWavelength[6].Real - 0.543542) < 0.000001, Is.True); // API match
+            Assert.That(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001, Is.True); // API match
             // [7] -> ops1=700, fx1=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.543549) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[7].Imaginary + 0.000651) < 0.000001);
+            Assert.That(Math.Abs(rVsWavelength[7].Real - 0.543549) < 0.000001, Is.True);
+            Assert.That(Math.Abs(rVsWavelength[7].Imaginary + 0.000651) < 0.000001, Is.True);
         }
         #endregion
     }

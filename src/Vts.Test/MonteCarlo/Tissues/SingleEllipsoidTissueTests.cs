@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(i.Regions[1].RegionOP.Mua, Is.EqualTo(iCloned.Regions[1].RegionOP.Mua));
         }
         /// <summary>
         /// verify SingleEllipsoidTissueInput deserializes correctly when using FileIO
@@ -78,7 +78,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             i.WriteToJson("SingleEllipsoidTissue.txt");
             var iCloned = FileIO.ReadFromJson<SingleEllipsoidTissueInput>("SingleEllipsoidTissue.txt");
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(i.Regions[1].RegionOP.Mua, Is.EqualTo(iCloned.Regions[1].RegionOP.Mua));
         }
     }
 }

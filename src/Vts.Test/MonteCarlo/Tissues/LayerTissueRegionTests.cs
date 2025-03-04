@@ -27,9 +27,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_layer_properties()
         {
-            Assert.AreEqual(0.0, _layerTissueRegion.ZRange.Start);
-            Assert.AreEqual(10.0, _layerTissueRegion.ZRange.Stop);
-            Assert.AreEqual(5.0, _layerTissueRegion.Center.Z);
+            Assert.That(_layerTissueRegion.ZRange.Start, Is.EqualTo(0.0));
+            Assert.That(_layerTissueRegion.ZRange.Stop, Is.EqualTo(10.0));
+            Assert.That(_layerTissueRegion.Center.Z, Is.EqualTo(5.0));
         }
         /// <summary>
         /// Validate method OnBoundary return correct Boolean.
@@ -40,11 +40,11 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             // OnBoundary returns false if *exactly* on boundary
             var result = _layerTissueRegion.OnBoundary(new Position(0, 0, 1.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             result = _layerTissueRegion.OnBoundary(new Position(0, 0, 10.0));
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _layerTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
         /// <summary>
         /// Validate method ContainsPositions return correct Boolean. ContainsPosition is true if inside
@@ -54,9 +54,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
             var result = _layerTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _layerTissueRegion.ContainsPosition(new Position(0, 0, 10.0)); // on boundary
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace Vts.Test.MonteCarlo.Tissues
             //photon.S = 100.0; // definitely intersect 
             double distanceToBoundary;
             var result = _layerTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(8.0, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(distanceToBoundary, Is.EqualTo(8.0));
         }
     }
 }

@@ -18,16 +18,16 @@ namespace Vts.Test.MonteCarlo.Extensions
             var layer = new LayerTissueRegion(
                 new DoubleRange(0, 1, 2),
                 new OpticalProperties(0.0, 1e-12, 0.9, 1.0));
-           Assert.IsTrue(layer.IsAir());
+           Assert.That(layer.IsAir(), Is.True);
            // set mua != 0.0 to check if IsAir is false
            layer.RegionOP.Mua = 0.01;
-           Assert.IsFalse(layer.IsAir());
+           Assert.That(layer.IsAir(), Is.False);
            //// set glass OPs and check if IsAir is false
            //layer.RegionOP.Mua = 0;
            //layer.RegionOP.Musp = 1e-10;
            //layer.RegionOP.G = 1.0;
            //layer.RegionOP.N = 1.5;
-           //Assert.IsFalse(layer.IsAir());
+           //Assert.That(layer.IsAir(), Is.False);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 // factory generates IDetector using CreateDetector,
                 // then calls detector.Initialize method 
                 var source = SourceFactory.GetSource(sourceInput, rng);
-                Assert.IsInstanceOf<ISource>(source);
+                Assert.That(source, Is.InstanceOf<ISource>());
             }
         }
     }

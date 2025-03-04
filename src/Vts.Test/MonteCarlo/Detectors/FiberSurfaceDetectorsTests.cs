@@ -163,11 +163,11 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[0] - 0.079266), 0.000001);
-            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[0] -
-                                 _output.AllROfRhoDetectorMeans[0][0]), 0.000001);
-            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorSecondMoments[0] - 0.024315), 0.000001);
-            Assert.AreEqual(26, _output.AllSurfaceFiberDetectorTallyCounts[0]);
+            Assert.That(Math.Abs(_output.AllSurfaceFiberDetectorMeans[0] - 0.079266), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_output.AllSurfaceFiberDetectorMeans[0] -
+                                 _output.AllROfRhoDetectorMeans[0][0]), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_output.AllSurfaceFiberDetectorSecondMoments[0] - 0.024315), Is.LessThan(0.000001));
+            Assert.That(_output.AllSurfaceFiberDetectorTallyCounts[0], Is.EqualTo(26));
             // output for Bargo comparison
             var sd = Math.Sqrt((_output.AllSurfaceFiberDetectorSecondMoments[0] -
                                 _output.AllSurfaceFiberDetectorMeans[0] * _output.AllSurfaceFiberDetectorMeans[0]) /
@@ -189,11 +189,11 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_NA_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[1] - 0.003034), 0.000001);
-            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[1] -
-                                 _output.AllROfRhoDetectorMeans[1][0]), 0.000001);
-            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorSecondMoments[1] - 0.000920), 0.000001);
-            Assert.AreEqual(1, _output.AllSurfaceFiberDetectorTallyCounts[1]);
+            Assert.That(Math.Abs(_output.AllSurfaceFiberDetectorMeans[1] - 0.003034), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_output.AllSurfaceFiberDetectorMeans[1] -
+                                 _output.AllROfRhoDetectorMeans[1][0]), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_output.AllSurfaceFiberDetectorSecondMoments[1] - 0.000920), Is.LessThan(0.000001));
+            Assert.That(_output.AllSurfaceFiberDetectorTallyCounts[1], Is.EqualTo(1));
             // output for Bargo comparison
             var sd = Math.Sqrt((_output.AllSurfaceFiberDetectorSecondMoments[1] - 
                 _output.AllSurfaceFiberDetectorMeans[1] * _output.AllSurfaceFiberDetectorMeans[1]) / 100);
@@ -214,8 +214,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _output.AllSurfaceFiberDetectorMeans[2] * _output.AllSurfaceFiberDetectorMeans[2]) / 100);
             var threeSigmaPos = _output.AllSurfaceFiberDetectorMeans[2] + 3 * sd;
             var threeSigmaNeg = _output.AllSurfaceFiberDetectorMeans[2] - 3 * sd;
-            Assert.IsTrue(_output.AllROfRhoDetectorMeans[2][0] < threeSigmaPos);
-            Assert.IsTrue(_output.AllROfRhoDetectorMeans[2][0] > threeSigmaNeg);
+            Assert.That(_output.AllROfRhoDetectorMeans[2][0] < threeSigmaPos, Is.True);
+            Assert.That(_output.AllROfRhoDetectorMeans[2][0] > threeSigmaNeg, Is.True);
         }
     }
 }

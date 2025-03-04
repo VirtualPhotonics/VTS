@@ -53,11 +53,11 @@ namespace Vts.Test.Extensions
                     0.2,
                     0.3
                 });
-            Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
+            Assert.That(doubleList, Is.InstanceOf<IEnumerable<double>>());
             Assert.Throws<NotImplementedException>(() =>
             {
                 var arrayList = doubleList.ToArray();
-                Assert.IsNull(arrayList);
+                Assert.That(arrayList, Is.Null);
             });
         }
 
@@ -79,11 +79,11 @@ namespace Vts.Test.Extensions
                     0.1,
                     0.2
                 });
-            Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
+            Assert.That(doubleList, Is.InstanceOf<IEnumerable<double>>());
             Assert.Throws<NotImplementedException>(() =>
             {
                 var arrayList = doubleList.ToArray();
-                Assert.IsNull(arrayList);
+                Assert.That(arrayList, Is.Null);
             });
         }
 
@@ -97,17 +97,17 @@ namespace Vts.Test.Extensions
                 new KeyValuePair<string, string>("three", "third")
             };
             var dictionary = EnumerableExtensions.ToDictionary(keyValuePairList);
-            Assert.IsInstanceOf<Dictionary<string, string>>(dictionary);
-            Assert.AreEqual("first", dictionary["one"]);
-            Assert.AreEqual("second", dictionary["two"]);
-            Assert.AreEqual("third", dictionary["three"]);
+            Assert.That(dictionary, Is.InstanceOf<Dictionary<string, string>>());
+            Assert.That(dictionary["one"], Is.EqualTo("first"));
+            Assert.That(dictionary["two"], Is.EqualTo("second"));
+            Assert.That(dictionary["three"], Is.EqualTo("third"));
         }
 
         [Test]
         public void To2DArray_returns_a_2_dimensional_array()
         {
             var twoDArray = _doubleEnumerable.To2DArray(2, 4);
-            Assert.AreEqual(0.6, twoDArray[0,0]);
+            Assert.That(twoDArray[0,0], Is.EqualTo(0.6));
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace Vts.Test.Extensions
         {
             var twoDArray = _doubleEnumerable.To2DArray(2, 4);
             var doubleEnumerable = twoDArray.Select((d, i1, i2) => d * i1 * i2);
-            doubleEnumerable.ForEach(x => Assert.IsInstanceOf<double>(x));
+            doubleEnumerable.ForEach(x => Assert.That(x, Is.InstanceOf<double>()));
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace Vts.Test.Extensions
         {
             var result = _doubleEnumerable.Zip(_doubleEnumerable,
                 _doubleEnumerable, _doubleEnumerable, (d1, d2, d3, d4) => d1 * d2 * d3);
-            result.ForEach(x => Assert.IsInstanceOf<double>(x));
+            result.ForEach(x => Assert.That(x, Is.InstanceOf<double>()));
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace Vts.Test.Extensions
         {
             var result = _doubleEnumerable.Zip(_doubleEnumerable,
                 _doubleEnumerable, _doubleEnumerable, _doubleEnumerable, (d1, d2, d3, d4, d5) => d1 * d2 * d3 * d4);
-            result.ForEach(x => Assert.IsInstanceOf<double>(x));
+            result.ForEach(x => Assert.That(x, Is.InstanceOf<double>()));
         }
 
         [Test]
@@ -178,11 +178,11 @@ namespace Vts.Test.Extensions
             var range = new DoubleRange(0, 99, 100);
             var skippedValues = range.TakeEveryNth(5);
             var skippedValueArray = skippedValues.ToArray();
-            Assert.AreEqual(20, skippedValueArray.Length);
-            Assert.AreEqual(0, skippedValueArray[0]);
-            Assert.AreEqual(10, skippedValueArray[2]);
-            Assert.AreEqual(20, skippedValueArray[4]);
-            Assert.AreEqual(85, skippedValueArray[17]);
+            Assert.That(skippedValueArray.Length, Is.EqualTo(20));
+            Assert.That(skippedValueArray[0], Is.EqualTo(0));
+            Assert.That(skippedValueArray[2], Is.EqualTo(10));
+            Assert.That(skippedValueArray[4], Is.EqualTo(20));
+            Assert.That(skippedValueArray[17], Is.EqualTo(85));
         }
     }
 }
