@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
     }
 }

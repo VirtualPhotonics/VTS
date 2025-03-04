@@ -105,9 +105,9 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (RDiffuseDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean);
-            Assert.AreEqual(50, dcloned.SecondMoment); // 0D detectors 2nd moment written to .txt file
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean, Is.EqualTo(100));
+            Assert.That(dcloned.SecondMoment, Is.EqualTo(50)); // 0D detectors 2nd moment written to .txt file
         }
         [Test]
         public void Validate_TDiffuseDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -119,8 +119,8 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TDiffuseDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean, Is.EqualTo(100));
         }
         [Test]
         public void Validate_ATotalDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -133,9 +133,9 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ATotalDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean);
-            Assert.AreEqual(50, dcloned.SecondMoment);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean, Is.EqualTo(100));
+            Assert.That(dcloned.SecondMoment, Is.EqualTo(50));
         }
         /// <summary>
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
@@ -157,10 +157,10 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfAngleDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean[0]);
-            Assert.AreEqual(200, dcloned.Mean[1]);
-            Assert.AreEqual(300, dcloned.Mean[2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0], Is.EqualTo(100));
+            Assert.That(dcloned.Mean[1], Is.EqualTo(200));
+            Assert.That(dcloned.Mean[2], Is.EqualTo(300));
         }
         [Test]
         public void Validate_ROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -177,10 +177,10 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean[0]);
-            Assert.AreEqual(200, dcloned.Mean[1]);
-            Assert.AreEqual(300, dcloned.Mean[2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0], Is.EqualTo(100));
+            Assert.That(dcloned.Mean[1], Is.EqualTo(200));
+            Assert.That(dcloned.Mean[2], Is.EqualTo(300));
         }
         [Test]
         public void Validate_TOfAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -197,10 +197,10 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TOfAngleDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean[0]);
-            Assert.AreEqual(200, dcloned.Mean[1]);
-            Assert.AreEqual(300, dcloned.Mean[2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0], Is.EqualTo(100));
+            Assert.That(dcloned.Mean[1], Is.EqualTo(200));
+            Assert.That(dcloned.Mean[2], Is.EqualTo(300));
         }
         [Test]
         public void Validate_TOfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -217,10 +217,10 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TOfRhoDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean[0]);
-            Assert.AreEqual(200, dcloned.Mean[1]);
-            Assert.AreEqual(300, dcloned.Mean[2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0], Is.EqualTo(100));
+            Assert.That(dcloned.Mean[1], Is.EqualTo(200));
+            Assert.That(dcloned.Mean[2], Is.EqualTo(300));
         }
         [Test]
         public void Validate_pMCROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -241,10 +241,10 @@ namespace Vts.Test.MonteCarlo
             var dcloned = (pMCROfRhoDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
             // ckh: not sure how I would read in 2nd moment data in detector + "_2"
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(100, dcloned.Mean[0]);
-            Assert.AreEqual(200, dcloned.Mean[1]);
-            Assert.AreEqual(300, dcloned.Mean[2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0], Is.EqualTo(100));
+            Assert.That(dcloned.Mean[1], Is.EqualTo(200));
+            Assert.That(dcloned.Mean[2], Is.EqualTo(300));
         }
         /// <summary>
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
@@ -266,13 +266,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo(6));
         }
         [Test]
         public void Validate_ROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -290,13 +290,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo(6));
         }
         [Test]
         public void Validate_ROfRhoAndOmegaDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -324,15 +324,15 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual( 1 + Complex.ImaginaryOne * 1, dcloned.Mean[0, 0]);
-            Assert.AreEqual( 2 + Complex.ImaginaryOne * 2, dcloned.Mean[0, 1]);
-            Assert.AreEqual( 3 + Complex.ImaginaryOne * 3, dcloned.Mean[0, 2]);
-            Assert.AreEqual( 4 + Complex.ImaginaryOne * 4, dcloned.Mean[0, 3]);
-            Assert.AreEqual( 5 + Complex.ImaginaryOne * 5, dcloned.Mean[1, 0]);
-            Assert.AreEqual( 6 + Complex.ImaginaryOne * 6, dcloned.Mean[1, 1]);
-            Assert.AreEqual( 7 + Complex.ImaginaryOne * 7, dcloned.Mean[1, 2]);
-            Assert.AreEqual( 8 + Complex.ImaginaryOne * 8, dcloned.Mean[1, 3]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo( 1 + Complex.ImaginaryOne * 1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo( 2 + Complex.ImaginaryOne * 2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo( 3 + Complex.ImaginaryOne * 3));
+            Assert.That(dcloned.Mean[0, 3], Is.EqualTo( 4 + Complex.ImaginaryOne * 4));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo( 5 + Complex.ImaginaryOne * 5));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo( 6 + Complex.ImaginaryOne * 6));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo( 7 + Complex.ImaginaryOne * 7));
+            Assert.That(dcloned.Mean[1, 3], Is.EqualTo( 8 + Complex.ImaginaryOne * 8));
         }
         [Test]
         public void Validate_ROfXAndYDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -350,13 +350,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfXAndYDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo(6));
         }
         [Test]
         public void Validate_TOfRhoAndAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -375,13 +375,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TOfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo(6));
         }
         [Test]
         public void Validate_AOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -400,13 +400,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (AOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo(6));
         }
         [Test]
         public void Validate_FluenceOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -425,13 +425,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (FluenceOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo(6));
         }
         [Test]
         public void Validate_ReflectedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -470,48 +470,48 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ReflectedMTOfRhoAndSubregionHistDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[1, 0]);
-            Assert.AreEqual(4, dcloned.Mean[1, 1]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(4));
 
-            Assert.AreEqual(1, dcloned.FractionalMT[0, 0, 0, 0]);
-            Assert.AreEqual(2, dcloned.FractionalMT[0, 0, 0, 1]);
-            Assert.AreEqual(3, dcloned.FractionalMT[0, 0, 0, 2]);
-            Assert.AreEqual(4, dcloned.FractionalMT[0, 0, 1, 0]);
-            Assert.AreEqual(5, dcloned.FractionalMT[0, 0, 1, 1]);
-            Assert.AreEqual(6, dcloned.FractionalMT[0, 0, 1, 2]);
-            Assert.AreEqual(7, dcloned.FractionalMT[0, 0, 2, 0]);
-            Assert.AreEqual(8, dcloned.FractionalMT[0, 0, 2, 1]);
-            Assert.AreEqual(9, dcloned.FractionalMT[0, 0, 2, 2]);
-            Assert.AreEqual(10, dcloned.FractionalMT[0, 1, 0, 0]);
-            Assert.AreEqual(11, dcloned.FractionalMT[0, 1, 0, 1]);
-            Assert.AreEqual(12, dcloned.FractionalMT[0, 1, 0, 2]);
-            Assert.AreEqual(13, dcloned.FractionalMT[0, 1, 1, 0]);
-            Assert.AreEqual(14, dcloned.FractionalMT[0, 1, 1, 1]);
-            Assert.AreEqual(15, dcloned.FractionalMT[0, 1, 1, 2]);
-            Assert.AreEqual(16, dcloned.FractionalMT[0, 1, 2, 0]);
-            Assert.AreEqual(17, dcloned.FractionalMT[0, 1, 2, 1]);
-            Assert.AreEqual(18, dcloned.FractionalMT[0, 1, 2, 2]);
-            Assert.AreEqual(19, dcloned.FractionalMT[1, 0, 0, 0]);
-            Assert.AreEqual(20, dcloned.FractionalMT[1, 0, 0, 1]);
-            Assert.AreEqual(21, dcloned.FractionalMT[1, 0, 0, 2]);
-            Assert.AreEqual(22, dcloned.FractionalMT[1, 0, 1, 0]);
-            Assert.AreEqual(23, dcloned.FractionalMT[1, 0, 1, 1]);
-            Assert.AreEqual(24, dcloned.FractionalMT[1, 0, 1, 2]);
-            Assert.AreEqual(25, dcloned.FractionalMT[1, 0, 2, 0]);
-            Assert.AreEqual(26, dcloned.FractionalMT[1, 0, 2, 1]);
-            Assert.AreEqual(27, dcloned.FractionalMT[1, 0, 2, 2]);
-            Assert.AreEqual(28, dcloned.FractionalMT[1, 1, 0, 0]);
-            Assert.AreEqual(29, dcloned.FractionalMT[1, 1, 0, 1]);
-            Assert.AreEqual(30, dcloned.FractionalMT[1, 1, 0, 2]);
-            Assert.AreEqual(31, dcloned.FractionalMT[1, 1, 1, 0]);
-            Assert.AreEqual(32, dcloned.FractionalMT[1, 1, 1, 1]);
-            Assert.AreEqual(33, dcloned.FractionalMT[1, 1, 1, 2]);
-            Assert.AreEqual(34, dcloned.FractionalMT[1, 1, 2, 0]);
-            Assert.AreEqual(35, dcloned.FractionalMT[1, 1, 2, 1]);
-            Assert.AreEqual(36, dcloned.FractionalMT[1, 1, 2, 2]);
+            Assert.That(dcloned.FractionalMT[0, 0, 0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.FractionalMT[0, 0, 0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.FractionalMT[0, 0, 0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.FractionalMT[0, 0, 1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.FractionalMT[0, 0, 1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.FractionalMT[0, 0, 1, 2], Is.EqualTo(6));
+            Assert.That(dcloned.FractionalMT[0, 0, 2, 0], Is.EqualTo(7));
+            Assert.That(dcloned.FractionalMT[0, 0, 2, 1], Is.EqualTo(8));
+            Assert.That(dcloned.FractionalMT[0, 0, 2, 2], Is.EqualTo(9));
+            Assert.That(dcloned.FractionalMT[0, 1, 0, 0], Is.EqualTo(10));
+            Assert.That(dcloned.FractionalMT[0, 1, 0, 1], Is.EqualTo(11));
+            Assert.That(dcloned.FractionalMT[0, 1, 0, 2], Is.EqualTo(12));
+            Assert.That(dcloned.FractionalMT[0, 1, 1, 0], Is.EqualTo(13));
+            Assert.That(dcloned.FractionalMT[0, 1, 1, 1], Is.EqualTo(14));
+            Assert.That(dcloned.FractionalMT[0, 1, 1, 2], Is.EqualTo(15));
+            Assert.That(dcloned.FractionalMT[0, 1, 2, 0], Is.EqualTo(16));
+            Assert.That(dcloned.FractionalMT[0, 1, 2, 1], Is.EqualTo(17));
+            Assert.That(dcloned.FractionalMT[0, 1, 2, 2], Is.EqualTo(18));
+            Assert.That(dcloned.FractionalMT[1, 0, 0, 0], Is.EqualTo(19));
+            Assert.That(dcloned.FractionalMT[1, 0, 0, 1], Is.EqualTo(20));
+            Assert.That(dcloned.FractionalMT[1, 0, 0, 2], Is.EqualTo(21));
+            Assert.That(dcloned.FractionalMT[1, 0, 1, 0], Is.EqualTo(22));
+            Assert.That(dcloned.FractionalMT[1, 0, 1, 1], Is.EqualTo(23));
+            Assert.That(dcloned.FractionalMT[1, 0, 1, 2], Is.EqualTo(24));
+            Assert.That(dcloned.FractionalMT[1, 0, 2, 0], Is.EqualTo(25));
+            Assert.That(dcloned.FractionalMT[1, 0, 2, 1], Is.EqualTo(26));
+            Assert.That(dcloned.FractionalMT[1, 0, 2, 2], Is.EqualTo(27));
+            Assert.That(dcloned.FractionalMT[1, 1, 0, 0], Is.EqualTo(28));
+            Assert.That(dcloned.FractionalMT[1, 1, 0, 1], Is.EqualTo(29));
+            Assert.That(dcloned.FractionalMT[1, 1, 0, 2], Is.EqualTo(30));
+            Assert.That(dcloned.FractionalMT[1, 1, 1, 0], Is.EqualTo(31));
+            Assert.That(dcloned.FractionalMT[1, 1, 1, 1], Is.EqualTo(32));
+            Assert.That(dcloned.FractionalMT[1, 1, 1, 2], Is.EqualTo(33));
+            Assert.That(dcloned.FractionalMT[1, 1, 2, 0], Is.EqualTo(34));
+            Assert.That(dcloned.FractionalMT[1, 1, 2, 1], Is.EqualTo(35));
+            Assert.That(dcloned.FractionalMT[1, 1, 2, 2], Is.EqualTo(36));
         }
         [Test]
         public void Validate_pMCROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -531,13 +531,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (pMCROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[1, 2], Is.EqualTo(6));
         }
         /// <summary>
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
@@ -561,19 +561,19 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (FluenceOfRhoAndZAndTimeDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(detectorName, dcloned.Name);
-            Assert.AreEqual(1, dcloned.Mean[0, 0, 0]);
-            Assert.AreEqual(2, dcloned.Mean[0, 0, 1]);
-            Assert.AreEqual(3, dcloned.Mean[0, 0, 2]);
-            Assert.AreEqual(4, dcloned.Mean[0, 1, 0]);
-            Assert.AreEqual(5, dcloned.Mean[0, 1, 1]);
-            Assert.AreEqual(6, dcloned.Mean[0, 1, 2]);
-            Assert.AreEqual(7, dcloned.Mean[1, 0, 0]);
-            Assert.AreEqual(8, dcloned.Mean[1, 0, 1]);
-            Assert.AreEqual(9, dcloned.Mean[1, 0, 2]);
-            Assert.AreEqual(10, dcloned.Mean[1, 1, 0]);
-            Assert.AreEqual(11, dcloned.Mean[1, 1, 1]);
-            Assert.AreEqual(12, dcloned.Mean[1, 1, 2]);
+            Assert.That(dcloned.Name, Is.EqualTo(detectorName));
+            Assert.That(dcloned.Mean[0, 0, 0], Is.EqualTo(1));
+            Assert.That(dcloned.Mean[0, 0, 1], Is.EqualTo(2));
+            Assert.That(dcloned.Mean[0, 0, 2], Is.EqualTo(3));
+            Assert.That(dcloned.Mean[0, 1, 0], Is.EqualTo(4));
+            Assert.That(dcloned.Mean[0, 1, 1], Is.EqualTo(5));
+            Assert.That(dcloned.Mean[0, 1, 2], Is.EqualTo(6));
+            Assert.That(dcloned.Mean[1, 0, 0], Is.EqualTo(7));
+            Assert.That(dcloned.Mean[1, 0, 1], Is.EqualTo(8));
+            Assert.That(dcloned.Mean[1, 0, 2], Is.EqualTo(9));
+            Assert.That(dcloned.Mean[1, 1, 0], Is.EqualTo(10));
+            Assert.That(dcloned.Mean[1, 1, 1], Is.EqualTo(11));
+            Assert.That(dcloned.Mean[1, 1, 2], Is.EqualTo(12));
         }
     }
 }

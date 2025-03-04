@@ -106,15 +106,15 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void Validate_Russian_Roulette_statistics()
         {
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsSpecularReflected == 3);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutTopOfTissue == 30);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue == 1);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsAbsorbed == 0);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsKilledByRussianRoulette == 66);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsSpecularReflected +
+                Assert.That(_simulationStatistics.NumberOfPhotonsSpecularReflected, Is.EqualTo(3));
+                Assert.That(_simulationStatistics.NumberOfPhotonsOutTopOfTissue, Is.EqualTo(30));
+                Assert.That(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue, Is.EqualTo(1));
+                Assert.That(_simulationStatistics.NumberOfPhotonsAbsorbed, Is.EqualTo(0));
+                Assert.That(_simulationStatistics.NumberOfPhotonsKilledByRussianRoulette, Is.EqualTo(66));
+                Assert.That(_simulationStatistics.NumberOfPhotonsSpecularReflected +
                     _simulationStatistics.NumberOfPhotonsOutTopOfTissue +
                     _simulationStatistics.NumberOfPhotonsOutBottomOfTissue +
-                    _simulationStatistics.NumberOfPhotonsKilledByRussianRoulette == N);
+                    _simulationStatistics.NumberOfPhotonsKilledByRussianRoulette, Is.EqualTo(N));
         }
     }
 }

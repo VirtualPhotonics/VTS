@@ -43,7 +43,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>() { }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that voxel has non-zero axis definitions.
@@ -78,7 +78,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that at least one tissue layer is defined
@@ -106,7 +106,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that voxel is entirely contained within tissue layer
@@ -140,7 +140,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>() { }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that voxel refractive index matches refractive index of surrounding layer
@@ -174,7 +174,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>() { }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
     }
 }

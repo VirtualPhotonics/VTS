@@ -31,16 +31,16 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new IsotropicPointSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new IsotropicPointSourceInput(
                     new Position(0, 0, 0),
                     0
             );
-            Assert.IsInstanceOf<IsotropicPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<IsotropicPointSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<IsotropicPointSource>(source);
+            Assert.That(source, Is.InstanceOf<IsotropicPointSource>());
         }
         /// <summary>
         /// Validate General Constructor of Isotropic Point Source
@@ -58,13 +58,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[28]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[29]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[30]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[28]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[29]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[30]), Is.LessThan(_validationData.AcceptablePrecision));
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[31]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[32]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[33]), _validationData.AcceptablePrecision);
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[31]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[32]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[33]), Is.LessThan(_validationData.AcceptablePrecision));
         }
         /// <summary>
         /// Test general constructor and verify that position is correct
@@ -79,11 +79,10 @@ namespace Vts.Test.MonteCarlo.Sources
             {
             };
 
-            Assert.IsTrue(
+            Assert.That(
                 ps.PointLocation.X == 1.0 &&
                 ps.PointLocation.Y == 2.0 &&
-                ps.PointLocation.Z == 3.0
-            );
+                ps.PointLocation.Z == 3.0, Is.True);
         }
         /// <summary>
         /// test default constructor and verify position is correct
@@ -95,11 +94,10 @@ namespace Vts.Test.MonteCarlo.Sources
             {
             };
 
-            Assert.IsTrue(
+            Assert.That(
                 ps.PointLocation.X == 0.0 &&
                 ps.PointLocation.Y == 0.0 &&
-                ps.PointLocation.Z == 0.0
-            );
+                ps.PointLocation.Z == 0.0, Is.True);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             var iCloned = tissueInput.Clone();
 
-            Assert.AreEqual(tissueInput.Regions[1].RegionOP.Mus, iCloned.Regions[1].RegionOP.Mus);
+            Assert.That(iCloned.Regions[1].RegionOP.Mus, Is.EqualTo(tissueInput.Regions[1].RegionOP.Mus));
         }
         /// <summary>
         /// verify MultiLayerTissueInput deserializes correctly when using FileIO
@@ -77,7 +77,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             tissueInput.WriteToJson("MultiLayerTissue.txt");
             var iCloned = FileIO.ReadFromJson<MultiLayerTissueInput>("MultiLayerTissue.txt");
 
-            Assert.AreEqual(tissueInput.Regions[1].RegionOP.Mus, iCloned.Regions[1].RegionOP.Mus);
+            Assert.That(iCloned.Regions[1].RegionOP.Mus, Is.EqualTo(tissueInput.Regions[1].RegionOP.Mus));
         }
         /// <summary>
         /// verify exception thrown when GetNeighborIndex is called and the photon

@@ -35,7 +35,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var relDiff = Math.Abs(
                     DiffusionGreensFunctions.StationaryPointSourceGreensFunction(dp, rTestValues[iR]) -
                     greensFunctionValues[iR]) / greensFunctionValues[iR];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -50,7 +50,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var relDiff = Math.Abs(
                     DiffusionGreensFunctions.TemporalPointSourceGreensFunction(dp, rTestValues[iR], time) -
                     greensFunctionValues[iR]) / greensFunctionValues[iR];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with time =" + time + "with relative difference " + relDiff);
             }
         }
@@ -67,10 +67,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var tfpsGF = DiffusionGreensFunctions.TemporalFrequencyPointSourceGreensFunction(dp, rTestValues[iR], k);
 
                 var relDiffReal = Math.Abs(tfpsGF.Real - realGreensFunctionValues[iR]) / realGreensFunctionValues[iR];
-                Assert.IsTrue(relDiffReal < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiffReal < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with relative difference " + relDiffReal + " for the real compoment");
                 var relDiffImag = Math.Abs(tfpsGF.Imaginary - imaginaryGreensFunctionValues[iR]) / imaginaryGreensFunctionValues[iR];
-                Assert.IsTrue(relDiffImag < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiffImag < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with relative difference " + relDiffReal + " for the imaginary compoment");
             }
         }
@@ -85,7 +85,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var relDiff = Math.Abs(
                     DiffusionGreensFunctions.StationaryPointSourceGreensFunctionZFlux(dp, rTestValues[iR], -dp.zp) -
                     greensFunctionValues[iR]) / greensFunctionValues[iR];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -100,7 +100,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var relDiff = Math.Abs(
                     DiffusionGreensFunctions.TemporalPointSourceGreensFunctionZFlux(dp, rTestValues[iR], -dp.zp, time) -
                     greensFunctionValues[iR]) / greensFunctionValues[iR];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with time =" + time + "with relative difference " + relDiff);
             }
         }
@@ -117,10 +117,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var tfpsGF = DiffusionGreensFunctions.TemporalFrequencyPointSourceGreensFunctionZFlux(dp, rTestValues[iR], -dp.zp, k);
 
                 var relDiffReal = Math.Abs(tfpsGF.Real - realGreensFunctionValues[iR]) / realGreensFunctionValues[iR];
-                Assert.IsTrue(relDiffReal < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiffReal < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with relative difference " + relDiffReal + " for the real compoment");
                 var relDiffImag = Math.Abs(tfpsGF.Imaginary - imaginaryGreensFunctionValues[iR]) / imaginaryGreensFunctionValues[iR];
-                Assert.IsTrue(relDiffImag < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                Assert.That(relDiffImag < thresholdValue, Is.True, "Test failed for r =" + rTestValues[iR] +
                     "mm, with relative difference " + relDiffReal + " for the imaginary compoment");
             }
         }
