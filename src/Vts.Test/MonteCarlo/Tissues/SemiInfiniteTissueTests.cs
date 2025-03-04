@@ -48,7 +48,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             var iCloned = i.Clone();
 
-            Assert.IsTrue(Math.Abs(iCloned.Regions[0].RegionOP.Mus - i.Regions[0].RegionOP.Mus) < 1e-6);
+            Assert.That(Math.Abs(iCloned.Regions[0].RegionOP.Mus - i.Regions[0].RegionOP.Mus) < 1e-6, Is.True);
         }
         /// <summary>
         /// verify SemiInfiniteTissueInput deserializes correctly when using FileIO
@@ -64,7 +64,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             i.WriteToJson("SemiInfiniteTissue.txt");
             var iCloned = FileIO.ReadFromJson<SemiInfiniteTissueInput>("SemiInfiniteTissue.txt");
 
-            Assert.IsTrue(Math.Abs(iCloned.Regions[0].RegionOP.Mus - i.Regions[0].RegionOP.Mus) < 1e-6);
+            Assert.That(Math.Abs(iCloned.Regions[0].RegionOP.Mus - i.Regions[0].RegionOP.Mus) < 1e-6, Is.True);
         }
         /// <summary>
         /// CreateTissue is not written yet so this tests for exception

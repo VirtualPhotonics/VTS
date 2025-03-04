@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CircularAngledFromPointSourceInput();
-            Assert.IsInstanceOf<CircularAngledFromPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CircularAngledFromPointSourceInput>());
             // check full definition
             si = new CircularAngledFromPointSourceInput(
                 1.0,
@@ -32,10 +32,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 0
             );
-            Assert.IsInstanceOf<CircularAngledFromPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CircularAngledFromPointSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<CircularAngledFromPointSource>(source);
+            Assert.That(source, Is.InstanceOf<CircularAngledFromPointSource>());
         }
         /// <summary>
         /// This test different from others in that it is validated by geometrically
@@ -57,15 +57,15 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside radius
-            Assert.IsTrue(Math.Sqrt(
+            Assert.That(Math.Sqrt(
                 (photon.DP.Position.X - translationFromOrigin.X) *
                 (photon.DP.Position.X - translationFromOrigin.X) +
                 (photon.DP.Position.Y - translationFromOrigin.Y) *
-                (photon.DP.Position.Y - translationFromOrigin.Y)) <= radius);
+                (photon.DP.Position.Y - translationFromOrigin.Y)), Is.LessThanOrEqualTo(radius));
             // make sure angle is less than 45 degrees
-            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
+            Assert.That(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2), Is.True);
         }
 
     }

@@ -18,53 +18,53 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_intralipid_scatterer_default_constructor()
         {
             var scatterer = new IntralipidScatterer();
-            Assert.IsInstanceOf<IntralipidScatterer>(scatterer);
-            Assert.AreEqual(0.01, scatterer.VolumeFraction);
+            Assert.That(scatterer, Is.InstanceOf<IntralipidScatterer>());
+            Assert.That(scatterer.VolumeFraction, Is.EqualTo(0.01));
         }
 
         [Test]
         public void Test_intralipid_scatterer_constructor()
         {
             var scatterer = new IntralipidScatterer(0.02);
-            Assert.IsInstanceOf<IntralipidScatterer>(scatterer);
-            Assert.AreEqual(0.02, scatterer.VolumeFraction);
+            Assert.That(scatterer, Is.InstanceOf<IntralipidScatterer>());
+            Assert.That(scatterer.VolumeFraction, Is.EqualTo(0.02));
         }
 
         [Test]
         public void Test_get_scatterer_type()
         {
             var scatterer = new IntralipidScatterer();
-            Assert.AreEqual(ScatteringType.Intralipid, scatterer.ScattererType);
+            Assert.That(scatterer.ScattererType, Is.EqualTo(ScatteringType.Intralipid));
         }
 
         [Test]
         public void Test_set_volume_fraction()
         {
             var scatterer = new IntralipidScatterer(1.1);
-            Assert.AreEqual(1, scatterer.VolumeFraction);
+            Assert.That(scatterer.VolumeFraction, Is.EqualTo(1));
             scatterer.VolumeFraction = -1;
-            Assert.AreEqual(0, scatterer.VolumeFraction);
+            Assert.That(scatterer.VolumeFraction, Is.EqualTo(0));
         }
 
         [Test]
         public void Test_get_g()
         {
             var g = _IntralipidScatterer.GetG(600);
-            Assert.AreEqual(0.752, g, 0.000001);
+            Assert.That(g, Is.EqualTo(0.752).Within(0.000001));
         }
 
         [Test]
         public void Test_get_mus()
         {
             var mus = _IntralipidScatterer.GetMus(600);
-            Assert.AreEqual(5.460981, mus, 0.000001);
+            Assert.That(mus, Is.EqualTo(5.460981).Within(0.000001));
         }
 
         [Test]
         public void Test_get_musp()
         {
             var musp = _IntralipidScatterer.GetMusp(600);
-            Assert.AreEqual(1.354323, musp, 0.000001);
+            Assert.That(musp, Is.EqualTo(1.354323).Within(0.000001));
         }
     }
 }

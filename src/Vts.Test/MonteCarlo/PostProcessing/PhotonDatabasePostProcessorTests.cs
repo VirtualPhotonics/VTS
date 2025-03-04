@@ -179,7 +179,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             // currently these are agreeing EXCEPT for last bin i=99, j=99
             var out1 = output1.R_rt[99, 99];
             var out2 = output2.R_rt[99, 99];
-            Assert.Less(Math.Abs(out2 - out1)/out1, 1e-10);
+            Assert.That(Math.Abs(out2 - out1)/out1, Is.LessThan(1e-10));
             for (var i = 0; i < detector.Rho.Count - 1; i++)
             {
                 for (var j = 0; j < detector.Time.Count - 1; j++)
@@ -187,7 +187,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     // round off error about 1e-18
                     if (output1.R_rt[i, j] > 0.0)
                     {
-                        Assert.Less(Math.Abs(output2.R_rt[i, j] - output1.R_rt[i, j]) / output1.R_rt[i, j], 1e-10);
+                        Assert.That(Math.Abs(output2.R_rt[i, j] - output1.R_rt[i, j]) / output1.R_rt[i, j], Is.LessThan(1e-10));
                     }
                 }
             }
@@ -222,8 +222,8 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                  new List<IDetectorInput>(){} // specify NO DETECTORS
             );
             new MonteCarloSimulation(input).Run();
-            Assert.IsTrue(FileIO.FileExists("DiffuseReflectanceDatabase"));
-            Assert.IsFalse(FileIO.FileExists("DiffuseTransmittanceDatabase"));
+            Assert.That(FileIO.FileExists("DiffuseReflectanceDatabase"), Is.True);
+            Assert.That(FileIO.FileExists("DiffuseTransmittanceDatabase"), Is.False);
         }
     }
 }

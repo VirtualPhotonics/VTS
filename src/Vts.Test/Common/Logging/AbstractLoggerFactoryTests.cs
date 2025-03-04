@@ -21,7 +21,7 @@ namespace Vts.Test.Common.Logging
         public void Test_create_logger_type_only()
         {
             _loggerMock.Create(Arg.Any<string>()).Returns(new NLogLogger());
-            Assert.IsInstanceOf<NLogLogger>(_loggerMock.Create(typeof(AbstractLoggerFactoryTests)));
+            Assert.That(_loggerMock.Create(typeof(AbstractLoggerFactoryTests)), Is.InstanceOf<NLogLogger>());
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Vts.Test.Common.Logging
         public void Test_create_logger_type_and_level()
         {
             _loggerMock.Create(Arg.Any<string>(), Arg.Any<LoggerLevel>()).Returns(new NLogLogger());
-            Assert.IsInstanceOf<NLogLogger>(_loggerMock.Create(typeof(AbstractLoggerFactoryTests), LoggerLevel.Error));
+            Assert.That(_loggerMock.Create(typeof(AbstractLoggerFactoryTests), LoggerLevel.Error), Is.InstanceOf<NLogLogger>());
         }
     }
 }
