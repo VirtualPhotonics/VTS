@@ -11,7 +11,7 @@ namespace Vts.Test.MonteCarlo
         {
             var random1 = new SimulationOptions(-1);
             var deterministic = new SimulationOptions(1);
-            Assert.AreNotEqual(random1.Seed, deterministic.Seed);
+            Assert.That(deterministic.Seed, Is.Not.EqualTo(random1.Seed));
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Vts.Test.MonteCarlo
                 false,
                 0.0,
                 0);
-            Assert.IsTrue(so.Databases.Count == 0);
+            Assert.That(so.Databases.Count == 0, Is.True);
         }
 
     }

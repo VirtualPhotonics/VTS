@@ -122,7 +122,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 -1, // direction -1=up
                 0); // position at surface
             var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
-            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 3 * sd); 
+            Assert.That(Math.Abs(_output.Rd - analyticSolution), Is.LessThan(3 * sd)); 
         }
         // Total Absorption
         [Test]
@@ -145,7 +145,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             // take sum because absorbed energy independent of direction
             var analyticSolution = (analyticSolutionRight + analyticSolutionLeft);
             var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Atot, _output.Atot2);
-            Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 3 * sd);
+            Assert.That(Math.Abs(_output.Atot - _mua * analyticSolution), Is.LessThan(3 * sd));
         }
         // Diffuse Transmittance
         [Test]
@@ -157,13 +157,13 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 1, // direction 1=down
                 _slabThickness); // position at slab end
             var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Td, _output.Td2);
-            Assert.Less(Math.Abs(_output.Td - analyticSolution), 3 * sd);
+            Assert.That(Math.Abs(_output.Td - analyticSolution), Is.LessThan(3 * sd));
         }
         // with no refractive index mismatch, Rd + Atot + Td should equal 1
         [Test]
         public void validate_bidirectional_CAW_detector_sum_equals_one()
         {
-            Assert.Less(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1.0), 0.00000000001);
+            Assert.That(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1.0), Is.LessThan(0.00000000001));
         }
     }
 }

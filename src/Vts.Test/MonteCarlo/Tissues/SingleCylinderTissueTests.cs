@@ -39,10 +39,10 @@ namespace Vts.Test.MonteCarlo.Tissues
             var i = new SingleCylinderTissueInput();
             var cylinder = i.CylinderRegion;
             var layers = i.LayerRegions;
-            Assert.AreEqual(0.0, cylinder.Center.X);
-            Assert.AreEqual(0.0, cylinder.Center.Y);
-            Assert.AreEqual(3.0, cylinder.Center.Z);
-            Assert.AreEqual(50.0, layers[1].Center.Z);
+            Assert.That(cylinder.Center.X, Is.EqualTo(0.0));
+            Assert.That(cylinder.Center.Y, Is.EqualTo(0.0));
+            Assert.That(cylinder.Center.Z, Is.EqualTo(3.0));
+            Assert.That(layers[1].Center.Z, Is.EqualTo(50.0));
         }
         /// <summary>
         /// verify SingleCylinderTissueInput deserializes correctly
@@ -75,7 +75,7 @@ namespace Vts.Test.MonteCarlo.Tissues
           
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(i.Regions[1].RegionOP.Mua, Is.EqualTo(iCloned.Regions[1].RegionOP.Mua));
         }
         /// <summary>
         /// verify SingleCylinderTissueInput deserializes correctly when using FileIO
@@ -109,7 +109,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             i.WriteToJson("SingleCylinderTissue.txt");
             var iCloned = FileIO.ReadFromJson<SingleCylinderTissueInput>("SingleCylinderTissue.txt");
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(i.Regions[1].RegionOP.Mua, Is.EqualTo(iCloned.Regions[1].RegionOP.Mua));
         }
         /// <summary>
         /// verify CreateTissue generates ITissue
@@ -141,10 +141,11 @@ namespace Vts.Test.MonteCarlo.Tissues
                 }
             );
 
-            Assert.IsInstanceOf<ITissue>(i.CreateTissue(
-                AbsorptionWeightingType.Continuous,
+            Assert.That(i.CreateTissue(
+                AbsorptionWeightingType.Continuous, 
                 new Dictionary<string, IPhaseFunction>(),
-                0.0));
+                0.0), 
+                Is.InstanceOf<ITissue>());
         }
     }
 }

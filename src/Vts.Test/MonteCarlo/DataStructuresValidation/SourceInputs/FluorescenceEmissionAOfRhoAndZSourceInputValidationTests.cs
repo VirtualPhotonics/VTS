@@ -125,8 +125,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.SourceInputs
             var result = SimulationInputValidation.ValidateInput(input);
             // result will be false because radius of capless cylinder is not equal to the
             // rho bin Delta size.
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.ValidationRule != null);
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.ValidationRule != null, Is.True);
         }
     }
 }

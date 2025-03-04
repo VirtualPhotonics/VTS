@@ -57,7 +57,7 @@ namespace Vts.Test.MonteCarlo.Factories
                 phaseFunctions,
                 0.0);
 
-            Assert.NotNull(tissue);
+            Assert.That(tissue, Is.Not.Null);
         }        
         /// <summary>
         /// Simulate erroneous invocation

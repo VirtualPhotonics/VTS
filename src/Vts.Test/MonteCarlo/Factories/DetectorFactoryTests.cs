@@ -67,11 +67,9 @@ namespace Vts.Test.MonteCarlo.Factories
         public void Demonstrate_GetDetectors_null_return_on_empty_list()
         {
             IEnumerable<IDetectorInput> emptyDetectorList = null;
-            Assert.IsNull(DetectorFactory.GetDetectors(
-                emptyDetectorList, new MultiLayerTissue(), new MersenneTwister(0)));
+            Assert.That(DetectorFactory.GetDetectors(emptyDetectorList, new MultiLayerTissue(), new MersenneTwister(0)), Is.Null);
             IDetectorInput nullDetector = null;
-            Assert.IsNull(DetectorFactory.GetDetector(
-                nullDetector, new MultiLayerTissue(), new MersenneTwister(0)));
+            Assert.That(DetectorFactory.GetDetector(nullDetector, new MultiLayerTissue(), new MersenneTwister(0)), Is.Null);
         }
 
         /// <summary>
@@ -92,7 +90,7 @@ namespace Vts.Test.MonteCarlo.Factories
             var results = sim.Run();
             var rOfRhoDetector = results.ResultsDictionary.TryGetValue(
                 detectorInput.Name, out _);
-            Assert.NotNull(rOfRhoDetector);
+            Assert.That(rOfRhoDetector, Is.Not.Null);
         }
 
         /// <summary>
@@ -118,7 +116,7 @@ namespace Vts.Test.MonteCarlo.Factories
                 .Run()
                 .GetDetector("My First Detector");
 
-            Assert.NotNull(rOfRhoDetector);
+            Assert.That(rOfRhoDetector, Is.Not.Null);
         }
         
         /// <summary>
@@ -146,18 +144,18 @@ namespace Vts.Test.MonteCarlo.Factories
             var results = sim.Run();
             var detectorExists = results.ResultsDictionary.TryGetValue(
                 detectorInput.Name, out var detector);
-            Assert.IsTrue(detectorExists);
+            Assert.That(detectorExists, Is.True);
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
-            Assert.IsTrue(firstValue != 0);
+            Assert.That(firstValue != 0, Is.True);
 
             // write detector to folder "user_defined_detector"
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
              
             // read detector filename="My First R(x) Detector" from folder "user_defined_detector"
             var detectorFromFile = DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
-            Assert.IsNotNull(detectorFromFile);
-            Assert.AreEqual(detector.Name, detectorFromFile.Name);
-            Assert.AreEqual(detector.TallyType, detectorFromFile.TallyType);
+            Assert.That(detectorFromFile, Is.Not.Null);
+            Assert.That(detectorFromFile.Name, Is.EqualTo(detector.Name));
+            Assert.That(detectorFromFile.TallyType, Is.EqualTo(detector.TallyType));
         }
 
         /// <summary>

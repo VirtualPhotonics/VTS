@@ -30,12 +30,12 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_ellipsoid_properties()
         {
-            Assert.AreEqual(0.0, _ellipsoidTissueRegion.Center.X);
-            Assert.AreEqual(0.0, _ellipsoidTissueRegion.Center.Y);
-            Assert.AreEqual(3.0,_ellipsoidTissueRegion.Center.Z );
-            Assert.AreEqual(1.0, _ellipsoidTissueRegion.Dx);
-            Assert.AreEqual(1.0, _ellipsoidTissueRegion.Dy);
-            Assert.AreEqual(2.0, _ellipsoidTissueRegion.Dz);
+            Assert.That(_ellipsoidTissueRegion.Center.X, Is.EqualTo(0.0));
+            Assert.That(_ellipsoidTissueRegion.Center.Y, Is.EqualTo(0.0));
+            Assert.That(_ellipsoidTissueRegion.Center.Z , Is.EqualTo(3.0));
+            Assert.That(_ellipsoidTissueRegion.Dx, Is.EqualTo(1.0));
+            Assert.That(_ellipsoidTissueRegion.Dy, Is.EqualTo(1.0));
+            Assert.That(_ellipsoidTissueRegion.Dz, Is.EqualTo(2.0));
         }
         /// <summary>
         /// Validate method OnBoundary return correct Boolean.
@@ -46,13 +46,13 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             // OnBoundary returns false if *exactly* on boundary
             var result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 1.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             // but returns true if outside ellipsoid which doesn't make sense but it is how code is written
             // and all unit tests (linux included) are based on this wrong return
             result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 0.5));
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
         /// <summary>
         /// Validate method ContainsPositions return correct Boolean. ContainsPosition is true if inside
@@ -62,9 +62,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
             var result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
         /// <summary>
         /// Validate method SurfaceNormal return correct normal vector
@@ -73,13 +73,13 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_SurfaceNormal_method_returns_correct_result()
         {
             var result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(-1, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(-1));
             result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(1, result.Uz);
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(1));
         }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
@@ -98,16 +98,16 @@ namespace Vts.Test.MonteCarlo.Tissues
             };
             double distanceToBoundary;
             var result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             photon.S = 0.5; // definitely don't intersect
             result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(false));
+            Assert.That(distanceToBoundary, Is.EqualTo(Double.PositiveInfinity));
             photon.S = 1.0; // ends right at boundary => both out and no intersection
             result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(false));
+            Assert.That(distanceToBoundary, Is.EqualTo(Double.PositiveInfinity));
         }
     }
 }

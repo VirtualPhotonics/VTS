@@ -16,15 +16,12 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetRandomNumberGenerator_successful_return()
         {
-            Assert.IsInstanceOf<Random>(
-                RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                RandomNumberGeneratorType.MersenneTwister));
-            Assert.IsInstanceOf<Random>(
-                RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                    RandomNumberGeneratorType.SerializableMersenneTwister));
-            Assert.IsInstanceOf<Random>(
-                RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                    RandomNumberGeneratorType.DynamicCreatorMersenneTwister));
+            Assert.That(RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                RandomNumberGeneratorType.MersenneTwister), Is.InstanceOf<Random>());
+            Assert.That(RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                    RandomNumberGeneratorType.SerializableMersenneTwister), Is.InstanceOf<Random>());
+            Assert.That(RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                    RandomNumberGeneratorType.DynamicCreatorMersenneTwister), Is.InstanceOf<Random>());
         }
         /// <summary>
         /// Simulate erroneous invocation

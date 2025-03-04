@@ -14,7 +14,7 @@ namespace Vts.Test.Extensions
         {
             var doubles = new[] {0.1, 0.2, 0.3};
             var doublesWithNoise = doubles.AddNoise(5.0);
-            Assert.AreEqual(3, doublesWithNoise.Length);
+            Assert.That(doublesWithNoise.Length, Is.EqualTo(3));
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace Vts.Test.Extensions
         {
             var doubles = new List<double> {0.1, 0.2, 0.3};
             var doublesWithNoise = doubles.AddNoise(5.0);
-            Assert.AreEqual(3, doublesWithNoise.Count());
+            Assert.That(doublesWithNoise.Count(), Is.EqualTo(3));
         }
 
         [Test]
@@ -30,11 +30,11 @@ namespace Vts.Test.Extensions
         {
             var detectorRange = new DoubleRange(start: 0, stop: 40, number: 201);
             var midPoints = detectorRange.ToArray().GetMidpoints();
-            Assert.AreEqual(200, midPoints.Length);
-            Assert.AreEqual(0.1, midPoints[0], 0.001);
-            Assert.AreEqual(19.9, midPoints[99], 0.001);
-            Assert.AreEqual(28.1, midPoints[140], 0.001);
-            Assert.AreEqual(39.9, midPoints[199], 0.001);
+            Assert.That(midPoints.Length, Is.EqualTo(200));
+            Assert.That(midPoints[0], Is.EqualTo(0.1).Within(0.001));
+            Assert.That(midPoints[99], Is.EqualTo(19.9).Within(0.001));
+            Assert.That(midPoints[140], Is.EqualTo(28.1).Within(0.001));
+            Assert.That(midPoints[199], Is.EqualTo(39.9).Within(0.001));
         }
 
         [Test]
@@ -42,8 +42,8 @@ namespace Vts.Test.Extensions
         {
             var point = new[] { 0.5 };
             var midPoints = point.GetMidpoints();
-            Assert.IsInstanceOf<double[]>(midPoints);
-            Assert.AreEqual(0, midPoints.Length);
+            Assert.That(midPoints, Is.InstanceOf<double[]>());
+            Assert.That(midPoints.Length, Is.EqualTo(0));
         }
     }
 }

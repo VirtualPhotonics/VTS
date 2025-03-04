@@ -19,16 +19,16 @@ namespace Vts.Test.Common.Math
             }
             // check that xi below range of x returns y value at first x
             var result = Interpolation.interp1(x, y, -6);
-            Assert.AreEqual(result, y[0]);
+            Assert.That(y[0], Is.EqualTo(result));
             // check that xi beyond range of x returns y value at last x
             result = Interpolation.interp1(x, y, 6);
-            Assert.AreEqual(result, y[9]);
+            Assert.That(y[9], Is.EqualTo(result));
             // check that xi between two y's with same value gives same value
             result = Interpolation.interp1(x, y, 0);
-            Assert.AreEqual(result, y[4]);
+            Assert.That(y[4], Is.EqualTo(result));
             // check that xi between two y's of different sign gives 0 crossing value
             result = Interpolation.interp1(x, y, -2.0 + 2.0 / 3.0);
-            Assert.Less(System.Math.Abs(result), 1e-10);
+            Assert.That(System.Math.Abs(result), Is.LessThan(1e-10));
         }
 
         [Test]
@@ -44,9 +44,9 @@ namespace Vts.Test.Common.Math
 
             var result = Interpolation.interp1(x, y, xis);
             var resultArray = result as double[] ?? result.ToArray();
-            Assert.AreEqual(resultArray[0], y[0]);
-            Assert.AreEqual(resultArray[1], y[9]);
-            Assert.AreEqual(resultArray[2], y[4]);
+            Assert.That(y[0], Is.EqualTo(resultArray[0]));
+            Assert.That(y[9], Is.EqualTo(resultArray[1]));
+            Assert.That(y[4], Is.EqualTo(resultArray[2]));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace Vts.Test.Common.Math
             var y = new double[,] { { -4, -2, 2, 4 }, { -4, -2, 2, 4 }, { -6, -3, 3, 6} };
             
             var result = Interpolation.interp1(x, y, 0, 1, 2);
-            Assert.AreEqual(result, y[2,0]);
+            Assert.That(y[2, 0], Is.EqualTo(result));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Vts.Test.Common.Math
             var y = new double[,] { { -4, -2, 2, 4 }, { -4, -2, 2, 4 }, { -6, -3, 3, 6 }, { 1, 2, 3, 4 } };
 
             var result = Interpolation.interp1(x, y, 0, 0, 0);
-            Assert.AreEqual(result, y[0, 0]);
+            Assert.That(y[0, 0], Is.EqualTo(result));
         }
 
         [Test]
@@ -79,9 +79,9 @@ namespace Vts.Test.Common.Math
             var result = Interpolation.interp1(x, y, xis, 1, 2);
             var resultArray = result as double[] ?? result.ToArray();
 
-            Assert.AreEqual(resultArray[0], y[2, 0]);
-            Assert.AreEqual(resultArray[1], y[2, 1]);
-            Assert.AreEqual(resultArray[2], y[2, 2]);
+            Assert.That(y[2, 0], Is.EqualTo(resultArray[0]));
+            Assert.That(y[2, 1], Is.EqualTo(resultArray[1]));
+            Assert.That(y[2, 2], Is.EqualTo(resultArray[2]));
         }
 
         [Test]
@@ -96,13 +96,13 @@ namespace Vts.Test.Common.Math
 
             // check that xi below range of x returns Nan
             var result = Interpolation.interp1(x, y, -6F);
-            Assert.AreEqual(float.NaN, result);
+            Assert.That(result, Is.EqualTo(float.NaN));
             // check that xi beyond range of x returns NaN
             result = Interpolation.interp1(x, y, 6F);
-            Assert.AreEqual(float.NaN, result);
+            Assert.That(result, Is.EqualTo(float.NaN));
             // check that xi between two y's with same value gives same value
             result = Interpolation.interp1(x, y, 0F);
-            Assert.AreEqual(result, y[4]);
+            Assert.That(y[4], Is.EqualTo(result));
         }
 
         [Test]
@@ -119,9 +119,9 @@ namespace Vts.Test.Common.Math
 
             var result = Interpolation.interp1(x, y, xis);
             var resultArray = result as float[] ?? result.ToArray();
-            Assert.AreEqual(float.NaN, resultArray[0]);
-            Assert.AreEqual(float.NaN, resultArray[1]);
-            Assert.AreEqual(y[4], resultArray[2]);
+            Assert.That(resultArray[0], Is.EqualTo(float.NaN));
+            Assert.That(resultArray[1], Is.EqualTo(float.NaN));
+            Assert.That(resultArray[2], Is.EqualTo(y[4]));
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace Vts.Test.Common.Math
             var y = new[,] { { -4F, -2F, 2F, 4F }, { -4F, -2F, 2F, 4F }, { -6F, -3F, 3F, 6F } };
 
             var result = Interpolation.interp1(x, y, 0, 1, 2);
-            Assert.AreEqual(result, y[2, 0]);
+            Assert.That(y[2, 0], Is.EqualTo(result));
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace Vts.Test.Common.Math
             var y = new[,] { { -4F, -2F, 2F, 4F }, { -4F, -2F, 2F, 4F }, { -6F, -3F, 3F, 6F }, { 1F, 2F, 3F, 4F } };
 
             var result = Interpolation.interp1(x, y, 0, 0, 0);
-            Assert.AreEqual(result, y[0, 0]);
+            Assert.That(y[0, 0], Is.EqualTo(result));
         }
 
         [Test]
@@ -154,9 +154,9 @@ namespace Vts.Test.Common.Math
             var result = Interpolation.interp1(x, y, xis, 1, 2);
             var resultArray = result as float[] ?? result.ToArray();
 
-            Assert.AreEqual(resultArray[0], y[2, 0]);
-            Assert.AreEqual(resultArray[1], y[2, 1]);
-            Assert.AreEqual(resultArray[2], y[2, 2]);
+            Assert.That(y[2, 0], Is.EqualTo(resultArray[0]));
+            Assert.That(y[2, 1], Is.EqualTo(resultArray[1]));
+            Assert.That(y[2, 2], Is.EqualTo(resultArray[2]));
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace Vts.Test.Common.Math
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("Error in interp1: arrays x and y are not the same size!", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("Error in interp1: arrays x and y are not the same size!"));
                     throw;
                 }
             });
@@ -191,11 +191,11 @@ namespace Vts.Test.Common.Math
             var f = new double[,] { { 1, 2, 3, 4 }, { 1, 2, 3, 4 }, { 1, 2, 3, 4 }, { 1, 2, 3, 4 } };
             
             var result = Interpolation.interp2(x, y, f, 6, 11);
-            Assert.AreEqual(4, result);
+            Assert.That(result, Is.EqualTo(4));
             result = Interpolation.interp2(x, y, f, 0, 2);
-            Assert.AreEqual(2, result);
+            Assert.That(result, Is.EqualTo(2));
             result = Interpolation.interp2(x, y, f, 2, 11);
-            Assert.AreEqual(4, result);
+            Assert.That(result, Is.EqualTo(4));
         }
 
         [Test]
@@ -213,7 +213,7 @@ namespace Vts.Test.Common.Math
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("Error in interp2: arrays x, y and f dimensions do not agree!", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("Error in interp2: arrays x, y and f dimensions do not agree!"));
                     throw;
                 }
             });

@@ -23,36 +23,30 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             var detectorList = new List<IDetector>() {new RDiffuseDetector()};
             var tissue = new MultiLayerTissue();
-            Assert.IsInstanceOf<IVirtualBoundary>(
-                VirtualBoundaryFactory.GetVirtualBoundary(
+            Assert.That(VirtualBoundaryFactory.GetVirtualBoundary(
                 VirtualBoundaryType.DiffuseReflectance,
-                tissue, new DetectorController(detectorList)));
-            Assert.IsInstanceOf<IVirtualBoundary>(
-                VirtualBoundaryFactory.GetVirtualBoundary(
+                tissue, new DetectorController(detectorList)), Is.InstanceOf<IVirtualBoundary>());
+            Assert.That(VirtualBoundaryFactory.GetVirtualBoundary(
                     VirtualBoundaryType.DiffuseTransmittance,
-                    tissue, new DetectorController(detectorList)));
-            Assert.IsInstanceOf<IVirtualBoundary>(
-                VirtualBoundaryFactory.GetVirtualBoundary(
+                    tissue, new DetectorController(detectorList)), Is.InstanceOf<IVirtualBoundary>());
+            Assert.That(VirtualBoundaryFactory.GetVirtualBoundary(
                     VirtualBoundaryType.SpecularReflectance,
-                    tissue, new DetectorController(detectorList)));
-            Assert.IsInstanceOf<IVirtualBoundary>(
-                VirtualBoundaryFactory.GetVirtualBoundary(
+                    tissue, new DetectorController(detectorList)), Is.InstanceOf<IVirtualBoundary>());
+            Assert.That(VirtualBoundaryFactory.GetVirtualBoundary(
                     VirtualBoundaryType.InternalSurface,
-                    tissue, new DetectorController(detectorList)));
-            Assert.IsInstanceOf<IVirtualBoundary>(
-                VirtualBoundaryFactory.GetVirtualBoundary(
+                    tissue, new DetectorController(detectorList)), Is.InstanceOf<IVirtualBoundary>());
+            Assert.That(VirtualBoundaryFactory.GetVirtualBoundary(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    tissue, new DetectorController(detectorList)));
+                    tissue, new DetectorController(detectorList)), Is.InstanceOf<IVirtualBoundary>());
             // set up different tissue for this BoundingCylinder VB
             var boundingTissueInput = new BoundingCylinderTissueInput();
             var boundingTissue = boundingTissueInput.CreateTissue(
                 AbsorptionWeightingType.Analog,
                 new Dictionary<string, IPhaseFunction>(),
                 0.0);
-            Assert.IsInstanceOf<IVirtualBoundary>(
-                VirtualBoundaryFactory.GetVirtualBoundary(
+            Assert.That(VirtualBoundaryFactory.GetVirtualBoundary(
                     VirtualBoundaryType.BoundingVolume,
-                    boundingTissue, new DetectorController(detectorList)));
+                    boundingTissue, new DetectorController(detectorList)), Is.InstanceOf<IVirtualBoundary>());
         }
         /// <summary>
         /// Simulate erroneous invocation

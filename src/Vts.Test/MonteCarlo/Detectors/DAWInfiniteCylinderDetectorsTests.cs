@@ -150,53 +150,53 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_infinitecylinder_RDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Rd - _outputTwoRegionTissue.Rd), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.Rd - _outputTwoRegionTissue.Rd), Is.LessThan(0.000001));
         }
         // Reflection R(angle)
         [Test]
         public void validate_DAW_infinitecylinder_ROfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_a[0] - _outputTwoRegionTissue.R_a[0]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.R_a[0] - _outputTwoRegionTissue.R_a[0]), Is.LessThan(0.000001));
         }
         // Diffuse Transmittance
         [Test]
         public void validate_DAW_infinitecylinder_TDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Td - _outputTwoRegionTissue.Td), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.Td - _outputTwoRegionTissue.Td), Is.LessThan(0.000001));
         }
         // Transmittance Time(angle)
         [Test]
         public void validate_DAW_infinitecylinder_TOfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputTwoRegionTissue.T_a[0]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputTwoRegionTissue.T_a[0]), Is.LessThan(0.000001));
         }
         // Reflectance R(x,y)
         [Test]
         public void validate_DAW_infinitecylinder_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_xy[10, 0] -
-                                 _outputTwoRegionTissue.R_xy[10, 0]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.R_xy[10, 0] -
+                                 _outputTwoRegionTissue.R_xy[10, 0]), Is.LessThan(0.000001));
         }
         // Total Absorption
         [Test]
         public void validate_DAW_infinitecylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Atot -_outputTwoRegionTissue.Atot), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.Atot -_outputTwoRegionTissue.Atot), Is.LessThan(0.000001));
         }
         // Absorption(x,y,z)
         [Test]
         public void validate_DAW_infinitecylinder_AOfXAndYAndZ()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.A_xyz[10,0,10] - 
-                                 _outputTwoRegionTissue.A_xyz[10,0,10]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.A_xyz[10,0,10] - 
+                                 _outputTwoRegionTissue.A_xyz[10,0,10]), Is.LessThan(0.000001));
         }
         // sanity checks
         [Test]
         public void validate_DAW_infinitecylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.Rd + _outputTwoRegionTissue.Atot + 
-                                 _outputTwoRegionTissue.Td - 1), 0.00000000001);
+            Assert.That(Math.Abs(_outputTwoRegionTissue.Rd + _outputTwoRegionTissue.Atot + 
+                                 _outputTwoRegionTissue.Td - 1), Is.LessThan(0.00000000001));
         }
     }
 }

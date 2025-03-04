@@ -51,7 +51,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         
         /// <summary>
@@ -132,7 +132,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
         }
     }
 }

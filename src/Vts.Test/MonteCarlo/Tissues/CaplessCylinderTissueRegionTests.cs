@@ -32,15 +32,15 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_caplessCylinder_properties()
         {
-            Assert.AreEqual(0.0, _caplessCylinderTissueRegion.Center.X);
-            Assert.AreEqual(0.0, _caplessCylinderTissueRegion.Center.Y);
-            Assert.AreEqual(2.0, _caplessCylinderTissueRegion.Center.Z);
-            Assert.AreEqual(1.0, _caplessCylinderTissueRegion.Radius);
-            Assert.AreEqual(2.0, _caplessCylinderTissueRegion.Height);
-            Assert.AreEqual(0.01, _caplessCylinderTissueRegion.RegionOP.Mua);
-            Assert.AreEqual(1.0, _caplessCylinderTissueRegion.RegionOP.Musp);
-            Assert.AreEqual(0.8, _caplessCylinderTissueRegion.RegionOP.G);
-            Assert.AreEqual(1.4, _caplessCylinderTissueRegion.RegionOP.N);
+            Assert.That(_caplessCylinderTissueRegion.Center.X, Is.EqualTo(0.0));
+            Assert.That(_caplessCylinderTissueRegion.Center.Y, Is.EqualTo(0.0));
+            Assert.That(_caplessCylinderTissueRegion.Center.Z, Is.EqualTo(2.0));
+            Assert.That(_caplessCylinderTissueRegion.Radius, Is.EqualTo(1.0));
+            Assert.That(_caplessCylinderTissueRegion.Height, Is.EqualTo(2.0));
+            Assert.That(_caplessCylinderTissueRegion.RegionOP.Mua, Is.EqualTo(0.01));
+            Assert.That(_caplessCylinderTissueRegion.RegionOP.Musp, Is.EqualTo(1.0));
+            Assert.That(_caplessCylinderTissueRegion.RegionOP.G, Is.EqualTo(0.8));
+            Assert.That(_caplessCylinderTissueRegion.RegionOP.N, Is.EqualTo(1.4));
         }
 
         /// <summary>
@@ -52,14 +52,14 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             // OnBoundary returns true if *exactly* on boundary
             var result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on top cap boundary
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 3.0)); // on bottom cap boundary -> so false
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 10.0)); // not on boundary
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             // on caplessCylinder
             result = _caplessCylinderTissueRegion.OnBoundary(new Position(1.0/Math.Sqrt(2), 1.0/Math.Sqrt(2), 2.0)); 
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
         /// <summary>
         /// Validate method ContainsPositions return correct Boolean. ContainsPosition is true if inside
@@ -69,9 +69,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
             var result = _caplessCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _caplessCylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // on boundary
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         /// <summary>
@@ -92,35 +92,35 @@ namespace Vts.Test.MonteCarlo.Tissues
             };
             double distanceToBoundary;
             var result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.True);
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             photon.S = 0.5; // definitely don't intersect sides
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             photon.S = 1.0; // ends right at boundary => both out and no intersection
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             // intersect cap of caplessCylinder tests
             photon.DP.Position = new Position(0, 0, 0); // intersect top cap
             photon.DP.Direction = new Direction(0, 0, 1);  
             photon.S = 2.0; // make sure intersects top cap
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             photon.DP.Position = new Position(0, 0, 4); // intersect bottom cap
             photon.DP.Direction = new Direction(0, 0, -1);
             photon.S = 2.0; // make sure intersects top cap
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             photon.DP.Position = new Position(0, 0, 0); // intersect both
             photon.DP.Direction = new Direction(0, 0, 1);
             photon.S = 10.0; // make sure intersects both
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
         }
     }
 }

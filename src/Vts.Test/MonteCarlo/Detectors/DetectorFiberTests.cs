@@ -191,10 +191,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputOpen.SurFib - 0.079266), 0.000001);
-            Assert.Less(Math.Abs(_outputOpen.SurFib - _outputOpen.R_r[0]), 0.000001);
-            Assert.Less(Math.Abs(_outputOpen.SurFib2 - 0.024315), 0.000001);
-            Assert.AreEqual(26, _outputOpen.SurFib_TallyCount);
+            Assert.That(Math.Abs(_outputOpen.SurFib - 0.079266), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOpen.SurFib - _outputOpen.R_r[0]), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOpen.SurFib2 - 0.024315), Is.LessThan(0.000001));
+            Assert.That(_outputOpen.SurFib_TallyCount, Is.EqualTo(26));
             // output for Bargo comparison
             //var sd = Math.Sqrt((_outputOpen.SurFib2 -
             //    _outputOpen.SurFib * _outputOpen.SurFib) / 100)
@@ -212,10 +212,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_NA_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputNa.SurFib - 0.003034), 0.000001);
-            Assert.Less(Math.Abs(_outputNa.SurFib - _outputNa.R_r[0]), 0.000001);
-            Assert.Less(Math.Abs(_outputNa.SurFib2 - 0.000920), 0.000001);
-            Assert.AreEqual(1, _outputNa.SurFib_TallyCount);
+            Assert.That(Math.Abs(_outputNa.SurFib - 0.003034), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNa.SurFib - _outputNa.R_r[0]), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNa.SurFib2 - 0.000920), Is.LessThan(0.000001));
+            Assert.That(_outputNa.SurFib_TallyCount, Is.EqualTo(1));
             // output for Bargo comparison
             //var sd = Math.Sqrt((_outputNA.SurFib2 -
             //        _outputNA.SurFib * _outputNA.SurFib) / 100)
@@ -233,8 +233,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _outputNaOffCenter.SurFib * _outputNaOffCenter.SurFib) / 100);
             var threeSigmaPos = _outputNaOffCenter.SurFib + 3 * sd;
             var threeSigmaNeg = _outputNaOffCenter.SurFib - 3 * sd;
-            Assert.IsTrue(_outputNaOffCenter.R_r[0] < threeSigmaPos);
-            Assert.IsTrue(_outputNaOffCenter.R_r[0] > threeSigmaNeg);
+            Assert.That(_outputNaOffCenter.R_r[0] < threeSigmaPos, Is.True);
+            Assert.That(_outputNaOffCenter.R_r[0] > threeSigmaNeg, Is.True);
         }
     }
 }

@@ -184,12 +184,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void Validate_slanted_fiber_detector_produces_correct_results()
         {
             //Mean
-            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib - _outputNormalRecessedFiber.SlantedFib), 0.000001);
+            Assert.That(Math.Abs(_outputSurfaceFiber.SurFib - _outputNormalRecessedFiber.SlantedFib), Is.LessThan(0.000001));
             //Second Moment
-            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib2 - _outputNormalRecessedFiber.SlantedFib2), 0.000001); 
+            Assert.That(Math.Abs(_outputSurfaceFiber.SurFib2 - _outputNormalRecessedFiber.SlantedFib2), Is.LessThan(0.000001)); 
             //TallyCount
-            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib_TallyCount - _outputNormalRecessedFiber.SlantedFib_TallyCount), 0.000001);
-            Assert.Less(Math.Abs(_outputSlantedRecessedFiber.SlantedFib - 0.00586779), 0.000001);                     
+            Assert.That(Math.Abs(_outputSurfaceFiber.SurFib_TallyCount - _outputNormalRecessedFiber.SlantedFib_TallyCount), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputSlantedRecessedFiber.SlantedFib - 0.00586779), Is.LessThan(0.000001));                     
         }        
     }
 }

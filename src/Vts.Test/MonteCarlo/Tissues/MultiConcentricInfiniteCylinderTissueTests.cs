@@ -43,13 +43,13 @@ namespace Vts.Test.MonteCarlo.Tissues
             var cylinder1 = i.Regions[^2];
             var cylinder2 = i.Regions[^1];
             var tissueLayer = i.Regions[1];
-            Assert.AreEqual(0.0, cylinder1.Center.X);
-            Assert.AreEqual(0.0, cylinder1.Center.Y);
-            Assert.AreEqual(1.0, cylinder1.Center.Z);
-            Assert.AreEqual(0.0, cylinder2.Center.X);
-            Assert.AreEqual(0.0, cylinder2.Center.Y);
-            Assert.AreEqual(1.0, cylinder2.Center.Z);
-            Assert.AreEqual(50.0, tissueLayer.Center.Z);
+            Assert.That(cylinder1.Center.X, Is.EqualTo(0.0));
+            Assert.That(cylinder1.Center.Y, Is.EqualTo(0.0));
+            Assert.That(cylinder1.Center.Z, Is.EqualTo(1.0));
+            Assert.That(cylinder2.Center.X, Is.EqualTo(0.0));
+            Assert.That(cylinder2.Center.Y, Is.EqualTo(0.0));
+            Assert.That(cylinder2.Center.Z, Is.EqualTo(1.0));
+            Assert.That(tissueLayer.Center.Z, Is.EqualTo(50.0));
         }
         /// <summary>
         /// verify MultiConcentricInfiniteCylinderTissueInput deserializes correctly
@@ -92,7 +92,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(i.Regions[1].RegionOP.Mua, Is.EqualTo(iCloned.Regions[1].RegionOP.Mua));
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             i.WriteToJson("MultiConcentricInfiniteCylinderTissue.txt");
             var iCloned = FileIO.ReadFromJson<MultiConcentricInfiniteCylinderTissueInput>("MultiConcentricInfiniteCylinderTissue.txt");
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(i.Regions[1].RegionOP.Mua, Is.EqualTo(iCloned.Regions[1].RegionOP.Mua));
         }
 
         /// <summary>
@@ -173,10 +173,9 @@ namespace Vts.Test.MonteCarlo.Tissues
                     }
                 );
 
-            Assert.IsInstanceOf<ITissue>(i.CreateTissue(
-                AbsorptionWeightingType.Continuous,
-                new Dictionary<string, IPhaseFunction>(),
-                0.0));
+            Assert.That(i.CreateTissue(
+                AbsorptionWeightingType.Continuous, new Dictionary<string, IPhaseFunction>(), 0.0), 
+                Is.InstanceOf<ITissue>());
         }
     }
 }

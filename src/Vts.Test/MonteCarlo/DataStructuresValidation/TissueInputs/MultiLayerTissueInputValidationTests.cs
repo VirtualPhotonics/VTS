@@ -44,7 +44,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that 0 thickness layers not defined.
@@ -77,7 +77,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that top and bottom layers are defined as air
@@ -104,7 +104,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>() { }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
         /// <summary>
         /// Test to check that 0 thickness layers not defined.
@@ -134,7 +134,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new List<IDetectorInput>() { }
             );
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
         }
     }
 }
