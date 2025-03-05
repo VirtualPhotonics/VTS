@@ -174,8 +174,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                100);
             var threeSigmaPos = _output.AllSurfaceFiberDetectorMeans[0] + 3 * sd;
             var threeSigmaNeg = _output.AllSurfaceFiberDetectorMeans[0] - 3 * sd; 
-            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[0] < threeSigmaPos);
-            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[0] > threeSigmaNeg);
+            Assert.That(_output.AllSurfaceFiberDetectorMeans[0] < threeSigmaPos, Is.True);
+            Assert.That(_output.AllSurfaceFiberDetectorMeans[0] > threeSigmaNeg, Is.True);
         }
 
         /// <summary>
@@ -199,8 +199,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _output.AllSurfaceFiberDetectorMeans[1] * _output.AllSurfaceFiberDetectorMeans[1]) / 100);
             var threeSigmaPos = _output.AllSurfaceFiberDetectorMeans[1] + 3 * sd;
             var threeSigmaNeg = _output.AllSurfaceFiberDetectorMeans[1] - 3 * sd;
-            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[1] < threeSigmaPos);
-            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[1] > threeSigmaNeg);
+            Assert.That(_output.AllSurfaceFiberDetectorMeans[1] < threeSigmaPos, Is.True);
+            Assert.That(_output.AllSurfaceFiberDetectorMeans[1] > threeSigmaNeg, Is.True);
         }
 
         /// <summary>

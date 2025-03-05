@@ -78,25 +78,25 @@ namespace Vts.Test.MonteCarlo
 
             // verify first detector specification
             var detector = (SurfaceFiberDetector)output.ResultsDictionary["SurfaceFiber1"];
-            Assert.AreEqual(1.0, detector.Center.Z);
-            Assert.AreEqual(1.0, detector.Radius);
-            Assert.AreEqual(1.0, detector.N);
-            Assert.AreEqual(1.0, detector.NA);
-            Assert.AreEqual(1, detector.FinalTissueRegionIndex);
-            Assert.AreEqual(1.0, detector.Mean);
-            Assert.AreEqual(2.0, detector.SecondMoment);
-            Assert.AreEqual(3, detector.TallyCount);
+            Assert.That(detector.Center.Z, Is.EqualTo(1.0));
+            Assert.That(detector.Radius, Is.EqualTo(1.0));
+            Assert.That(detector.N, Is.EqualTo(1.0));
+            Assert.That(detector.NA, Is.EqualTo(1.0));
+            Assert.That(detector.FinalTissueRegionIndex, Is.EqualTo(1));
+            Assert.That(detector.Mean, Is.EqualTo(1.0));
+            Assert.That(detector.SecondMoment, Is.EqualTo(2.0));
+            Assert.That(detector.TallyCount, Is.EqualTo(3));
 
             // verify second detector specification
             detector = (SurfaceFiberDetector)output.ResultsDictionary["SurfaceFiber2"];
-            Assert.AreEqual(2.0, detector.Center.Z);
-            Assert.AreEqual(2.0, detector.Radius);
-            Assert.AreEqual(1.2, detector.N);
-            Assert.AreEqual(1.2, detector.NA);
-            Assert.AreEqual(2, detector.FinalTissueRegionIndex);
-            Assert.AreEqual(2.0, detector.Mean);
-            Assert.AreEqual(4.0, detector.SecondMoment);
-            Assert.AreEqual(6, detector.TallyCount);
+            Assert.That(detector.Center.Z, Is.EqualTo(2.0));
+            Assert.That(detector.Radius, Is.EqualTo(2.0));
+            Assert.That(detector.N, Is.EqualTo(1.2));
+            Assert.That(detector.NA, Is.EqualTo(1.2));
+            Assert.That(detector.FinalTissueRegionIndex, Is.EqualTo(2));
+            Assert.That(detector.Mean, Is.EqualTo(2.0));
+            Assert.That(detector.SecondMoment, Is.EqualTo(4.0));
+            Assert.That(detector.TallyCount, Is.EqualTo(6));
         }
 
         /// <summary>
@@ -142,25 +142,25 @@ namespace Vts.Test.MonteCarlo
 
             // verify first detector specification
             var detector = (SlantedRecessedFiberDetector)output.ResultsDictionary["SlantedRecessedFiber1"];
-            Assert.AreEqual(1.0, detector.Center.Z);
-            Assert.AreEqual(1.0, detector.Radius);
-            Assert.AreEqual(1.0, detector.N);
-            Assert.AreEqual(1.0, detector.NA);
-            Assert.AreEqual(1, detector.FinalTissueRegionIndex);
-            Assert.AreEqual(1.0, detector.Mean);
-            Assert.AreEqual(2.0, detector.SecondMoment);
-            Assert.AreEqual(3, detector.TallyCount);
+            Assert.That(detector.Center.Z, Is.EqualTo(1.0));
+            Assert.That(detector.Radius, Is.EqualTo(1.0));
+            Assert.That(detector.N, Is.EqualTo(1.0));
+            Assert.That(detector.NA, Is.EqualTo(1.0));
+            Assert.That(detector.FinalTissueRegionIndex, Is.EqualTo(1));
+            Assert.That(detector.Mean, Is.EqualTo(1.0));
+            Assert.That(detector.SecondMoment, Is.EqualTo(2.0));
+            Assert.That(detector.TallyCount, Is.EqualTo(3));
 
             // verify second detector specification
             detector = (SlantedRecessedFiberDetector)output.ResultsDictionary["SlantedRecessedFiber2"];
-            Assert.AreEqual(2.0, detector.Center.Z);
-            Assert.AreEqual(2.0, detector.Radius);
-            Assert.AreEqual(1.2, detector.N);
-            Assert.AreEqual(1.2, detector.NA);
-            Assert.AreEqual(2, detector.FinalTissueRegionIndex);
-            Assert.AreEqual(2.0, detector.Mean);
-            Assert.AreEqual(4.0, detector.SecondMoment);
-            Assert.AreEqual(6, detector.TallyCount);
+            Assert.That(detector.Center.Z, Is.EqualTo(2.0));
+            Assert.That(detector.Radius, Is.EqualTo(2.0));
+            Assert.That(detector.N, Is.EqualTo(1.2));
+            Assert.That(detector.NA, Is.EqualTo(1.2));
+            Assert.That(detector.FinalTissueRegionIndex, Is.EqualTo(2));
+            Assert.That(detector.Mean, Is.EqualTo(2.0));
+            Assert.That(detector.SecondMoment, Is.EqualTo(4.0));
+            Assert.That(detector.TallyCount, Is.EqualTo(6));
         }
 
         /// <summary>
@@ -208,25 +208,25 @@ namespace Vts.Test.MonteCarlo
 
             // verify first detector specification
             var detector = (InternalSurfaceFiberDetector)output.ResultsDictionary["InternalSurfaceFiber1"];
-            Assert.AreEqual(1.0, detector.Center.Z);
-            Assert.AreEqual(1.0, detector.Radius);
-            Assert.AreEqual(1.0, detector.N);
-            Assert.AreEqual(1.0, detector.NA);
-            Assert.AreEqual(1, detector.FinalTissueRegionIndex);
-            Assert.AreEqual(1.0, detector.Mean);
-            Assert.AreEqual(2.0, detector.SecondMoment);
-            Assert.AreEqual(3, detector.TallyCount);
+            Assert.That(detector.Center.Z, Is.EqualTo(1.0));
+            Assert.That(detector.Radius, Is.EqualTo(1.0));
+            Assert.That(detector.N, Is.EqualTo(1.0));
+            Assert.That(detector.NA, Is.EqualTo(1.0));
+            Assert.That(detector.FinalTissueRegionIndex, Is.EqualTo(1));
+            Assert.That(detector.Mean, Is.EqualTo(1.0));
+            Assert.That(detector.SecondMoment, Is.EqualTo(2.0));
+            Assert.That(detector.TallyCount, Is.EqualTo(3));
 
             // verify second detector specification
             detector = (InternalSurfaceFiberDetector)output.ResultsDictionary["InternalSurfaceFiber2"];
-            Assert.AreEqual(2.0, detector.Center.Z);
-            Assert.AreEqual(2.0, detector.Radius);
-            Assert.AreEqual(1.2, detector.N);
-            Assert.AreEqual(1.2, detector.NA);
-            Assert.AreEqual(2, detector.FinalTissueRegionIndex);
-            Assert.AreEqual(2.0, detector.Mean);
-            Assert.AreEqual(4.0, detector.SecondMoment);
-            Assert.AreEqual(6, detector.TallyCount);
+            Assert.That(detector.Center.Z, Is.EqualTo(2.0));
+            Assert.That(detector.Radius, Is.EqualTo(2.0));
+            Assert.That(detector.N, Is.EqualTo(1.2));
+            Assert.That(detector.NA, Is.EqualTo(1.2));
+            Assert.That(detector.FinalTissueRegionIndex, Is.EqualTo(2));
+            Assert.That(detector.Mean, Is.EqualTo(2.0));
+            Assert.That(detector.SecondMoment, Is.EqualTo(4.0));
+            Assert.That(detector.TallyCount, Is.EqualTo(6));
         }
 
     }
