@@ -28,8 +28,8 @@ namespace Vts.MonteCarlo.PhaseFunctionInputs
         {
             var data = new PolarLookupTablePhaseFunctionData();
             var input = new LookupTablePhaseFunctionInput(data);
-            Assert.IsTrue(input.PhaseFunctionType.Equals("LookupTable"));
-            Assert.IsTrue(input.RegionPhaseFunctionData.Equals(data));
+            Assert.That(input.PhaseFunctionType.Equals("LookupTable"), Is.True);
+            Assert.That(input.RegionPhaseFunctionData.Equals(data), Is.True);
         }
     }
 }

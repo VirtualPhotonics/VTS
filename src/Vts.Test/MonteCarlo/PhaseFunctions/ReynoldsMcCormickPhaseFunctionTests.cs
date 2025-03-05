@@ -21,9 +21,9 @@ namespace Vts.Test.MonteCarlo
             var rng = new Random(0);
             var rm = new ReynoldsMcCormickPhaseFunction(g, alpha, rng);
             rm.ScatterToNewDirection(drm); // incoming direction gets updated by method
-            Assert.IsTrue(Math.Abs(drm.Ux - 0.981334) < 1e-6);
-            Assert.IsTrue(Math.Abs(drm.Uy + 0.175357) < 1e-6);
-            Assert.IsTrue(Math.Abs(drm.Uz + 0.078945) < 1e-6);
+            Assert.That(Math.Abs(drm.Ux - 0.981334) < 1e-6, Is.True);
+            Assert.That(Math.Abs(drm.Uy + 0.175357) < 1e-6, Is.True);
+            Assert.That(Math.Abs(drm.Uz + 0.078945) < 1e-6, Is.True);
         }
         /// <summary>
         /// Tests whether ScatterToNewTheta samples the polar angle correctly.  
@@ -46,9 +46,9 @@ namespace Vts.Test.MonteCarlo
             rng = new Random(0);
             var hg = new HenyeyGreensteinPhaseFunction(g, rng);
             hg.ScatterToNewDirection(dhg);
-            Assert.IsTrue(Math.Abs(drm.Ux - dhg.Ux) < 1e-6);
-            Assert.IsTrue(Math.Abs(drm.Uy - dhg.Uy) < 1e-6);
-            Assert.IsTrue(Math.Abs(drm.Uz - dhg.Uz) < 1e-6);
+            Assert.That(Math.Abs(drm.Ux - dhg.Ux) < 1e-6, Is.True);
+            Assert.That(Math.Abs(drm.Uy - dhg.Uy) < 1e-6, Is.True);
+            Assert.That(Math.Abs(drm.Uz - dhg.Uz) < 1e-6, Is.True);
         }
         /// <summary>
         /// Tests whether ScatterToNewTheta samples the polar angle correctly.  
@@ -68,9 +68,9 @@ namespace Vts.Test.MonteCarlo
             rng = new Random(0);
             var hg = new HenyeyGreensteinPhaseFunction(g, rng);
             hg.ScatterToNewDirection(dhg);
-            Assert.IsTrue(Math.Abs(drm.Ux - dhg.Ux) > 1e-6);
-            Assert.IsTrue(Math.Abs(drm.Uy - dhg.Uy) > 1e-6);
-            Assert.IsTrue(Math.Abs(drm.Uz - dhg.Uz) > 1e-6);
+            Assert.That(Math.Abs(drm.Ux - dhg.Ux) > 1e-6, Is.True);
+            Assert.That(Math.Abs(drm.Uy - dhg.Uy) > 1e-6, Is.True);
+            Assert.That(Math.Abs(drm.Uz - dhg.Uz) > 1e-6, Is.True);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
             var lutData = new PolarLookupTablePhaseFunctionData();
             var phaseFunc = new LookupTablePhaseFunction(rng, lutData);
             phaseFunc.ScatterToNewDirection(d1);
-            Assert.IsTrue(d1.Equals(new Direction(0, 1, 0)));
+            Assert.That(d1.Equals(new Direction(0, 1, 0)), Is.True);
         }
     }
 }

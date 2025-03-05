@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -142,10 +143,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from reference non-pMC run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - 
-                _referenceOutputOneLayerTissue.R_rt[0, 0]), 0.00000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - 
+                _referenceOutputOneLayerTissue.R_rt[0, 0]), Is.LessThan(0.00000000001));
             // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 92.2411018), 0.0000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 92.2411018), Is.LessThan(0.0000001));
        }
         [Test]
         public void Validate_pMC_CAW_ROfRho_zero_perturbation_one_layer_tissue()
@@ -170,9 +171,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference non-pMC run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 0.00000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), Is.LessThan(0.00000000001));
             // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.922411018), 0.000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.922411018), Is.LessThan(0.000000001));
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the perturbed values (mua*2, mus*1.1)
@@ -207,7 +208,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 1.013156), 0.000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 1.013156), Is.LessThan(0.000001));
         }
         /// <summary>
         /// Test to validate that calling dMC results in not a NaN
@@ -256,8 +257,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from linux run using above input and seeded the same
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMua_R_r[0]));
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMus_R_r[0]));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), Is.Not.EqualTo(double.NaN));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), Is.Not.EqualTo(double.NaN));
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
@@ -287,10 +288,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from reference non-pMC run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real -
-                _referenceOutputOneLayerTissue.R_fxt[1, 0].Real), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary -
-                 _referenceOutputOneLayerTissue.R_fxt[1, 0].Imaginary), 0.00000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real -
+                _referenceOutputOneLayerTissue.R_fxt[1, 0].Real), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary -
+                 _referenceOutputOneLayerTissue.R_fxt[1, 0].Imaginary), Is.LessThan(0.00000000001));
         }
         [Test]
         public void Validate_pMC_CAW_ROfFx_zero_perturbation_one_layer_tissue()
@@ -316,12 +317,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference non-pMC run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[0].Real - 
-                _referenceOutputOneLayerTissue.R_fx[0].Real), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[0].Imaginary - 
-                _referenceOutputOneLayerTissue.R_fx[0].Imaginary), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.483629), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), 0.000001); // imag of 2nd moment is 0
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[0].Real - 
+                _referenceOutputOneLayerTissue.R_fx[0].Real), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[0].Imaginary - 
+                _referenceOutputOneLayerTissue.R_fx[0].Imaginary), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.483629), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001)); // imag of 2nd moment is 0
    
         }
         /// <summary>
@@ -357,8 +358,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from prior run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.303789), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.036982), 0.000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.303789), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.036982), Is.LessThan(0.000001));
         }
         /// <summary>
         /// Test to validate that calling dMC results in not a NaN
@@ -407,8 +408,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from linux run using above input and seeded the same
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMua_R_r[0]));
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMus_R_r[0]));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), Is.Not.EqualTo(double.NaN));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), Is.Not.EqualTo(double.NaN));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_constructor()
         {
             var data = new PolarLookupTablePhaseFunctionData();
-            Assert.IsTrue(Equals(data.LookupTablePhaseFunctionDataType, "Polar"));
+            Assert.That(Equals(data.LookupTablePhaseFunctionDataType, "Polar"), Is.True);
         }
         /// <summary>
         /// Test setting the member variables.
@@ -27,9 +27,9 @@ namespace Vts.Test.MonteCarlo
         {
             var data = new PolarLookupTablePhaseFunctionData();
             data.LutAngles = new[] { 0.0, Math.PI/2, Math.PI };
-            Assert.AreEqual(data.LutAngles[0], 0.0);
-            Assert.AreEqual(data.LutAngles[1], Math.PI/2);
-            Assert.AreEqual(data.LutAngles[2], Math.PI);
+            Assert.That(data.LutAngles[0], Is.EqualTo(0.0));
+            Assert.That(data.LutAngles[1], Is.EqualTo(Math.PI/2));
+            Assert.That(data.LutAngles[2], Is.EqualTo(Math.PI));
         }
     }
 }

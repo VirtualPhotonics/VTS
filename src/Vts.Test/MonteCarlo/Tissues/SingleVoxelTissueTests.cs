@@ -62,7 +62,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(iCloned.Regions[1].RegionOP.Mua, Is.EqualTo(i.Regions[1].RegionOP.Mua));
         }
         /// <summary>
         /// verify SingleVoxelTissueInput deserializes correctly when using FileIO
@@ -96,7 +96,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             i.WriteToJson("SingleVoxelTissue.txt");
             var iCloned = FileIO.ReadFromJson<SingleVoxelTissueInput>("SingleVoxelTissue.txt");
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+            Assert.That(iCloned.Regions[1].RegionOP.Mua, Is.EqualTo(i.Regions[1].RegionOP.Mua));
         }
     }
 }

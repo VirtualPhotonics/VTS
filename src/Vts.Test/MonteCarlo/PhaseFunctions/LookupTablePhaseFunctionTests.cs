@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo
             }
             //if sqrt(n)*Dn > K_alpha, then reject the null hypothesis
             // Null hypothesis is that the sample came from this probability distribution
-            Assert.LessOrEqual(Math.Sqrt((double)sampleSize) * Dn, K_alpha);
+            Assert.That(Math.Sqrt((double)sampleSize) * Dn <= K_alpha, Is.True);
         }
         /// <summary>
         /// this test validates the Scatter method in PolarAndAzimuthalPhaseFunction
@@ -117,9 +117,9 @@ namespace Vts.Test.MonteCarlo
             var phaseFunc = new LookupTablePhaseFunction(lutData, rng);
             phaseFunc.Scatter(d1, Math.PI / 6, Math.PI); // incoming direction, theta, phi
             // validation results based on prior run
-            Assert.Less(Math.Abs(d1.Ux - Math.Sqrt(3)/2), 1e-6);
-            Assert.Less(Math.Abs(d1.Uy), 1e-6);
-            Assert.Less(Math.Abs(d1.Uz - 0.5), 1e-6);
+            Assert.That(Math.Abs(d1.Ux - Math.Sqrt(3)/2), Is.LessThan(1e-6));
+            Assert.That(Math.Abs(d1.Uy), Is.LessThan(1e-6));
+            Assert.That(Math.Abs(d1.Uz - 0.5), Is.LessThan(1e-6));
         }
 /*        [Test]
         public void ScatterToNewTheta_validate()

@@ -35,8 +35,8 @@ namespace Vts.MonteCarlo.PhaseFunctions
             double[] s43 = new[] { 0.0, 14.0 };
             double[] s44 = new[] { 0.0, 15.0 };
             MuellerMatrix m = new MuellerMatrix(theta, st11, s12, s13, s14, s21, s22, s23, s24, s31, s32, s33, s34, s41, s42, s43, s44);
-            Assert.IsTrue(m.Theta.Equals(theta));
-            Assert.IsTrue(m.St11.Equals(st11) && m.S12.Equals(s12) && m.S13.Equals(s13) && m.S14.Equals(s14) && m.S21.Equals(s21) && m.S22.Equals(s22) && m.S23.Equals(s23) && m.S24.Equals(s24) && m.S31.Equals(s31) && m.S32.Equals(s32) && m.S33.Equals(s33) && m.S34.Equals(s34) && m.S41.Equals(s41) && m.S42.Equals(s42) && m.S43.Equals(s43) && m.S44.Equals(s44));
+            Assert.That(m.Theta.Equals(theta), Is.True);
+            Assert.That(m.St11.Equals(st11) && m.S12.Equals(s12) && m.S13.Equals(s13) && m.S14.Equals(s14) && m.S21.Equals(s21) && m.S22.Equals(s22) && m.S23.Equals(s23) && m.S24.Equals(s24) && m.S31.Equals(s31) && m.S32.Equals(s32) && m.S33.Equals(s33) && m.S34.Equals(s34) && m.S41.Equals(s41) && m.S42.Equals(s42) && m.S43.Equals(s43) && m.S44.Equals(s44), Is.True);
         }
 
         /// <summary>
@@ -63,20 +63,20 @@ namespace Vts.MonteCarlo.PhaseFunctions
             
 
 
-            Assert.AreEqual(1,test1);
-            Assert.AreEqual(2, test2);
-            Assert.AreEqual(3, test3);
-            Assert.AreEqual(4, test4);
-            Assert.AreEqual(5, test5);
-            Assert.AreEqual(3, test6);
-            Assert.AreEqual(0, test7);
-            Assert.AreEqual(5, test8);
+            Assert.That(test1, Is.EqualTo(1));
+            Assert.That(test2, Is.EqualTo(2));
+            Assert.That(test3, Is.EqualTo(3));
+            Assert.That(test4, Is.EqualTo(4));
+            Assert.That(test5, Is.EqualTo(5));
+            Assert.That(test6, Is.EqualTo(3));
+            Assert.That(test7, Is.EqualTo(0));
+            Assert.That(test8, Is.EqualTo(5));
 
 
             //MuellerMatrix m2 = new MuellerMatrix();
             //m2.Theta = new[] { 0, Math.PI };
             //test7 = m2.ReturnIndexAtThetaValue(Math.PI);
-            //Assert.AreEqual(1, test7);
+            //Assert.That(test7, Is.EqualTo(1));
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Vts.MonteCarlo.PhaseFunctions
             MuellerMatrix m = new MuellerMatrix();
             StokesVector v = new StokesVector(1, 0.5, 0.7, 0.6);
             m.MultiplyByVector(v, 0.0);
-            Assert.AreEqual(v.S0, 0.25);
-            Assert.AreEqual(v.S1, -0.25);
-            Assert.AreEqual(v.S2, 0);
-            Assert.AreEqual(v.S3, 0);
+            Assert.That(v.S0, Is.EqualTo(0.25));
+            Assert.That(v.S1, Is.EqualTo(-0.25));
+            Assert.That(v.S2, Is.EqualTo(0));
+            Assert.That(v.S3, Is.EqualTo(0));
         }
         
     }

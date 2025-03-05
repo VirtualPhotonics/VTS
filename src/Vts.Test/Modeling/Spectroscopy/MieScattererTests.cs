@@ -92,9 +92,9 @@ namespace Vts.Test.Modeling.Spectroscopy
                 1.1, // particle refractive index mismatch
                 1.4, // medium refractive index
                 0.1); // volume fraction
-            Assert.AreEqual(mieScatterer.ParticleRadius, 0.5);
-            Assert.AreEqual(mieScatterer.ParticleRefractiveIndexMismatch, 1.1);
-            Assert.AreEqual(mieScatterer.MediumRefractiveIndexMismatch, 1.4);
+            Assert.That(mieScatterer.ParticleRadius, Is.EqualTo(0.5));
+            Assert.That(mieScatterer.ParticleRefractiveIndexMismatch, Is.EqualTo(1.1));
+            Assert.That(mieScatterer.MediumRefractiveIndexMismatch, Is.EqualTo(1.4));
         }
 
         [Test]
