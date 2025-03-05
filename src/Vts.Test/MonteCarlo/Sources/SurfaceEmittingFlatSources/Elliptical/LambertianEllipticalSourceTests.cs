@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new LambertianEllipticalSourceInput();
-            Assert.IsInstanceOf<LambertianEllipticalSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<LambertianEllipticalSourceInput>());
             // check full definition
             si = new LambertianEllipticalSourceInput(
                 1.0,

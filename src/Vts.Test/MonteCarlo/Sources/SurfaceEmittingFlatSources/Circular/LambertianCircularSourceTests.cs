@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new LambertianCircularSourceInput();
-            Assert.IsInstanceOf<LambertianCircularSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<LambertianCircularSourceInput>());
             // check full definition
             si = new LambertianCircularSourceInput(
                 1.0,

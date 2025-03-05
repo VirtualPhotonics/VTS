@@ -46,7 +46,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
 
         /// <summary>
