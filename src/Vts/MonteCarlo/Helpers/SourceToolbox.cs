@@ -59,7 +59,9 @@ namespace Vts.MonteCarlo.Helpers
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
-            if (polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop && azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop)
+            const double tolerance = 1e-14;
+            if (Math.Abs(polarAngleEmissionRange.Start - polarAngleEmissionRange.Stop) < tolerance && 
+                Math.Abs(azimuthalAngleEmissionRange.Start - azimuthalAngleEmissionRange.Stop) < tolerance)
                 return new Direction(0.0, 0.0, 1.0);
 
             //sampling cost           
@@ -115,7 +117,9 @@ namespace Vts.MonteCarlo.Helpers
             Random rng)
         {
             double cost, sint, phi, cosp, sinp;
-            if (polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop && azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop)
+            const double tolerance = 1e-14;
+            if (Math.Abs(polarAngleEmissionRange.Start - polarAngleEmissionRange.Stop) < tolerance &&
+                Math.Abs(azimuthalAngleEmissionRange.Start - azimuthalAngleEmissionRange.Stop) < tolerance)
                 return new Direction(0.0, 0.0, 1.0);
 
             //sampling cost for Lambertian and do until find cost within range specified
