@@ -145,33 +145,33 @@ namespace Vts.Test.MonteCarlo.Factories
                 DatabaseWriterFactory.GetRaySurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.DiffuseReflectance,
                     Directory.GetCurrentDirectory(), "");
-            Assert.IsNull(diffuseReflectanceDb);
+            Assert.That(diffuseReflectanceDb, Is.Null);
             var diffuseTransmittanceDb =
                 DatabaseWriterFactory.GetRaySurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.DiffuseTransmittance,
                     Directory.GetCurrentDirectory(), "");
-            Assert.IsNull(diffuseTransmittanceDb);
+            Assert.That(diffuseTransmittanceDb, Is.Null);
             var specularDb = 
                 DatabaseWriterFactory.GetRaySurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.SpecularReflectance,
                 Directory.GetCurrentDirectory(), "");
-            Assert.IsNull(specularDb);
+            Assert.That(specularDb, Is.Null);
             var pMcDiffuseReflectanceDb =
                 DatabaseWriterFactory.GetRaySurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.pMCDiffuseReflectance,
                 Directory.GetCurrentDirectory(), "");
-            Assert.IsNull(pMcDiffuseReflectanceDb);
+            Assert.That(pMcDiffuseReflectanceDb, Is.Null);
             var pMcDiffuseTransmittanceDb = 
                 DatabaseWriterFactory.GetRaySurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.pMCDiffuseTransmittance,
                 Directory.GetCurrentDirectory(), "");
-            Assert.IsNull(pMcDiffuseTransmittanceDb);
+            Assert.That(pMcDiffuseTransmittanceDb, Is.Null);
             // actual RaySurfaceVB
             var rayDiffuseReflectanceDb = 
                 DatabaseWriterFactory.GetRaySurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.RayDiffuseReflectance,
                 Directory.GetCurrentDirectory(), "");
-            Assert.IsInstanceOf<RayDatabaseWriter>(rayDiffuseReflectanceDb);
+            Assert.That(rayDiffuseReflectanceDb, Is.InstanceOf<RayDatabaseWriter>());
             rayDiffuseReflectanceDb.Close();
             // check if enum set to something out of range
             var fakeDatabaseType = (DatabaseType)Enum.GetNames(typeof(DatabaseType)).Length + 1;

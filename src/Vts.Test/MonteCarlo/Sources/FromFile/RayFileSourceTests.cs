@@ -70,19 +70,19 @@ namespace Vts.Test.MonteCarlo.Sources
             var source = new RayFileSource("testraydatabase", 0);
             var tissue = new MultiLayerTissue();
             Photon dp = source.GetNextPhoton(tissue);
-            Assert.IsTrue(dp.DP.Position.X == 1.0);
-            Assert.IsTrue(dp.DP.Position.Y == 1.0);
-            Assert.IsTrue(dp.DP.Position.Z == 0.0);
-            Assert.IsTrue(dp.DP.Direction.Ux == 0.0);
-            Assert.IsTrue(dp.DP.Direction.Uy == 1.0 / Math.Sqrt(2));
-            Assert.IsTrue(dp.DP.Direction.Uz == -1.0 / Math.Sqrt(2));
+            Assert.That(dp.DP.Position.X, Is.EqualTo(1.0));
+            Assert.That(dp.DP.Position.Y, Is.EqualTo(1.0));
+            Assert.That(dp.DP.Position.Z, Is.EqualTo(0.0));
+            Assert.That(dp.DP.Direction.Ux, Is.EqualTo(0.0));
+            Assert.That(dp.DP.Direction.Uy, Is.EqualTo(1.0 / Math.Sqrt(2)));
+            Assert.That(dp.DP.Direction.Uz, Is.EqualTo(-1.0 / Math.Sqrt(2)));
             dp = source.GetNextPhoton(tissue);
-            Assert.IsTrue(dp.DP.Position.X == 2.0);
-            Assert.IsTrue(dp.DP.Position.Y == 2.0);
-            Assert.IsTrue(dp.DP.Position.Z == 0.0);
-            Assert.IsTrue(dp.DP.Direction.Ux == 1.0 / Math.Sqrt(2));
-            Assert.IsTrue(dp.DP.Direction.Uy == 0.0);
-            Assert.IsTrue(dp.DP.Direction.Uz == -1.0 / Math.Sqrt(2));
+            Assert.That(dp.DP.Position.X, Is.EqualTo(2.0));
+            Assert.That(dp.DP.Position.Y, Is.EqualTo(2.0));
+            Assert.That(dp.DP.Position.Z, Is.EqualTo(0.0));
+            Assert.That(dp.DP.Direction.Ux, Is.EqualTo(1.0 / Math.Sqrt(2)));
+            Assert.That(dp.DP.Direction.Uy, Is.EqualTo(0.0));
+            Assert.That(dp.DP.Direction.Uz, Is.EqualTo(-1.0 / Math.Sqrt(2)));
             source.DatabaseEnumerator.Dispose();
         }
        

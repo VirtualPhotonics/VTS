@@ -113,7 +113,7 @@ namespace Vts.Test.MonteCarlo.RayData
             }
             // read back file written
             var rayDatabase = RayDatabase.FromFile(databaseFileName);
-            Assert.AreEqual(2, rayDatabase.NumberOfElements);
+            Assert.That(rayDatabase.NumberOfElements, Is.EqualTo(2));
 
             // manually enumerate through the first two elements (same as foreach)
             // PhotonDatabase is designed so you don't have to have the whole thing
@@ -122,23 +122,23 @@ namespace Vts.Test.MonteCarlo.RayData
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.IsTrue(dp1.Position.X == firstRayDp.Position.X);
-            Assert.IsTrue(dp1.Position.Y == firstRayDp.Position.Y);
-            Assert.IsTrue(dp1.Position.Z == firstRayDp.Position.Z);
-            Assert.IsTrue(dp1.Direction.Ux == firstRayDp.Direction.Ux);
-            Assert.IsTrue(dp1.Direction.Uy == firstRayDp.Direction.Uy);
-            Assert.IsTrue(dp1.Direction.Uz == firstRayDp.Direction.Uz);
-            Assert.IsTrue(dp1.Weight == firstRayDp.Weight);
+            Assert.That(dp1.Position.X == firstRayDp.Position.X, Is.True);
+            Assert.That(dp1.Position.Y == firstRayDp.Position.Y, Is.True);
+            Assert.That(dp1.Position.Z == firstRayDp.Position.Z, Is.True);
+            Assert.That(dp1.Direction.Ux == firstRayDp.Direction.Ux, Is.True);
+            Assert.That(dp1.Direction.Uy == firstRayDp.Direction.Uy, Is.True);
+            Assert.That(dp1.Direction.Uz == firstRayDp.Direction.Uz, Is.True);
+            Assert.That(dp1.Weight == firstRayDp.Weight, Is.True);
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.IsTrue(dp2.Position.X == secondRayDp.Position.X);
-            Assert.IsTrue(dp2.Position.Y == secondRayDp.Position.Y);
-            Assert.IsTrue(dp2.Position.Z == secondRayDp.Position.Z);
-            Assert.IsTrue(dp2.Direction.Ux == secondRayDp.Direction.Ux);
-            Assert.IsTrue(dp2.Direction.Uy == secondRayDp.Direction.Uy);
-            Assert.IsTrue(dp2.Direction.Uz == secondRayDp.Direction.Uz);
-            Assert.IsTrue(dp2.Weight == secondRayDp.Weight);
+            Assert.That(dp2.Position.X == secondRayDp.Position.X, Is.True);
+            Assert.That(dp2.Position.Y == secondRayDp.Position.Y, Is.True);
+            Assert.That(dp2.Position.Z == secondRayDp.Position.Z, Is.True);
+            Assert.That(dp2.Direction.Ux == secondRayDp.Direction.Ux, Is.True);
+            Assert.That(dp2.Direction.Uy == secondRayDp.Direction.Uy, Is.True);
+            Assert.That(dp2.Direction.Uz == secondRayDp.Direction.Uz, Is.True);
+            Assert.That(dp2.Weight == secondRayDp.Weight, Is.True);
             enumerator.Dispose();
         }
 
@@ -149,17 +149,17 @@ namespace Vts.Test.MonteCarlo.RayData
         [Test]
         public void Validate_database_file_gets_written_by_MCCL_and_is_correct()
         {
-            Assert.IsTrue(FileIO.FileExists("RayDiffuseReflectanceDatabase"));
+            Assert.That(FileIO.FileExists("RayDiffuseReflectanceDatabase"), Is.True);
             // read the database from file, and verify the correct number of photons were written
             var rayDatabase = RayDatabase.FromFile("RayDiffuseReflectanceDatabase");
 
-            Assert.AreEqual(88, rayDatabase.NumberOfElements);
+            Assert.That(rayDatabase.NumberOfElements, Is.EqualTo(88));
             var enumerator = rayDatabase.DataPoints.GetEnumerator();
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.AreEqual(0.0, dp1.Position.Z);
-            Assert.IsTrue(Math.Abs(dp1.Weight - 0.021116) < 0.000001);
+            Assert.That(dp1.Position.Z, Is.EqualTo(0.0));
+            Assert.That(Math.Abs(dp1.Weight - 0.021116) < 0.000001, Is.True);
             enumerator.Dispose();
         }
     }
