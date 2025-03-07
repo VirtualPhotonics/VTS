@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -147,6 +148,26 @@ namespace Vts.MonteCarlo.Sources
                 initialTissueRegionIndex)
         {
         }
-                
+
+        /// <summary>
+        /// Returns Direction
+        /// </summary>
+        /// <param name="direction">initial direction</param>
+        /// <param name="position">initial position</param>
+        /// <returns></returns>
+        protected override Direction GetFinalDirection(Direction direction, Position position)
+        {
+            //Lambertian distribution 
+            //Lambertian distribution 
+            PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetPolarAzimuthalPairForLambertianRandom(Rng);
+
+            //Use a dummy variable to avoid update the position during next rotation
+            var dummyPosition = new Position(position.X, position.Y, position.Z);
+
+            //Rotate polar azimuthal angle by polarAzimuthalPair vector
+            SourceToolbox.UpdateDirectionPositionAfterRotatingByGivenAnglePair(polarAzimuthalPair, ref direction, ref dummyPosition);
+
+            return direction;
+        }
     }
 }

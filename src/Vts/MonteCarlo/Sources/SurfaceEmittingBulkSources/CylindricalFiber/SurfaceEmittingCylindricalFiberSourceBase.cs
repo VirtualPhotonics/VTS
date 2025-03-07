@@ -85,11 +85,10 @@ namespace Vts.MonteCarlo.Sources
             var curved = 2 * Math.PI * _fiberRadius * _fiberHeightZ * _curvedSurfaceEfficiency;
             var bottom = Math.PI * _fiberRadius * _fiberRadius * _bottomSurfaceEfficiency;
 
-            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                        SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
-                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                        Rng);
             var finalPosition = SourceDefaults.DefaultPosition.Clone();
+
+            // sample angular distribution
+            var finalDirection = GetFinalDirection(finalPosition);
 
             if (_fiberRadius > 0.0)
             {   
@@ -137,9 +136,14 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
 
+        /// <summary>
+        /// Returns final direction for a given position
+        /// </summary>
+        /// <param name="position">Current position</param>
+        /// <returns>new direction</returns>
+        protected abstract Direction GetFinalDirection(Position position); // angular distribution may be function of position
 
-       
-        
+
         #region Random number generator code (copy-paste into all sources)
         /// <summary>
         /// The random number generator used to create photons. If not assigned externally,

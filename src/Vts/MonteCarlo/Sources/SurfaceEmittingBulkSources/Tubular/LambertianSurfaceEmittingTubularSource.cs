@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -12,6 +13,33 @@ namespace Vts.MonteCarlo.Sources
     {
         /// <summary>
         /// Initializes a new instance of LambertianSurfaceEmittingTubularSourceInput class
+        /// </summary>
+        /// <param name="tubeRadius">Tube radius</param>
+        /// <param name="tubeHeightZ">Tube height</param>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public LambertianSurfaceEmittingTubularSourceInput(
+            double tubeRadius,
+            double tubeHeightZ,
+            int lambertOrder,
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
+        {
+            SourceType = "LambertianSurfaceEmittingTubular";
+            TubeRadius = tubeRadius;
+            TubeHeightZ = tubeHeightZ;
+            LambertOrder = lambertOrder;
+            NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
+            TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of LambertianSurfaceEmittingTubularSourceInput
+        /// class assuming Lambert order=1
         /// </summary>
         /// <param name="tubeRadius">Tube radius</param>
         /// <param name="tubeHeightZ">Tube height</param>
@@ -28,6 +56,7 @@ namespace Vts.MonteCarlo.Sources
             SourceType = "LambertianSurfaceEmittingTubular";
             TubeRadius = tubeRadius;
             TubeHeightZ = tubeHeightZ;
+            LambertOrder = 1;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
@@ -44,6 +73,7 @@ namespace Vts.MonteCarlo.Sources
             : this(
                 tubeRadius,
                 tubeHeightZ,
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
@@ -55,6 +85,7 @@ namespace Vts.MonteCarlo.Sources
             : this(
                 1.0,
                 1.0,
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
@@ -70,7 +101,11 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Tube height
         /// </summary>
-        public double TubeHeightZ { get; set; }
+        public double TubeHeightZ { get; set; }        
+        /// <summary>
+        /// Lambert order of angular distribution
+        /// </summary>
+        public int LambertOrder { get; set; }
         /// <summary>
         /// New source axis direction
         /// </summary>
@@ -91,14 +126,15 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
 
             return new LambertianSurfaceEmittingTubularSource(
-                this.TubeRadius,
-                this.TubeHeightZ,
-                this.NewDirectionOfPrincipalSourceAxis,
-                this.TranslationFromOrigin,
-                this.InitialTissueRegionIndex) { Rng = rng };  
+                TubeRadius,
+                TubeHeightZ,
+                LambertOrder,
+                NewDirectionOfPrincipalSourceAxis,
+                TranslationFromOrigin,
+                InitialTissueRegionIndex) { Rng = rng };  
         }
     }
 
@@ -107,18 +143,22 @@ namespace Vts.MonteCarlo.Sources
     /// direction, position and initial tissue region index.
     /// </summary>
     public class LambertianSurfaceEmittingTubularSource : SurfaceEmittingTubularSourceBase
-    {  
+    {
+        private readonly int _lambertOrder;
+
         /// <summary>
         /// Returns an instance of Lambertian Surface Emitting tube Source with source axis rotation and translation
         /// </summary>
         /// <param name="tubeRadius">Tube radius</param>
         /// <param name="tubeHeightZ">Tube height</param>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingTubularSource(
             double tubeRadius,
             double tubeHeightZ,
+            int lambertOrder,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
             int initialTissueRegionIndex = 0)
@@ -129,6 +169,20 @@ namespace Vts.MonteCarlo.Sources
             translationFromOrigin,
             initialTissueRegionIndex)
         {
+            _lambertOrder = lambertOrder;
+        }
+
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection(Position position)
+        {
+            //Sample angular distribution with full range of theta and phi
+            var finalDirection = SourceToolbox.GetDirectionForLambertianRandom(_lambertOrder, Rng);
+
+            return finalDirection;
         }
     }
 }

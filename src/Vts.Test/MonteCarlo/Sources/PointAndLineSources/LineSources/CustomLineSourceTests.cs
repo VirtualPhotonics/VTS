@@ -12,7 +12,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for Custom Line Sources
+    /// Unit tests for Custom Line Sources 
     /// </summary>
     [TestFixture]
     public class CustomLineSourceTests
@@ -22,14 +22,13 @@ namespace Vts.Test.MonteCarlo.Sources
         [OneTimeSetUp]
         public void setup_validation_data()
         {
-            if (_validationData == null)
-            {
-                _validationData = new LineSourcesValidationData();
-                _validationData.ReadData();
-            }
+            if (_validationData != null) return;
+            _validationData = new LineSourcesValidationData();
+            _validationData.ReadData();
         }
+
         /// <summary>
-        /// test source input
+        /// Test source input CreateSource
         /// </summary>
         [Test]
         public void Validate_source_input_with_flat_profile_type()
@@ -60,7 +59,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void Validate_general_constructor_with_flat_profiletype_for_custom_line_source_test()
         {
-            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();             
             var profile = new FlatSourceProfile();
 
@@ -87,15 +86,13 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[23]), Is.LessThan(_validationData.AcceptablePrecision));
         }
 
-
         /// <summary>
         /// Validate General Constructor of Custom Gaussian Line Source
         /// </summary>
         [Test]
         public void Validate_general_constructor_with_gaussian_profiletype_for_custom_line_source_test()
         {         
-
-            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
             var profile = new GaussianSourceProfile(_validationData.BdFWHM);
 
@@ -121,8 +118,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[28]), Is.LessThan(_validationData.AcceptablePrecision));
             Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[29]), Is.LessThan(_validationData.AcceptablePrecision));
         }
+
         /// <summary>
-        /// test switch statement in GetFinalPositionFromProfileType method for setting other
+        /// Test switch statement in GetFinalPositionFromProfileType method for setting other
         /// than Flat or Gaussian verify exception is thrown
         /// </summary>
         [Test]

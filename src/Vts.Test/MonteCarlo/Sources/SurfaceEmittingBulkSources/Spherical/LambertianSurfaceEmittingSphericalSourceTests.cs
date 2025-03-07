@@ -34,6 +34,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var source = si.CreateSource(new MersenneTwister(0));
             Assert.That(source, Is.Not.Null);
         }
+
         /// <summary>
         /// This test validated using geometry assumptions
         /// </summary>
@@ -43,11 +44,13 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng =
                 new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
-            var radius = 1.0;
+            const double radius = 1.0;
+            const int lambertOrder = 1;
             var translationFromOrigin = new Position(2, 3, 4);
 
             var ps = new LambertianSurfaceEmittingSphericalSource(
                 radius,
+                lambertOrder,
                 translationFromOrigin,
                 1)
             {

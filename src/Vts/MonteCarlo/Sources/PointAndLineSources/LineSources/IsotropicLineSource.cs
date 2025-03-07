@@ -154,11 +154,8 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {                   
-            var azimuthalAngleEmissionRange = SourceDefaults.DefaultAzimuthalAngleRange.Clone();
-            var polarAngleEmissionRange = SourceDefaults.DefaultFullPolarAngleRange.Clone();
-
-            //Sample angular distribution
-            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(polarAngleEmissionRange, azimuthalAngleEmissionRange, Rng);
+            //Sample angular distribution with full range on theta and phi
+            var finalDirection = SourceToolbox.GetDirectionForIsotropicDistributionRandom(Rng);
 
             return finalDirection;
         }

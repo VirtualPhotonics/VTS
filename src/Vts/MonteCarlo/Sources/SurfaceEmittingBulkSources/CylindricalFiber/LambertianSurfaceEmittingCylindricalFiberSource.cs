@@ -1,17 +1,50 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
     /// Implements ISourceInput. Defines input data for LambertianSurfaceEmittingCylindricalFiberSource
     /// implementation including tube radius, tube height, curved surface efficiency, bottom surface 
-    /// efficiency, direction, position, and initial tissue region index.
+    /// efficiency, Lambertian order, direction, position, and initial tissue region index.
     /// </summary>
     public class LambertianSurfaceEmittingCylindricalFiberSourceInput : ISourceInput
     {
         /// <summary>
         /// Initializes a new instance of LambertianSurfaceEmittingCylindricalFiberSourceInput class
+        /// </summary>
+        /// <param name="fiberRadius">Fiber radius</param>
+        /// <param name="fiberHeightZ">Fiber height</param>
+        /// <param name="curvedSurfaceEfficiency">Efficiency of curved surface (0 - 1)</param>
+        /// <param name="bottomSurfaceEfficiency">Efficiency of bottom surface (0 - 1)</param>
+        /// <param name="lambertOrder">Lambertian order of angular distribution</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public LambertianSurfaceEmittingCylindricalFiberSourceInput(
+            double fiberRadius,
+            double fiberHeightZ,
+            double curvedSurfaceEfficiency,
+            double bottomSurfaceEfficiency,
+            int lambertOrder,
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
+        {
+            SourceType = "LambertianSurfaceEmittingCylindricalFiber";
+            FiberRadius = fiberRadius;
+            FiberHeightZ = fiberHeightZ;
+            CurvedSurfaceEfficiency = curvedSurfaceEfficiency;
+            BottomSurfaceEfficiency = bottomSurfaceEfficiency;
+            NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
+            TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of LambertianSurfaceEmittingCylindricalFiberSourceInput
+        /// class assuming LambertOrder=1
         /// </summary>
         /// <param name="fiberRadius">Fiber radius</param>
         /// <param name="fiberHeightZ">Fiber height</param>
@@ -34,6 +67,7 @@ namespace Vts.MonteCarlo.Sources
             FiberHeightZ = fiberHeightZ;
             CurvedSurfaceEfficiency = curvedSurfaceEfficiency;
             BottomSurfaceEfficiency = bottomSurfaceEfficiency;
+            LambertOrder = 1;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
@@ -52,6 +86,7 @@ namespace Vts.MonteCarlo.Sources
                 fiberHeightZ,
                 1.0,
                 1.0,
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
@@ -65,6 +100,7 @@ namespace Vts.MonteCarlo.Sources
                 1.0,
                 1.0,
                 1.0,
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
@@ -90,6 +126,10 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public double BottomSurfaceEfficiency { get; set; }
         /// <summary>
+        /// Lambertian order for angular distribution
+        /// </summary>
+        public int LambertOrder { get; set; }
+        /// <summary>
         /// New source axis direction
         /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
@@ -109,16 +149,17 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
             
             return new LambertianSurfaceEmittingCylindricalFiberSource(
-                this.FiberRadius,
-                this.FiberHeightZ,
-                this.CurvedSurfaceEfficiency,
-                this.BottomSurfaceEfficiency,
-                this.NewDirectionOfPrincipalSourceAxis,
-                this.TranslationFromOrigin,
-                this.InitialTissueRegionIndex) { Rng = rng };
+                FiberRadius,
+                FiberHeightZ,
+                CurvedSurfaceEfficiency,
+                BottomSurfaceEfficiency,
+                LambertOrder,
+                NewDirectionOfPrincipalSourceAxis,
+                TranslationFromOrigin,
+                InitialTissueRegionIndex) { Rng = rng };
         }
     }
 
@@ -129,6 +170,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class LambertianSurfaceEmittingCylindricalFiberSource : SurfaceEmittingCylindricalFiberSourceBase
     {
+        private readonly int _lambertOrder;
 
         /// <summary>
         /// Returns an instance of Lambertian Surface Emitting cylindrical fiber source with source axis rotation and translation
@@ -137,6 +179,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="fiberHeightZ">Fiber height</param>
         /// <param name="curvedSurfaceEfficiency">Efficiency of the curved surface (0-1)</param>
         /// <param name="bottomSurfaceEfficiency">Efficiency of the bottom surface (0-1)</param>
+        /// <param name="lambertOrder">Lambertian order of angular distribution</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
@@ -145,6 +188,7 @@ namespace Vts.MonteCarlo.Sources
             double fiberHeightZ,
             double curvedSurfaceEfficiency,
             double bottomSurfaceEfficiency,
+            int lambertOrder,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
             int initialTissueRegionIndex = 0)
@@ -157,6 +201,20 @@ namespace Vts.MonteCarlo.Sources
             translationFromOrigin,
             initialTissueRegionIndex)
         {
+            _lambertOrder = lambertOrder;
+        }
+
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection(Position position)
+        {
+            //Sample angular distribution with full range of theta and phi
+            var finalDirection = SourceToolbox.GetDirectionForLambertianRandom(_lambertOrder, Rng);
+
+            return finalDirection;
         }
     }
 }

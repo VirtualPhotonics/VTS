@@ -68,12 +68,10 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>photon</returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //sample angular distribution
-            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                SourceDefaults.DefaultHalfPolarAngleRange.Clone(), 
-                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                Rng);
             var finalPosition = SourceDefaults.DefaultPosition.Clone();
+
+            // sample angular distribution
+            var finalDirection = GetFinalDirection(finalPosition);
 
             if (_tubeRadius > 0.0)
             {
@@ -107,9 +105,14 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
 
+        /// <summary>
+        /// Returns final direction for a given position
+        /// </summary>
+        /// <param name="position">Current position</param>
+        /// <returns>new direction</returns>
+        protected abstract Direction GetFinalDirection(Position position); // angular distribution may be function of position
 
-       
-        
+
         #region Random number generator code (copy-paste into all sources)
         /// <summary>
         /// The random number generator used to create photons. If not assigned externally,

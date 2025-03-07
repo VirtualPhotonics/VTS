@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -7,6 +8,7 @@ namespace Vts.MonteCarlo.Sources
     /// Implements ISourceInput. Defines input data for CustomLineSource implementation 
     /// including polar angle range, azimuthal angle range, emitting point location,
     /// direction and initial tissue region index.
+    /// "Custom" type sources assume Isotropic angular distribution
     /// </summary>
     public class CustomPointSourceInput : ISourceInput
     {
@@ -76,14 +78,14 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
 
             return new CustomPointSource(
-                this.PolarAngleEmissionRange,
-                this.AzimuthalAngleEmissionRange,
-                this.Direction,
-                this.PointLocation,
-                this.InitialTissueRegionIndex) { Rng = rng };
+                PolarAngleEmissionRange,
+                AzimuthalAngleEmissionRange,
+                Direction,
+                PointLocation,
+                InitialTissueRegionIndex) { Rng = rng };
         }
     }
 
@@ -92,7 +94,9 @@ namespace Vts.MonteCarlo.Sources
     /// location, direction and initial tissue region index.
     /// </summary>
     public class CustomPointSource : PointSourceBase
-    { 
+    {
+        private readonly DoubleRange _polarAngleEmissionRange;
+        private readonly DoubleRange _azimuthalAngleEmissionRange;
         /// <summary>
         /// Returns an instance of Custom Point Source for a given polar and azimuthal angle range, 
         /// new source axis direction, and  translation.
@@ -115,7 +119,21 @@ namespace Vts.MonteCarlo.Sources
                 newDirectionOfPrincipalSourceAxis,
                 pointLocation,
                 initialTissueRegionIndex)
-        {            
+        {
+            _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
+            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
+        }
+
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection()
+        {
+            return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                _polarAngleEmissionRange,
+                _azimuthalAngleEmissionRange,
+                Rng);
         }
     }
 }
