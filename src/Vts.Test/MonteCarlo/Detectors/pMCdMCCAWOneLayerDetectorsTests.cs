@@ -323,10 +323,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(postProcessedOutput.pMC_R_r_TallyCount, Is.EqualTo(88));
             // validate derivative values with prior run
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.609284) < 1e-6, Is.True);
-            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.192882) < 1e-6, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.895800) < 1e-6, Is.True);
             // and 2nd moments
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r2[0] - 19.5494) < 1e-4, Is.True);
-            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r2[0] - 5.47322) < 1e-5, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r2[0] - 39.9667) < 1e-4, Is.True);
         }
 
         /// <summary>

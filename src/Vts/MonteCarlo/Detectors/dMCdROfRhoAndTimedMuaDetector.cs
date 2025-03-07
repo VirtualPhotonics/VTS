@@ -6,7 +6,6 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -89,7 +88,7 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices; 
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
+        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
         private ITissue _tissue;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
@@ -156,8 +155,8 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedOps = PerturbedOps;
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            _tissue = tissue; 
             SetAbsorbAction(tissue.AbsorptionWeightingType);
-            _tissue = tissue;
         }
 
         /// <summary>
@@ -170,9 +169,15 @@ namespace Vts.MonteCarlo.Detectors
             _absorbAction = awt switch
             {
                 // note: pMC is not applied to analog processing, only DAW and CAW
-                AbsorptionWeightingType.Continuous => AbsorbContinuousOrDiscrete,
-                AbsorptionWeightingType.Discrete => AbsorbContinuousOrDiscrete,
-                AbsorptionWeightingType.Analog => throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
+                // same method is used for DAW and CAW
+                AbsorptionWeightingType.Continuous =>
+                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                        _tissue, this, DifferentialMonteCarloType.DMua),
+                AbsorptionWeightingType.Discrete =>
+                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                        _tissue, this, DifferentialMonteCarloType.DMua),
+                AbsorptionWeightingType.Analog =>
+                    throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
                 _ => throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString())
             };
         }
@@ -193,34 +198,12 @@ namespace Vts.MonteCarlo.Detectors
             var weightFactor = _absorbAction(
                 photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
                 photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                _perturbedOps);
+                _perturbedOps, _referenceOps, _perturbedRegionsIndices);
 
             Mean[ir, it] += photon.DP.Weight * weightFactor;
             TallyCount++;
             if (!TallySecondMoment) return;
             SecondMoment[ir, it] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
-        }
-
-        /// <summary>
-        /// The following method works for both discrete or continuous absorption weighting
-        /// </summary>
-        /// <param name="numberOfCollisions">photon number of collisions in perturbed region</param>
-        /// <param name="pathLength">photon path length in perturbed region</param>
-        /// <param name="perturbedOps">perturbed optical properties of perturbed region</param>
-        /// <returns>derivative with respect to mus</returns>
-        private double AbsorbContinuousOrDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            // NOTE: following code only works for single perturbed region because derivative of
-            // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
-            // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
-            var i = _perturbedRegionsIndices[0];
-            // rearranged to be more numerically stable
-            return -pathLength[i] * // dMua* factor 
-                Math.Pow(
-                    _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                    Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                        pathLength[i] / numberOfCollisions[i]),
-                    numberOfCollisions[i]);
         }
 
         /// <summary>

@@ -6,7 +6,6 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -89,7 +88,7 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices; 
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
+        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
         private ITissue _tissue;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
@@ -148,15 +147,15 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new double[Rho.Count - 1, Time.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1] : null);
+            Mean ??= new double[Rho.Count - 1, Time.Count - 1];
+            SecondMoment ??= TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1] : null;
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _perturbedOps = PerturbedOps;
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
-            SetAbsorbAction(tissue.AbsorptionWeightingType);
-            _tissue = tissue;            
+            _tissue = tissue;
+            SetAbsorbAction(tissue.AbsorptionWeightingType);        
         }
 
         /// <summary>
@@ -169,12 +168,19 @@ namespace Vts.MonteCarlo.Detectors
             _absorbAction = awt switch
             {
                 // note: pMC is not applied to analog processing, only DAW and CAW
-                AbsorptionWeightingType.Continuous => AbsorbContinuousOrDiscrete,
-                AbsorptionWeightingType.Discrete => AbsorbContinuousOrDiscrete,
-                AbsorptionWeightingType.Analog => throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
+                // same method is used for DAW and CAW
+                AbsorptionWeightingType.Continuous =>
+                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                        _tissue, this, DifferentialMonteCarloType.DMus),
+                AbsorptionWeightingType.Discrete =>
+                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                        _tissue, this, DifferentialMonteCarloType.DMus),
+                AbsorptionWeightingType.Analog =>
+                    throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
                 _ => throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString())
             };
         }
+
         /// <summary>
         /// method to tally to detector
         /// </summary>
@@ -191,7 +197,7 @@ namespace Vts.MonteCarlo.Detectors
             var weightFactor = _absorbAction(
                 photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
                 photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                _perturbedOps);
+                _perturbedOps, _referenceOps, _perturbedRegionsIndices);
 
             Mean[ir, it] += photon.DP.Weight * weightFactor;
             TallyCount++;
