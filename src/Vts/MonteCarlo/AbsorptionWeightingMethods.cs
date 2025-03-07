@@ -332,16 +332,15 @@ namespace Vts.MonteCarlo
             // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
             var i = perturbedRegionsIndices[0];
 
-            if (numberOfCollisions[i] > 0 && referenceOps[i].Mus > 0.0) // mus pert
-            {
-                // rearranged to be more numerically stable
-                weightFactor *= -pathLength[i] *
-                       Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus *
-                                Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
-                                           referenceOps[i].Mus - referenceOps[i].Mua) *
-                                    pathLength[i] / numberOfCollisions[i]),
-                           numberOfCollisions[i]);
-            }
+            if (numberOfCollisions[i] <= 0 || !(referenceOps[i].Mus > 0.0)) return weightFactor; // mus pert
+
+            // rearranged to be more numerically stable
+            weightFactor *= -pathLength[i] *
+                            Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus *
+                                     Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
+                                                referenceOps[i].Mus - referenceOps[i].Mua) *
+                                         pathLength[i] / numberOfCollisions[i]),
+                                numberOfCollisions[i]);
 
             return weightFactor;
         }
@@ -365,17 +364,15 @@ namespace Vts.MonteCarlo
             // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
             var i = perturbedRegionsIndices[0];
 
-            if (numberOfCollisions[i] > 0 && referenceOps[i].Mus > 0.0) // mus pert
-            {
-                // rearranged to be more numerically stable
-                weightFactor *= numberOfCollisions[i] / referenceOps[i].Mus *
-                                Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus,
-                                    numberOfCollisions[i] - 1) +
-                                -pathLength[i] *
-                                Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
-                                           referenceOps[i].Mus - referenceOps[i].Mua) *
-                                         pathLength[i]);
-            }
+            if (numberOfCollisions[i] <= 0 || !(referenceOps[i].Mus > 0.0) || !(perturbedOps[i].Mus > 0)) return weightFactor; // mus pert
+
+            // rearranged to be more numerically stable
+            weightFactor *= (numberOfCollisions[i] / perturbedOps[i].Mus - pathLength[i]) * // first factor
+                            Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus *
+                                     Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - 
+                                                referenceOps[i].Mus - referenceOps[i].Mua) * 
+                                         pathLength[i] / numberOfCollisions[i]), 
+                                numberOfCollisions[i]);  // second factor  
 
             return weightFactor;
         }
