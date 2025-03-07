@@ -10,14 +10,6 @@ namespace Vts.MonteCarlo.Sources
     public abstract class PointSourceBase : ISource
     {      
         /// <summary>
-        /// Polar angle range
-        /// </summary>
-        protected DoubleRange _polarAngleEmissionRange;
-        /// <summary>
-        /// Azimuthal angle range
-        /// </summary>
-        protected DoubleRange _azimuthalAngleEmissionRange;
-        /// <summary>
         /// New position
         /// </summary>
         protected Position _pointLocation;
@@ -57,9 +49,7 @@ namespace Vts.MonteCarlo.Sources
                 direction = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
             if (pointLocation == null)
                 pointLocation = SourceDefaults.DefaultPosition.Clone();       
-
-            _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
-            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();    
+    
             _pointLocation = pointLocation.Clone();
             _direction = direction.Clone();
 

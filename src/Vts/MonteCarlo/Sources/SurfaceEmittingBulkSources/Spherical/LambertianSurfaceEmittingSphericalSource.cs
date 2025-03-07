@@ -136,8 +136,7 @@ namespace Vts.MonteCarlo.Sources
                 initialTissueRegionIndex)
         {
             _lambertOrder = lambertOrder;
-            if (translationFromOrigin == null)
-                SourceDefaults.DefaultPosition.Clone();
+            if (translationFromOrigin == null) SourceDefaults.DefaultPosition.Clone();
         }
             
         /// <summary>
