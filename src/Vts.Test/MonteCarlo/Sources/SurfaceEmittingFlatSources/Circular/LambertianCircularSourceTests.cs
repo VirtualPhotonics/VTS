@@ -91,7 +91,7 @@ namespace Vts.Test.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Validate General Constructor of Lambertian Gaussian Circular Source
+        /// Validate General Constructor of Lambertian Order=1 Gaussian Circular Source
         /// </summary>
         [Test]
         public void Validate_general_constructor_with_gaussian_profiletype_for_lambertian_circular_source_test()
@@ -118,6 +118,41 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[103]), Is.LessThan(_validationData.AcceptablePrecision));
             Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[104]), Is.LessThan(_validationData.AcceptablePrecision));
             Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[105]), Is.LessThan(_validationData.AcceptablePrecision));
+
+            Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[106]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[107]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[108]), Is.LessThan(_validationData.AcceptablePrecision));
+        }
+
+        /// <summary>
+        /// Validate General Constructor of Lambertian order 6 Gaussian Circular Source
+        /// </summary>
+        [Test]
+        public void Validate_general_constructor_with_gaussian_profiletype_for_lambertian_order6_circular_source_test()
+        {
+            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
+            ITissue tissue = new MultiLayerTissue();
+            var profile = new GaussianSourceProfile(_validationData.BdFWHM);
+            const int validationLambertOrder = 6;  // overwrite default for this test
+
+            var ps = new LambertianCircularSource(
+                _validationData.OutRad,
+                _validationData.InRad, profile,
+                _validationData.PolRange,
+                _validationData.AziRange,
+                validationLambertOrder,
+                _validationData.Direction,
+                _validationData.Translation,
+                _validationData.AngPair)
+            {
+                Rng = rng
+            };
+
+            var photon = ps.GetNextPhoton(tissue);
+
+            Assert.That(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[133]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[134]), Is.LessThan(_validationData.AcceptablePrecision));
+            Assert.That(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[135]), Is.LessThan(_validationData.AcceptablePrecision));
 
             Assert.That(Math.Abs(photon.DP.Position.X - _validationData.Tp[106]), Is.LessThan(_validationData.AcceptablePrecision));
             Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[107]), Is.LessThan(_validationData.AcceptablePrecision));

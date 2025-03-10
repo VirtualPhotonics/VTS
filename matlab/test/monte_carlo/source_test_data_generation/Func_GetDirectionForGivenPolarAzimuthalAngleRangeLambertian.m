@@ -6,8 +6,8 @@ if ((PolRange(1) - PolRange(2) == 0.0) && (AziRange(1) - AziRange(2)== 0.0))
     UOUT(2)  = 0.0;
     UOUT(3)  = 1.0;
 else
-    cosmax = cos(PolRange(1));
-    cosmin = cos(PolRange(2));
+    cosmax = power(cos(PolRange(1)), LambertOrder + 1);
+    cosmin = power(cos(PolRange(2)), LambertOrder + 1);
     cosn = cosmax - RN1 * (cosmax - cosmin);
     cost = power(cosn, 1.0 / (LambertOrder + 1));
     sint = sqrt(1 - cost * cost);
