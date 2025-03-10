@@ -122,11 +122,14 @@ namespace Vts.MonteCarlo.Helpers
                 Math.Abs(azimuthalAngleEmissionRange.Start - azimuthalAngleEmissionRange.Stop) < tolerance)
                 return new Direction(0.0, 0.0, 1.0);
 
-            //sampling cost for Lambertian and do until find cost within range specified
-            do
-            {
-                cost = Math.Pow(rng.NextDouble(), 1.0 / (lambertOrder + 1));
-            } while (cost < polarAngleEmissionRange.Start || cost > polarAngleEmissionRange.Stop);
+            // check that polar range does not exceed pi/2
+            if (polarAngleEmissionRange.Stop > Math.PI / 2) polarAngleEmissionRange.Stop = Math.PI / 2;
+
+            //sampling cost for Lambertian using more efficient sampling
+            var cosMax = Math.Pow(Math.Cos(polarAngleEmissionRange.Start), lambertOrder + 1);
+            var cosMin = Math.Pow(Math.Cos(polarAngleEmissionRange.Stop), lambertOrder + 1);
+            var cosN = cosMax - rng.NextDouble() * (cosMax - cosMin);
+            cost = Math.Pow(cosN, 1.0 / (lambertOrder + 1));
             sint = Math.Sqrt(1.0 - cost * cost);
 
             //sampling phi
