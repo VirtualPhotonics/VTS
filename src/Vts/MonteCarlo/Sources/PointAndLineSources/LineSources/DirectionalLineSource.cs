@@ -181,7 +181,7 @@ namespace Vts.MonteCarlo.Sources
                     Rng);
             }
 
-            // sign is negative for diverging and positive positive for converging 
+            // sign is negative for diverging and positive for converging 
             var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
                 0.5 * _lineLength,
                 position.X,

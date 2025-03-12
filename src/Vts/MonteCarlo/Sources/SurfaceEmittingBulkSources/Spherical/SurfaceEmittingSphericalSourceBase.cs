@@ -68,35 +68,32 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
+        /// Returns direction
+        /// </summary>
+        /// <returns>new direction</returns>
+        protected abstract Direction GetFinalDirection(Direction direction, Position position);
+
+        /// <summary>
         /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns>photon</returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
-            // sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                _polarAngleRangeToDefineSphericalSurface, 
-                _azimuthalAngleRangeToDefineSphericalSurface, 
-                Rng);
-                        
-            //Source starts from anywhere in the sphere
-            Position finalPosition = GetFinalPositionFromProfileType(finalDirection, _radius, Rng);
-
-            //Lambertian distribution (uniform hemispherical distribution)
-            PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetPolarAzimuthalPairForGivenAngleRangeRandom(
-                SourceDefaults.DefaultHalfPolarAngleRange.Clone(), 
-                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+            // sample angular distribution and compute normal vector direction (normalVectorDirection)
+            var normalVectorDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                _polarAngleRangeToDefineSphericalSurface,
+                _azimuthalAngleRangeToDefineSphericalSurface,
                 Rng);
 
-            //Avoid updating the finalDirection during following rotation
-            var dummyPosition = new Position(finalPosition.X, finalPosition.Y, finalPosition.Z);
+            //Compute emitting location based on normalVectorDirection
+            var finalPosition = GetFinalPositionFromProfileType(normalVectorDirection, _radius);
 
-            //Rotate polar azimuthal angle by polarAzimuthalPair vector
-            SourceToolbox.UpdateDirectionPositionAfterRotatingByGivenAnglePair(polarAzimuthalPair, ref finalDirection, ref dummyPosition);
+            //Get final direction
+            var finalDirection = GetFinalDirection(normalVectorDirection, finalPosition);
 
             //Find the relevant polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
 
             //Translation and source rotation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
@@ -111,15 +108,14 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
                
-        private static Position GetFinalPositionFromProfileType(Direction finalDirection, double radius, Random rng)
+        private static Position GetFinalPositionFromProfileType(Direction finalDirection, double radius)
         {
             if (radius == 0.0)
                 return new Position(0, 0, 0);
-            else
-                return new Position(
-                    radius * finalDirection.Ux,
-                    radius * finalDirection.Uy,
-                    radius * finalDirection.Uz);           
+            return new Position(
+                radius * finalDirection.Ux,
+                radius * finalDirection.Uy,
+                radius * finalDirection.Uz);
         }
 
         #region Random number generator code (copy-paste into all sources)
