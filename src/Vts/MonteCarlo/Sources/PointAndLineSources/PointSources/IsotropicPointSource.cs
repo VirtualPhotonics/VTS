@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -84,6 +85,18 @@ namespace Vts.MonteCarlo.Sources
                 pointLocation,
                 initialTissueRegionIndex)
         {
-        }    
+        }
+
+        /// <summary>
+        /// Returns direction for Isotropic distribution
+        /// </summary>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection()
+        {
+            //Sample angular distribution with full range of theta and phi
+            var finalDirection = SourceToolbox.GetDirectionForIsotropicDistributionRandom(Rng);
+
+            return finalDirection;
+        }
     }
 }

@@ -34,6 +34,7 @@ namespace Vts.MonteCarlo
                 pMCPointSourceOneLayerTissueROfRhoDAW(), // don't change this it is part of documentation
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
+                Flat2DLambertianSourceOneLayerTissueROfRhoFluenceOfRhoAndZDetector(),
                 Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector(),
                 GaussianLineSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerMomentumTransferDetectors(),
@@ -177,8 +178,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -188,7 +188,7 @@ namespace Vts.MonteCarlo
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -224,8 +224,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -235,7 +234,7 @@ namespace Vts.MonteCarlo
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -275,8 +274,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -289,7 +287,7 @@ namespace Vts.MonteCarlo
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -326,8 +324,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -340,7 +337,7 @@ namespace Vts.MonteCarlo
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -389,8 +386,7 @@ namespace Vts.MonteCarlo
                         0.5,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -400,7 +396,7 @@ namespace Vts.MonteCarlo
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -439,8 +435,7 @@ namespace Vts.MonteCarlo
                         1.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.0)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -450,7 +445,7 @@ namespace Vts.MonteCarlo
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {// need to specify at least 2 bins in each dimension if generating fluorescence source
@@ -488,8 +483,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiConcentricInfiniteCylinderTissueInput(
-new ITissueRegion[]
-                    {
+                    [
                         new InfiniteCylinderTissueRegion(
                             new Position(0, 0, 1),
                             1.0,
@@ -499,11 +493,10 @@ new ITissueRegion[]
                             new Position(0, 0, 1),
                             0.75,
                             new OpticalProperties(0.05, 1.0, 0.8, 1.4)
-                        ),
-                    },
-        new ITissueRegion[]
-                    {
-                    new LayerTissueRegion(
+                        )
+                    ],
+                    [
+                        new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                     new LayerTissueRegion(
@@ -512,7 +505,7 @@ new ITissueRegion[]
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -550,8 +543,7 @@ new ITissueRegion[]
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -561,7 +553,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -574,7 +566,7 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region Gaussian 2D source one layer R(rho)
+        #region Gaussian 2D circular source one layer R(rho)
         /// <summary>
         /// Gaussian 2D source, single tissue layer definition, only ROfRho detector included
         /// </summary>
@@ -604,8 +596,7 @@ new ITissueRegion[]
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -615,7 +606,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -628,7 +619,120 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region Flat 2D source two layer bounded tissue A(rho,z)
+        #region Flat 2D circular source one layer R(rho)
+        /// <summary>
+        /// Flat 2D source, single tissue layer definition, ROfRho, FluenceOfRhoAndZ detectors included
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput Flat2DSourceOneLayerTissueROfRhoDetector()
+        {
+            return new SimulationInput(
+                100,
+                "Flat_2D_source_one_layer_ROfRho",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType> { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    0),
+                new CustomCircularSourceInput(
+                    1.0, // outer radius
+                    0.0, // inner radius
+                    new FlatSourceProfile(),
+                    new DoubleRange(0.0, 0.0), // polar angle emission range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
+                    new Direction(0, 0, 1), // normal to tissue
+                    new Position(0, 0, 0), // center of beam on surface
+                    new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    [
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    ]
+                ),
+                new List<IDetectorInput>
+                {
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                }
+             );
+        }
+        #endregion
+
+        #region Flat 2D Lambertian circular source one layer R(rho), Fluence(rho,z)
+        /// <summary>
+        /// Flat 2D source, single tissue layer definition, ROfRho, FluenceOfRhoAndZ detectors included
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput Flat2DLambertianSourceOneLayerTissueROfRhoFluenceOfRhoAndZDetector()
+        {
+            return new SimulationInput(
+                100,
+                "Flat_2D_Lambertian_source_one_layer_ROfRho_FluenceOfRhoAndZ",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType> { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    0),
+                new LambertianCircularSourceInput(
+                    1.0, // outer radius
+                    0.0, // inner radius
+                    new FlatSourceProfile(),
+                    new DoubleRange(0.0, 0.0), // polar angle emission range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
+                    1,
+                    new Direction(0, 0, 1), // normal to tissue
+                    new Position(0, 0, 0), // center of beam on surface
+                    new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    [
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    ]
+                ),
+                new List<IDetectorInput>
+                {
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                    new FluenceOfRhoAndZDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101),
+                        Z = new DoubleRange(0, 10, 101)
+
+                    }
+                }
+             );
+        }
+        #endregion
+
+        #region Flat 2D circular source two layer bounded tissue A(rho,z)
         /// <summary>
         /// Flat 2D source, two layer, bounded tissue, AOfRhoAndZ detector included
         /// </summary>
@@ -664,8 +768,7 @@ new ITissueRegion[]
                         100.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
@@ -675,7 +778,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -690,70 +793,16 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region Flat 2D source one layer R(rho)
+        #region Gaussian line source one layer R(x,y)
         /// <summary>
-        /// Flat 2D source, single tissue layer definition, only ROfRho detector included
-        /// </summary>
-        /// <returns>An instance of the SimulationInput class</returns>
-        public static SimulationInput Flat2DSourceOneLayerTissueROfRhoDetector()
-        {
-            return new SimulationInput(
-                100,
-                "Flat_2D_source_one_layer_ROfRho",
-                new SimulationOptions(
-                    0, // random number generator seed, -1=random seed, 0=fixed seed
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
-                    false, // track statistics
-                    0.0, // RR threshold -> 0 = no RR performed
-                    0),
-                new CustomCircularSourceInput(
-                    3.0, // outer radius
-                    0.0, // inner radius
-                    new FlatSourceProfile(),
-                    new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
-                    new Direction(0, 0, 1), // normal to tissue
-                    new Position(0, 0, 0), // center of beam on surface
-                    new PolarAzimuthalAngles(0, 0), // no beam rotation         
-                    0), // 0=start in air, 1=start in tissue
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerTissueRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
-                new List<IDetectorInput>
-                {
-                    new ROfRhoDetectorInput
-                    {
-                        Rho =new DoubleRange(0.0, 10, 101)
-                    },
-                }
-             );
-        }
-        #endregion
-
-        #region Gaussian line source one layer R(rho)
-        /// <summary>
-        /// Gaussian line source, single tissue layer definition, only ROfRho detector included
+        /// Gaussian line source, single tissue layer definition, only ROfXAndY detector included
         /// </summary>
         /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput GaussianLineSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
                 100,
-                "Gaussian_line_source_one_layer_ROfRho",
+                "Gaussian_line_source_one_layer_ROfXAndY",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -773,8 +822,7 @@ new ITissueRegion[]
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -784,13 +832,14 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
-                    new ROfRhoDetectorInput
+                    new ROfXAndYDetectorInput
                     {
-                        Rho =new DoubleRange(0.0, 10, 101)
+                        X = new DoubleRange(-10, 10, 101),
+                        Y = new DoubleRange(-10, 10, 101)
                     },
                 }
              );
@@ -821,8 +870,7 @@ new ITissueRegion[]
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -835,7 +883,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(10.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -956,8 +1004,7 @@ new ITissueRegion[]
                         new DoubleRange(1, 2),
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -967,7 +1014,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -1005,8 +1052,7 @@ new ITissueRegion[]
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -1022,7 +1068,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -1075,8 +1121,7 @@ new ITissueRegion[]
                         0.5,
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -1086,7 +1131,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -1128,8 +1173,7 @@ new ITissueRegion[]
                         0.3, // needs to match SurfaceFiberDetectorInput
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -1139,7 +1183,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -1203,8 +1247,7 @@ new ITissueRegion[]
                     new Direction(0.0, 0.0, 1.0),
                     1), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -1214,7 +1257,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {                    
@@ -1267,8 +1310,7 @@ new ITissueRegion[]
                         1.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -1278,7 +1320,7 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>
                 {
@@ -1305,7 +1347,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1320,8 +1362,7 @@ new ITissueRegion[]
                         new DoubleRange(0, 100.0),
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -1331,9 +1372,9 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ATotalBoundingVolumeDetectorInput()
                 }
@@ -1356,7 +1397,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1373,8 +1414,7 @@ new ITissueRegion[]
                     new PolarAzimuthalAngles(),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -1384,9 +1424,9 @@ new ITissueRegion[]
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfXAndYDetectorInput()
                 }

@@ -6,12 +6,25 @@ using Vts.MonteCarlo.Sources;
 namespace Vts.MonteCarlo.Helpers
 {
     /// <summary>
-    /// Utilities shared by Sources.
+    /// Utilities shared by Sources.  For the following algorithms the following
+    /// references and definitions are provided:
+    /// Isotropic source: samples theta according to uniform cos(theta)
+    /// (ref: https://en.wikipedia.org/wiki/Isotropic_radiation).
+    /// The PDF is p(theta)=sin(theta) which integrated to obtain CDF
+    /// P(theta)=cos(theta).  Inverted to sample: RN = cos(theta).
+    /// Lambertian source: samples theta according to Lamert's cosine law
+    /// (ref: https://en.wikipedia.org/wiki/Lambert%27s_cosine_law)
+    /// which states that the angular emission is directly proportional to
+    /// the cosine of the angle theta between the angle of propagation and the
+    /// surface normal. The PDF is p(theta)=2cos(theta)sin(theta) and associated
+    /// CDF P(theta)=cos^2(theta).  Inverted to sample: sqrt(RN) = cos(theta).
+    /// For Lambert order n, pdf is p(theta)=-cos^n(theta)sin(theta) and
+    /// CDF P(theta)=cos^{n+1}(theta)-1.  Invert to sample: power(RN,1/[n+1])=cos(theta)
     /// </summary>
     public class SourceToolbox
     {
         /// <summary>
-        /// Provides a direction for a given two dimensional position and a polar angle
+        /// Provides a direction for a given two-dimensional position and a polar angle
         /// </summary>
         /// <param name="polarAngle">Constant polar angle</param>
         /// <param name="position">The position </param>
@@ -20,7 +33,7 @@ namespace Vts.MonteCarlo.Helpers
             double polarAngle,
             Position position)
         {
-            double radius = Math.Sqrt(position.X * position.X + position.Y * position.Y);
+            var radius = Math.Sqrt(position.X * position.X + position.Y * position.Y);
 
             if (radius == 0.0)
                 return new Direction(
@@ -34,7 +47,8 @@ namespace Vts.MonteCarlo.Helpers
         }
         
         /// <summary>
-        /// Provides a direction after uniform sampling of given polar angle range and azimuthal angle range 
+        /// Provides an Isotropic direction after uniform sampling of given polar angle range and
+        /// azimuthal angle range 
         /// </summary>
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
@@ -45,8 +59,10 @@ namespace Vts.MonteCarlo.Helpers
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
-            if (polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop && azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop)
-                return (new Direction(0.0, 0.0, 1.0));
+            const double tolerance = 1e-14;
+            if (Math.Abs(polarAngleEmissionRange.Start - polarAngleEmissionRange.Stop) < tolerance && 
+                Math.Abs(azimuthalAngleEmissionRange.Start - azimuthalAngleEmissionRange.Stop) < tolerance)
+                return new Direction(0.0, 0.0, 1.0);
 
             //sampling cost           
             var cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Stop), Math.Cos(polarAngleEmissionRange.Start));
@@ -64,7 +80,7 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
-        /// Provides a random direction for a isotropic point source
+        /// Provides a random direction for an Isotropic point source
         /// </summary>
         /// <param name="rng">The random number generator</param>
         /// <returns>direction</returns>
@@ -84,6 +100,72 @@ namespace Vts.MonteCarlo.Helpers
                 sint * sinp,
                 cost);
         }
+
+        /// <summary>
+        /// Provides a Lambertian direction after uniform sampling of given polar angle range and
+        /// azimuthal angle range 
+        /// </summary>
+        /// <param name="lambertOrder">Lambert order of cosine assumed in theta distribution</param>
+        /// <param name="polarAngleEmissionRange">The polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns>direction</returns>
+        public static Direction GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(
+            DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange, 
+            int lambertOrder,
+            Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;
+            const double tolerance = 1e-14;
+            if (Math.Abs(polarAngleEmissionRange.Start - polarAngleEmissionRange.Stop) < tolerance &&
+                Math.Abs(azimuthalAngleEmissionRange.Start - azimuthalAngleEmissionRange.Stop) < tolerance)
+                return new Direction(0.0, 0.0, 1.0);
+
+            // check that polar range does not exceed pi/2
+            if (polarAngleEmissionRange.Stop > Math.PI / 2) polarAngleEmissionRange.Stop = Math.PI / 2;
+
+            //sampling cost for Lambertian using more efficient sampling
+            var cosMax = Math.Pow(Math.Cos(polarAngleEmissionRange.Start), lambertOrder + 1);
+            var cosMin = Math.Pow(Math.Cos(polarAngleEmissionRange.Stop), lambertOrder + 1);
+            var cosN = cosMax - rng.NextDouble() * (cosMax - cosMin);
+            cost = Math.Pow(cosN, 1.0 / (lambertOrder + 1));
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            //sampling phi
+            phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
+
+            return new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost);
+        }
+
+        /// <summary>
+        /// Provides a direction after Lambertian emission of given polar angle range and azimuthal angle range 
+        /// </summary>
+        /// <param name="order">The order of cosine assumed in theta distribution</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns>direction</returns>
+        public static Direction GetDirectionForLambertianRandom(int order, Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;
+            //sampling cost           
+            cost = Math.Pow(rng.NextDouble(), 1.0 / (order + 1));
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            //sampling phi
+            phi = rng.NextDouble(0, 2 * Math.PI);
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
+
+            return new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost);
+        }       
 
         /// <summary>
         /// Generate two normally (Gaussian) distributed random numbers by using Box Muller Algorithm (with sine/cosine)
@@ -136,6 +218,31 @@ namespace Vts.MonteCarlo.Helpers
             return new PolarAzimuthalAngles(
                 Math.Acos(rng.NextDouble(cosMin, cosMax)),
                 rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop));
+        }
+
+        /// <summary>
+        /// Provides polar azimuthal angle pair for Lambertian Emission of specified order
+        /// </summary>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
+        /// <param name="rng">The random number generato</param>
+        /// <returns>polar azimuthal angle pair</returns>
+        public static PolarAzimuthalAngles GetPolarAzimuthalPairForLambertianRandom(int lambertOrder, Random rng)
+        {
+            return new PolarAzimuthalAngles(
+                Math.Acos(Math.Pow(rng.NextDouble(0.0, 1.0), 1.0 / (lambertOrder + 1))),
+                rng.NextDouble(0, 2 * Math.PI));
+        }
+
+        /// <summary>
+        /// Provides polar azimuthal angle pair for Lambertian Emission assuming Order=1
+        /// </summary>
+        /// <param name="rng">The random number generato</param>
+        /// <returns>polar azimuthal angle pair</returns>
+        public static PolarAzimuthalAngles GetPolarAzimuthalPairForLambertianRandom(Random rng)
+        {
+            return new PolarAzimuthalAngles(
+                Math.Acos(Math.Sqrt(rng.NextDouble(0.0, 1.0))),
+                rng.NextDouble(0, 2 * Math.PI));
         }
 
         /// <summary>
@@ -225,26 +332,26 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="center">The center coordinates of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="innerRadius">The inner radius of the circle</param>
-        /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
+        /// <param name="beamDiameterFwhm">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>       
         public static Position GetPositionInACircleRandomGaussian(
             Position center,
             double outerRadius,
             double innerRadius,
-            double beamDiaFWHM,
+            double beamDiameterFwhm,
             Random rng)
         {
             if (outerRadius == 0.0) return center;
 
-            if (beamDiaFWHM <= 0.0)
-                beamDiaFWHM = 1e-20;
+            if (beamDiameterFwhm <= 0.0)
+                beamDiameterFwhm = 1e-20;
 
             //https://support.zemax.com/hc/en-us/articles/1500005488161-How-to-convert-FWHM-measurements-to-1-e-2-halfwidths
             var x = 0.0;
             var y = 0.0;
-            var factorL = outerRadius / (0.8493218 * beamDiaFWHM);
-            var factorU = innerRadius / (0.8493218 * beamDiaFWHM);
+            var factorL = outerRadius / (0.8493218 * beamDiameterFwhm);
+            var factorU = innerRadius / (0.8493218 * beamDiameterFwhm);
 
             GetDoubleNormallyDistributedRandomNumbers(
                 ref x,
@@ -254,8 +361,8 @@ namespace Vts.MonteCarlo.Helpers
                 rng);
 
             return new Position(
-                center.X + 0.8493218 * beamDiaFWHM * x,
-                center.Y + 0.8493218 * beamDiaFWHM * y,
+                center.X + 0.8493218 * beamDiameterFwhm * x,
+                center.Y + 0.8493218 * beamDiameterFwhm * y,
                 center.Z);
         }
 
@@ -297,7 +404,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthX">The x-coordinate of the length</param>
         /// <param name="lengthY">The y-coordinate of the width</param>
         /// <param name="lengthZ">The z-coordinate of the height</param>
-        /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
+        /// <param name="beamDiameterFwhm">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
         public static Position GetPositionInACuboidRandomGaussian(
@@ -305,28 +412,28 @@ namespace Vts.MonteCarlo.Helpers
             double lengthX,
             double lengthY,
             double lengthZ,
-            double beamDiaFWHM,
+            double beamDiameterFwhm,
             Random rng)
         {
             if (lengthX == 0.0 && lengthY == 0.0 && lengthZ == 0.0) return center;
 
             var position = new Position(0, 0, 0);
 
-            if (beamDiaFWHM <= 0.0)
-                beamDiaFWHM = 1e-20;
+            if (beamDiameterFwhm <= 0.0)
+                beamDiameterFwhm = 1e-20;
 
-            var factor = lengthX / (0.8493218 *beamDiaFWHM);
-            position.X = center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+            var factor = lengthX / (0.8493218 *beamDiameterFwhm);
+            position.X = center.X + 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                 GetLimit(factor),
                 rng);
 
-            factor = lengthY / (0.8493218 * beamDiaFWHM);
-            position.Y = center.Y + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+            factor = lengthY / (0.8493218 * beamDiameterFwhm);
+            position.Y = center.Y + 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                 GetLimit(factor),
                 rng);
 
-            factor = lengthZ / (0.8493218 * beamDiaFWHM);
-            position.Z = center.Z + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+            factor = lengthZ / (0.8493218 * beamDiameterFwhm);
+            position.Z = center.Z + 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                 GetLimit(factor),
                 rng);
             return position;
@@ -357,23 +464,23 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="center">The center coordinates of the line</param>
         /// <param name="lengthX">The x-coordinate of the length</param>   
-        /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
+        /// <param name="beamDiameterFwhm">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
         public static Position GetPositionInALineRandomGaussian(
             Position center,
             double lengthX,
-            double beamDiaFWHM,
+            double beamDiameterFwhm,
             Random rng)
         {
             if (lengthX == 0.0) return center;
 
-            if (beamDiaFWHM <= 0.0)
-                beamDiaFWHM = 1e-20;
+            if (beamDiameterFwhm <= 0.0)
+                beamDiameterFwhm = 1e-20;
 
-            var factor = lengthX / (0.8493218 * beamDiaFWHM);
+            var factor = lengthX / (0.8493218 * beamDiameterFwhm);
             return new Position(
-                center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                center.X + 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factor),
                     rng),
                 center.Y,
@@ -417,37 +524,37 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="center">The center coordinates of the ellipse</param>
         /// <param name="a">'a' parameter of the ellipse</param>
         /// <param name="b">'b' parameter of the ellipse</param>
-        /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
+        /// <param name="beamDiameterFwhm">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>   
         public static Position GetPositionInAnEllipseRandomGaussian(
             Position center,
             double a,
             double b,
-            double beamDiaFWHM,
+            double beamDiameterFwhm,
             Random rng)
         {
             if (a == 0.0 && b == 0.0)   return center;
 
-            if (beamDiaFWHM <= 0.0)
-                beamDiaFWHM = 1e-20;
+            if (beamDiameterFwhm <= 0.0)
+                beamDiameterFwhm = 1e-20;
 
             double x, y;
-            var factorA = a / (0.8493218 * beamDiaFWHM);
-            var factorB = b / (0.8493218 * beamDiaFWHM);
+            var factorA = a / (0.8493218 * beamDiameterFwhm);
+            var factorB = b / (0.8493218 * beamDiameterFwhm);
 
 
             /*eliminate points outside the ellipse */
             do
             {
-                x = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                x = 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factorA),
                     rng);
-                y = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                y = 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factorB),
                     rng);
             }
-            while ((x * x / (a * a)) + (y * y / (b * b)) >= 1.0);            
+            while (x * x / (a * a) + y * y / (b * b) >= 1.0);            
             return new Position(
                 center.X + x,
                 center.Y + y,
@@ -481,10 +588,10 @@ namespace Vts.MonteCarlo.Helpers
                 z = c * (2.0 * rng.NextDouble() - 1);
             }
             while (x * x / (a * a) + (y * y / (b * b) + z * z / (c * c)) >= 1.0);
-            return (new Position(
+            return new Position(
                 center.X + x,
                 center.Y + y,
-                center.Z + z));
+                center.Z + z);
         }
 
         /// <summary>
@@ -494,7 +601,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="a">'a' parameter of the ellipsoid</param>
         /// <param name="b">'b' parameter of the ellipsoid</param>
         /// <param name="c">'c' parameter of the ellipsoid</param>
-        /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
+        /// <param name="beamDiameterFwhm">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
         public static Position GetPositionInAnEllipsoidRandomGaussian(
@@ -502,30 +609,30 @@ namespace Vts.MonteCarlo.Helpers
             double a,
             double b,
             double c,
-            double beamDiaFWHM,
+            double beamDiameterFwhm,
             Random rng)
         {
             if (a == 0.0 && b == 0.0 && c == 0.0) return center;
 
-            if (beamDiaFWHM <= 0.0)
-                beamDiaFWHM = 1e-20;
+            if (beamDiameterFwhm <= 0.0)
+                beamDiameterFwhm = 1e-20;
 
             double x, y, z;
-            var factorX = a / (0.8493218 * beamDiaFWHM);
-            var factorY = b / (0.8493218 * beamDiaFWHM);
-            var factorZ = c / (0.8493218 * beamDiaFWHM);
+            var factorX = a / (0.8493218 * beamDiameterFwhm);
+            var factorY = b / (0.8493218 * beamDiameterFwhm);
+            var factorZ = c / (0.8493218 * beamDiameterFwhm);
 
 
             /*eliminate points outside the ellipse */
             do
             {
-                x = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                x = 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factorX),
                     rng);
-                y = 0.8493218 * beamDiaFWHM *GetSingleNormallyDistributedRandomNumber(
+                y = 0.8493218 * beamDiameterFwhm *GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factorY),
                     rng);
-                z = 0.8493218 * beamDiaFWHM *GetSingleNormallyDistributedRandomNumber(
+                z = 0.8493218 * beamDiameterFwhm *GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factorZ),
                     rng);
             }
@@ -568,29 +675,29 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="center">The center coordinates of the rectangle</param>
         /// <param name="lengthX">The x-coordinate of the lengthX</param>
         /// <param name="lengthY">The y-coordinate of the widthY</param>
-        /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
+        /// <param name="beamDiameterFwhm">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
         public static Position GetPositionInARectangleRandomGaussian(
             Position center,
             double lengthX,
             double lengthY,
-            double beamDiaFWHM,
+            double beamDiameterFwhm,
             Random rng)
         {
             if (lengthX == 0.0 && lengthY == 0.0) return center;
 
             var position = new Position { Z = center.Z };
 
-            if (beamDiaFWHM <= 0.0)
-                beamDiaFWHM = 1e-5;
-            var factor = lengthX / (0.8493218 * beamDiaFWHM);             
-            position.X = center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+            if (beamDiameterFwhm <= 0.0)
+                beamDiameterFwhm = 1e-5;
+            var factor = lengthX / (0.8493218 * beamDiameterFwhm);             
+            position.X = center.X + 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                 GetLimit(factor),
                 rng);
 
-            factor = lengthY / (0.8493218 * beamDiaFWHM);
-            position.Y = center.Y + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+            factor = lengthY / (0.8493218 * beamDiameterFwhm);
+            position.Y = center.Y + 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
                 GetLimit(factor),
                 rng);
             return position;
@@ -937,7 +1044,7 @@ namespace Vts.MonteCarlo.Helpers
             if (thetaConvOrDiv == 0.0)
                 return thetaConvOrDiv;
             var height = fullLength / Math.Tan(thetaConvOrDiv);
-            return (Math.Atan(curLength) / height);
+            return Math.Atan(curLength) / height;
         }
 
         /// <summary>
