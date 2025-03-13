@@ -126,6 +126,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         ZPlane = -1.0,
                         TallySecondMoment = true
                     },
+                    new ROfRhoAndTimeAndMaxDepthDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        Time = new DoubleRange(0.0, 1.0, 101),
+                        MaxDepth = new DoubleRange(0.0, 1.0, 51),
+                        TallySecondMoment = true
+                    },
                     new ROfXAndYDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 101),
@@ -568,6 +575,34 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputTwoLayerTissue.R_rmdr2[2, 11] - 0.389408), Is.LessThan(0.000001));
             Assert.That(_outputOneLayerTissue.R_rmd_TallyCount, Is.EqualTo(89));
             Assert.That(_outputTwoLayerTissue.R_rmd_TallyCount, Is.EqualTo(89));
+
+        }
+        // Reflection R(rho,time, maxdepth), validated with integrated R(rho) results and prior test
+        [Test]
+        public void Validate_DAW_ROfRhoAndTimeAndMaxDepth()
+        {
+            var maxDepth = ((ROfRhoAndTimeAndMaxDepthDetectorInput)_inputOneLayerTissue.DetectorInputs
+                .First(d => d.TallyType == "ROfRhoAndTimeAndMaxDepth")).MaxDepth;
+            var time = ((ROfRhoAndTimeAndMaxDepthDetectorInput)_inputOneLayerTissue.DetectorInputs
+                .First(d => d.TallyType == "ROfRhoAndTimeAndMaxDepth")).Time;
+            var integralOneLayer = 0.0;
+            var integralTwoLayer = 0.0;
+            for (var i = 0; i < maxDepth.Count - 1; i++)
+            {
+                for (var j = 0; j < time.Count - 1; j++)
+                {
+                    integralOneLayer += _outputOneLayerTissue.R_rtmd[0, j, i];
+                    integralTwoLayer += _outputTwoLayerTissue.R_rtmd[0, j, i];
+                }
+            }
+            Assert.That(Math.Abs(integralOneLayer * _factor - 0.6152383), Is.LessThan(0.0000001));  //R(rho) result
+            Assert.That(Math.Abs(integralTwoLayer * _factor - 0.6152383), Is.LessThan(0.0000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_rtmd[0, 0, 4] - 0.315776), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_rtmd[0, 0, 4] - 0.315776), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_rtmd2[0, 0, 4] - 9.97145), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_rtmd2[0, 0, 4] - 9.97145), Is.LessThan(0.00001));
+            Assert.That(_outputOneLayerTissue.R_rtmd_TallyCount, Is.EqualTo(89));
+            Assert.That(_outputTwoLayerTissue.R_rtmd_TallyCount, Is.EqualTo(89));
 
         }
         // Reflection R(rho,omega)
