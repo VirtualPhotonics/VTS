@@ -4,31 +4,28 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Tally for pMC estimation of reflectance as a function of X, Y, Time and Subregion
-    /// recessed in air.
-    /// Method tallies photon weight to time bin associated with pathlength in each region.
+    /// Method tallies photon weight to time bin associated with path length in each region.
     /// Integrated R(rho,t,subregion) will not integrate to R(x,y), independent array
     /// ROfRho used to determine this. Reference: Hiraoka93, Phys.Med.Biol.38 and
     /// Okada96, Appl. Opt. 35(19) -> the sum of the partial path lengths over all the
     /// medium is equivalent to the mean total path length (CH found this to be true)
     /// </summary>
-    public class pMCROfRhoAndTimeAndSubregionRecessedDetectorInput : DetectorInput, IDetectorInput
+    public class pMCROfRhoAndTimeAndSubregionDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
         /// constructor for reflectance as a function of x,y,time,tissue region detector input
         /// </summary>
-        public pMCROfRhoAndTimeAndSubregionRecessedDetectorInput()
+        public pMCROfRhoAndTimeAndSubregionDetectorInput()
         {
-            TallyType = "pMCROfRhoAndTimeAndSubregionRecessed";
-            Name = "pMCROfRhoAndTimeAndSubregionRecessed";
+            TallyType = "pMCROfRhoAndTimeAndSubregion";
+            Name = "pMCROfRhoAndTimeAndSubregion";
             Rho = new DoubleRange(0, 10, 101);
             Time = new DoubleRange(0.0, 1.0, 101);
             ZPlane = -1.0;
@@ -37,6 +34,7 @@ namespace Vts.MonteCarlo.Detectors
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IspMCReflectanceTally = true;
+            TallyDetails.IsCylindricalTally = true;
         }
         /// <summary>
         /// detector rho binning
@@ -73,7 +71,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
-            return new pMCROfRhoAndTimeAndSubregionRecessedDetector
+            return new pMCROfRhoAndTimeAndSubregionDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -96,7 +94,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for pMC reflectance as a function  of Rho and Time.
     /// This implementation works for DAW and CAW processing.
     /// </summary>
-    public class pMCROfRhoAndTimeAndSubregionRecessedDetector : Detector, IDetector
+    public class pMCROfRhoAndTimeAndSubregionDetector : Detector, IDetector
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;

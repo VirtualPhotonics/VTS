@@ -76,10 +76,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IDetectorInput>
             {
                 new ROfRhoDetectorInput {Rho=new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
-                new ROfRhoRecessedDetectorInput { Rho=new DoubleRange(0.0, 10.0, 101),ZPlane=-1.0},
-                new ROfRhoAndTimeDetectorInput { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101)},
-                new ROfFxDetectorInput {Fx=new DoubleRange(0.0, 0.5, 11)},
-                new ROfFxAndTimeDetectorInput { Fx = new DoubleRange(0.0, 0.5, 11),Time = new DoubleRange(0.0, 1.0, 101)}
+                new ROfRhoRecessedDetectorInput { Rho=new DoubleRange(0.0, 10.0, 101), ZPlane=-1.0, TallySecondMoment = true},
+                new ROfRhoAndTimeDetectorInput { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true},
+                new ROfFxDetectorInput {Fx=new DoubleRange(0.0, 0.5, 11), TallySecondMoment = true},
+                new ROfFxAndTimeDetectorInput { Fx = new DoubleRange(0.0, 0.5, 11),Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true}
  
             };
             _referenceInputOneLayerTissue = new SimulationInput(
@@ -111,9 +111,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// Test to validate that setting mua and mus to the reference values
-        /// determines results equal to reference for R(rho,time) and that
-        /// R(rho,time) recessed to a height of 0 are equal
+        /// Test to validate that setting mua and mus to the reference values in the pMC detectors
+        /// determines results equal to reference for R(rho,time), R(rho,time) recessed to height=0,
+        /// and R(rho,time,subregion) with 1 tissue subregion
         /// </summary>
         [Test]
         public void Validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
@@ -132,7 +132,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
                         },
-                        PerturbedRegionsIndices=new List<int> { 1 } 
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true
                     },
                     new pMCROfRhoAndTimeRecessedDetectorInput
                     {
@@ -148,22 +149,48 @@ namespace Vts.Test.MonteCarlo.Detectors
                         PerturbedRegionsIndices=new List<int> { 1 },
                         TallySecondMoment = true
                     },
+                    new pMCROfRhoAndTimeAndSubregionDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0.0, 1.0, 101),
+                        PerturbedOps=new List<OpticalProperties>
+                        {   // set perturbed ops to reference ops
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true
+                    },
                 },
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
 
-            // validation value obtained from reference non-pMC run
+            // pMC R(rho,time) validation value obtained from reference non-pMC run: mean and 2nd moment
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] -
                                  _referenceOutputOneLayerTissue.R_rt[0, 0]), Is.LessThan(1e-10));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt2[0, 0] -
+                                 _referenceOutputOneLayerTissue.R_rt2[0, 0]), Is.LessThan(1e-10));
             // validation value obtained from linux run using above input and seeded the same
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0]*_factor - 61.5238307), Is.LessThan(0.0000001));
             Assert.That(postProcessedOutput.pMC_R_rt_TallyCount, Is.EqualTo(89));
 
-            // validation value obtained from non-pMC non-recessed run
+            // pMC R(rho,time) recessed validation value obtained from non-pMC non-recessed run: mean and 2nd moment
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_rtr[0, 0] - 
                                 _referenceOutputOneLayerTissue.R_rt[0, 0]), Is.LessThan(1e-10));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rtr2[0, 0] -
+                                 _referenceOutputOneLayerTissue.R_rt2[0, 0]), Is.LessThan(1e-10));
             Assert.That(postProcessedOutput.pMC_R_rtr_TallyCount, Is.EqualTo(89));
+
+            // pMC R(rho,time,subregion) validation value obtain from reference non-pMC run: mean and 2nd moment
+            // _referenceOutputOneLayerTissue only contains one tissue layer index=1
+            // so can compare with R_rt
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rts[0, 0, 1] -
+                                 _referenceOutputOneLayerTissue.R_rt[0, 0]), Is.LessThan(1e-10));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rts2[0, 0, 1] -
+                                 _referenceOutputOneLayerTissue.R_rt2[0, 0]), Is.LessThan(1e-10));
+            Assert.That(postProcessedOutput.pMC_R_rts_TallyCount, Is.EqualTo(89));
         }
 
         /// <summary>

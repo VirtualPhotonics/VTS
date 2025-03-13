@@ -10,13 +10,13 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for reflectance as a function of Rho and MaxDepth.
+    /// Tally for reflectance as a function of Rho and Time and MaxDepth.
     /// This works for Analog, DAW and CAW processing.
     /// </summary>
     public class ROfRhoAndTimeAndMaxDepthDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for reflectance as a function of rho and MaxDepth detector input
+        /// constructor for reflectance as a function of rho and time and MaxDepth detector input
         /// </summary>
         public ROfRhoAndTimeAndMaxDepthDetectorInput()
         {
@@ -139,8 +139,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new double[Rho.Count - 1, Time.Count - 1, MaxDepth.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1, MaxDepth.Count - 1] : null);
+            Mean ??= new double[Rho.Count - 1, Time.Count - 1, MaxDepth.Count - 1];
+            SecondMoment ??= (TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1, MaxDepth.Count - 1] : null);
 
            // initialize any other necessary class fields here
             _tissue = tissue;
@@ -164,6 +164,7 @@ namespace Vts.MonteCarlo.Detectors
             if (!TallySecondMoment) return;
             SecondMoment[ir, it, id] += photon.DP.Weight * photon.DP.Weight;
         }
+
         /// <summary>
         /// method to normalize detector results after all photons launched
         /// </summary>
