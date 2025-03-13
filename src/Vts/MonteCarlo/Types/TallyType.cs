@@ -148,6 +148,8 @@ namespace Vts.MonteCarlo
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion
             "pMCROfRhoAndTimeAndSubregion", 
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation, time and subregion recessed in air
+            "pMCROfRhoAndTimeAndSubregionRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion
             "pMCROfXAndYAndTimeAndSubregion", 
             // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion recessed in air

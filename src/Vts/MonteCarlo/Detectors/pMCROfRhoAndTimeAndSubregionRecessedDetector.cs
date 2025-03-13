@@ -6,28 +6,31 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Tally for pMC estimation of reflectance as a function of X, Y, Time and Subregion
+    /// recessed in air.
     /// Method tallies photon weight to time bin associated with path length in each region.
     /// Integrated R(rho,t,subregion) will not integrate to R(x,y), independent array
     /// ROfRho used to determine this. Reference: Hiraoka93, Phys.Med.Biol.38 and
     /// Okada96, Appl. Opt. 35(19) -> the sum of the partial path lengths over all the
     /// medium is equivalent to the mean total path length (CH found this to be true)
     /// </summary>
-    public class pMCROfRhoAndTimeAndSubregionDetectorInput : DetectorInput, IDetectorInput
+    public class pMCROfRhoAndTimeAndSubregionRecessedDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
         /// constructor for reflectance as a function of x,y,time,tissue region detector input
         /// </summary>
-        public pMCROfRhoAndTimeAndSubregionDetectorInput()
+        public pMCROfRhoAndTimeAndSubregionRecessedDetectorInput()
         {
-            TallyType = "pMCROfRhoAndTimeAndSubregion";
-            Name = "pMCROfRhoAndTimeAndSubregion";
+            TallyType = "pMCROfRhoAndTimeAndSubregionRecessed";
+            Name = "pMCROfRhoAndTimeAndSubregionRecessed";
             Rho = new DoubleRange(0, 10, 101);
             Time = new DoubleRange(0.0, 1.0, 101);
+            ZPlane = -1.0;
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // assume detector is in air
 
@@ -43,6 +46,10 @@ namespace Vts.MonteCarlo.Detectors
         /// time binning
         /// </summary>
         public DoubleRange Time { get; set; }
+        /// <summary>
+        /// z-plane above tissue in air
+        /// </summary>
+        public double ZPlane { get; set; }
         /// <summary>
         /// perturbed optical properties listed in order of tissue regions
         /// </summary>
@@ -66,7 +73,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
-            return new pMCROfRhoAndTimeAndSubregionDetector
+            return new pMCROfRhoAndTimeAndSubregionRecessedDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -77,6 +84,7 @@ namespace Vts.MonteCarlo.Detectors
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
                 Time = this.Time,
+                ZPlane = this.ZPlane,
                 PerturbedOps = this.PerturbedOps,
                 PerturbedRegionsIndices = this.PerturbedRegionsIndices,
                 NA = this.NA,
@@ -88,7 +96,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for pMC reflectance as a function  of Rho and Time.
     /// This implementation works for DAW and CAW processing.
     /// </summary>
-    public class pMCROfRhoAndTimeAndSubregionDetector : Detector, IDetector
+    public class pMCROfRhoAndTimeAndSubregionRecessedDetector : Detector, IDetector
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -106,6 +114,10 @@ namespace Vts.MonteCarlo.Detectors
         /// time binning
         /// </summary>
         public DoubleRange Time { get; set; }
+        /// <summary>
+        /// z-plane above tissue in air
+        /// </summary>
+        public double ZPlane { get; set; }
         /// <summary>
         /// total reflectance, needed to normalize partial differential path length
         /// </summary>
@@ -187,8 +199,12 @@ namespace Vts.MonteCarlo.Detectors
         {
             if (!IsWithinDetectorAperture(photon)) return;
 
+            // ray trace exit location and direction to location at ZPlane
+            var positionAtZPlane = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
+                photon.DP.Position, photon.DP.Direction, ZPlane);
+
             // WhichBin to match ROfRhoAndTimeDetector
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(positionAtZPlane.X, positionAtZPlane.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             // determine path length in each tissue region
             var pathLengthInRegion = photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray();

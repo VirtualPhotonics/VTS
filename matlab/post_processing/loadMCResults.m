@@ -91,6 +91,29 @@ for di = 1:numDetectors
                 ROfRhoAndTime.Stdev = sqrt((ROfRhoAndTime.SecondMoment - (ROfRhoAndTime.Mean .* ROfRhoAndTime.Mean)) / json.N);
             end
             results{di}.ROfRhoAndTime = ROfRhoAndTime;
+        case 'ROfRhoAndTimeAndMaxDepth'
+            ROfRhoAndTimeAndMaxDepth.Name = detector.Name;
+            tempRho = detector.Rho;
+            tempTime = detector.Time;
+            tempMaxDepth = detector.MaxDepth;
+            ROfRhoAndTimeAndMaxDepth.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            ROfRhoAndTimeAndMaxDepth.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));        
+            ROfRhoAndTimeAndMaxDepth.MaxDepth = linspace((tempMaxDepth.Start), (tempMaxDepth.Stop), (tempMaxDepth.Count)); ROfRhoAndTimeAndMaxDepth.Rho_Midpoints = (ROfRhoAndTimeAndMaxDepth.Rho(1:end-1) + ROfRhoAndTimeAndMaxDepth.Rho(2:end))/2;
+            ROfRhoAndTimeAndMaxDepth.Rho_Midpoints = (ROfRhoAndMaxDepth.Rho(1:end-1) + ROfRhoAndMaxDepth.Rho(2:end))/2;
+            ROfRhoAndTimeAndMaxDepth.Time_Midpoints = (ROfRhoAndTimeAndMaxDepth.Time(1:end-1) + ROfRhoAndTimeAndMaxDepth.Time(2:end))/2;
+            ROfRhoAndTimeAndMaxDepth.MaxDepth_Midpoints = (ROfRhoAndMaxDepth.MaxDepth(1:end-1) + ROfRhoAndMaxDepth.MaxDepth(2:end))/2;
+            ROfRhoAndTimeAndMaxDepth.Mean = readBinaryData([datadir slash detector.Name], ...
+                (length(ROfRhoAndTimeAndMaxDepth.MaxDepth)-1)*(length(ROfRhoAndTimeAndMaxDepth.Time)-1)*(length(ROfRhoAndTimeAndMaxDepth.Rho)-1)); % read column major json binary             
+            ROfRhoAndTimeAndMaxDepth.Mean = reshape(ROfRhoAndTimeAndMaxDepth.Mean, ...
+                [length(ROfRhoAndTimeAndMaxDepth.MaxDepth)-1,length(ROfRhoAndTimeAndMaxDepth.Time)-1,length(ROfRhoAndTimeAndMaxDepth.Rho)-1]); % read column major json binary             
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                ROfRhoAndTimeAndMaxDepth.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
+                    (length(ROfRhoAndTimeAndMaxDepth)-1)*(length(ROfRhoAndTimeAndMaxDepth.Time)-1)*(length(ROfRhoAndTime.Rho)-1));
+                ROfRhoAndTimeAndMaxDepth.SecondMoment = reshape(ROfRhoAndTimeAndMaxDepth.Mean, ...
+                    [length(ROfRhoAndTimeAndMaxDepth)-1,length(ROfRhoAndTimeAndMaxDepth.Time)-1,length(ROfRhoAndTime.Rho)-1]);
+                ROfRhoAndTimeAndMaxDepth.Stdev = sqrt((ROfRhoAndTimeAndMaxDepth.SecondMoment - (ROfRhoAndTimeAndMaxDepth.Mean .* ROfRhoAndTimeAndMaxDepth.Mean)) / json.N);
+            end
+            results{di}.ROfRhoAndTimeAndMaxDepth = ROfRhoAndTimeAndMaxDepth;
         case 'ROfRhoAndMaxDepth'
             ROfRhoAndMaxDepth.Name = detector.Name;
             tempRho = detector.Rho;
@@ -1582,6 +1605,56 @@ for di = 1:numDetectors
                 pMCROfRhoAndTimeRecessed.Stdev = sqrt((pMCROfRhoAndTimeRecessed.SecondMoment - (pMCROfRhoAndTimeRecessed.Mean .* pMCROfRhoAndTimeRecessed.Mean)) / (databaseInputJson.N));
             end
             results{di}.pMCROfRhoAndTimeRecessed = pMCROfRhoAndTimeRecessed;
+        case 'pMCROfRhoAndTimeAndSubregion'
+            pMCROfRhoAndTimeAndSubregion.Name = detector.Name;
+            tempRho = detector.Rho;
+            tempTime = detector.Time;
+            tempNumberOfRegions = size(detector.PerturbedOps,2); % get number of tissue regions indirectly
+            pMCROfRhoAndTimeAndSubregion.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            pMCROfRhoAndTimeAndSubregion.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));
+            pMCROfRhoAndTimeAndSubregion.Rho_Midpoints = (pMCROfRhoAndTimeAndSubregion.Rho(1:end-1) + pMCROfRhoAndTimeAndSubregion.Rho(2:end))/2;
+            pMCROfRhoAndTimeAndSubregion.Time_Midpoints = (pMCROfRhoAndTimeAndSubregion.Time(1:end-1) + pMCROfRhoAndTimeAndSubregion.Time(2:end))/2;
+            pMCROfXAndYAndTimeAndSubregion.NumberOfRegions = tempNumberOfRegions;
+            pMCROfRhoAndTimeAndSubregion.Mean = readBinaryData([datadir slash detector.Name],...
+                [tempNumberOfRegions*(length(pMCROfRhoAndTimeAndSubregion.Time)-1)*(length(pMCROfRhoAndTimeAndSubregion.Rho)-1)]); % read column major json binary                    
+            pMCROfRhoAndTimeAndSubregion.Mean = reshape(pMCROfRhoAndTimeAndSubregion.Mean,...
+                [tempNumberOfRegions,length(pMCROfRhoAndTimeAndSubregion.Time)-1,length(pMCROfRhoAndTimeAndSubregion.Rho)-1]); % reshape        
+            pMCROfXAndYAndTimeAndSubregion.ROfXAndY = readBinaryData([datadir slash detector.Name '_ROfRho'],[length(pMCROfRhoAndTimeAndSubregion.Rho)-1]);  % read column major json binary            
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                pMCROfRhoAndTimeAndSubregion.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
+                    [tempNumberOfRegions*(length(pMCROfRhoAndTimeAndSubregion.Time)-1)*(length(pMCROfRhoAndTimeAndSubregion.Rho)-1)]);   
+                pMCROfRhoAndTimeAndSubregion.SecondMoment = reshape(pMCROfRhoAndTimeAndSubregion.SecondMoment,...
+                  [tempNumberOfRegions,length(pMCROfRhoAndTimeAndSubregion.Time)-1,length(pMCROfRhoAndTimeAndSubregion.Rho)-1]); % read column major json binary                     
+                pMCROfRhoAndTimeAndSubregion.Stdev = sqrt((pMCROfRhoAndTimeAndSubregion.SecondMoment - (pMCROfRhoAndTimeAndSubregion.Mean .* pMCROfRhoAndTimeAndSubregion.Mean)) / (databaseInputJson.N));           
+                pMCROfRhoAndTimeAndSubregion.ROfRhoSecondMoment = readBinaryData([datadir slash detector.Name '_ROfRho_2'],[length(pMCROfRhoAndTimeAndSubregion.Y)-1,length(pMCROfRhoAndTimeAndSubregion.X)-1]);  % read column major json binary          
+                pMCROfRhoAndTimeAndSubregion.ROfRhoStdev = sqrt((pMCROfRhoAndTimeAndSubregion.ROfRhoSecondMoment - (pMCROfRhoAndTimeAndSubregion.ROfRho .* pMCROfRhoAndTimeAndSubregion.ROfRho)) / (databaseInputJson.N));                    
+            end
+            results{di}.pMCROfRhoAndTimeAndSubregion = pMCROfRhoAndTimeAndSubregion;
+        case 'pMCROfRhoAndTimeAndSubregionRecessed'
+            pMCROfRhoAndTimeAndSubregionRecessed.Name = detector.Name;
+            tempRho = detector.Rho;
+            tempTime = detector.Time;
+            tempNumberOfRegions = size(detector.PerturbedOps,2); % get number of tissue regions indirectly
+            pMCROfRhoAndTimeAndSubregionRecessed.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            pMCROfRhoAndTimeAndSubregionRecessed.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));
+            pMCROfRhoAndTimeAndSubregionRecessed.Rho_Midpoints = (pMCROfRhoAndTimeAndSubregionRecessed.Rho(1:end-1) + pMCROfRhoAndTimeAndSubregionRecessed.Rho(2:end))/2;
+            pMCROfRhoAndTimeAndSubregionRecessed.Time_Midpoints = (pMCROfRhoAndTimeAndSubregionRecessed.Time(1:end-1) + pMCROfRhoAndTimeAndSubregionRecessed.Time(2:end))/2;
+            pMCROfXAndYAndTimeAndSubregionRecessed.NumberOfRegions = tempNumberOfRegions;
+            pMCROfRhoAndTimeAndSubregionRecessed.Mean = readBinaryData([datadir slash detector.Name],...
+                [tempNumberOfRegions*(length(pMCROfRhoAndTimeAndSubregionRecessed.Time)-1)*(length(pMCROfRhoAndTimeAndSubregionRecessed.Rho)-1)]); % read column major json binary                    
+            pMCROfRhoAndTimeAndSubregionRecessed.Mean = reshape(pMCROfRhoAndTimeAndSubregionRecessed.Mean,...
+                [tempNumberOfRegions,length(pMCROfRhoAndTimeAndSubregionRecessed.Time)-1,length(pMCROfRhoAndTimeAndSubregionRecessed.Rho)-1]); % reshape        
+            pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndY = readBinaryData([datadir slash detector.Name '_ROfRho'],[length(pMCROfRhoAndTimeAndSubregionRecessed.Rho)-1]);  % read column major json binary            
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                pMCROfRhoAndTimeAndSubregionRecessed.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
+                    [tempNumberOfRegions*(length(pMCROfRhoAndTimeAndSubregionRecessed.Time)-1)*(length(pMCROfRhoAndTimeAndSubregionRecessed.Rho)-1)]);   
+                pMCROfRhoAndTimeAndSubregionRecessed.SecondMoment = reshape(pMCROfRhoAndTimeAndSubregionRecessed.SecondMoment,...
+                  [tempNumberOfRegions,length(pMCROfRhoAndTimeAndSubregionRecessed.Time)-1,length(pMCROfRhoAndTimeAndSubregionRecessed.Rho)-1]); % read column major json binary                     
+                pMCROfRhoAndTimeAndSubregionRecessed.Stdev = sqrt((pMCROfRhoAndTimeAndSubregionRecessed.SecondMoment - (pMCROfRhoAndTimeAndSubregionRecessed.Mean .* pMCROfRhoAndTimeAndSubregionRecessed.Mean)) / (databaseInputJson.N));           
+                pMCROfRhoAndTimeAndSubregionRecessed.ROfRhoSecondMoment = readBinaryData([datadir slash detector.Name '_ROfRho_2'],[length(pMCROfRhoAndTimeAndSubregionRecessed.Y)-1,length(pMCROfRhoAndTimeAndSubregionRecessed.X)-1]);  % read column major json binary          
+                pMCROfRhoAndTimeAndSubregionRecessed.ROfRhoStdev = sqrt((pMCROfRhoAndTimeAndSubregionRecessed.ROfRhoSecondMoment - (pMCROfRhoAndTimeAndSubregionRecessed.ROfRho .* pMCROfRhoAndTimeAndSubregionRecessed.ROfRho)) / (databaseInputJson.N));                    
+            end
+            results{di}.pMCROfRhoAndTimeAndSubregionRecessed = pMCROfRhoAndTimeAndSubregionRecessed;
          case 'pMCROfXAndY'
             pMCROfXAndY.Name = detector.Name;
             tempX = detector.X;
