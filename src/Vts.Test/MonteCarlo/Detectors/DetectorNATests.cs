@@ -512,6 +512,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },
@@ -525,17 +526,20 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },  
                     new pMCROfFxDetectorInput
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },
@@ -543,11 +547,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
                         Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },                    
@@ -560,6 +566,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },
@@ -572,9 +579,39 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
-                    }, 
+                    },
+                    new dMCdROfRhoAndTimedMuaDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    },
+                    new dMCdROfRhoAndTimedMusDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    },
+
                 },
                 _pMcDatabase,
                 _inputForPmc);
@@ -588,6 +625,19 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(postProcessedOutput.pMC_R_fxt[0, 0].Imaginary, Is.EqualTo(0.0));
             Assert.That(postProcessedOutput.dMCdMua_R_r[0], Is.EqualTo(0.0));
             Assert.That(postProcessedOutput.dMCdMus_R_r[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMua_R_rt[0, 0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMus_R_rt[0, 0], Is.EqualTo(0.0));
+            // check second moments
+            Assert.That(postProcessedOutput.pMC_R_r2[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_rt2[0, 0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fx2[0].Real, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fx2[0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fxt2[0, 0].Real, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fxt2[0, 0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMua_R_r2[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMus_R_r2[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMua_R_rt2[0, 0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMus_R_rt2[0, 0], Is.EqualTo(0.0));
         }
 
         /// <summary>
@@ -609,6 +659,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },
@@ -622,17 +673,20 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },  
                     new pMCROfFxDetectorInput
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },
@@ -640,11 +694,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
                         Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        PerturbedOps=new[] { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },                    
@@ -657,6 +712,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },
@@ -669,9 +725,38 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
-                    }, 
+                    },
+                    new dMCdROfRhoAndTimedMuaDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    },
+                    new dMCdROfRhoAndTimedMusDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    },
                 },
                 _pMcDatabase,
                 _inputForPmc);
@@ -685,6 +770,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary - 0.089027), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.001005), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.000263), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_rt[0, 0] + 0.010050), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_rt[0, 0] - 0.002631), Is.LessThan(0.000001));
+
+            // check second moments
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 0.001005), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt2[0, 0] - 0.100514), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.039826), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt2[1, 0].Real - 3.650006), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt2[1, 0].Imaginary - 0), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r2[0] - 0.000101), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r2[0] - 6.922179e-6), Is.LessThan(0.000001e-6));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_rt2[0, 0] - 0.010101), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_rt2[0, 0] - 0.000692), Is.LessThan(0.000001));
+
         }
     }
 }

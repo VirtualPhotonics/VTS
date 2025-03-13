@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo
             switch (tissue.AbsorptionWeightingType)
             {
                 case AbsorptionWeightingType.Analog:
-                    throw new NotImplementedException( "Analog cannot be used for pMC estimates.");
+                    throw new NotImplementedException("Analog cannot be used for pMC estimates.");
                 case AbsorptionWeightingType.Continuous:
                     if (detector.TallyType == TallyType.pMCATotal)
                     {
@@ -120,8 +120,7 @@ namespace Vts.MonteCarlo
             switch (tissue.AbsorptionWeightingType)
             {
                 case AbsorptionWeightingType.Analog:
-                    throw new NotImplementedException(
-                        "Analog cannot be used for dMC estimates.");
+                    throw new NotImplementedException("Analog cannot be used for dMC estimates.");
                 case AbsorptionWeightingType.Continuous:
                 case AbsorptionWeightingType.Discrete:
                     return derivativeType switch
