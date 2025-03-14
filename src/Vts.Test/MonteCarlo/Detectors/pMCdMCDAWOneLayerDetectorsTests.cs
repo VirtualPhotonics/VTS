@@ -466,10 +466,10 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
-        /// determines results equal to reference for R(fx)
+        /// determines results equal to reference for R(fx) for pMC and dMC
         /// </summary>
         [Test]
-        public void Validate_pMC_DAW_ROfFx_zero_perturbation_one_layer_tissue()
+        public void Validate_pMC_dMC_DAW_ROfFx_zero_perturbation_one_layer_tissue()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -486,21 +486,56 @@ namespace Vts.Test.MonteCarlo.Detectors
                         },
                         PerturbedRegionsIndices=new List<int> { 1 },
                         TallySecondMoment = true
+                    },
+                    new dMCdROfFxdMuaDetectorInput  // dMC with respect to Mua
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true
+                    },
+                    new dMCdROfFxdMusDetectorInput  // dMC with respect to Mus
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices=new List<int> { 1 },
+                        TallySecondMoment = true
                     }
                 },
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
 
-            // validation value obtained from reference non-pMC run
+            // pMC R(fx) validation value obtained from reference non-pMC run
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - _referenceOutputOneLayerTissue.R_fx[1].Real), Is.LessThan(0.00000000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - _referenceOutputOneLayerTissue.R_fx[1].Imaginary), Is.LessThan(0.00000000001));
-            // validation value based on previous run
+            // pMC R(fx) validation value based on previous run
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.328865), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.083909), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.467357), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001)); // imag of 2nd moment is 0
             Assert.That(postProcessedOutput.pMC_R_fx_TallyCount, Is.EqualTo(89));
+            // dMC R(fx) validation value based on previous run
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_fx[1].Real + 3.30832), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_fx[1].Imaginary + 0.290606), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_fx2[1].Real - 423.686), Is.LessThan(0.001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001)); // imag of 2nd moment is 0
+            Assert.That(postProcessedOutput.dMCdMua_R_fx_TallyCount, Is.EqualTo(89));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_fx[1].Real + 0.011652), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_fx[1].Imaginary + 0.014607), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_fx2[1].Real - 1.88075), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001)); // imag of 2nd moment is 0
+            Assert.That(postProcessedOutput.dMCdMus_R_fx_TallyCount, Is.EqualTo(89));
         }
 
         /// <summary>

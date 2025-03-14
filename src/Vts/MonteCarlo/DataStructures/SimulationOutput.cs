@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
         public SimulationOutput(SimulationInput si, IList<IDetector> detectorResults)
         {
             Input = si;
-            ResultsDictionary = new Dictionary<String, IDetector>();
+            ResultsDictionary = new Dictionary<string, IDetector>();
             foreach (var detector in detectorResults)
             {
                 // verification that all detectors have unique names performed in
@@ -1139,6 +1139,30 @@ namespace Vts.MonteCarlo
         /// perturbation MC Reflectance as a function of fx and time Tally count
         /// </summary>
         public long pMC_R_fxt_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfFxAndTime").Name]).TallyCount; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of fx wrt to mua 
+        /// </summary>
+        public Complex[] dMCdMua_R_fx { get { return (Complex[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfFxdMua").Name]).Mean; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of fx wrt to mua 2nd moment
+        /// </summary>
+        public Complex[] dMCdMua_R_fx2 { get { return (Complex[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfFxdMua").Name]).SecondMoment; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of fx wrt to mua Tally Count
+        /// </summary>
+        public long dMCdMua_R_fx_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfFxdMua").Name]).TallyCount; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of fx wrt to mus
+        /// </summary>
+        public Complex[] dMCdMus_R_fx { get { return (Complex[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfFxdMus").Name]).Mean; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of fx wrt to mus 2nd moment
+        /// </summary>
+        public Complex[] dMCdMus_R_fx2 { get { return (Complex[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfFxdMus").Name]).SecondMoment; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of fx wrt to mus Tally Count
+        /// </summary>
+        public long dMCdMus_R_fx_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfFxdMus").Name]).TallyCount; } }
 
         /// <summary>
         /// Simulation Input that generated this SimulationOutput

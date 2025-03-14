@@ -168,6 +168,10 @@ namespace Vts.MonteCarlo
             "dMCdROfRhoAndTimedMua",
             // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho,time) 
             "dMCdROfRhoAndTimedMus",
+            // differential Monte Carlo (dMC) d(reflectance)/dMua as a function of spatial frequency (fx)
+            "dMCdROfFxdMua",
+            // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of spatial frequency (fx)
+            "dMCdROfFxdMus",
         };
         /// <summary>
         /// slanted recessed fiber detector

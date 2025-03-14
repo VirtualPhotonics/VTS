@@ -1061,7 +1061,7 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'pMCROfRhoRecessed') && show.pMCROfRhoRecessed
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoRecessed.Name); figure; plot(results{di}.pMCROfRhoRecessed.Rho_Midpoints, log10(results{di}.pMCROfRhoRecessed.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
         rhodelta = results{di}.pMCROfRhoRecessed.Rho(2)-results{di}.pMCROfRhoRecessed.Rho(1);
-        rhonorm = 2 * pi * results{di}.pMCROfRho.Rho_Midpoints * rhodelta;
+        rhonorm = 2 * pi * results{di}.pMCROfRhoRecessed.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by pMCROfRhoRecessed detector: ' num2str(sum(results{di}.pMCROfRhoRecessed.Mean.*rhonorm'))]);
      end
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
