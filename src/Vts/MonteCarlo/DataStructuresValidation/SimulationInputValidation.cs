@@ -337,6 +337,14 @@ namespace Vts.MonteCarlo
                 {
                     return dMCdROfRhoAndTimedMusDetectorInputValidation.ValidateInput(detectorInput);
                 }
+                if (detectorInput.TallyType.Contains("dMCdROfFxdMua"))
+                {
+                    return dMCdROfFxdMuaDetectorInputValidation.ValidateInput(detectorInput);
+                }
+                if (detectorInput.TallyType.Contains("dMCdROfFxdMus"))
+                {
+                    return dMCdROfFxdMusDetectorInputValidation.ValidateInput(detectorInput);
+                }
                 // check that number in blood volume list matches number of tissue subregions
                 var tempResult = ValidateBloodVolumeDetectorConsistencies(input, detectorInput);
                 if (!tempResult.IsValid) return tempResult;
