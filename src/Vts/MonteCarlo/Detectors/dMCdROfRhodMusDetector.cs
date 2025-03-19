@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices; 
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
+        protected Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
         private ITissue _tissue;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
@@ -145,32 +145,9 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _tissue = tissue;
-            SetAbsorbAction(tissue.AbsorptionWeightingType);
+            _absorbAction = AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                tissue, this, DifferentialMonteCarloType.DMus);
         }
-
-        /// <summary>
-        /// Set the absorption to discrete or continuous
-        /// </summary>
-        /// <param name="awt">absorption weighting type</param>
-        protected void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            // AbsorptionWeightingType.Analog cannot have derivatives so exception
-            _absorbAction = awt switch
-            {
-                // note: pMC is not applied to analog processing, only DAW and CAW
-                // same method is used for DAW and CAW
-                AbsorptionWeightingType.Continuous =>
-                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                        _tissue, this, DifferentialMonteCarloType.DMus),
-                AbsorptionWeightingType.Discrete =>
-                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                        _tissue, this, DifferentialMonteCarloType.DMus),
-                AbsorptionWeightingType.Analog =>
-                    throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
-                _ => throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString())
-            };
-        }
-
 
         /// <summary>
         /// method to tally to detector

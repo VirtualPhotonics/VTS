@@ -155,31 +155,9 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedOps = PerturbedOps;
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
-            _tissue = tissue; 
-            SetAbsorbAction(tissue.AbsorptionWeightingType);
-        }
-
-        /// <summary>
-        /// Set the absorption to discrete or continuous
-        /// </summary>
-        /// <param name="awt">absorption weighting type</param>
-        protected void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            // AbsorptionWeightingType.Analog cannot have derivatives so exception
-            _absorbAction = awt switch
-            {
-                // note: pMC is not applied to analog processing, only DAW and CAW
-                // same method is used for DAW and CAW
-                AbsorptionWeightingType.Continuous =>
-                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                        _tissue, this, DifferentialMonteCarloType.DMua),
-                AbsorptionWeightingType.Discrete =>
-                    AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                        _tissue, this, DifferentialMonteCarloType.DMua),
-                AbsorptionWeightingType.Analog =>
-                    throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
-                _ => throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString())
-            };
+            _tissue = tissue;
+            _absorbAction = AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                tissue, this, DifferentialMonteCarloType.DMua);
         }
 
         /// <summary>

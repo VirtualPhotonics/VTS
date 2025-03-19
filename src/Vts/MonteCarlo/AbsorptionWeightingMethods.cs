@@ -135,7 +135,6 @@ namespace Vts.MonteCarlo
                     };
                 default:
                     throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
-                    break;
             };
         }
 
