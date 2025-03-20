@@ -575,58 +575,78 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(postProcessedOutput.pMC_R_fx_TallyCount, Is.EqualTo(89));
         }
 
-        //[Test]  //NEED TO FIX!
-        //public void Test_Analog_absorption_weighting_type_throws_argument_exception()
-        //{
-        //    var test1 = new DMuaDetectorTest();
-        //    Assert.Throws<ArgumentException>(() =>
-        //    {
-        //        try
-        //        {
-        //            test1.SetAbsorbAction(AbsorptionWeightingType.Analog);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Assert.That(e.Message, Is.EqualTo("Analog is not allowed with this detector (Parameter 'awt')"));
-        //            throw;
-        //        }
-        //    });
-        //    var test2 = new DMusDetectorTest();
-        //    Assert.Throws<ArgumentException>(() =>
-        //    {
-        //        try
-        //        {
-        //            test2.SetAbsorbAction(AbsorptionWeightingType.Analog);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Assert.That(e.Message, Is.EqualTo("Analog is not allowed with this detector (Parameter 'awt')"));
-        //            throw;
-        //        }
-        //    });
-        //}
+        [Test]  
+        public void Test_Analog_absorption_weighting_type_throws_argument_exception()
+        {
+            var test1 = new DMuaDetectorTest();
+            Assert.Throws<ArgumentException>(() =>
+            {
+                try
+                {
+                    test1.SetAbsorbAction(AbsorptionWeightingType.Analog);
+                }
+                catch (Exception e)
+                {
+                    Assert.That(e.Message, Is.EqualTo("Analog cannot be used for dMC estimates."));
+                    throw;
+                }
+            });
+            var test2 = new DMusDetectorTest();
+            Assert.Throws<ArgumentException>(() =>
+            {
+                try
+                {
+                    test2.SetAbsorbAction(AbsorptionWeightingType.Analog);
+                }
+                catch (Exception e)
+                {
+                    Assert.That(e.Message, Is.EqualTo("Analog cannot be used for dMC estimates."));
+                    //throw;
+                }
+            });
+        }
 
-        ///// <summary>
-        ///// Expose protected method in a new class that inherits the class under test
-        ///// </summary>
-        //public class DMuaDetectorTest : dMCdROfRhodMuaDetector
-        //{
-        //    public new void SetAbsorbAction(AbsorptionWeightingType awt)
-        //    {
-        //        _absorbAction(new MultiLayerTissue(), base, DifferentialMonteCarloType.DMua);
-        //    }
-        //}
-
-        ///// <summary>
+        ///// <summary>  // ORIGINAL
         ///// Expose protected method in a new class that inherits the class under test
         ///// </summary>
         //public class DMusDetectorTest : dMCdROfRhodMusDetector
         //{
         //    public new void SetAbsorbAction(AbsorptionWeightingType awt)
         //    {
-        //        _absorbAction(new MultiLayerTissue(), base, DifferentialMonteCarloType.DMus);
+        //        base.SetAbsorbAction(awt);
         //    }
         //}
+
+        /// <summary>
+        /// Expose protected method in a new class that inherits the class under test
+        /// </summary>
+        public class DMuaDetectorTest 
+        {
+            internal new void SetAbsorbAction(AbsorptionWeightingType awt)
+            {
+                var tissueInput = new MultiLayerTissueInput();
+                var tissue = tissueInput.CreateTissue(awt, PhaseFunctionType.HenyeyGreenstein, 0.0);
+                var detectorInput = new dMCdROfRhodMuaDetectorInput();
+                var detector = detectorInput.CreateDetector();
+                detector.Initialize(tissue, new Random());
+            }
+        }
+
+        /// <summary>
+        /// Expose protected method in a new class that inherits the class under test
+        /// </summary>
+        public class DMusDetectorTest
+        {
+            internal new void SetAbsorbAction(AbsorptionWeightingType awt)
+            {
+                var tissueInput = new MultiLayerTissueInput();
+                var tissue = tissueInput.CreateTissue(awt, PhaseFunctionType.HenyeyGreenstein, 0.0);
+                var detectorInput = new dMCdROfRhodMusDetectorInput();
+                var detector = detectorInput.CreateDetector();
+                detector.Initialize(tissue, new Random());
+            }
+            
+        }
 
     }
 }

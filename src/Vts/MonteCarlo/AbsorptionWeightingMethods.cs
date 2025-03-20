@@ -311,7 +311,8 @@ namespace Vts.MonteCarlo
 
         /// <summary>
         /// Differential Monte Carlo estimate of derivative of terminal estimator with respect to Mua.
-        /// This algorithm is correct for both DAW and CAW.
+        /// This algorithm is correct for both DAW and CAW. However, only correct for a SINGLE perturbed
+        /// tissue region.
         /// </summary>
         /// <param name="numberOfCollisions">Number of collisions in perturbed region (j)</param>
         /// <param name="pathLength">Path length in perturbed region (S)</param>
@@ -330,22 +331,29 @@ namespace Vts.MonteCarlo
             // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
             var i = perturbedRegionsIndices[0];
 
-            if (numberOfCollisions[i] <= 0 || !(referenceOps[i].Mus > 0.0)) return weightFactor; // mus pert
-
-            // rearranged to be more numerically stable
-            weightFactor *= -pathLength[i] *
-                            Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus *
-                                     Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
-                                                referenceOps[i].Mus - referenceOps[i].Mua) *
-                                         pathLength[i] / numberOfCollisions[i]),
-                                numberOfCollisions[i]);
-
+            if (numberOfCollisions[i] > 0 && referenceOps[i].Mus > 0.0)
+            {
+                // rearranged to be more numerically stable
+                weightFactor *= -pathLength[i] *
+                                Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus *
+                                         Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
+                                                    referenceOps[i].Mus - referenceOps[i].Mua) *
+                                             pathLength[i] / numberOfCollisions[i]),
+                                    numberOfCollisions[i]);
+            }
+            else
+            {
+                weightFactor *= -pathLength[i] *
+                    Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - referenceOps[i].Mus - referenceOps[i].Mua) *
+                             pathLength[i]);
+            }
             return weightFactor;
         }
 
         /// <summary>
         /// Differential Monte Carlo estimate of derivative of terminal estimator with respect to Mus.
-        /// This algorithm is correct for both DAW and CAW.
+        /// This algorithm is correct for both DAW and CAW. However, only correct for a SINGLE perturbed
+        /// tissue region.
         /// </summary>
         /// <param name="numberOfCollisions">Number of collisions in perturbed region (j)</param>
         /// <param name="pathLength">Path length in perturbed region (S)</param>
@@ -362,16 +370,22 @@ namespace Vts.MonteCarlo
             // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
             var i = perturbedRegionsIndices[0];
 
-            if (numberOfCollisions[i] <= 0 || !(referenceOps[i].Mus > 0.0) || !(perturbedOps[i].Mus > 0)) return weightFactor; // mus pert
-
-            // rearranged to be more numerically stable
-            weightFactor *= (numberOfCollisions[i] / perturbedOps[i].Mus - pathLength[i]) * // first factor
-                            Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus *
-                                     Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - 
-                                                referenceOps[i].Mus - referenceOps[i].Mua) * 
-                                         pathLength[i] / numberOfCollisions[i]), 
-                                numberOfCollisions[i]);  // second factor  
-
+            if (numberOfCollisions[i] > 0 && referenceOps[i].Mus > 0.0)
+            {
+                // rearranged to be more numerically stable
+                weightFactor *= (numberOfCollisions[i] / perturbedOps[i].Mus - pathLength[i]) * // first factor
+                                Math.Pow(perturbedOps[i].Mus / referenceOps[i].Mus *
+                                         Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
+                                                    referenceOps[i].Mus - referenceOps[i].Mua) *
+                                             pathLength[i] / numberOfCollisions[i]),
+                                    numberOfCollisions[i]); // second factor  
+            }
+            else
+            {
+                weightFactor *= -pathLength[i] *
+                                Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - referenceOps[i].Mus - referenceOps[i].Mua) *
+                                         pathLength[i]);
+            }
             return weightFactor;
         }
 
