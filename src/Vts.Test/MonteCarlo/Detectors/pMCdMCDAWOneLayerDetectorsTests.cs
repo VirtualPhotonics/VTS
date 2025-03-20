@@ -575,7 +575,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(postProcessedOutput.pMC_R_fx_TallyCount, Is.EqualTo(89));
         }
 
-        //[Test]
+        //[Test]  //NEED TO FIX!
         //public void Test_Analog_absorption_weighting_type_throws_argument_exception()
         //{
         //    var test1 = new DMuaDetectorTest();
