@@ -588,36 +588,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                 test2.SetAbsorbAction(AbsorptionWeightingType.Analog), "Analog cannot be used for dMC estimates.");
         }
 
-        //public void Test_Analog_absorption_weighting_type_throws_argument_exception()
-        //{
-        //    var test1 = new DMuaDetectorTest();
-        //    Assert.Throws<ArgumentException>(() =>
-        //    {
-        //        try
-        //        {
-        //            test1.SetAbsorbAction(AbsorptionWeightingType.Analog);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Assert.That(e.Message, Is.EqualTo("Analog cannot be used for dMC estimates."));
-        //            throw;
-        //        }
-        //    });
-        //}
-        ///// <summary>  // ORIGINAL
-        ///// Expose protected method in a new class that inherits the class under test
-        ///// </summary>
-        //public class DMusDetectorTest : dMCdROfRhodMusDetector
-        //{
-        //    public new void SetAbsorbAction(AbsorptionWeightingType awt)
-        //    {
-        //        base.SetAbsorbAction(awt);
-        //    }
-        //}
-
-            /// <summary>
-            /// Expose protected method in a new class that inherits the class under test
-            /// </summary>
+        /// <summary>
+        /// Expose protected method in a new class that inherits the class under test
+        /// </summary>
         public class DMuaDetectorTest 
         {
             internal new void SetAbsorbAction(AbsorptionWeightingType awt)

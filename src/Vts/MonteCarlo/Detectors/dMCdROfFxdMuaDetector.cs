@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.Detectors
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _tissue = tissue;
             _absorbAction = AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                tissue, this, DifferentialMonteCarloType.DMua);
+                tissue.AbsorptionWeightingType, this, DifferentialMonteCarloType.DMua);
         }
 
         /// <summary>

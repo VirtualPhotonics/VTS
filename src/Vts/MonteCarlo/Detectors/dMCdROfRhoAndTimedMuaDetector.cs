@@ -64,18 +64,18 @@ namespace Vts.MonteCarlo.Detectors
             return new dMCdROfRhoAndTimedMuaDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
-                TallyType = this.TallyType,
-                Name = this.Name,
-                TallySecondMoment = this.TallySecondMoment,
-                TallyDetails = this.TallyDetails,
+                TallyType = TallyType,
+                Name = Name,
+                TallySecondMoment = TallySecondMoment,
+                TallyDetails = TallyDetails,
 
                 // optional/custom detector-specific properties
-                Rho = this.Rho,
-                Time = this.Time,
-                PerturbedOps = this.PerturbedOps,
-                PerturbedRegionsIndices = this.PerturbedRegionsIndices,
-                NA = this.NA,
-                FinalTissueRegionIndex = this.FinalTissueRegionIndex
+                Rho = Rho,
+                Time = Time,
+                PerturbedOps = PerturbedOps,
+                PerturbedRegionsIndices = PerturbedRegionsIndices,
+                NA = NA,
+                FinalTissueRegionIndex = FinalTissueRegionIndex
             };
         }
     }
@@ -148,8 +148,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new double[Rho.Count - 1, Time.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1] : null);
+            Mean ??= new double[Rho.Count - 1, Time.Count - 1];
+            SecondMoment ??= (TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1] : null);
 
             // initialize any other necessary class fields here
             _perturbedOps = PerturbedOps;
@@ -157,7 +157,7 @@ namespace Vts.MonteCarlo.Detectors
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _tissue = tissue;
             _absorbAction = AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                tissue, this, DifferentialMonteCarloType.DMua);
+                tissue.AbsorptionWeightingType, this, DifferentialMonteCarloType.DMua);
         }
 
         /// <summary>

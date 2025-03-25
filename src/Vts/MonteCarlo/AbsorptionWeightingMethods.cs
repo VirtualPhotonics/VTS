@@ -106,8 +106,8 @@ namespace Vts.MonteCarlo
         }
 
         /// <summary>
-        /// Method that returns a function providing the correct differential Monte Carlo absorption weighting for
-        /// DAW and CAW for terminal detectors.  dMC cannot be applied to Analog.
+        /// Overload method that returns a function providing the correct differential Monte Carlo absorption weighting for
+        /// DAW and CAW for terminal detectors.  dMC cannot be applied to Analog
         /// </summary>
         /// <param name="tissue">tissue specification</param>
         /// <param name="detector">detector specification</param>
@@ -117,7 +117,22 @@ namespace Vts.MonteCarlo
         public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double>
             GetdMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetector detector, DifferentialMonteCarloType derivativeType)
         {
-            switch (tissue.AbsorptionWeightingType)
+            return GetdMCTerminationAbsorptionWeightingMethod(tissue.AbsorptionWeightingType, detector, derivativeType);
+        }
+
+        /// <summary>
+        /// Method that returns a function providing the correct differential Monte Carlo absorption weighting for
+        /// DAW and CAW for terminal detectors.  dMC cannot be applied to Analog.
+        /// </summary>
+        /// <param name="absorptionWeightingType">AbsorptionWeightingType</param>
+        /// <param name="detector">detector specification</param>
+        /// <param name="derivativeType">Type of derivative, e.g. dMua or dMus</param>
+        /// <returns>func providing correct absorption weighting for DAW and CAW, pMC cannot be applied to Analog</returns>
+        /// func (numberOfCollisions,path lengths,perturbedOps,referenceOPs,perturbedRegionIndices</returns>
+        public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double>
+            GetdMCTerminationAbsorptionWeightingMethod(AbsorptionWeightingType absorptionWeightingType, IDetector detector, DifferentialMonteCarloType derivativeType)
+        {
+            switch (absorptionWeightingType)
             {
                 case AbsorptionWeightingType.Analog:
                     throw new NotImplementedException("Analog cannot be used for dMC estimates.");
