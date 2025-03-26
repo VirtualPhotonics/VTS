@@ -107,7 +107,9 @@ namespace Vts.MonteCarlo
 
         /// <summary>
         /// Overload method that returns a function providing the correct differential Monte Carlo absorption weighting for
-        /// DAW and CAW for terminal detectors.  dMC cannot be applied to Analog
+        /// DAW and CAW for terminal detectors.  dMC cannot be applied to Analog.
+        /// This overload was created so be consistent with other methods in this class which require
+        /// the ITissue parameter, however all that is needed is the tissue Property AbsorptionWeightingType
         /// </summary>
         /// <param name="tissue">tissue specification</param>
         /// <param name="detector">detector specification</param>
