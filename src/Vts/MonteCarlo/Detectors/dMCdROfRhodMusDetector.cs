@@ -81,8 +81,8 @@ namespace Vts.MonteCarlo.Detectors
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
-        private IList<int> _perturbedRegionsIndices; 
-        protected Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
+        private IList<int> _perturbedRegionsIndices;
+        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
         private ITissue _tissue;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */

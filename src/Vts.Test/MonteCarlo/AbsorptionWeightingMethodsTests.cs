@@ -245,10 +245,10 @@ namespace Vts.Test.MonteCarlo
             // check both derivatives
             Assert.Throws<NotImplementedException>(() =>
                 AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                    tissue, detector, DifferentialMonteCarloType.DMua));
+                    tissue, detector, DifferentialMonteCarloType.DMua), "Analog cannot be used for dMC estimates.");
             Assert.Throws<NotImplementedException>(() =>
                 AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
-                    tissue, detector, DifferentialMonteCarloType.DMus));
+                    tissue, detector, DifferentialMonteCarloType.DMus), "Analog cannot be used for dMC estimates.");
 
             // specify Discrete random walk process and dMua derivative
             // numberOfCollisions>0 and reference mus>0 dictates results

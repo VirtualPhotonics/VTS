@@ -109,12 +109,12 @@ namespace Vts.MonteCarlo
         /// Overload method that returns a function providing the correct differential Monte Carlo absorption weighting for
         /// DAW and CAW for terminal detectors.  dMC cannot be applied to Analog.
         /// This overload was created so be consistent with other methods in this class which require
-        /// the ITissue parameter, however all that is needed is the tissue Property AbsorptionWeightingType
+        /// the ITissue parameter, however all that is needed is the tissue Property AbsorptionWeightingType 
         /// </summary>
         /// <param name="tissue">tissue specification</param>
         /// <param name="detector">detector specification</param>
         /// <param name="derivativeType">Type of derivative, e.g. dMua or dMus</param>
-        /// <returns>func providing correct absorption weighting for DAW and CAW, pMC cannot be applied to Analog</returns>
+        /// <returns>func providing correct absorption weighting for DAW and CAW (pMC cannot be applied to Analog)
         /// func (numberOfCollisions,path lengths,perturbedOps,referenceOPs,perturbedRegionIndices</returns>
         public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double>
             GetdMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetector detector, DifferentialMonteCarloType derivativeType)
@@ -129,7 +129,7 @@ namespace Vts.MonteCarlo
         /// <param name="absorptionWeightingType">AbsorptionWeightingType</param>
         /// <param name="detector">detector specification</param>
         /// <param name="derivativeType">Type of derivative, e.g. dMua or dMus</param>
-        /// <returns>func providing correct absorption weighting for DAW and CAW, pMC cannot be applied to Analog</returns>
+        /// <returns>func providing correct absorption weighting for DAW and CAW (pMC cannot be applied to Analog)
         /// func (numberOfCollisions,path lengths,perturbedOps,referenceOPs,perturbedRegionIndices</returns>
         public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double>
             GetdMCTerminationAbsorptionWeightingMethod(AbsorptionWeightingType absorptionWeightingType, IDetector detector, DifferentialMonteCarloType derivativeType)
