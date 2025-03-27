@@ -22,6 +22,7 @@ show.ROfRho =                   1;
 show.ROfRhoRecessed =           1;
 show.ROfAngle =                 1;
 show.ROfRhoAndTime =            1;
+show.ROfRhoAndTimeAndMaxDepth = 1;
 show.ROfRhoAndMaxDepth =        1;
 show.ROfRhoAndMaxDepthRecessed =1;
 show.ROfRhoAndAngle =           1;
@@ -67,6 +68,8 @@ show.pMCROfRho =                1;
 show.pMCROfRhoRecessed =        1;
 show.pMCROfRhoAndTime =         1;
 show.pMCROfRhoAndTimeRecessed = 1;
+show.pMCROfRhoAndTimeAndSubregion = 1;
+show.pMCROfRhoAndTimeAndSubregionRecessed = 1;
 show.pMCROfXAndY =              1;
 show.pMCROfXAndYAndTimeAndSubregion = 1;
 show.pMCROfXAndYAndTimeAndSubregionRecessed = 1;
@@ -151,6 +154,30 @@ for mci = 1:length(datanames)
         disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(sum(timedelta*results{di}.ROfRhoAndTime.Mean.*repmat(rhonorm,[numtimes,1]))))]);
     end
 
+    if isfield(results{di}, 'ROfRhoAndTimeAndMaxDepth') && show.ROfRhoAndTimeAndMaxDepth
+        numrhos = length(results{di}.ROfRhoAndTimeAndMaxDepth.Rho)-1;
+        numtimes = length(results{di}.ROfRhoAndTimeAndMaxDepth.Time)-1;
+        numdepths = length(results{di}.ROfRhoAndTimeAndMaxDepth.MaxDepth)-1;
+        rhodelta = results{di}.ROfRhoAndTimeAndMaxDepth.Rho(2)-results{di}.ROfRhoAndTimeAndMaxDepth.Rho(1);
+        timedelta = results{di}.ROfRhoAndTimeAndMaxDepth.Time(2)-results{di}.ROfRhoAndTimeAndMaxDepth.Time(1);
+        rhonorm = 2 * pi * results{di}.ROfRhoAndTimeAndMaxDepth.Rho_Midpoints * rhodelta;
+        % plot distribution for select rho and time
+        figure; figname = 'Max Depth Distribution';
+        k=1; % index for legend
+        for i=1:10:numrhos % do every 10 rhos
+          for j=1:100:numtimes  % do every 100 times
+            plot(results{di}.ROfRhoAndTimeAndMaxDepth.MaxDepth_Midpoints,squeeze(results{di}.ROfRhoAndTimeAndMaxDepth.Mean(:,j,i)));
+            br{k}=sprintf('rho=%3.2f mm time=%3.2f ns',results{di}.ROfRhoAndTimeAndMaxDepth.Rho_Midpoints(i),results{di}.ROfRhoAndTimeAndMaxDepth.Time_Midpoints(j));
+            hold on;
+            k=k+1;
+          end
+        end
+        legend(br);
+        title(figname);xlabel('z [mm]');ylabel('max depth');
+        rhomatrix = repmat(rhonorm',[1,numdepths,numtimes]);
+        disp(['Total reflectance captured by ROfRhoAndTimeAndMaxDepth detector: ' num2str(sum(sum(sum(timedelta*results{di}.ROfRhoAndTimeAndMaxDepth.Mean.*permute(rhomatrix,[3,2,1])))))]);
+    end
+
     if isfield(results{di}, 'ROfRhoAndMaxDepth') && show.ROfRhoAndMaxDepth
         numrhos = length(results{di}.ROfRhoAndMaxDepth.Rho)-1;
         numdepths = length(results{di}.ROfRhoAndMaxDepth.MaxDepth)-1;
@@ -158,8 +185,8 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.ROfRhoAndMaxDepth.Rho(2)-results{di}.ROfRhoAndMaxDepth.Rho(1);
         depthdelta = results{di}.ROfRhoAndMaxDepth.MaxDepth(2)-results{di}.ROfRhoAndMaxDepth.MaxDepth(1);
         rhonorm = 2 * pi * results{di}.ROfRhoAndMaxDepth.Rho_Midpoints * rhodelta;
-        % plot distribution for select rhow
-        figname = 'Max Depth Distribution';figure;
+        % plot distribution for select rho
+        figure; figname = 'Max Depth Distribution';
         k=1; % index for legend
         for i=1:10:numrhos % do every 10 rhos
             plot(results{di}.ROfRhoAndMaxDepth.MaxDepth_Midpoints,results{di}.ROfRhoAndMaxDepth.Mean(:,i));
@@ -184,7 +211,7 @@ for mci = 1:length(datanames)
         k=1; % index for legend
         for i=1:10:numrhos % do every 10 rhos
             plot(results{di}.ROfRhoAndMaxDepthRecessed.MaxDepth_Midpoints,results{di}.ROfRhoAndMaxDepthRecessed.Mean(:,i));
-            br{k}=sprintf('rho=%s',results{di}.ROfRhoAndMaxDepthRecessed.Rho_Midpoints(i));
+            br{k}=sprintf('rho=%3.2f mm',results{di}.ROfRhoAndMaxDepthRecessed.Rho_Midpoints(i));
             hold on;
             k=k+1;
         end
@@ -1043,7 +1070,7 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'pMCROfRhoRecessed') && show.pMCROfRhoRecessed
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoRecessed.Name); figure; plot(results{di}.pMCROfRhoRecessed.Rho_Midpoints, log10(results{di}.pMCROfRhoRecessed.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
         rhodelta = results{di}.pMCROfRhoRecessed.Rho(2)-results{di}.pMCROfRhoRecessed.Rho(1);
-        rhonorm = 2 * pi * results{di}.pMCROfRho.Rho_Midpoints * rhodelta;
+        rhonorm = 2 * pi * results{di}.pMCROfRhoRecessed.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by pMCROfRhoRecessed detector: ' num2str(sum(results{di}.pMCROfRhoRecessed.Mean.*rhonorm'))]);
      end
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
@@ -1061,6 +1088,28 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.pMCROfRhoAndTimeRecessed.Rho(2)-results{di}.pMCROfRhoAndTimeRecessed.Rho(1);
         rhonorm = 2 * pi * results{di}.pMCROfRhoAndTimeRecessed.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by ROfRhoAndTimeRecessed detector: ' num2str(sum(sum(timedelta*results{di}.pMCROfRhoAndTimeRecessed.Mean.*repmat(rhonorm,[numtimes,1]))))]);
+    end     
+    if isfield(results{di}, 'pMCROfRhoAndTimeAndSubregion') && show.pMCROfRhoAndTimeAndSubregion
+        for i=2:results{di}.pMCROfRhoAndTimeAndSubregion.NumberOfRegions-1 % exclude air above and below 
+            figname = sprintf('log10(%s) region idx=%i',results{di}.pMCROfRhoAndTimeAndSubregion.Name,i-1); figure; 
+            imagesc(results{di}.pMCROfRhoAndTimeAndSubregion.Rho_Midpoints, results{di}.pMCROfRhoAndTimeAndSubregion.Time_Midpoints, ...
+                log10(squeeze(results{di}.pMCROfRhoAndTimeAndSubregion.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]'); 
+        end
+        timedelta = results{di}.pMCROfRhoAndTimeAndSubregion.Time(2)-results{di}.pMCROfRhoAndTimeAndSubregion.Time(1);
+        rhodelta = results{di}.pMCROfRhoAndTimeAndSubregion.Rho(2)-results{di}.pMCROfRhoAndTimeAndSubregion.Rho(1);
+        rhonorm = 2 * pi * results{di}.pMCROfRhoAndTimeSubregion.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by ROfRhoAndTimeAndSubregion detector: ' num2str(sum(sum(timedelta*results{di}.pMCROfRhoAndTimeAndSubregion.Mean.*repmat(rhonorm,[numtimes,1]))))]);
+    end 
+    if isfield(results{di}, 'pMCROfRhoAndTimeAndSubregionRecessed') && show.pMCROfRhoAndTimeAndSubregionRecessed
+        for i=2:results{di}.pMCROfRhoAndTimeAndSubregionRecessed.NumberOfRegions-1 % exclude air above and below 
+            figname = sprintf('log10(%s) region idx=%i',results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Name,i-1); figure; 
+            imagesc(results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Rho_Midpoints, results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Time_Midpoints, ...
+                log10(squeeze(results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]'); 
+        end
+        timedelta = results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Time(2)-results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Time(1);
+        rhodelta = results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Rho(2)-results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Rho(1);
+        rhonorm = 2 * pi * results{di}.pMCROfRhoAndTimeSubregionRecessed.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by ROfRhoAndTimeAndSubregionRecessed detector: ' num2str(sum(sum(timedelta*results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Mean.*repmat(rhonorm,[numtimes,1]))))]);
     end 
     if isfield(results{di}, 'pMCROfXAndY') && show.pMCROfXAndY
         figname = sprintf('log10(%s)',results{di}.pMCROfXAndY.Name); figure; imagesc(results{di}.pMCROfXAndY.X_Midpoints, results{di}.pMCROfXAndY.Y_Midpoints,log10(results{di}.pMCROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]');

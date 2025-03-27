@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private SimulationInput _inputForPmc;
         private SimulationOutput _outputNa0, _outputNa0P3, _outputNoNaNoFinalTissueRegionSpecified, _outputNa0p3FinalTissueRegion1;
-        private const double _dosimetryDepth = 1.0;
+        private const double DosimetryDepth = 1.0;
         private pMCDatabase _pMcDatabase;
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
-                new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // write database for pMC tests
+                new List<DatabaseType> { DatabaseType.pMCDiffuseReflectance }, // write database for pMC tests
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -58,72 +58,72 @@ namespace Vts.Test.MonteCarlo.Detectors
                 });
             var detectorsNa0 =  new List<IDetectorInput>
                 {
-                    new RDiffuseDetectorInput() {FinalTissueRegionIndex=0, NA=0.0},         
-                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),FinalTissueRegionIndex= 0, NA = 0.0},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex= 0, NA = 0.0},
-                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),FinalTissueRegionIndex= 0, NA = 0.0},
-                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11),FinalTissueRegionIndex= 0, NA = 0.0},
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),FinalTissueRegionIndex= 0, NA = 0.0},
-                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),FinalTissueRegionIndex= 0, NA = 0.0 },
-                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.0 },
-                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.0 },
-                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA = 0.0 },
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.0},
-                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0,NA=0.0},
-                    new RSpecularDetectorInput() {FinalTissueRegionIndex=0,NA=0.0},
-                    new TDiffuseDetectorInput() {FinalTissueRegionIndex=2, NA=0.0},         
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex= 2, NA = 0.0},
-                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 11), Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex=2,NA = 0.0},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex= 2, NA = 0.0},
-                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA=0.0},
-                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex=1, NA=0.0},
-                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    new RDiffuseDetectorInput {FinalTissueRegionIndex = 0, NA = 0.0},         
+                    new ROfAngleDetectorInput {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2), FinalTissueRegionIndex = 0, NA = 0.0},
+                    new ROfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 0, NA = 0.0},
+                    new ROfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0, NA = 0.0},
+                    new ROfRhoAndTimeDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0, NA = 0.0},
+                    new ROfRhoAndOmegaDetectorInput { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20), FinalTissueRegionIndex = 0, NA = 0.0},
+                    new ROfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 0, NA = 0.0 },
+                    new ROfXAndYAndTimeDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), Time = new DoubleRange(0, 1, 11), FinalTissueRegionIndex = 0, NA = 0.0 },
+                    new ROfXAndYAndMaxDepthDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), MaxDepth = new DoubleRange(0,10.0,11), FinalTissueRegionIndex = 0, NA = 0.0 },
+                    new ROfFxDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA = 0.0 },
+                    new ROfFxAndTimeDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0, NA = 0.0},
+                    new ROfFxAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0, NA = 0.0},
+                    new RSpecularDetectorInput {FinalTissueRegionIndex = 0, NA = 0.0},
+                    new TDiffuseDetectorInput {FinalTissueRegionIndex = 2, NA = 0.0},         
+                    new TOfAngleDetectorInput {Angle = new DoubleRange(0.0, Math.PI / 2, 2), FinalTissueRegionIndex = 2, NA = 0.0},
+                    new TOfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(0.0, Math.PI / 2, 2), FinalTissueRegionIndex = 2, NA = 0.0},
+                    new TOfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.0},
+                    new TOfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.0},
+                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 1, NA = 0.0},
+                    new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 11),
                         Y = new DoubleRange(-10.0, 10.0, 11),
-                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 2),
                         Phi = new DoubleRange(0, 2* Math.PI, 2),
-                        FinalTissueRegionIndex= 0, NA=0.0
+                        FinalTissueRegionIndex = 0, NA = 0.0
                     },
-                    new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11), 
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            Rho = new DoubleRange(0.0, 10.0, 11), 
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 0, 
+                            FinalTissueRegionIndex = 0, 
                             NA = 0.0
                     },
-                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput() 
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11), 
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            X = new DoubleRange(-10.0, 10.0, 11), 
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 0, 
+                            FinalTissueRegionIndex = 0, 
                             NA = 0.0
                     },
-                    new TransmittedMTOfRhoAndSubregionHistDetectorInput() 
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11), 
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            Rho = new DoubleRange(0.0, 10.0, 11), 
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 2, 
+                            FinalTissueRegionIndex = 2, 
                             NA = 0.0
                     },
-                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput() 
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11), 
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            X = new DoubleRange(-10.0, 10.0, 11), 
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 2, 
+                            FinalTissueRegionIndex = 2, 
                             NA = 0.0
                     },
                 };
             var inputNa0 = new SimulationInput(
                 100,
                 "",
-                new SimulationOptions() { Seed = 0 }, // no database gen 
+                new SimulationOptions { Seed = 0 }, // no database gen 
                 source,
                 tissue,
                 detectorsNa0);             
@@ -131,74 +131,74 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             var detectorsNa0P3 = new List<IDetectorInput>
                 {
-                    new RDiffuseDetectorInput() {FinalTissueRegionIndex=0, NA=0.3},         
-                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),FinalTissueRegionIndex= 0, NA=0.3},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex= 0, NA=0.3},
-                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),FinalTissueRegionIndex= 0, NA=0.3},
-                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11),FinalTissueRegionIndex= 0, NA=0.3},
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),FinalTissueRegionIndex= 0, NA=0.3},
-                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),FinalTissueRegionIndex= 0, NA=0.3 },
-                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.3 },
-                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.3 },
-                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA=0.3 },
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.3},
-                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0,NA=0.3},
-                    new RSpecularDetectorInput() {FinalTissueRegionIndex=0,NA=0.3},
-                    new TDiffuseDetectorInput() {FinalTissueRegionIndex=2, NA=0.3},         
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex= 2, NA=0.3},
-                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 11), Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex=2,NA=0.3},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex= 2, NA=0.3},
-                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA=0.3},
+                    new RDiffuseDetectorInput {FinalTissueRegionIndex = 0, NA = 0.3},         
+                    new ROfAngleDetectorInput {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2), FinalTissueRegionIndex = 0, NA = 0.3},
+                    new ROfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 0, NA = 0.3},
+                    new ROfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0, NA = 0.3},
+                    new ROfRhoAndTimeDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0, NA = 0.3},
+                    new ROfRhoAndOmegaDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20), FinalTissueRegionIndex = 0, NA = 0.3},
+                    new ROfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 0, NA = 0.3 },
+                    new ROfXAndYAndTimeDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), Time = new DoubleRange(0, 1, 11), FinalTissueRegionIndex = 0, NA = 0.3 },
+                    new ROfXAndYAndMaxDepthDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), MaxDepth = new DoubleRange(0,10.0,11), FinalTissueRegionIndex = 0, NA = 0.3 },
+                    new ROfFxDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA = 0.3 },
+                    new ROfFxAndTimeDetectorInput {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0, NA = 0.3},
+                    new ROfFxAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0, NA = 0.3},
+                    new RSpecularDetectorInput {FinalTissueRegionIndex = 0, NA = 0.3},
+                    new TDiffuseDetectorInput {FinalTissueRegionIndex = 2, NA = 0.3},         
+                    new TOfAngleDetectorInput {Angle = new DoubleRange(0.0, Math.PI / 2, 2), FinalTissueRegionIndex = 2, NA = 0.3},
+                    new TOfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(0.0, Math.PI / 2, 2), FinalTissueRegionIndex = 2, NA = 0.3},
+                    new TOfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.3},
+                    new TOfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.3},
                   
-                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex=1,NA=0.3},
-                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 1, NA = 0.3},
+                    new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 11),
                         Y = new DoubleRange(-10.0, 10.0, 11),
-                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 2),
                         Phi = new DoubleRange(0, 2* Math.PI, 2),
-                        FinalTissueRegionIndex= 0,
-                        NA=0.3
+                        FinalTissueRegionIndex = 0,
+                        NA = 0.3
                     },
-                    new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11), 
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            Rho = new DoubleRange(0.0, 10.0, 11), 
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 0, 
-                            NA=0.3
+                            FinalTissueRegionIndex = 0, 
+                            NA = 0.3
                     },
-                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput() 
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11), 
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            X = new DoubleRange(-10.0, 10.0, 11), 
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 0, 
-                            NA=0.3
+                            FinalTissueRegionIndex = 0, 
+                            NA = 0.3
                     },
-                    new TransmittedMTOfRhoAndSubregionHistDetectorInput() 
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11), 
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            Rho = new DoubleRange(0.0, 10.0, 11), 
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 2, 
-                            NA=0.3
+                            FinalTissueRegionIndex = 2, 
+                            NA = 0.3
                     },
-                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput() 
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11), 
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            X = new DoubleRange(-10.0, 10.0, 11), 
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            FinalTissueRegionIndex= 2, 
-                            NA=0.3
+                            FinalTissueRegionIndex = 2, 
+                            NA = 0.3
                     },
                 };
             var inputNa0P3 = new SimulationInput(
                 100,
                 "",
-                new SimulationOptions() { Seed = 0 }, // don't turn on database gen
+                new SimulationOptions { Seed = 0 }, // don't turn on database gen
                 source,
                 tissue,
                 detectorsNa0P3);
@@ -206,59 +206,59 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             var detectorsNoNaNoFinalTissueRegionSpecified = new List<IDetectorInput>
                 {
-                    new RDiffuseDetectorInput() {},         
-                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11)},
-                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
-                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11)},
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)},
-                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11) },
-                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0 },
-                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0 },
-                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51) },
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11)},
-                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0},
-                    new RSpecularDetectorInput() {},
-                    new TDiffuseDetectorInput() {},         
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 11), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11)},
-                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11)},
-                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    new RDiffuseDetectorInput(),         
+                    new ROfAngleDetectorInput {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
+                    new ROfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11)},
+                    new ROfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
+                    new ROfRhoAndTimeDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11)},
+                    new ROfRhoAndOmegaDetectorInput { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)},
+                    new ROfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11) },
+                    new ROfXAndYAndTimeDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), Time = new DoubleRange(0, 1, 11), FinalTissueRegionIndex = 0},
+                    new ROfXAndYAndMaxDepthDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), MaxDepth = new DoubleRange(0,10.0,11), FinalTissueRegionIndex = 0},
+                    new ROfFxDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51) },
+                    new ROfFxAndTimeDetectorInput {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11)},
+                    new ROfFxAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0},
+                    new RSpecularDetectorInput(),
+                    new TDiffuseDetectorInput(),         
+                    new TOfAngleDetectorInput {Angle = new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11)},
+                    new TOfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11)},
+                    new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 11), 
                         Y = new DoubleRange(-10.0, 10.0, 11),
-                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 2),
                         Phi = new DoubleRange(0, 2* Math.PI, 2),
-                        FinalTissueRegionIndex= 0
+                        FinalTissueRegionIndex = 0
                     },
 
-                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11)},
+                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11)},
 
-                    new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11), 
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            Rho = new DoubleRange(0.0, 10.0, 11), 
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                     },
-                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput() 
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11), 
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            X = new DoubleRange(-10.0, 10.0, 11), 
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                     },
-                    new TransmittedMTOfRhoAndSubregionHistDetectorInput() 
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11), 
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            Rho = new DoubleRange(0.0, 10.0, 11), 
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                     },
-                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput() 
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11), 
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            X = new DoubleRange(-10.0, 10.0, 11), 
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                     },
                 };
@@ -276,69 +276,69 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             var detectorsNa0P3FinalTissueRegion1 = new List<IDetectorInput>
                 {
-                    new RDiffuseDetectorInput() { NA=0.3,FinalTissueRegionIndex = 1},
-                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),NA=0.3, FinalTissueRegionIndex = 1},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11),NA=0.3, FinalTissueRegionIndex = 1},
-                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),NA=0.3, FinalTissueRegionIndex = 1},
-                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11),NA=0.3, FinalTissueRegionIndex = 1},
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),NA=0.3, FinalTissueRegionIndex = 1},
-                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),NA=0.3, FinalTissueRegionIndex = 1 },
-                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11),NA=0.3, FinalTissueRegionIndex= 1 },
-                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),NA=0.3,FinalTissueRegionIndex= 1 },
-                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51),NA=0.3, FinalTissueRegionIndex = 1},
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11),NA=0.3, FinalTissueRegionIndex=1},
-                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),NA=0.3, FinalTissueRegionIndex = 1}, 
-                    new TDiffuseDetectorInput() {NA=0.3, FinalTissueRegionIndex=1},
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2),NA=0.3,FinalTissueRegionIndex=1},
-                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 11), Angle=new DoubleRange(0.0, Math.PI / 2, 2),NA=0.3,FinalTissueRegionIndex=1},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11),NA=0.3,FinalTissueRegionIndex=1},
-                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),NA=0.3,FinalTissueRegionIndex=1},
-                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    new RDiffuseDetectorInput {NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfAngleDetectorInput {Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoAndTimeDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoAndOmegaDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfXAndYAndTimeDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), Time = new DoubleRange(0, 1, 11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfXAndYAndMaxDepthDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), MaxDepth = new DoubleRange(0,10.0,11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfFxDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfFxAndTimeDetectorInput {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfFxAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), NA = 0.3, FinalTissueRegionIndex = 1}, 
+                    new TDiffuseDetectorInput {NA = 0.3, FinalTissueRegionIndex = 1},
+                    new TOfAngleDetectorInput {Angle = new DoubleRange(0.0, Math.PI / 2, 2), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new TOfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(0.0, Math.PI / 2, 2), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new TOfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new TOfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), NA = 0.3, FinalTissueRegionIndex = 1},
+                    new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 11),
                         Y = new DoubleRange(-10.0, 10.0, 11),
-                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 2),
                         Phi = new DoubleRange(0, 2* Math.PI, 2),
-                        NA=0.3,FinalTissueRegionIndex= 1
+                        NA = 0.3, FinalTissueRegionIndex = 1
                     },
 
-                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11),NA=0.3,FinalTissueRegionIndex=1},
+                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11), NA = 0.3, FinalTissueRegionIndex = 1},
 
-                    new ReflectedMTOfRhoAndSubregionHistDetectorInput()
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            Rho = new DoubleRange(0.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5),
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            NA=0.3,FinalTissueRegionIndex=1
+                            NA = 0.3, FinalTissueRegionIndex = 1
                     },
-                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput()
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11),
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            X = new DoubleRange(-10.0, 10.0, 11),
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5),
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            NA=0.3,FinalTissueRegionIndex=1
+                            NA = 0.3, FinalTissueRegionIndex = 1
                     },
-                    new TransmittedMTOfRhoAndSubregionHistDetectorInput()
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput
                     {
-                            Rho=new DoubleRange(0.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            Rho = new DoubleRange(0.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5),
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            NA=0.3,FinalTissueRegionIndex=1
+                            NA = 0.3, FinalTissueRegionIndex = 1
                     },
-                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput()
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput
                     {
-                            X=new DoubleRange(-10.0, 10.0, 11),
-                            Y=new DoubleRange(-10.0, 10.0, 11),
-                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            X = new DoubleRange(-10.0, 10.0, 11),
+                            Y = new DoubleRange(-10.0, 10.0, 11),
+                            MTBins = new DoubleRange(0.0, 500.0, 5),
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                            NA=0.3,FinalTissueRegionIndex=1
+                            NA = 0.3, FinalTissueRegionIndex = 1
                     },
                 };
             var inputNa0P3FinalTissueRegion1 = new SimulationInput(
             100,
             "",
-            new SimulationOptions() { Seed = 0 }, // don't turn on database gen
+            new SimulationOptions { Seed = 0 }, // don't turn on database gen
             source,
             tissue,
             detectorsNa0P3FinalTissueRegion1);
@@ -381,6 +381,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(_outputNa0.TransMT_rmt[0, 0], Is.EqualTo(0.0));
             Assert.That(_outputNa0.TransMT_xymt[0, 0, 0], Is.EqualTo(0.0));
         }
+
         /// <summary>
         /// test to validate partially open NA validation values taken from prior test run
         /// </summary>
@@ -455,10 +456,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(_outputNoNaNoFinalTissueRegionSpecified.TransMT_xymt[0, 2, 0], Is.Not.EqualTo(0.0));
         }
 
-
-
         /// <summary>
-        /// comparison test for NA=0.3 that specifying FinalTissueRegion=0 or 1
+        /// comparison test for NA = 0.3 that specifying FinalTissueRegion=0 or 1
         /// need to pick array indices with non-zero tallies, however comparison could be
         /// equal if photons are within NA in both cases and AreEqual is used
         /// /// </summary>
@@ -493,6 +492,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(_outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0], Is.EqualTo(_outputNa0P3.TransMT_rmt[1, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.TransMT_xymt[4, 7, 0], Is.EqualTo(_outputNa0P3.TransMT_xymt[4, 7, 0]));
         }
+
         /// <summary>
         /// Test to validate that pMC/dMC detectors tallies are 0 when NA=0
         /// </summary>
@@ -505,76 +505,113 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new pMCROfRhoDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.0,
+                        NA = 0.0,
                     },
                     new pMCROfRhoAndTimeDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.0,
+                        NA = 0.0,
                     },  
                     new pMCROfFxDetectorInput
                     {
-                        Fx=new DoubleRange(0.0, 0.5, 5),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        Fx = new DoubleRange(0.0, 0.5, 5),
+                        PerturbedOps = new List<OpticalProperties>
+                        { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.0,
+                        NA = 0.0,
                     },
                     new pMCROfFxAndTimeDetectorInput
                     {
-                        Fx=new DoubleRange(0.0, 0.5, 5),
-                        Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        Fx = new DoubleRange(0.0, 0.5, 5),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
+                        { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.0,
+                        NA = 0.0,
                     },                    
                     new dMCdROfRhodMuaDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.0,
+                        NA = 0.0,
                     },
                     new dMCdROfRhodMusDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.0,
-                    }, 
+                        NA = 0.0,
+                    },
+                    new dMCdROfRhoAndTimedMuaDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA = 0.0,
+                    },
+                    new dMCdROfRhoAndTimedMusDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA = 0.0,
+                    },
+
                 },
                 _pMcDatabase,
                 _inputForPmc);
@@ -588,7 +625,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(postProcessedOutput.pMC_R_fxt[0, 0].Imaginary, Is.EqualTo(0.0));
             Assert.That(postProcessedOutput.dMCdMua_R_r[0], Is.EqualTo(0.0));
             Assert.That(postProcessedOutput.dMCdMus_R_r[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMua_R_rt[0, 0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMus_R_rt[0, 0], Is.EqualTo(0.0));
+            // check second moments
+            Assert.That(postProcessedOutput.pMC_R_r2[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_rt2[0, 0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fx2[0].Real, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fx2[0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fxt2[0, 0].Real, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fxt2[0, 0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMua_R_r2[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMus_R_r2[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMua_R_rt2[0, 0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMus_R_rt2[0, 0], Is.EqualTo(0.0));
         }
+
         /// <summary>
         /// Test to validate that pMC/dMC detectors with partially open NA results match prior run
         /// </summary>
@@ -601,76 +652,111 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new pMCROfRhoDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.3,
+                        NA = 0.3,
                     },
                     new pMCROfRhoAndTimeDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.3,
+                        NA = 0.3,
                     },  
                     new pMCROfFxDetectorInput
                     {
-                        Fx=new DoubleRange(0.0, 0.5, 5),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        Fx = new DoubleRange(0.0, 0.5, 5),
+                        PerturbedOps = new List<OpticalProperties>
+                        { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.3,
+                        NA = 0.3,
                     },
                     new pMCROfFxAndTimeDetectorInput
                     {
-                        Fx=new DoubleRange(0.0, 0.5, 5),
-                        Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                        Fx = new DoubleRange(0.0, 0.5, 5),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new[] { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new int[] { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.3,
+                        NA = 0.3,
                     },                    
                     new dMCdROfRhodMuaDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.3,
+                        NA = 0.3,
                     },
                     new dMCdROfRhodMusDetectorInput
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
                         { // perturbed ops
                             _inputForPmc.TissueInput.Regions[0].RegionOP,
                             _inputForPmc.TissueInput.Regions[1].RegionOP,
                             _inputForPmc.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int> { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
                         FinalTissueRegionIndex = 0,
-                        NA=0.3,
-                    }, 
+                        NA = 0.3,
+                    },
+                    new dMCdROfRhoAndTimedMuaDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA = 0.3,
+                    },
+                    new dMCdROfRhoAndTimedMusDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps = new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
+                        FinalTissueRegionIndex = 0,
+                        NA = 0.3,
+                    },
                 },
                 _pMcDatabase,
                 _inputForPmc);
@@ -684,6 +770,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary - 0.089027), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.001005), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.000263), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_rt[0, 0] + 0.010050), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_rt[0, 0] - 0.002631), Is.LessThan(0.000001));
+
+            // check second moments
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 0.001005), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt2[0, 0] - 0.100514), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.039826), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt2[1, 0].Real - 3.650006), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt2[1, 0].Imaginary - 0), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r2[0] - 0.000101), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r2[0] - 6.922179e-6), Is.LessThan(0.000001e-6));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_rt2[0, 0] - 0.010101), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_rt2[0, 0] - 0.000692), Is.LessThan(0.000001));
+
         }
     }
 }

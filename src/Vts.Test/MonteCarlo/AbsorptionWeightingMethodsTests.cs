@@ -22,7 +22,6 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void Validate_GetVolumeAbsorptionWeightingMethod_func_is_correct()
         {
-            Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
             var previousDp = new PhotonDataPoint(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
@@ -59,12 +58,12 @@ namespace Vts.Test.MonteCarlo
             var rng = new MersenneTwister(0);
             var detectorInput = new ATotalDetectorInput();
             var detector = DetectorFactory.GetDetector(detectorInput, tissue, rng);
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
-            var weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
+            var absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
+            var weight = absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
             Assert.That(Math.Abs(weight), Is.LessThan(1e-6)); // should be 0.0
             // turn on PhotonStateType
             dp.StateFlag = PhotonStateType.Absorbed;
-            weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
+            weight = absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
             Assert.That(Math.Abs(weight - 1.0), Is.LessThan(1e-6)); // weight should be 1.0
 
             // specify Discrete random walk process: previousDp weight = or != dp weight dictates resultsing weight
@@ -74,12 +73,12 @@ namespace Vts.Test.MonteCarlo
                 PhaseFunctionType.HenyeyGreenstein,
                 0.0);
             currentRegionIndex = 1;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
-            weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
+            absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
+            weight = absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
             Assert.That(Math.Abs(weight - 0.001996), Is.LessThan(1e-6)); // should be 1.0 * 0.01/5.01
             // make previousDp weight = 0.9
             previousDp.Weight = 0.9;
-            weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
+            weight = absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
             Assert.That(Math.Abs(weight), Is.LessThan(1e-6)); // weight should be 0.0
             previousDp.Weight = 1.0;  // set back weight for next test
 
@@ -90,14 +89,15 @@ namespace Vts.Test.MonteCarlo
                 PhaseFunctionType.HenyeyGreenstein,
                 0.0);
             currentRegionIndex = 1;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
-            weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
+            absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, detector);
+            weight = absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
             Assert.That(Math.Abs(weight - 0.1), Is.LessThan(1e-6)); // should be previousWeight - weight
             // make previousDp weight = 0.9
             previousDp.Weight = 0.9;
-            weight = _absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
+            weight = absorptionWeightingMethod(previousDp, dp, currentRegionIndex);
             Assert.That(Math.Abs(weight), Is.LessThan(1e-6)); // weight should be 0.0
         }
+
         /// <summary>
         /// test for pMC weight factor for "terminal" detectors (e.g. reflectance)
         /// execute tests for Analog, Discrete, Continuous random walk processes
@@ -105,11 +105,9 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void Validate_GetpMCTerminalAbsorptionWeightingMethod_func_is_correct()
         {
-            Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
             var tissueInput = new MultiLayerTissueInput(
-                new ITissueRegion[]
-                {
-                    new LayerTissueRegion(
+            [
+                new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                     new LayerTissueRegion(
@@ -118,7 +116,7 @@ namespace Vts.Test.MonteCarlo
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                });
+            ]);
 
             // specify Analog random walk process: PhotonStateType.Absorbed dictates weight result
             var tissue = TissueFactory.GetTissue(
@@ -126,21 +124,21 @@ namespace Vts.Test.MonteCarlo
                 AbsorptionWeightingType.Analog,
                 PhaseFunctionType.HenyeyGreenstein,
                 0.0);
-            var numberOfCollisions = new List<long>() {0, 10, 0};
-            var pathLengths = new List<double>() {0, 100, 0};
-            var referenceOps = new List<OpticalProperties>()
+            var numberOfCollisions = new List<long> {0, 10, 0};
+            var pathLengths = new List<double> {0, 100, 0};
+            var referenceOps = new List<OpticalProperties>
             {
-                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                new(0.0, 1e-10, 1.0, 1.0),
+                new(0.01, 1.0, 0.8, 1.4),
+                new(0.0, 1e-10, 1.0, 1.0),
             };
-            var perturbedOps = new List<OpticalProperties>()
+            var perturbedOps = new List<OpticalProperties>
             {
-                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                new OpticalProperties(0.1, 1.0, 0.8, 1.4),
-                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                new(0.0, 1e-10, 1.0, 1.0),
+                new(0.1, 1.0, 0.8, 1.4),
+                new(0.0, 1e-10, 1.0, 1.0),
             };
-            var perturbedRegionsIndices = new List<int>() {1};
+            var perturbedRegionsIndices = new List<int> {1};
             var detector = new pMCROfRhoDetector();
             Assert.Throws<NotImplementedException>(() =>
                 AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(
@@ -153,24 +151,26 @@ namespace Vts.Test.MonteCarlo
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
                 0.0);
-            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(
+            var absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(
                 tissue, detector);
-            var weightFactor = _absorbAction(
+            var weightFactor = absorbAction(
                 numberOfCollisions,
                 pathLengths,
                 perturbedOps,
                 referenceOps,
                 perturbedRegionsIndices);
             Assert.That(Math.Abs(weightFactor - 0.000123), Is.LessThan(1e-6));
-            // set reference mus to 0
+            // set reference mus to 0 to test else of code
             referenceOps[1].Mus = 0; 
-            weightFactor = _absorbAction(
+            weightFactor = absorbAction(
                 numberOfCollisions,
                 pathLengths,
                 perturbedOps,
                 referenceOps,
                 perturbedRegionsIndices);
-            Assert.That(Math.Abs(weightFactor), Is.LessThan(1e-6)); // should be 0
+            // the weight factor when Mus=0 should be 0 because exponential weight has -(100*5)
+            // in exponent
+            Assert.That(Math.Abs(weightFactor), Is.LessThan(1e-6));
             // set reference mus back for next test
             referenceOps[1].Mus = 5.0;
 
@@ -180,9 +180,9 @@ namespace Vts.Test.MonteCarlo
                 AbsorptionWeightingType.Continuous,
                 PhaseFunctionType.HenyeyGreenstein,
                 0.0);
-            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(
+            absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(
                 tissue, detector);
-            weightFactor = _absorbAction(
+            weightFactor = absorbAction(
                 numberOfCollisions,
                 pathLengths,
                 perturbedOps,
@@ -191,7 +191,113 @@ namespace Vts.Test.MonteCarlo
             Assert.That(Math.Abs(weightFactor - 0.000123), Is.LessThan(1e-6));
             // set reference mus to 0
             referenceOps[1].Mus = 0;
-            weightFactor = _absorbAction(
+            weightFactor = absorbAction(
+                numberOfCollisions,
+                pathLengths,
+                perturbedOps,
+                referenceOps,
+                perturbedRegionsIndices);
+            Assert.That(Math.Abs(weightFactor), Is.LessThan(1e-6)); // should be 0
+        }
+
+        /// <summary>
+        /// Test for dMC weight factor for "terminal" detectors (e.g. reflectance)
+        /// execute tests for Analog and (Discrete or Continuous: same code) random walk processes
+        /// </summary>
+        [Test]
+        public void Validate_GetdMCTerminalAbsorptionWeightingMethod_func_is_correct()
+        {
+            var tissueInput = new MultiLayerTissueInput(
+            [
+                new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+            ]);
+
+            // specify Analog random walk process: PhotonStateType.Absorbed dictates weight result
+            var tissue = TissueFactory.GetTissue(
+                tissueInput,
+                AbsorptionWeightingType.Analog,
+                PhaseFunctionType.HenyeyGreenstein,
+                0.0);
+            var numberOfCollisions = new List<long> { 0, 10, 0 };
+            var pathLengths = new List<double> { 0, 100, 0 };
+            var referenceOps = new List<OpticalProperties>
+            {
+                new(0.0, 1e-10, 1.0, 1.0),
+                new(0.01, 1.0, 0.8, 1.4),
+                new(0.0, 1e-10, 1.0, 1.0),
+            };
+            var perturbedOps = new List<OpticalProperties>
+            {
+                new(0.0, 1e-10, 1.0, 1.0),
+                new(0.1, 1.0, 0.8, 1.4),
+                new(0.0, 1e-10, 1.0, 1.0),
+            };
+            var perturbedRegionsIndices = new List<int> { 1 };
+            var detector = new pMCROfRhoDetector();
+            // check both derivatives
+            Assert.Throws<NotImplementedException>(() =>
+                AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                    tissue, detector, DifferentialMonteCarloType.DMua), "Analog cannot be used for dMC estimates.");
+            Assert.Throws<NotImplementedException>(() =>
+                AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                    tissue, detector, DifferentialMonteCarloType.DMus), "Analog cannot be used for dMC estimates.");
+
+            // specify Discrete random walk process and dMua derivative
+            // numberOfCollisions>0 and reference mus>0 dictates results
+            tissue = TissueFactory.GetTissue(
+                tissueInput,
+                AbsorptionWeightingType.Discrete,
+                PhaseFunctionType.HenyeyGreenstein,
+                0.0);
+            var absorbAction = AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                tissue, detector, DifferentialMonteCarloType.DMua);
+            var weightFactor = absorbAction(
+                numberOfCollisions,
+                pathLengths,
+                perturbedOps,
+                referenceOps,
+                perturbedRegionsIndices);
+            Assert.That(Math.Abs(weightFactor + 0.012340), Is.LessThan(1e-6));
+            // set reference mus to 0 to test else of code
+            referenceOps[1].Mus = 0;
+            weightFactor = absorbAction(
+                numberOfCollisions,
+                pathLengths,
+                perturbedOps,
+                referenceOps,
+                perturbedRegionsIndices);
+            // the weight factor when Mus=0 should be 0 because exponential weight has -(100*5)
+            // in exponent
+            Assert.That(Math.Abs(weightFactor), Is.LessThan(1e-6)); 
+            // set reference mus back for next test
+            referenceOps[1].Mus = 5.0;
+
+            // specify Continuous random walk process and dMus derivative
+            tissue = TissueFactory.GetTissue(
+                tissueInput,
+                AbsorptionWeightingType.Continuous,
+                PhaseFunctionType.HenyeyGreenstein,
+                0.0);
+            absorbAction = AbsorptionWeightingMethods.GetdMCTerminationAbsorptionWeightingMethod(
+                tissue, detector, DifferentialMonteCarloType.DMus);
+            weightFactor = absorbAction(
+                numberOfCollisions,
+                pathLengths,
+                perturbedOps,
+                referenceOps,
+                perturbedRegionsIndices);
+            Assert.That(Math.Abs(weightFactor + 0.012094), Is.LessThan(1e-6));
+            // set reference mus to 0
+            referenceOps[1].Mus = 0;
+            weightFactor = absorbAction(
                 numberOfCollisions,
                 pathLengths,
                 perturbedOps,
