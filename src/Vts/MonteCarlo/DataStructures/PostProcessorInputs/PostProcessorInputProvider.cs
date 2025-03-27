@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo
             // additions to this list need to be added to MCPP Program tests for clean up
             return new List<PostProcessorInput>
             {
-                PostProcessorROfRhoTOfRho(),
+                PostProcessorROfRhoTOfRho(), // no perturbation, just gen of regular detectors
                 pMCROfRhoAndROfRhoAndTime(), // don't change this it is part of documentation
                 pMCROfRhoROfXAndYVariants(),
                 pMCROfFxROfFxAndTime()
@@ -81,9 +81,9 @@ namespace Vts.MonteCarlo
                         PerturbedOps =      // set perturbed ops to reference ops
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
+                                new(0.0, 1e-10, 1.0, 1.0),
+                                new(0.01, 1.0, 0.8, 1.4),
+                                new(0.0, 1e-10, 1.0, 1.0)
                             },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
@@ -95,9 +95,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps =  // perturb mus' by +50%
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 1.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRho_mus1p5",
@@ -108,9 +109,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps = // perturb mus' by -50%
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 0.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRho_mus0p5",
@@ -122,9 +124,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps =
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 1.0, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTime_reference"
                     },
@@ -135,9 +138,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps =
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 1.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTime_mus1p5"
                     },
@@ -148,9 +152,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps =
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 0.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTime_mus0p5"
                     },
@@ -162,7 +167,7 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region pMC R(rho) variants that include recessed detectors 
+        #region pMC R(rho) variants and pMC ATotal that include recessed detectors 
         /// <summary>
         /// Perturbation MC R(rho) recessed, R(rho,time) recessed, R(rho,maxdepth) recessed
         /// This assumes database being post-processed is for tissue system with one layer.
@@ -180,9 +185,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps =  // perturb mus' by +50%
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 1.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRhoRecessed_mus1p5",
@@ -195,9 +201,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps =
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 1.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTimeRecessed_mus1p5"
                     },
@@ -209,12 +216,13 @@ namespace Vts.MonteCarlo
                          PerturbedOps =  // perturb mus' by +50%
                              new List<OpticalProperties>
                              {
-                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                 new(0.0, 1e-10, 0.0, 1.0),
+                                 new(0.01, 1.5, 0.8, 1.4),
+                                 new(0.0, 1e-10, 0.0, 1.0)
+                             },
                          PerturbedRegionsIndices = new List<int> { 1 },
                          TallySecondMoment = true,
-                         Name="pMCROfXAndYAndTimeAndSubregionRecessed_mus1p5",
+                         Name="pMCROfXAndYAndTimeAndSubregion_mus1p5",
                      },
                      new pMCROfXAndYAndTimeAndSubregionRecessedDetectorInput
                      {
@@ -225,9 +233,10 @@ namespace Vts.MonteCarlo
                          PerturbedOps =
                              new List<OpticalProperties>
                              {
-                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                 new(0.0, 1e-10, 0.0, 1.0),
+                                 new(0.01, 1.5, 0.8, 1.4),
+                                 new(0.0, 1e-10, 0.0, 1.0)
+                             },
                          PerturbedRegionsIndices = new List<int> { 1 },
                          Name="pMCROfXAndYAndTimeAndSubregionRecessed_mus1p5"
                      },
@@ -236,21 +245,22 @@ namespace Vts.MonteCarlo
                          PerturbedOps =
                              new List<OpticalProperties>
                              {
-                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                 new(0.0, 1e-10, 0.0, 1.0),
+                                 new(0.01, 1.5, 0.8, 1.4),
+                                 new(0.0, 1e-10, 0.0, 1.0)
+                             },
                          PerturbedRegionsIndices = new List<int> { 1 },
                          Name="pMCATotal_mus1p5"
                      },
                 },
-                "pMC_one_layer_ROfRhoROfXAndY_DAW",
-                "pMC_one_layer_ROfRhoROfXAndY_DAW",
+                "pMC_one_layer_ROfRho_DAW",
+                "pMC_one_layer_ROfRho_DAW",
                 "PostProcessor_pMC_ROfRhoROfXAndYVariants"
             );
         }
         #endregion
 
-        #region pMC R(fx) and R(fx,time)
+        #region pMC and dMC R(fx) and R(fx,time)
         /// <summary>
         /// Perturbation MC R(fx) and R(fx,time). This assumes database being post-processed is for
         /// tissue system with one layer.
@@ -268,9 +278,9 @@ namespace Vts.MonteCarlo
                         PerturbedOps =      // set perturbed ops to reference ops
                             new List<OpticalProperties>
                             { 
-                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
+                                new(0.0, 1e-10, 1.0, 1.0),
+                                new(0.01, 1.0, 0.8, 1.4),
+                                new(0.0, 1e-10, 1.0, 1.0)
                             },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
@@ -282,9 +292,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps =  // perturb mus' by +50%
                             new List<OpticalProperties>
                             { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 1.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfFx_mus1p5",
@@ -295,9 +306,10 @@ namespace Vts.MonteCarlo
                         PerturbedOps = // perturb mus' by -50%
                             new List<OpticalProperties>
                             { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 0.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfFx_mus0p5",
@@ -309,15 +321,44 @@ namespace Vts.MonteCarlo
                         PerturbedOps = 
                             new List<OpticalProperties>
                             {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 1.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
                         PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfFxAndTime_mus1p5"
                     },
+                    new dMCdROfFxdMuaDetectorInput
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        PerturbedOps = // perturb mus' by -50%
+                            new List<OpticalProperties>
+                            {
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 0.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
+                        Name="dMCdROfFxdMua_mus0p5",
+                    },
+                    new dMCdROfFxdMusDetectorInput
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        PerturbedOps = // perturb mus' by -50%
+                            new List<OpticalProperties>
+                            {
+                                new(0.0, 1e-10, 0.0, 1.0),
+                                new(0.01, 0.5, 0.8, 1.4),
+                                new(0.0, 1e-10, 0.0, 1.0)
+                            },
+                        PerturbedRegionsIndices = new List<int> { 1 },
+                        TallySecondMoment = true,
+                        Name="dMCdROfFxdMus_mus0p5",
+                    }
                 },
-                "pMC_one_layer_ROfFx_DAW",
-                "pMC_one_layer_ROfFx_DAW",
+                "pMC_one_layer_ROfRho_DAW",
+                "pMC_one_layer_ROfRho_DAW",
                 "PostProcessor_pMC_ROfFxROfFxAndTime"
             );
         }
