@@ -99,11 +99,11 @@ namespace Vts.MonteCarlo
                     new FluenceOfXAndYAndZAndStartingXAndYDetectorInput
                     {
                         X = new DoubleRange(-10, 10, 5), Y = new DoubleRange(-10, 10, 2), Z = new DoubleRange(0, 10, 11),
-                        StartingX = new DoubleRange(-1, 1, 2),StartingY = new DoubleRange(-10,10,2)},
+                        StartingX = new DoubleRange(-1, 1, 2), StartingY = new DoubleRange(-10,10,2)},
                     new FluenceOfRhoAndZAndOmegaDetectorInput {Rho = new DoubleRange(0, 10, 101), Z = new DoubleRange(0, 10, 101), Omega = new DoubleRange(0.0, 1, 21)},
                     new FluenceOfFxAndZDetectorInput {Fx = new DoubleRange(0, 0.5, 51), Z = new DoubleRange(0, 10, 101)},
-                    new RadianceOfRhoAndZAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Z = new DoubleRange(0.0, 10, 101),Angle = new DoubleRange(0, Math.PI, 5)},
-                    new RadianceOfFxAndZAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Z = new DoubleRange(0.0, 10, 101),Angle = new DoubleRange(0, Math.PI, 5)},
+                    new RadianceOfRhoAndZAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Z = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(0, Math.PI, 5)},
+                    new RadianceOfFxAndZAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Z = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(0, Math.PI, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 101),
@@ -118,20 +118,20 @@ namespace Vts.MonteCarlo
                     new ROfFxDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51)},
                     new ROfFxAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Angle = new DoubleRange(Math.PI / 2, Math.PI, 5)},
                     new ROfFxAndMaxDepthDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), MaxDepth= new DoubleRange(0.0, 10, 11)},
-                    new ROfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101),Angle = new DoubleRange(Math.PI / 2 , Math.PI, 5)},
+                    new ROfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(Math.PI / 2 , Math.PI, 5)},
                     new ROfRhoAndOmegaDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Omega = new DoubleRange(0.0, 1, 21)}, // GHz
                     new ROfRhoAndTimeDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Time = new DoubleRange(0.0, 10, 11)},
                     new ROfRhoAndMaxDepthDetectorInput {Rho = new DoubleRange(0.0, 10, 101), MaxDepth = new DoubleRange(0.0, 10, 11)},
                     new ROfRhoAndTimeAndMaxDepthDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Time = new DoubleRange(0.0, 10, 11), MaxDepth = new DoubleRange(0.0, 10, 11)},
-                    new ROfRhoAndMaxDepthRecessedDetectorInput {Rho = new DoubleRange(0.0, 10, 101), MaxDepth = new DoubleRange(0.0, 10, 11), ZPlane=-1.0},
+                    new ROfRhoAndMaxDepthRecessedDetectorInput {Rho = new DoubleRange(0.0, 10, 101), MaxDepth = new DoubleRange(0.0, 10, 11), ZPlane = -1.0},
                     new ROfRhoDetectorInput {Rho = new DoubleRange(0.0, 10, 101)},
                     new ROfRhoRecessedDetectorInput {Rho = new DoubleRange(0.0, 10, 101), ZPlane = -1.0},
                     new ROfXAndYDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21)},
-                    new ROfXAndYRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), ZPlane=-1.0},
+                    new ROfXAndYRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), ZPlane = -1.0},
                     new ROfXAndYAndTimeDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), Time = new DoubleRange(0.0, 1, 11)},
-                    new ROfXAndYAndTimeRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), Time = new DoubleRange(0.0, 1, 11), ZPlane=-1.0},
+                    new ROfXAndYAndTimeRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), Time = new DoubleRange(0.0, 1, 11), ZPlane = -1.0},
                     new ROfXAndYAndTimeAndSubregionDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), Time = new DoubleRange(0.0, 1, 11)},
-                    new ROfXAndYAndTimeAndSubregionRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), Time = new DoubleRange(0.0, 1, 11), ZPlane=-1.0},
+                    new ROfXAndYAndTimeAndSubregionRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), Time = new DoubleRange(0.0, 1, 11), ZPlane = -1.0},
                     new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 101),
@@ -140,11 +140,11 @@ namespace Vts.MonteCarlo
                         Phi = new DoubleRange(-Math.PI, Math.PI, 5)
                     },
                     new ROfXAndYAndMaxDepthDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), MaxDepth = new DoubleRange(0.0, 10, 11)},
-                    new ROfXAndYAndMaxDepthRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), MaxDepth = new DoubleRange(0.0, 10, 11), ZPlane=-1.0},
+                    new ROfXAndYAndMaxDepthRecessedDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), MaxDepth = new DoubleRange(0.0, 10, 11), ZPlane = -1.0},
                     new RSpecularDetectorInput(),
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput {Angle = new DoubleRange(0.0, Math.PI / 2, 5)},
-                    new TOfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101),Angle = new DoubleRange(0.0, Math.PI / 2, 5)},
+                    new TOfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(0.0, Math.PI / 2, 5)},
                     new TOfRhoDetectorInput {Rho = new DoubleRange(0.0, 10, 101)},
                     new TOfXAndYDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21)},
                     new TOfXAndYAndTimeAndSubregionDetectorInput {X = new DoubleRange(-100.0, 100.0, 21), Y = new DoubleRange(-100.0, 100.0, 21), Time = new DoubleRange(0.0, 1, 11)},
