@@ -28,6 +28,8 @@ namespace Vts.MonteCarlo
             "ROfRhoAndTime",
             // Reflectance as a function of source-detector separation (rho) and maximum depth
             "ROfRhoAndMaxDepth",
+            // Reflectance as a function of source-detector separation (rho) time and maximum depth
+            "ROfRhoAndTimeAndMaxDepth",
             // Reflectance as a function of source-detector separation (rho) and maximum depth recessed in air
             "ROfRhoAndMaxDepthRecessed",
             // Reflectance as a function of Cartesian position on the surface of the tissue
@@ -145,6 +147,10 @@ namespace Vts.MonteCarlo
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion
+            "pMCROfRhoAndTimeAndSubregion", 
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation, time and subregion recessed in air
+            "pMCROfRhoAndTimeAndSubregionRecessed", 
+            // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion
             "pMCROfXAndYAndTimeAndSubregion", 
             // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion recessed in air
             "pMCROfXAndYAndTimeAndSubregionRecessed", 
@@ -158,6 +164,14 @@ namespace Vts.MonteCarlo
             "dMCdROfRhodMua",
             // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
             "dMCdROfRhodMus",
+            // differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho,time)
+            "dMCdROfRhoAndTimedMua",
+            // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho,time) 
+            "dMCdROfRhoAndTimedMus",
+            // differential Monte Carlo (dMC) d(reflectance)/dMua as a function of spatial frequency (fx)
+            "dMCdROfFxdMua",
+            // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of spatial frequency (fx)
+            "dMCdROfFxdMus",
         };
         /// <summary>
         /// slanted recessed fiber detector
@@ -199,6 +213,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of source-detector separation (rho) and maximum depth attained
         /// </summary>
         public static string ROfRhoAndMaxDepth { get { return "ROfRhoAndMaxDepth"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho), time and maximum depth attained
+        /// </summary>
+        public static string ROfRhoAndTimeAndMaxDepth { get { return "ROfRhoAndTimeAndMaxDepth"; } }
         /// <summary>
         /// Reflectance as a function of source-detector separation (rho) and maximum depth attained recessed in air
         /// </summary>
@@ -379,6 +397,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } }
         /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) , time and subregion
+        /// </summary>
+        public static string pMCROfRhoAndTimeAndSubregion { get { return "pMCROfRhoAndTimeAndSubregion"; } }
+        /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
         /// </summary>
         public static string pMCROfXAndY { get { return "pMCROfXAndY"; } }
@@ -398,5 +420,13 @@ namespace Vts.MonteCarlo
         /// differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
         /// </summary>
         public static string dMCdROfRhodMus { get { return "dMCdROfRhodMus"; } }
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho, time)
+        /// </summary>
+        public static string dMCdROfRhoAndTimedMua { get { return "dMCdROfRhoAndTimedMua"; } }
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho, time) 
+        /// </summary>
+        public static string dMCdROfRhoAndTimedMus { get { return "dMCdROfRhoAndTimedMus"; } }
     }
 }

@@ -54,6 +54,9 @@ AziRange = [aziAng1, aziAng2];
 polAngle = 0.25*pi;
 Flags = [false, true, true];
 
+% Lambert order
+LambertOrder = 1;
+
 %First 18 random numbers for SEED = 0
 RN1 = 0.54881350243203653;
 RN2 = 0.59284461652693443;
@@ -80,7 +83,7 @@ RN18 = 0.27265629458070179;
 
 %Custom Point Source
 FlatPos = V;
-FlatDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN1, RN2);
+FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange(PolRange, AziRange, RN1, RN2);
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestCustomPointSourceFlat_U, TestCustomPointSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, [0, 0],T, FlatPolAzi, Flags);
@@ -94,11 +97,17 @@ FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 
 %Isotropic Point Source
 FlatPos = V;
-FlatDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange([0, pi], [0, 2*pi], RN1, RN2);
+FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange([0, pi], [0, 2*pi], RN1, RN2);
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestIsoPointSourceFlat_U, TestIsoPointSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, [0,0],T, [0,0], Flags);
 
+%Lambertian Point Source
+FlatPos = V;
+FlatDir = Func_GetDirectionForLambertianDistributionRandom(LambertOrder, RN1, RN2); 
+FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
+[TestLamPointSourceFlat_U, TestLamPointSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
+    (FlatDir, FlatPos, [0,0],T, [0,0], Flags);
 
 fid = fopen('UnitTests_PointSources.txt', 'w');
 fprintf(fid,'%.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, ',...
@@ -109,5 +118,7 @@ fprintf(fid,'%.10e, %.10e, ',...
     TestDirPointSourceFlat_U,TestDirPointSourceFlat_V);
 fprintf(fid,'%.10e, %.10e, ',...
     TestIsoPointSourceFlat_U,TestIsoPointSourceFlat_V);
+fprintf(fid,'%.10e, %.10e, ',...
+    TestLamPointSourceFlat_U,TestLamPointSourceFlat_V);
 
 fclose(fid);

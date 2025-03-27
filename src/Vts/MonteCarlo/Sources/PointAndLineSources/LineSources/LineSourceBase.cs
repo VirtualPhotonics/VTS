@@ -112,7 +112,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="position">Current position</param>
         /// <returns>new direction</returns>
-        protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
+        protected abstract Direction GetFinalDirection(Position position); // position needed by DirectionalLine
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double lineLength, Random rng)
         {

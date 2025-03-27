@@ -45,14 +45,16 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng =
                 new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
-            var tubeRadius = 1.0;
-            var tubeHeightZ = 2.0;
+            const double tubeRadius = 1.0;
+            const double tubeHeightZ = 2.0;
+            const int lambertOrder = 1;
             var directionAxis = new Direction(0, 0, 1);
             var translationFromOrigin = new Position(0, 0, 1);
 
             var ps = new LambertianSurfaceEmittingTubularSource(
                 tubeRadius,
                 tubeHeightZ,
+                lambertOrder,
                 directionAxis,
                 translationFromOrigin,
                 1)

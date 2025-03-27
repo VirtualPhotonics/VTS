@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 
@@ -14,6 +15,39 @@ namespace Vts.MonteCarlo.Sources
     {
         /// <summary>
         /// Initializes a new instance of LambertianSurfaceEmittingCuboidalSourceInput class
+        /// </summary>
+        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
+        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public LambertianSurfaceEmittingCuboidalSourceInput(
+            double cubeLengthX,
+            double cubeWidthY,
+            double cubeHeightZ,
+            ISourceProfile sourceProfile,
+            int lambertOrder,
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
+        {
+            SourceType = "LambertianSurfaceEmittingCuboidal";
+            CubeLengthX = cubeLengthX;
+            CubeWidthY = cubeWidthY;
+            CubeHeightZ = cubeHeightZ;
+            SourceProfile = sourceProfile;
+            LambertOrder = lambertOrder;
+            NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
+            TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of LambertianSurfaceEmittingCuboidalSourceInput
+        /// class assuming Lambert order=1
         /// </summary>
         /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
         /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
@@ -36,6 +70,7 @@ namespace Vts.MonteCarlo.Sources
             CubeWidthY = cubeWidthY;
             CubeHeightZ = cubeHeightZ;
             SourceProfile = sourceProfile;
+            LambertOrder = 1;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
@@ -71,6 +106,7 @@ namespace Vts.MonteCarlo.Sources
                 1.0,
                 1.0,
                 new FlatSourceProfile(),
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
@@ -96,6 +132,10 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public ISourceProfile SourceProfile { get; set; }
         /// <summary>
+        /// Lambert order of angular distribution
+        /// </summary>
+        public int LambertOrder { get; set; }
+        /// <summary>
         /// New source axis direction
         /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
@@ -115,16 +155,17 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
 
             return new LambertianSurfaceEmittingCuboidalSource(
-                this.CubeLengthX,
-                this.CubeWidthY,
-                this.CubeHeightZ,
-                this.SourceProfile,
-                this.NewDirectionOfPrincipalSourceAxis,
-                this.TranslationFromOrigin,
-                this.InitialTissueRegionIndex) { Rng = rng };
+                CubeLengthX,
+                CubeWidthY,
+                CubeHeightZ,
+                SourceProfile,
+                LambertOrder,
+                NewDirectionOfPrincipalSourceAxis,
+                TranslationFromOrigin,
+                InitialTissueRegionIndex) { Rng = rng };
         }
     }
 
@@ -134,6 +175,8 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class LambertianSurfaceEmittingCuboidalSource : SurfaceEmittingCuboidalSourceBase
     {
+        private readonly int _lambertOrder;
+
         /// <summary>
         /// Returns an instance of Lambertian Surface Emitting Cuboidal Source with a given source profile
         /// new source axis direction, and translation,
@@ -142,6 +185,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
         /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>       
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
@@ -150,6 +194,7 @@ namespace Vts.MonteCarlo.Sources
             double cubeWidthY,
             double cubeHeightZ,
             ISourceProfile sourceProfile, 
+            int lambertOrder,
             Direction newDirectionOfPrincipalSourceAxis = null, 
             Position translationFromOrigin = null,
             int initialTissueRegionIndex = 0)
@@ -163,7 +208,20 @@ namespace Vts.MonteCarlo.Sources
             translationFromOrigin,
             initialTissueRegionIndex)
         {
+            _lambertOrder = lambertOrder;
+        }
 
-        }        
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection(Position position)
+        {
+            //Sample angular distribution with full range of theta and phi
+            var finalDirection = SourceToolbox.GetDirectionForLambertianRandom(_lambertOrder, Rng);
+
+            return finalDirection;
+        }
     }
 }
