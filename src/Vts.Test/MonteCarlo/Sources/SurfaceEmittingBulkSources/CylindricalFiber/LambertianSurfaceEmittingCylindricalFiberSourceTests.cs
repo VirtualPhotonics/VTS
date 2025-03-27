@@ -38,6 +38,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var source = si.CreateSource(new MersenneTwister(0));
             Assert.That(source, Is.Not.Null);
         }
+
         /// <summary>
         /// This test validated using geometry assumptions
         /// </summary>
@@ -45,12 +46,13 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_starting_photons_off_surface_of_fiber()
         {
             Random rng =
-                new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+                new MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue(); 
-            var fiberRadius = 1.0;
-            var fiberHeight = 4;
-            var curvedSurfaceEfficiency = 0.5;
-            var bottomSurfaceEfficiency = 1.0;
+            const double fiberRadius = 1.0;
+            const int fiberHeight = 4;
+            const double curvedSurfaceEfficiency = 0.5;
+            const double bottomSurfaceEfficiency = 1.0;
+            const int lambertOrder = 1;
             var principalAxis = new Direction(0, 0, 1);
             var translationFromOrigin = new Position(0, 0, 2);
 
@@ -59,6 +61,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 fiberHeight,
                 curvedSurfaceEfficiency,
                 bottomSurfaceEfficiency,
+                lambertOrder,
                 principalAxis,
                 translationFromOrigin,
                 1)

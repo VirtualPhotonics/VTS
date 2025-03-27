@@ -98,15 +98,12 @@ namespace Vts.MonteCarlo.Sources
                 _cubeHeightZ, 
                 Rng);
 
-            //sample angular distribution
-            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                _polarAngleEmissionRange, 
-                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                Rng);
-
             Position tempPosition;
-            var finalPosition = new Position();               
-             
+            var finalPosition = new Position();
+
+            // sample angular distribution
+            var finalDirection = GetFinalDirection(finalPosition);
+
             switch (cSide)
             {
                 case "xpos":
@@ -197,7 +194,6 @@ namespace Vts.MonteCarlo.Sources
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());
             }
 
-
             return finalPosition;
         }
         
@@ -221,12 +217,20 @@ namespace Vts.MonteCarlo.Sources
             var temp1 = 2 * (hw + lh + lw) * rng.NextDouble();
 
             if (temp1 < hw) {return "xpos"; }
-            else if (temp1 < 2 * hw) { return "xneg"; }
-            else if (temp1 < 2 * hw + lh) { return "ypos"; }
-            else if (temp1 < 2 * (hw + lh)) { return "yneg"; }
-            else if (temp1 < 2 * (hw + lh) + lw) { return "zpos"; }
-            else { return "zneg"; }
+            if (temp1 < 2 * hw) { return "xneg"; }
+            if (temp1 < 2 * hw + lh) { return "ypos"; }
+            if (temp1 < 2 * (hw + lh)) { return "yneg"; }
+            return temp1 < 2 * (hw + lh) + lw ? "zpos" : "zneg";
         }
+
+        /// <summary>
+        /// Returns final direction for a given position
+        /// </summary>
+        /// <param name="position">Current position</param>
+        /// <returns>new direction</returns>
+        protected abstract Direction GetFinalDirection(Position position); // angular distribution may be function of position
+
+
 
         #region Random number generator code (copy-paste into all sources)
         /// <summary>
