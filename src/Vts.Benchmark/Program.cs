@@ -52,13 +52,21 @@ namespace Vts.Benchmark
             var mean = double.Parse(Regex.Match(values[1], @"-?\d+(?:\.\d+)?").Value); // has 'ms' appended
             var standardDeviation = double.Parse(Regex.Match(values[3], @"-?\d+(?:\.\d+)?").Value); // has 'ms' appended
             // write out result of current run and standard deviation compared against prior mean 
-            const double establishedMean = 84.0; // ms
-            // check if current mean time is larger than established mean + 1-SD
-            Console.WriteLine(
-                mean > standardDeviation + establishedMean
-                    ? "FAIL: (Mean = {0:F}) +/- (SD = {1:F}) is 1-SD > established mean = {2:F}"
-                    : "PASS: (Mean = {0:F}) +/- (SD = {1:F}) is within 1-SD of established mean = {2:F}",
-                mean, standardDeviation, establishedMean);
+            const double priorMean = 84.0; // ms
+            // output 1 sigma results
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("SUMMARY: (Mean = {0:F} ms) +/- (SD = {1:F} ms)", mean, standardDeviation);
+            // output if result is larger than established mean + 1-SD
+            if (mean > standardDeviation + priorMean)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" is 1-SD > prior mean = {0:F}", priorMean);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(" is within 1-SD of prior mean = {0:F}", priorMean);
+            }
         }
     }
 }
