@@ -159,19 +159,28 @@ namespace Vts.MonteCarlo
             var tempResult = ValidateTissueCombinedWithDetectors(input);
             if (!tempResult.IsValid) return tempResult;
 
-            // check combination of source definition with detector definition
-            if (input.SourceInput is DirectionalPointSourceInput source && 
-                source.Direction != new Direction(0,0,1) && 
-                input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally))
+            switch (input.SourceInput)
             {
-                Console.WriteLine("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised");
-                return new ValidationResult(
-                    true,
-                    "Warning: Angled source and cylindrical coordinate detector defined",
-                    "User discretion advised: change detector to Cartesian equivalent or define source to be normal");
+                // check combination of source definition with detector definition
+                case DirectionalPointSourceInput source when 
+                    source.Direction != new Direction(0,0,1) && 
+                    input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally):
+                    Console.WriteLine("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised");
+                    return new ValidationResult(
+                        true,
+                        "Warning: Angled source and cylindrical coordinate detector defined",
+                        "User discretion advised: change detector to Cartesian equivalent or define source to be normal");
+                case DirectionalPointSourceInput source when
+                    (source.PointLocation.X > 0.0 || source.PointLocation.Y > 0.0) &&
+                    input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally):
+                    Console.WriteLine("Warning: Off-center source and cylindrical coordinate detector defined: user discretion advised");
+                    return new ValidationResult(
+                        true,
+                        "Warning: Off-center source and cylindrical coordinate detector defined",
+                        "User discretion advised: change detector to Cartesian equivalent or define source to be centered at (X=0,Y=0)");
             }
             if (input.DetectorInputs.Where(detectorInput => detectorInput.TallyDetails.IsTransmittanceTally && 
-                input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
+                                                            input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
             {
                 return new ValidationResult(
                     false,
