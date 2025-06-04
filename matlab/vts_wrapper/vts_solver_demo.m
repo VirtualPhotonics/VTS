@@ -569,8 +569,8 @@ disp(sprintf('IG =      [%5.3f %5.3f %5.3f] Chi2=%5.3e',conc0(1),conc0(2),conc0(
     (measData-initialGuess)*(measData-initialGuess)'));
 disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredConc(1),recoveredConc(2),recoveredConc(3),...
     (measData-recovered)*(measData-recovered)'));
-disp(sprintf('error =   [%5.3f %5.3f %5.3f]',abs(measData(1)-recovered(1))/measData(1),...
-    abs(measData(2)-recovered(2))/measData(2),abs(measData(3)-recovered(3))/measData(3)));
+disp(sprintf('error =   [%5.3f %5.3f %5.3f]',abs(measConc(1)-recoveredConc(1))/measConc(1),...
+    abs(measConc(2)-recoveredConc(2))/measConc(2),abs(measConc(3)-recoveredConc(3))/measConc(3)));
 
 %% Example 19: ROfRho for a two-layer tissue (multiple optical properties and rhos)
 clear op
