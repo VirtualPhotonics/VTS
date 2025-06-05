@@ -230,6 +230,28 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
         }
 
         /// <summary>
+        /// Test to verify input with off-center source and cylindrical detectors outputs warning
+        /// but continues as valid input
+        /// </summary>
+        [Test]
+        public void Validate_off_center_source_and_cylindrical_detectors_are_not_defined_together()
+        {
+            // generate input with off center source and cylindrical detector
+            var input = new SimulationInput
+            {
+                SourceInput = new DirectionalPointSourceInput(
+                    new Position(5.0, 0, 0), new Direction(0, 0, 1.0), 1),
+                DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput() }
+            };
+            // set to catch Console output
+            var output = new StringWriter();
+            Console.SetOut(output);
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.That(result.IsValid, Is.True); // only warning
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: Off-center source and cylindrical coordinate detector defined: user discretion advised"));
+        }
+
+        /// <summary>
         /// Test to verify that input with transmittance detector with final tissue region=0
         /// is invalid
         /// </summary>
