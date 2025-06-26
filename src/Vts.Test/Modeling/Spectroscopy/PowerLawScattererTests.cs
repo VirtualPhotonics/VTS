@@ -24,5 +24,21 @@ namespace Vts.Test.Modeling.Spectroscopy
             var scatterer = new PowerLawScatterer();
             Assert.Throws<ArgumentOutOfRangeException>(() => scatterer.SetTissueType((TissueType) 100));
         }
+
+        [Test]
+        public void Verify_user_ability_to_specify_lambda0()
+        {
+            // set up call to GetMusp without lambda0 specified
+            var scatterer = new PowerLawScatterer(1.0, 2.0, 3.0, 4.0);
+            var musp = scatterer.GetMusp(1000);
+            Assert.That(musp, Is.EqualTo(4.0));
+            // set up call to GetMusp with lambda0 = 1000 specified
+            musp = scatterer.GetMusp(1000, 1000);
+            Assert.That(musp, Is.EqualTo(4.0));
+            // set up call to GetMusp with another lambda0
+            musp = scatterer.GetMusp(1000, 800);
+            Assert.That(musp, Is.Not.EqualTo(4.0));
+
+        }
     }
 }
