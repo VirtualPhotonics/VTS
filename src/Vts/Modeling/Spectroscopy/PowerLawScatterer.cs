@@ -4,9 +4,10 @@ namespace Vts.SpectralMapping
 {
     /// <summary>
     /// Returns scattering values based on Steve Jacques' Skin Optics Summary:
-    /// https://omlc.ogi.edu/news/jan98/skinoptics.html
+    /// https://omlc.org/news/jan98/skinoptics.html
     /// This returned reduced scattering follows the approximate formula:
-    /// mus' = A1*lamda(-b1) + A2*lambda(-b2)
+    /// mus' = A1*(lamda/lambda0)(-b1) + A2*(lambda/lambda0)(-b2)
+    /// with default value of lambda0=1000nm
     /// </summary>
     public class PowerLawScatterer : BindableObject, IScatterer
     {
@@ -14,6 +15,7 @@ namespace Vts.SpectralMapping
         private double _b;
         private double _c;
         private double _d;
+        private double _lambda0;
 
         /// <summary>
         /// Constructs a power law scatterer; i.e. mus' = a*lamda^-b + c*lambda^-d
@@ -28,6 +30,7 @@ namespace Vts.SpectralMapping
             B = b;
             C = c;
             D = d;
+            Lambda0 = 1000; // use OMLC default value
         }
 
         /// <summary>
@@ -38,6 +41,23 @@ namespace Vts.SpectralMapping
         public PowerLawScatterer(double a, double b)
             : this(a,b,0.0,0.0)
         {
+        }
+
+        /// <summary>
+        /// Constructs a power law scatterer; i.e. mus' = a*(lamda/lambda0)^-b + c*(lambda/lambda0)^-d
+        /// </summary>
+        /// <param name="a">The first prefactor</param>
+        /// <param name="b">The first exponent</param>
+        /// <param name="c">The second prefactor</param>
+        /// <param name="d">The second exponent</param>
+        /// <param name="lambda0">Wavelength normalization factor</param>
+        public PowerLawScatterer(double a, double b, double c, double d, double lambda0)
+        {
+            A = a;
+            B = b;
+            C = c;
+            D = d;
+            Lambda0 = lambda0;
         }
 
         /// <summary>
@@ -70,6 +90,7 @@ namespace Vts.SpectralMapping
         /// <param name="tissueType">Tissue type</param>
         public void SetTissueType(TissueType tissueType)
         {
+            Lambda0 = 1000;
             switch (tissueType)
             {
                 case TissueType.Skin:
@@ -173,6 +194,19 @@ namespace Vts.SpectralMapping
             {
                 _d = value;
                 OnPropertyChanged("D");
+            }
+        }
+
+        /// <summary>
+        /// The wavelength normalization factor
+        /// </summary>
+        public double Lambda0
+        {
+            get => _lambda0;
+            set
+            {
+                _lambda0 = value;
+                OnPropertyChanged("Lambda0");
             }
         }
 

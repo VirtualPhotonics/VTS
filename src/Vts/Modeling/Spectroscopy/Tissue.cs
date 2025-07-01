@@ -93,12 +93,7 @@ namespace Vts.SpectralMapping
         /// <returns>The absorption coefficient Mua</returns>
         public double GetMua(double wavelength)
         {
-            double mua = 0.0;
-            for (int i = 0; i < Absorbers.Count; i++)
-            {
-                mua += Absorbers[i].GetMua(wavelength);
-            }
-            return mua;
+            return Absorbers.Sum(t => t.GetMua(wavelength));
         }
 
         /// <summary>
@@ -109,6 +104,21 @@ namespace Vts.SpectralMapping
         public double GetMusp(double wavelength)
         {
             return Scatterer != null ? Scatterer.GetMusp(wavelength) : 0;
+        }
+
+        /// <summary>
+        /// Returns the reduced scattering coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <param name="lambda0">Wavelength normalization factor</param>
+        /// <returns>The reduced scattering coefficient Mus'</returns>
+        public double GetMusp(double wavelength, double lambda0)
+        {
+            if (Scatterer != null)
+            {
+                return Scatterer is PowerLawScatterer scatterer ? scatterer.GetMusp(wavelength, lambda0) : Scatterer.GetMusp(wavelength);
+            }
+            return 0;
         }
 
         /// <summary>
@@ -139,7 +149,7 @@ namespace Vts.SpectralMapping
         public OpticalProperties GetOpticalProperties(double wavelength)
         {
             var mua = GetMua(wavelength);
-            var musp = GetMusp(wavelength);
+            var musp = GetMusp(wavelength, 1000);
             var g = GetG(wavelength);
             var n = N;
             return new OpticalProperties(mua, musp, g, n);
@@ -148,18 +158,50 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Returns the optical properties for a given wavelength
         /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <param name="lambda0">Wavelength normalization factor</param>
+        /// <returns>The optical properties</returns>
+        public OpticalProperties GetOpticalProperties(double wavelength, double lambda0)
+        {
+            var mua = GetMua(wavelength);
+            var musp = GetMusp(wavelength, lambda0);
+            var g = GetG(wavelength);
+            var n = N;
+            return new OpticalProperties(mua, musp, g, n);
+        }
+
+        /// <summary>
+        /// Returns the optical properties for an array of wavelengths
+        /// </summary>
         /// <param name="wavelengths">Wavelength</param>
         /// <returns>The optical properties</returns>
         public OpticalProperties[] GetOpticalProperties(double[] wavelengths)
         {
             var opArray = new OpticalProperties[wavelengths.Length];
-            for (int i = 0; i < wavelengths.Length; i++)
+            for (var i = 0; i < wavelengths.Length; i++)
             {
                 opArray[i] = GetOpticalProperties(wavelengths[i]);
             }
             return opArray;
         }
+
+        /// <summary>
+        /// Returns the optical properties for an array of wavelengths
+        /// </summary>
+        /// <param name="wavelengths">Wavelength</param>
+        /// <param name="lambda0">Wavelength normalization factor</param>
+        /// <returns>The optical properties</returns>
+        public OpticalProperties[] GetOpticalProperties(double[] wavelengths, double lambda0)
+        {
+            var opArray = new OpticalProperties[wavelengths.Length];
+            for (var i = 0; i < wavelengths.Length; i++)
+            {
+                opArray[i] = GetOpticalProperties(wavelengths[i], lambda0);
+            }
+            return opArray;
+        }
     }
+
     /// <summary>
     /// tissue provider class
     /// </summary>
