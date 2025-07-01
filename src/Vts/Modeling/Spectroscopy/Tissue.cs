@@ -149,7 +149,7 @@ namespace Vts.SpectralMapping
         public OpticalProperties GetOpticalProperties(double wavelength)
         {
             var mua = GetMua(wavelength);
-            var musp = GetMusp(wavelength, 1000);
+            var musp = GetMusp(wavelength);
             var g = GetG(wavelength);
             var n = N;
             return new OpticalProperties(mua, musp, g, n);
