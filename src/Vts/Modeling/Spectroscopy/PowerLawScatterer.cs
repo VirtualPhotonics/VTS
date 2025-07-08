@@ -18,32 +18,6 @@ namespace Vts.SpectralMapping
         private double _lambda0;
 
         /// <summary>
-        /// Constructs a power law scatterer; i.e. mus' = a*lamda^-b + c*lambda^-d
-        /// </summary>
-        /// <param name="a">The first prefactor</param>
-        /// <param name="b">The first exponent</param>
-        /// <param name="c">The second prefactor</param>
-        /// <param name="d">The second exponent</param>
-        public PowerLawScatterer(double a, double b, double c, double d)
-        {
-            A = a;
-            B = b;
-            C = c;
-            D = d;
-            Lambda0 = 1000; // use OMLC default value
-        }
-
-        /// <summary>
-        /// Creates a power law scatterer; i.e. mus' = a*lambda^-b
-        /// </summary>
-        /// <param name="a">The first prefactor</param>
-        /// <param name="b">The first exponent</param>
-        public PowerLawScatterer(double a, double b)
-            : this(a,b,0.0,0.0)
-        {
-        }
-
-        /// <summary>
         /// Constructs a power law scatterer; i.e. mus' = a*(lamda/lambda0)^-b + c*(lambda/lambda0)^-d
         /// </summary>
         /// <param name="a">The first prefactor</param>
@@ -58,6 +32,28 @@ namespace Vts.SpectralMapping
             C = c;
             D = d;
             Lambda0 = lambda0;
+        }
+
+        /// <summary>
+        /// Constructs a power law scatterer; i.e. mus' = a*lamda^-b + c*lambda^-d
+        /// </summary>
+        /// <param name="a">The first prefactor</param>
+        /// <param name="b">The first exponent</param>
+        /// <param name="c">The second prefactor</param>
+        /// <param name="d">The second exponent</param>
+        public PowerLawScatterer(double a, double b, double c, double d)
+            : this(a, b, c, d, 1000.0)
+        {
+        }
+
+        /// <summary>
+        /// Creates a power law scatterer; i.e. mus' = a*lambda^-b
+        /// </summary>
+        /// <param name="a">The first prefactor</param>
+        /// <param name="b">The first exponent</param>
+        public PowerLawScatterer(double a, double b)
+            : this(a,b,0.0,0.0, 1000.0)
+        {
         }
 
         /// <summary>
@@ -218,7 +214,7 @@ namespace Vts.SpectralMapping
         /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
-            return A * Math.Pow(wavelength/1000, - B) + C * Math.Pow(wavelength/1000, - D);
+            return GetMusp(wavelength, 1000.0);
         }
 
         /// <summary>

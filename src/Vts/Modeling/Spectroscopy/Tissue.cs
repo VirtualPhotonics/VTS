@@ -103,7 +103,7 @@ namespace Vts.SpectralMapping
         /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
-            return Scatterer != null ? Scatterer.GetMusp(wavelength) : 0;
+            return Scatterer?.GetMusp(wavelength) ?? 0;
         }
 
         /// <summary>
@@ -114,11 +114,12 @@ namespace Vts.SpectralMapping
         /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength, double lambda0)
         {
-            if (Scatterer != null)
+            if (Scatterer == null) return 0;
+            if (double.IsNaN(lambda0))
             {
-                return Scatterer is PowerLawScatterer scatterer ? scatterer.GetMusp(wavelength, lambda0) : Scatterer.GetMusp(wavelength);
+                return GetMusp(wavelength);
             }
-            return 0;
+            return Scatterer is PowerLawScatterer scatterer ? scatterer.GetMusp(wavelength, lambda0) : Scatterer.GetMusp(wavelength);
         }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace Vts.SpectralMapping
         /// <returns>The anisotropy coefficient g</returns>
         public double GetG(double wavelength)
         {
-            return Scatterer != null ? Scatterer.GetG(wavelength) : 0;
+            return Scatterer?.GetG(wavelength) ?? 0;
         }
 
         /// <summary>
@@ -138,7 +139,7 @@ namespace Vts.SpectralMapping
         /// <returns>The scattering coefficient Mus</returns>
         public double GetMus(double wavelength)
         {
-            return Scatterer != null ? Scatterer.GetMus(wavelength) : 0;
+            return Scatterer?.GetMus(wavelength) ?? 0;
         }
 
         /// <summary>
