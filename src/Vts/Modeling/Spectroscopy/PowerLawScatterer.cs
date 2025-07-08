@@ -202,7 +202,7 @@ namespace Vts.SpectralMapping
             set
             {
                 _lambda0 = value;
-                OnPropertyChanged("Lambda0");
+                OnPropertyChanged(nameof(Lambda0));
             }
         }
 
