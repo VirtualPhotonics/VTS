@@ -146,26 +146,12 @@ namespace Vts.SpectralMapping
         /// Returns the optical properties for a given wavelength
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
+        /// <param name="lambda0">Optional wavelength normalization factor</param>
         /// <returns>The optical properties</returns>
-        public OpticalProperties GetOpticalProperties(double wavelength)
+        public OpticalProperties GetOpticalProperties(double wavelength, double lambda0 = double.NaN)
         {
+            var musp = double.IsNaN(lambda0) ? GetMusp(wavelength) : GetMusp(wavelength, lambda0);
             var mua = GetMua(wavelength);
-            var musp = GetMusp(wavelength);
-            var g = GetG(wavelength);
-            var n = N;
-            return new OpticalProperties(mua, musp, g, n);
-        }
-
-        /// <summary>
-        /// Returns the optical properties for a given wavelength
-        /// </summary>
-        /// <param name="wavelength">Wavelength</param>
-        /// <param name="lambda0">Wavelength normalization factor</param>
-        /// <returns>The optical properties</returns>
-        public OpticalProperties GetOpticalProperties(double wavelength, double lambda0)
-        {
-            var mua = GetMua(wavelength);
-            var musp = GetMusp(wavelength, lambda0);
             var g = GetG(wavelength);
             var n = N;
             return new OpticalProperties(mua, musp, g, n);
@@ -175,29 +161,26 @@ namespace Vts.SpectralMapping
         /// Returns the optical properties for an array of wavelengths
         /// </summary>
         /// <param name="wavelengths">Wavelength</param>
+        /// <param name="lambda0">Optional wavelength normalization factor</param>
         /// <returns>The optical properties</returns>
-        public OpticalProperties[] GetOpticalProperties(double[] wavelengths)
+        public OpticalProperties[] GetOpticalProperties(double[] wavelengths, double lambda0 = double.NaN)
         {
             var opArray = new OpticalProperties[wavelengths.Length];
-            for (var i = 0; i < wavelengths.Length; i++)
+            if (double.IsNaN(lambda0))
             {
-                opArray[i] = GetOpticalProperties(wavelengths[i]);
+                for (var i = 0; i < wavelengths.Length; i++)
+                {
+                    opArray[i] = GetOpticalProperties(wavelengths[i]);
+                }
+
             }
-            return opArray;
-        }
-
-        /// <summary>
-        /// Returns the optical properties for an array of wavelengths
-        /// </summary>
-        /// <param name="wavelengths">Wavelength</param>
-        /// <param name="lambda0">Wavelength normalization factor</param>
-        /// <returns>The optical properties</returns>
-        public OpticalProperties[] GetOpticalProperties(double[] wavelengths, double lambda0)
-        {
-            var opArray = new OpticalProperties[wavelengths.Length];
-            for (var i = 0; i < wavelengths.Length; i++)
+            else
             {
-                opArray[i] = GetOpticalProperties(wavelengths[i], lambda0);
+                for (var i = 0; i < wavelengths.Length; i++)
+                {
+                    opArray[i] = GetOpticalProperties(wavelengths[i], lambda0);
+                }
+
             }
             return opArray;
         }
