@@ -166,22 +166,29 @@ namespace Vts.SpectralMapping
         public OpticalProperties[] GetOpticalProperties(double[] wavelengths, double lambda0 = double.NaN)
         {
             var opArray = new OpticalProperties[wavelengths.Length];
-            if (double.IsNaN(lambda0))
-            {
-                for (var i = 0; i < wavelengths.Length; i++)
-                {
-                    opArray[i] = GetOpticalProperties(wavelengths[i]);
-                }
+            //if (double.IsNaN(lambda0))
+            //{
+            //    for (var i = 0; i < wavelengths.Length; i++)
+            //    {
+            //        opArray[i] = GetOpticalProperties(wavelengths[i]);
+            //    }
 
-            }
-            else
-            {
-                for (var i = 0; i < wavelengths.Length; i++)
-                {
-                    opArray[i] = GetOpticalProperties(wavelengths[i], lambda0);
-                }
+            //}
+            //else
+            //{
+            //    for (var i = 0; i < wavelengths.Length; i++)
+            //    {
+            //        opArray[i] = GetOpticalProperties(wavelengths[i], lambda0);
+            //    }
 
+            //}
+            for (var i = 0; i < wavelengths.Length; i++)
+            {
+                opArray[i] = double.IsNaN(lambda0)
+                    ? GetOpticalProperties(wavelengths[i])
+                    : GetOpticalProperties(wavelengths[i], lambda0);
             }
+
             return opArray;
         }
     }
