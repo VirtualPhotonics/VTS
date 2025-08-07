@@ -184,7 +184,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_power_law_scatterer_with_lambda0_specification_array_of_wavelengths()
         {            
             // used values for tissue=liver, power law wavelength normalization = 750nm
-            var scatterer = new PowerLawScatterer(0.84, 0.55, 0.0, 0.0, 750.0);
+            var scatterer = new PowerLawScatterer(0.84, 0.55, 750.0);
             var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
             var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
             var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
