@@ -209,23 +209,13 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Returns mus' based on Steve Jacques' Skin Optics Summary:
         /// https://omlc.ogi.edu/news/jan98/skinoptics.html
+        /// and normalizes wavelength by _lambda0 (default=1000[nm])
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
         /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
-            return GetMusp(wavelength, 1000.0);
-        }
-
-        /// <summary>
-        /// Returns mus' given wavelength and lambda0 specification
-        /// </summary>
-        /// <param name="wavelength">Wavelength</param>
-        /// <param name="lambda0">Wavelength normalization factor</param>
-        /// <returns>The reduced scattering coefficient Mus'</returns>
-        public double GetMusp(double wavelength, double lambda0)
-        {
-            return A * Math.Pow(wavelength / lambda0, -B) + C * Math.Pow(wavelength / lambda0, -D);
+            return A * Math.Pow(wavelength / _lambda0, -B) + C * Math.Pow(wavelength / _lambda0, -D);
         }
 
         /// <summary>
