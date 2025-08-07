@@ -47,6 +47,17 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
+        /// Creates a power law scatterer; i.e. mus' = a*(lambda/lambda0)^-b
+        /// </summary>
+        /// <param name="a">The first prefactor</param>
+        /// <param name="b">The first exponent</param>
+        /// <param name="lambda0">Wavelength normalization factor</param>
+        public PowerLawScatterer(double a, double b, double lambda0)
+            : this(a, b, 0.0, 0.0, lambda0)
+        {
+        }
+
+        /// <summary>
         /// Creates a power law scatterer; i.e. mus' = a*lambda^-b
         /// </summary>
         /// <param name="a">The first prefactor</param>
