@@ -25,7 +25,7 @@ namespace Vts.SpectralMapping
         /// <param name="c">The second prefactor</param>
         /// <param name="d">The second exponent</param>
         /// <param name="lambda0">Wavelength normalization factor</param>
-        public PowerLawScatterer(double a, double b, double c, double d, double lambda0)
+        public PowerLawScatterer(double a, double b, double c, double d, double lambda0 = 1000.0)
         {
             A = a;
             B = b;
@@ -35,35 +35,13 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
-        /// Constructs a power law scatterer; i.e. mus' = a*lamda^-b + c*lambda^-d
-        /// </summary>
-        /// <param name="a">The first prefactor</param>
-        /// <param name="b">The first exponent</param>
-        /// <param name="c">The second prefactor</param>
-        /// <param name="d">The second exponent</param>
-        public PowerLawScatterer(double a, double b, double c, double d)
-            : this(a, b, c, d, 1000.0)
-        {
-        }
-
-        /// <summary>
-        /// Creates a power law scatterer; i.e. mus' = a*(lambda/lambda0)^-b
+        /// Constructs a power law scatterer; i.e. mus' = a*(lamda/lambda0)^-b 
         /// </summary>
         /// <param name="a">The first prefactor</param>
         /// <param name="b">The first exponent</param>
         /// <param name="lambda0">Wavelength normalization factor</param>
-        public PowerLawScatterer(double a, double b, double lambda0)
+        public PowerLawScatterer(double a, double b, double lambda0 = 1000.0)
             : this(a, b, 0.0, 0.0, lambda0)
-        {
-        }
-
-        /// <summary>
-        /// Creates a power law scatterer; i.e. mus' = a*lambda^-b
-        /// </summary>
-        /// <param name="a">The first prefactor</param>
-        /// <param name="b">The first exponent</param>
-        public PowerLawScatterer(double a, double b)
-            : this(a,b,0.0,0.0, 1000.0)
         {
         }
 
