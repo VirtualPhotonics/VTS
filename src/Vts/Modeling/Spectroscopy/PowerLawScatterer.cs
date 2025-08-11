@@ -4,9 +4,10 @@ namespace Vts.SpectralMapping
 {
     /// <summary>
     /// Returns scattering values based on Steve Jacques' Skin Optics Summary:
-    /// http://omlc.ogi.edu/news/jan98/skinoptics.html
+    /// https://omlc.org/news/jan98/skinoptics.html
     /// This returned reduced scattering follows the approximate formula:
-    /// mus' = A1*lamda(-b1) + A2*lambda(-b2)
+    /// mus' = A1*(lamda/lambda0)(-b1) + A2*(lambda/lambda0)(-b2)
+    /// with default value of lambda0=1000nm
     /// </summary>
     public class PowerLawScatterer : BindableObject, IScatterer
     {
@@ -14,29 +15,33 @@ namespace Vts.SpectralMapping
         private double _b;
         private double _c;
         private double _d;
+        private double _lambda0;
 
         /// <summary>
-        /// Constructs a power law scatterer; i.e. mus' = a*lamda^-b + c*lambda^-d
+        /// Constructs a power law scatterer; i.e. mus' = a*(lamda/lambda0)^-b + c*(lambda/lambda0)^-d
         /// </summary>
         /// <param name="a">The first prefactor</param>
         /// <param name="b">The first exponent</param>
         /// <param name="c">The second prefactor</param>
         /// <param name="d">The second exponent</param>
-        public PowerLawScatterer(double a, double b, double c, double d)
+        /// <param name="lambda0">Wavelength normalization factor</param>
+        public PowerLawScatterer(double a, double b, double c, double d, double lambda0 = 1000.0)
         {
             A = a;
             B = b;
             C = c;
             D = d;
+            Lambda0 = lambda0;
         }
 
         /// <summary>
-        /// Creates a power law scatterer; i.e. mus' = a*lambda^-b
+        /// Constructs a power law scatterer; i.e. mus' = a*(lamda/lambda0)^-b 
         /// </summary>
         /// <param name="a">The first prefactor</param>
         /// <param name="b">The first exponent</param>
-        public PowerLawScatterer(double a, double b)
-            : this(a,b,0.0,0.0)
+        /// <param name="lambda0">Wavelength normalization factor</param>
+        public PowerLawScatterer(double a, double b, double lambda0 = 1000.0)
+            : this(a, b, 0.0, 0.0, lambda0)
         {
         }
 
@@ -70,9 +75,10 @@ namespace Vts.SpectralMapping
         /// <param name="tissueType">Tissue type</param>
         public void SetTissueType(TissueType tissueType)
         {
+            Lambda0 = 1000;
             switch (tissueType)
             {
-                case (TissueType.Skin):
+                case TissueType.Skin:
                     A = 1.2;
                     B = 1.42;
                     C = 0.0;
@@ -90,25 +96,25 @@ namespace Vts.SpectralMapping
                     C = 0.0;
                     D = 0.0;
                     break;
-                case (TissueType.BrainWhiteMatter):
+                case TissueType.BrainWhiteMatter:
                     A = 3.56;
                     B = 0.84;
                     C = 0.0;
                     D = 0.0;
                     break;
-                case (TissueType.BrainGrayMatter):
+                case TissueType.BrainGrayMatter:
                     A = 0.56;
                     B = 1.36;
                     C = 0.0;
                     D = 0.0;
                     break;
-                case (TissueType.Liver):
+                case TissueType.Liver:
                     A = 0.84;
                     B = 0.55;
                     C = 0.0;
                     D = 0.0;
                     break;
-                case (TissueType.Custom):
+                case TissueType.Custom:
                     A = 1;
                     B = 0.1;
                     C = 0.0;
@@ -122,18 +128,18 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Scattering type, set to power law
         /// </summary>
-        public ScatteringType ScattererType { get { return ScatteringType.PowerLaw; } }
+        public ScatteringType ScattererType => ScatteringType.PowerLaw;
 
         /// <summary>
         /// The first prefactor
         /// </summary>
         public double A
         {
-            get { return _a; }
+            get => _a;
             set 
             {
                 _a = value;
-                this.OnPropertyChanged("A");
+                OnPropertyChanged("A");
             }
         }
 
@@ -142,11 +148,11 @@ namespace Vts.SpectralMapping
         /// </summary>
         public double B
         {
-            get { return _b; }
+            get => _b;
             set
             {
                 _b = value;
-                this.OnPropertyChanged("B");
+                OnPropertyChanged("B");
             }
         }
 
@@ -155,11 +161,11 @@ namespace Vts.SpectralMapping
         /// </summary>
         public double C
         {
-            get { return _c; }
+            get => _c;
             set
             {
                 _c = value;
-                this.OnPropertyChanged("C");
+                OnPropertyChanged("C");
             }
         }
 
@@ -168,23 +174,37 @@ namespace Vts.SpectralMapping
         /// </summary>
         public double D
         {
-            get { return _d; }
+            get => _d;
             set
             {
                 _d = value;
-                this.OnPropertyChanged("D");
+                OnPropertyChanged("D");
+            }
+        }
+
+        /// <summary>
+        /// The wavelength normalization factor
+        /// </summary>
+        public double Lambda0
+        {
+            get => _lambda0;
+            set
+            {
+                _lambda0 = value;
+                OnPropertyChanged(nameof(Lambda0));
             }
         }
 
         /// <summary>
         /// Returns mus' based on Steve Jacques' Skin Optics Summary:
-        /// http://omlc.ogi.edu/news/jan98/skinoptics.html
+        /// https://omlc.ogi.edu/news/jan98/skinoptics.html
+        /// and normalizes wavelength by _lambda0 (default=1000[nm])
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
         /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
-            return A * Math.Pow(wavelength/1000, - B) + C * Math.Pow(wavelength/1000, - D);
+            return A * Math.Pow(wavelength / _lambda0, -B) + C * Math.Pow(wavelength / _lambda0, -D);
         }
 
         /// <summary>
