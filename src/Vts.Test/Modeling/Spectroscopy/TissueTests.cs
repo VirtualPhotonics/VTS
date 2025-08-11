@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Vts.MonteCarlo;
 using Vts.SpectralMapping;
 
 namespace Vts.Test.Modeling.Spectroscopy
@@ -9,10 +8,13 @@ namespace Vts.Test.Modeling.Spectroscopy
     {
         private Tissue _tissue;
 
+        /// <summary>
+        /// Instantiate Tissue with predefined chromophores and scatterer
+        /// </summary>
         [OneTimeSetUp]
         public void One_time_setup()
         {
-            // used values for tissue=liver
+            // used values for tissue=liver, power law wavelength normalization set to default = 1000nm
             var scatterer = new PowerLawScatterer(0.84, 0.55);
             var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
             var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
@@ -28,6 +30,9 @@ namespace Vts.Test.Modeling.Spectroscopy
                 n);
         }
 
+        /// <summary>
+        /// Test setup specification of chromophores and optical properties
+        /// </summary>
         [Test]
         public void Test_tissue_constructor()
         {
@@ -38,6 +43,9 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(_tissue.Absorbers[3].Concentration, Is.EqualTo(0.87));
         }
 
+        /// <summary>
+        /// Test instantiation of Tissue with TissueTypes
+        /// </summary>
         [Test]
         public void Test_tissue_constructor_tissue_type()
         {
@@ -52,6 +60,9 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(tissue.ScattererType, Is.EqualTo(ScatteringType.PowerLaw));
         }
 
+        /// <summary>
+        /// Test GetMua method
+        /// </summary>
         [Test]
         public void Test_get_mua()
         {
@@ -59,6 +70,9 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(mua, Is.EqualTo(0.067854).Within(0.000001));
         }
 
+        /// <summary>
+        /// Test GetMusp method
+        /// </summary>
         [Test]
         public void Test_get_musp()
         {
@@ -66,6 +80,9 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(musp, Is.EqualTo(0.839999).Within(0.000001));
         }
 
+        /// <summary>
+        /// Test GetMus method
+        /// </summary>
         [Test]
         public void Test_get_mus()
         {
@@ -73,6 +90,9 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(mus, Is.EqualTo(4.2).Within(0.000001));
         }
 
+        /// <summary>
+        /// Test GetG method
+        /// </summary>
         [Test]
         public void Test_get_g()
         {
@@ -80,12 +100,18 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(g, Is.EqualTo(0.8));
         }
 
+        /// <summary>
+        /// Test ToString method
+        /// </summary>
         [Test]
         public void Test_to_string()
         {
             Assert.That(_tissue.ToString(), Is.EqualTo("test_tissue"));
         }
 
+        /// <summary>
+        /// Test GetOpticalProperties method with single wavelength
+        /// </summary>
         [Test]
         public void Test_get_optical_properties()
         {
@@ -97,6 +123,36 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(opticalProperties.G, Is.EqualTo(0.8));
         }
 
+        /// <summary>
+        /// Test Tissue with PowerLawScatterer method with single wavelength and PowerLawScatterer
+        /// wavelength normalization lambda0 specified to non-default value
+        /// </summary>
+        [Test]
+        public void Test_power_law_scatterer_with_lambda0_specification()
+        {
+            // used values for tissue=liver, power law wavelength normalization set to default = 1000nm
+            var scatterer = new PowerLawScatterer(0.84, 0.55, 0.0, 0.0, 750.0);
+            var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
+            var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
+            const double n = 1.4;
+            _tissue = new Tissue(
+                new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
+                scatterer,
+                "test_tissue",
+                n);
+            var opticalProperties = _tissue.GetOpticalProperties(1000);
+            Assert.That(opticalProperties.N, Is.EqualTo(1.4));
+            Assert.That(opticalProperties.Mua, Is.EqualTo(0.067854).Within(0.000001));
+            Assert.That(opticalProperties.Mus, Is.EqualTo(3.585361).Within(0.000001));
+            Assert.That(opticalProperties.Musp, Is.EqualTo(0.717073).Within(0.000001));
+            Assert.That(opticalProperties.G, Is.EqualTo(0.8));
+        }
+
+        /// <summary>
+        /// Test GetOpticalProperties with array of wavelengths
+        /// </summary>
         [Test]
         public void Test_get_optical_properties_wavelength_array()
         {
@@ -117,6 +173,44 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(opticalPropertyArray[2].Mua, Is.EqualTo(0.067854).Within(0.000001));
             Assert.That(opticalPropertyArray[2].Mus, Is.EqualTo(4.2).Within(0.000001));
             Assert.That(opticalPropertyArray[2].Musp, Is.EqualTo(0.84).Within(0.000001));
+            Assert.That(opticalPropertyArray[2].G, Is.EqualTo(0.8));
+        }
+
+        /// <summary>
+        /// Test Tissue with PowerLawScatterer method with multiple wavelengths and PowerLawScatterer
+        /// wavelength normalization lambda0 specified to non-default value
+        /// </summary>
+        [Test]
+        public void Test_power_law_scatterer_with_lambda0_specification_array_of_wavelengths()
+        {            
+            // used values for tissue=liver, power law wavelength normalization = 750nm
+            var scatterer = new PowerLawScatterer(0.84, 0.55, 750.0);
+            var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
+            var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
+            const double n = 1.4;
+            _tissue = new Tissue(
+                new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
+                scatterer,
+                "test_tissue",
+                n);
+            var wavelengths = new double[] { 600, 700, 1000 };
+            var opticalPropertyArray = _tissue.GetOpticalProperties(wavelengths);
+            Assert.That(opticalPropertyArray[0].N, Is.EqualTo(1.4));
+            Assert.That(opticalPropertyArray[0].Mua, Is.EqualTo(0.314619).Within(0.000001));
+            Assert.That(opticalPropertyArray[0].Mus, Is.EqualTo(4.748427).Within(0.000001));
+            Assert.That(opticalPropertyArray[0].Musp, Is.EqualTo(0.949685).Within(0.000001));
+            Assert.That(opticalPropertyArray[0].G, Is.EqualTo(0.8));
+            Assert.That(opticalPropertyArray[1].N, Is.EqualTo(1.4));
+            Assert.That(opticalPropertyArray[1].Mua, Is.EqualTo(0.036097).Within(0.000001));
+            Assert.That(opticalPropertyArray[1].Mus, Is.EqualTo(4.362435).Within(0.000001));
+            Assert.That(opticalPropertyArray[1].Musp, Is.EqualTo(0.872487).Within(0.000001));
+            Assert.That(opticalPropertyArray[1].G, Is.EqualTo(0.8));
+            Assert.That(opticalPropertyArray[2].N, Is.EqualTo(1.4));
+            Assert.That(opticalPropertyArray[2].Mua, Is.EqualTo(0.067854).Within(0.000001));
+            Assert.That(opticalPropertyArray[2].Mus, Is.EqualTo(3.585361).Within(0.000001));
+            Assert.That(opticalPropertyArray[2].Musp, Is.EqualTo(0.717072).Within(0.000001));
             Assert.That(opticalPropertyArray[2].G, Is.EqualTo(0.8));
         }
     }
