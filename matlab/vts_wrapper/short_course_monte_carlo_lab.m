@@ -123,7 +123,7 @@ for j=1:size(Nphot,2)
   colorbar;
   clim([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
-  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 0]);
+  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
   title('relerr(Flu(\rho,z))', 'FontSize',16); 
   xlabel('\rho [mm]','FontSize',16); ylabel('z [mm]','FontSize',16);
   if (strcmp(options.AbsorptionWeightingType,'Analog')==true)
