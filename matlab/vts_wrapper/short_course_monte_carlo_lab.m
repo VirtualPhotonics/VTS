@@ -56,6 +56,7 @@ zs = linspace(0,10,101);
 z_midpoints = (zs(1:end-1)+zs(2:end))/2;
 
 % create simulation inputs for increasing N
+si=SimulationInput().empty(size(Nphot,2),0);
 for i=1:size(Nphot,2)
   % create a default set of inputs
   si(i) = SimulationInput();
@@ -81,13 +82,18 @@ xs = [-fliplr(rho_midpoints),rho_midpoints];
 for j=1:size(Nphot,2)
   d = output{j}.Detectors(output{j}.DetectorNames{1});
   % plot fluence as a function of rho and z with mirror image
-  %subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); % 2014b code
   pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
-  ax(j)=subplot(2,2,j); % 2016b fix
-  set(ax(j),'Position',pos); % 2016b fix
-  imagesc(xs,z_midpoints,log10([fliplr(d.Mean') d.Mean']));
-  colormap(parula);
-  colorbar; caxis([-6 1]); 
+  ax=subplot(2,2,j); % 2016b fix
+  set(ax,'Position',pos); % 2016b fix
+  % set Mean values=0 (no tally) to 1e-6, then set clim min to -6
+  meanCopy=d.Mean;
+  meanCopy(d.Mean==0.0)=1e-6;
+  imagesc(xs,z_midpoints,log10([fliplr(meanCopy') meanCopy']));
+  colordata = colormap(parula);
+  colordata(1,:) = [0 0 0]; % black means no tally
+  colormap((colordata)); % needs double parens
+  colorbar;
+  clim([-6 1]);
   shading('flat'); axis equal; axis([-9.5 9.5, 0 9.5]); 
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
   title('log(Flu(\rho,z)) [mm^-^2]','FontSize',16); 
@@ -106,17 +112,16 @@ for j=1:size(Nphot,2)
   % set NaN to value beyond max
   maxval = max(relErr(:));
   relErr(isnan(relErr)) = maxval + maxval/10;
-  %subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]);  % 2014b code
   pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
-  ax(j)=subplot(2,2,j); % 2016b fix
-  set(ax(j),'Position',pos); % 2016b fix
-  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr'])); colormap(jet);
-  % for making NaN values white
-  colordata = colormap;
-  colordata(end,:) = [0 0 0];
+  ax=subplot(2,2,j); % 2016b fix
+  set(ax,'Position',pos); % 2016b fix
+  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr'])); 
+  % for making NaN values black
+  colordata = colormap(parula);
+  colordata(end,:) = [0 0 0]; % black means no tally
   colormap((colordata));
   colorbar;
-  caxis([0 1]);
+  clim([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 0]);
   title('relerr(Flu(\rho,z))', 'FontSize',16); 
@@ -143,13 +148,13 @@ for j=1:size(Nphot,2)
   dawRelErr = dawSD./dawMean;
   %subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); 
   pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
-  ax(j)=subplot(2,2,j); % 2016b fix
-  set(ax(j),'Position',pos); % 2016b fix
+  ax=subplot(2,2,j); % 2016b fix
+  set(ax,'Position',pos); % 2016b fix
   imagesc(xs,z_midpoints,([fliplr((analogRelErr-dawRelErr)') (analogRelErr-dawRelErr)'])); 
-  colordata = colormap(jet);
+  colordata = colormap(parula);
   colordata(1,:) = [0 0 0];
   colormap((colordata));
-  colorbar; caxis([0 1]);
+  colorbar; clim([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
   title('RE(analog)-RE(DAW)','FontSize',16); 
