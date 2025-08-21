@@ -171,7 +171,7 @@ namespace Vts.MonteCarlo.Tissues
 
             var normal = _inclusionRegion.SurfaceNormal(currentPosition);
             var cosTheta1 = Direction.GetDotProduct(currentDirection, normal); 
-            if (currentDirection.Uz < 0) cosTheta1 = -cosTheta1;
+            if (normal.Uz < 0) cosTheta1 = -cosTheta1;
             var nRatio = currentN / nextN;
             var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
             var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
