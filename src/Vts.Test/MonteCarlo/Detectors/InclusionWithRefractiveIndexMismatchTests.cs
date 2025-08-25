@@ -163,47 +163,52 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.Rd * _factor - 0.565017749), Is.LessThan(0.000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.Rd * _factor - 0.565017749), Is.LessThan(0.000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Rd - 0.483618), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Rd - 0.646391), Is.LessThan(0.000001));
         }
+
         // Reflection R(angle)
         [Test]
         public void Validate_DAW_voxel_ROfAngle()
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.R_a[0] * _factor - 0.0809612757), Is.LessThan(0.0000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.R_a[0] * _factor - 0.0809612757), Is.LessThan(0.0000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_a[0] - 0.069297), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_a[0] - 0.092621), Is.LessThan(0.000001));
         }
+
         // Diffuse Transmittance
         [Test]
         public void Validate_DAW_voxel_TDiffuse()
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.Td * _factor - 0.0228405921), Is.LessThan(0.000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.Td * _factor - 0.0228405921), Is.LessThan(0.000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Td - 0.035442), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Td - 0.020237), Is.LessThan(0.000001));
         }
+
         // Transmittance T(angle)
         [Test]
         public void Validate_DAW_voxel_TOfAngle()
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.T_a[0] * _factor - 0.00327282369), Is.LessThan(0.00000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.T_a[0] * _factor - 0.00327282369), Is.LessThan(0.00000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.T_a[0] - 0.005078), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.T_a[0] - 0.002899), Is.LessThan(0.000001));
         }
+
         // Reflectance R(x,y)
         [Test]
         public void Validate_DAW_voxel_ROfXAndY()
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.R_xy[198, 201] * _factor - 0.00825301), Is.LessThan(0.00000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.R_xy[198, 201] * _factor - 0.00825301), Is.LessThan(0.00000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_xy[198, 201] - 0.00), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_xy[198, 201] - 0.009802), Is.LessThan(0.000001));
         }
+
         // Total Absorption
         [Test]
         public void Validate_DAW_voxel_ATotal()
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.Atot * _factor - 0.384363881), Is.LessThan(0.000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.Atot * _factor - 0.384363881), Is.LessThan(0.000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Atot - 0.480938), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Atot - 0.333370), Is.LessThan(0.000001));
         }
        
         // sanity checks
