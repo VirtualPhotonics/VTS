@@ -26,6 +26,7 @@ namespace Vts.Test.MonteCarlo.Sources
             _validationData = new SurfaceEmitting2DSourcesValidationData();
             _validationData.ReadData();
         }
+
         /// <summary>
         /// test source input
         /// </summary>
@@ -52,6 +53,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var source = si.CreateSource(new MersenneTwister(0));
             Assert.That(source, Is.InstanceOf<CustomCircularSource>());
         }
+
         /// <summary>
         /// Validate General Constructor of Custom Flat Circular Source
         /// </summary>
@@ -86,7 +88,6 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[30]), Is.LessThan(_validationData.AcceptablePrecision));
         }
 
-
         /// <summary>
         /// Validate General Constructor of Custom Gaussian Circular Source
         /// </summary>
@@ -119,6 +120,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.That(Math.Abs(photon.DP.Position.Y - _validationData.Tp[35]), Is.LessThan( _validationData.AcceptablePrecision));
             Assert.That(Math.Abs(photon.DP.Position.Z - _validationData.Tp[36]), Is.LessThan( _validationData.AcceptablePrecision));
         }
+
         /// <summary>
         /// test switch statement in GetFinalPositionFromProfileType method for setting other
         /// than Flat or Gaussian verify exception is thrown
@@ -141,7 +143,6 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => source.GetNextPhoton(tissue));
         }
-
         public class FakeSourceProfile : ISourceProfile
         {
             /// <summary>
