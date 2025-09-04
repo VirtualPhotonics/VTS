@@ -72,12 +72,12 @@ namespace Vts.Test.MonteCarlo.Sources
                 -9.0666756704e-01, 1.3961632764e+00, 3.0000000000e+00
             ];
 
-            // if need to regenerate _tp, run matlab/test/ code 
+            // to regenerate _tp, run matlab/test/ code 
             if (_tp.Length == 0)
             {
                 const string testpara = "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_SourceToolbox.txt";
 
-                using TextReader reader = File.OpenText(testpara);
+                using var reader = File.OpenText(testpara);
                 var text = reader.ReadToEnd();
                 var bits = text.Split('\t');
                 for (var i = 0; i < 140; i++)
