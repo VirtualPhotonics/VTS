@@ -9,8 +9,10 @@ if (R(2) ~= 0)
 
     NR = Func_GetDoubleNormallyDistributedRandomNumbers(RN1, RN2, LimitL, LimitU);
 
-    VOUT(1) = V(1)+ 0.8493218 * BDFWHM * NR(1);
-    VOUT(2) = V(2)+ 0.8493218 * BDFWHM * NR(2);
+    % The x and y position should be from the center of the circle or radius,
+    % so beamDiameterFwhm should be beamRadiusFwhm = (beamDiameterFwhm/2)
+    VOUT(1) = V(1)+ 0.8493218 * (BDFWHM / 2) * NR(1);
+    VOUT(2) = V(2)+ 0.8493218 * (BDFWHM / 2) * NR(2);
     VOUT(3) = V(3);
 end
 

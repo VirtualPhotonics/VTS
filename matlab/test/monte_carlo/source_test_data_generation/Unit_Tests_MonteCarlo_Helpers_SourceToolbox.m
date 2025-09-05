@@ -95,7 +95,7 @@ RN18 = 0.27265629458070179;
 
 % unit test for all static methods in Func 
 Test01 = Func_GetDirectionForGiven2DPositionAndGivenPolarAngle(V, polAngle);
-Test02 = Func_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN1, RN2);
+Test02 = Func_GetDirectionForGivenPolarAzimuthalAngleRange(PolRange, AziRange, RN1, RN2);
 Test03 = Func_GetDirectionForIsotropicDistributionRandom(RN1, RN2);
 Test04 = Func_GetDoubleNormallyDistributedRandomNumbers(RN1, RN2, LimitL, LimitU);
 Test05 = Func_GetLimit(Factor);
