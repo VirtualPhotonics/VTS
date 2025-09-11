@@ -8,6 +8,10 @@ startup();
 
 % ======================================================================= %
 %% Example 01a: run Monte Carlo simulations for fluence with increasing N photons
+% Note: the Python equivalent code for this exercise can be found in
+% Vts.Scripting.Python/monte-carlo/fluence_vs_number_of_photons.ipynb
+% (Jupyter notebook version) or fluence-vs-number-of-photons.py (command
+% line version).
 clear;
 Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 
@@ -165,6 +169,10 @@ end
 %% Example 02: run Monte Carlo simulations accounting for absorption with
 % analog and continuous absorption weighting with 10,000 photons and compare
 % time and relative error
+% Note: the Python equivalent code for this exercise can be found in
+% Vts.Scripting.Python/monte-carlo/analog_vs_caw_efficiency.ipynb
+% (Jupyter notebook version) or analog-vs-caw-efficiency.py (command
+% line version).
 
 % create a default set of inputs
 si = SimulationInput();
