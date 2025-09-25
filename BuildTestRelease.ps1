@@ -1,5 +1,5 @@
-$mccl_version = "8.0.0"
-$vts_version = "12.0.0"
+$mccl_version = "8.1.0"
+$vts_version = "12.1.0"
 
 Write-Host "Create clean publish and release folders" -ForegroundColor Green
 Remove-Item "$PWD\release" -Recurse -ErrorAction Ignore

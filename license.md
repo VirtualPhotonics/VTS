@@ -1,6 +1,6 @@
-## The MIT License (MIT)
+MIT License (MIT)
 
-#### Copyright (c) 2024 Virtual Photonics Technology Initiative
+Copyright (c) 2025 Virtual Photonics Technology Initiative
 
 ### Acknowledgement
 Use the following acknowledgement in publications or applications that make use of this open source software or underlying technology and research:
