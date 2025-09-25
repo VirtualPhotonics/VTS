@@ -9,6 +9,11 @@ function assemblies = loadAssemblies(varargin)
 %   Verbose: Boolean, output detailed error messages in case of errors
 %           loading libraries.
 
+% Check that .NET is Supported
+if ~NET.isNETSupported
+    disp('Supported .NET interface not found')
+end
+
 persistent VTS_ASSEMBLIES;
 
 if isempty(VTS_ASSEMBLIES)
