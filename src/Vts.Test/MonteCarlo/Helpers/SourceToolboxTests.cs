@@ -26,7 +26,7 @@ namespace Vts.Test.MonteCarlo.Sources
         private double _heightZ;
         private double _innerRadius;
         private double _outerRadius;
-        private double _bdFWHM;
+        private double _bdFwhm;
         private double _limitL;
         private double _limitU;
         private double _factor;
@@ -39,71 +39,50 @@ namespace Vts.Test.MonteCarlo.Sources
         [OneTimeSetUp]
         public void Setup_validation_data()
         {
-            _tp = new double[]
-            {
+            _tp =
+            [
                 1.0000000000e+00, 2.0000000000e+00, 3.0000000000e+00, 7.0710678119e-01, 7.0710678119e-01,
-                0.0000000000e+00,
-                1.0000000000e+00, -2.5000000000e+00, 1.2000000000e+00, 7.8539816340e-01, 7.8539816340e-01,
-                0.0000000000e+00,
-                1.5707963268e+00, 0.0000000000e+00, 3.1415926536e+00, 1.5707963268e+00, 1.5707963268e+00,
-                7.8539816340e-01,
-                2.0000000000e+00, 2.5000000000e+00, 3.0000000000e+00, 1.0000000000e+00, 2.0000000000e+00,
-                3.0000000000e+00,
-                1.0000000000e+00, 2.0000000000e+00, 8.0000000000e-01, 2.5000000000e+00, 5.0000000000e-01,
-                5.0000000000e-01,
+                0.0000000000e+00, 1.0000000000e+00, -2.5000000000e+00, 1.2000000000e+00, 7.8539816340e-01,
+                7.8539816340e-01, 0.0000000000e+00, 1.5707963268e+00, 0.0000000000e+00, 3.1415926536e+00,
+                1.5707963268e+00, 1.5707963268e+00, 7.8539816340e-01, 2.0000000000e+00, 2.5000000000e+00,
+                3.0000000000e+00, 1.0000000000e+00, 2.0000000000e+00, 3.0000000000e+00, 1.0000000000e+00,
+                2.0000000000e+00, 8.0000000000e-01, 2.5000000000e+00, 5.0000000000e-01, 5.0000000000e-01,
                 7.8539816340e-01, 3.1622776602e-01, 6.3245553203e-01, 7.0710678119e-01, -2.4038566061e-01,
-                8.0063629303e-01,
-                5.4881350243e-01, -8.3062970822e-01, -5.4820001436e-01, 9.7627004864e-02, -0.0000000000e+00,
-                -0.0000000000e+00,
-                8.8249690258e-01, 9.8985210047e-01, 1.8624762920e+00, 1.5707963268e+00, 7.8539816340e-01,
-                -5.8910586113e-01,
-                1.4967342534e+00, 3.0000000000e+00, -3.0673325845e-02, 1.3197749533e+00, 3.0000000000e+00,
-                1.0488135024e+00,
-                2.1856892331e+00, 3.6455680954e+00, 7.3017984105e-01, 2.2450786356e+00, 3.4045250143e+00,
-                1.0488135024e+00,
+                8.0063629303e-01, 5.4881350243e-01, -8.3062970822e-01, -5.4820001436e-01, 9.7627004864e-02,
+                -0.0000000000e+00, -0.0000000000e+00, 8.8249690258e-01, 9.8985210047e-01, 1.8624762920e+00,
+                1.5707963268e+00, 7.8539816340e-01, -5.8910586113e-01, 1.4967342534e+00, 3.0000000000e+00,
+                4.8466333708e-01, 1.6598874767e+00, 3.0000000000e+00, 1.0488135024e+00, 2.1856892331e+00,
+                3.6455680954e+00, 7.3017984105e-01, 2.2450786356e+00, 3.4045250143e+00, 1.0488135024e+00,
                 2.0000000000e+00, 3.0000000000e+00, 7.3017984105e-01, 2.0000000000e+00, 3.0000000000e+00,
-                1.1952540097e+00,
-                2.4642230826e+00, 3.0000000000e+00, 3.8437662825e-01, 2.3103671369e+00, 3.0000000000e+00,
-                1.1952540097e+00,
-                2.4642230826e+00, 4.2911361908e+00, 3.8437662825e-01, 2.3103671369e+00, 3.4289404236e+00,
-                1.0488135024e+00,
-                2.1856892331e+00, 3.0000000000e+00, 7.3017984105e-01, 2.2450786356e+00, 3.0000000000e+00,
-                4.8813502432e-02,
-                -0.0000000000e+00, 5.0000000000e-01, 5.0000000000e-01, 7.0710678119e-01, 7.0710678119e-01,
-                4.3297802812e-17,
+                1.1952540097e+00, 2.4642230826e+00, 3.0000000000e+00, 6.9218831412e-01, 2.1551835684e+00,
+                3.0000000000e+00, 1.1952540097e+00, 2.4642230826e+00, 4.2911361908e+00, 3.8437662825e-01,
+                2.3103671369e+00, 3.4289404236e+00, 1.0488135024e+00, 2.1856892331e+00, 3.0000000000e+00,
+                7.3017984105e-01, 2.2450786356e+00, 3.0000000000e+00, 4.8813502432e-02, -0.0000000000e+00,
+                5.0000000000e-01, 5.0000000000e-01, 7.0710678119e-01, 7.0710678119e-01, 4.3297802812e-17,
                 7.0710678119e-01, 4.3297802812e-17, 7.0710678119e-01, -7.0710678119e-01, 0.0000000000e+00,
-                1.0000000000e+00,
-                0.0000000000e+00, -1.4644660941e-01, 8.5355339059e-01, -5.0000000000e-01, -1.4644660941e-01,
-                8.5355339059e-01,
-                -5.0000000000e-01, 1.5857864376e+00, 9.1421356237e-01, 2.6142135624e+00, -9.2677669530e-01,
-                2.8033008589e-01,
-                -2.5000000000e-01, 6.4644660941e-01, 1.4644660941e-01, 3.8213203436e+00, 7.0710678119e-01,
-                4.3297802812e-17,
-                7.0710678119e-01, 1.0000000000e+00, -3.0000000000e+00, 2.0000000000e+00, 4.3297802812e-17,
-                7.0710678119e-01,
+                1.0000000000e+00, 0.0000000000e+00, -1.4644660941e-01, 8.5355339059e-01, -5.0000000000e-01,
+                -1.4644660941e-01, 8.5355339059e-01, -5.0000000000e-01, 1.5857864376e+00, 9.1421356237e-01,
+                2.6142135624e+00, -9.2677669530e-01, 2.8033008589e-01, -2.5000000000e-01, 6.4644660941e-01,
+                1.4644660941e-01, 3.8213203436e+00, 7.0710678119e-01, 4.3297802812e-17, 7.0710678119e-01,
+                1.0000000000e+00, -3.0000000000e+00, 2.0000000000e+00, 4.3297802812e-17, 7.0710678119e-01,
                 -7.0710678119e-01, 3.0000000000e+00, 2.0000000000e+00, -1.0000000000e+00, 0.0000000000e+00,
-                1.0000000000e+00,
-                0.0000000000e+00, -7.0710678119e-01, 2.1213203436e+00, 3.0000000000e+00, -1.4644660941e-01,
-                8.5355339059e-01,
-                -5.0000000000e-01, 5.8578643763e-01, 3.4142135624e+00, 1.4142135624e+00, 3.9269908170e-01,
-                2.0000000000e+00,
-                -5.0000000000e-01, 4.2000000000e+00, -9.0666756704e-01, 1.3961632764e+00, 3.0000000000e+00
-            };
+                1.0000000000e+00, 0.0000000000e+00, -7.0710678119e-01, 2.1213203436e+00, 3.0000000000e+00,
+                -1.4644660941e-01, 8.5355339059e-01, -5.0000000000e-01, 5.8578643763e-01, 3.4142135624e+00,
+                1.4142135624e+00, 3.9269908170e-01, 2.0000000000e+00, -5.0000000000e-01, 4.2000000000e+00,
+                -9.0666756704e-01, 1.3961632764e+00, 3.0000000000e+00
+            ];
 
-            // if need to regenerate _tp, run matlab/test/ code 
+            // to regenerate _tp, run matlab/test/ code 
             if (_tp.Length == 0)
             {
-                string testpara =
-                    "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_SourceToolbox.txt";
+                const string testpara = "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_SourceToolbox.txt";
 
-                using (TextReader reader = File.OpenText(testpara))
-                {
-                    string text = reader.ReadToEnd();
-                    string[] bits = text.Split('\t');
-                    for (int i = 0; i < 140; i++)
-                        _tp[i] = double.Parse(bits[i]);
-                    reader.Close();
-                }
+                using var reader = File.OpenText(testpara);
+                var text = reader.ReadToEnd();
+                var bits = text.Split('\t');
+                for (var i = 0; i < 140; i++)
+                    _tp[i] = double.Parse(bits[i]);
+                reader.Close();
             }
 
             _position = new Position(_tp[0], _tp[1], _tp[2]);
@@ -122,7 +101,7 @@ namespace Vts.Test.MonteCarlo.Sources
             _heightZ = _tp[23];
             _innerRadius = _tp[24];
             _outerRadius = _tp[25];
-            _bdFWHM = _tp[26];
+            _bdFwhm = _tp[26];
             _limitL = _tp[27];
             _limitU = _tp[28];
             _factor = _tp[29];
@@ -178,8 +157,8 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_static_method_getdoublenormallydistributedrandomnumbers()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            double nrng1 = 0.0;
-            double nrng2 = 0.0;
+            var nrng1 = 0.0;
+            var nrng2 = 0.0;
 
            SourceToolbox.GetDoubleNormallyDistributedRandomNumbers(ref nrng1, ref nrng2, _limitL, _limitU, rng);
 
@@ -217,7 +196,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void validate_static_method_getpolarazimuthalpairfromdirection()
         {
-            Direction dir = _direction;
+            var dir = _direction;
             var angPair = SourceToolbox.GetPolarAzimuthalPairFromDirection(dir);
 
             Assert.That(Math.Abs(angPair.Theta - _tp[45]), Is.LessThan(AcceptablePrecision));
@@ -249,13 +228,13 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_static_method_getpositioninacirclerandomgaussian()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            var pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, _outerRadius, _innerRadius, _bdFWHM, rng);
+            var pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, _outerRadius, _innerRadius, _bdFwhm, rng);
 
             Assert.That(Math.Abs(pos.X - _tp[50]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _tp[51]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _tp[52]), Is.LessThan(AcceptablePrecision));
             // test for radius = 0
-            pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, 0.0, 0.0, _bdFWHM, rng);
+            pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, 0.0, 0.0, _bdFwhm, rng);
             Assert.That(Math.Abs(pos.X - _position.X), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _position.Y), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _position.Z), Is.LessThan(AcceptablePrecision));
@@ -279,7 +258,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.That(Math.Abs(pos.Y - _tp[54]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _tp[55]), Is.LessThan(AcceptablePrecision));
             // test for length = 0
-            pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.0, 0.0, 0.0,  _bdFWHM, rng);
+            pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.0, 0.0, 0.0,  _bdFwhm, rng);
             Assert.That(Math.Abs(pos.X - _position.X), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _position.Y), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _position.Z), Is.LessThan(AcceptablePrecision));
@@ -292,13 +271,13 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_static_method_getpositioninacuboidrandomgaussian()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            var pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.5*_lengthX, 0.5*_widthY, 0.5*_heightZ, _bdFWHM, rng);
+            var pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.5*_lengthX, 0.5*_widthY, 0.5*_heightZ, _bdFwhm, rng);
 
             Assert.That(Math.Abs(pos.X - _tp[56]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _tp[57]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _tp[58]), Is.LessThan(AcceptablePrecision));
             // test for length = 0
-            pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.0,  0.0, 0.0, _bdFWHM, rng);
+            pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.0,  0.0, 0.0, _bdFwhm, rng);
             Assert.That(Math.Abs(pos.X - _position.X), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _position.Y), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _position.Z), Is.LessThan(AcceptablePrecision));
@@ -335,13 +314,13 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_static_method_getpositioninalinerandomgaussian()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            var pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, 0.5*_lengthX, _bdFWHM, rng);
+            var pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, 0.5*_lengthX, _bdFwhm, rng);
 
             Assert.That(Math.Abs(pos.X - _tp[62]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _tp[63]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _tp[64]), Is.LessThan(AcceptablePrecision));
             // test for length = 0
-            pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, 0.0, _bdFWHM, rng);
+            pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, 0.0, _bdFwhm, rng);
             Assert.That(Math.Abs(pos.X - _position.X), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _position.Y), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _position.Z), Is.LessThan(AcceptablePrecision));
@@ -378,13 +357,13 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_static_method_getpositioninanellipserandomgaussian()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            var pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, _aParameter, _bParameter, _bdFWHM, rng);
+            var pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, _aParameter, _bParameter, _bdFwhm, rng);
 
             Assert.That(Math.Abs(pos.X - _tp[68]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _tp[69]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _tp[70]), Is.LessThan(AcceptablePrecision));
             // test for a,b = 0
-            pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, 0.0, 0.0, _bdFWHM, rng);
+            pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, 0.0, 0.0, _bdFwhm, rng);
             Assert.That(Math.Abs(pos.X - _position.X), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _position.Y), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _position.Z), Is.LessThan(AcceptablePrecision));
@@ -422,13 +401,13 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_static_method_getpositioninanellipsoidrandomgaussian()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            var pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, _aParameter, _bParameter, _cParameter, _bdFWHM, rng);
+            var pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, _aParameter, _bParameter, _cParameter, _bdFwhm, rng);
 
             Assert.That(Math.Abs(pos.X - _tp[74]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _tp[75]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _tp[76]), Is.LessThan(AcceptablePrecision));
             // test for a,b = 0
-            pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, 0.0, 0.0, 0.0, _bdFWHM, rng);
+            pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, 0.0, 0.0, 0.0, _bdFwhm, rng);
             Assert.That(Math.Abs(pos.X - _position.X), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _position.Y), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _position.Z), Is.LessThan(AcceptablePrecision));
@@ -466,13 +445,13 @@ namespace Vts.Test.MonteCarlo.Sources
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            var pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, 0.5*_lengthX, 0.5*_widthY, _bdFWHM, rng);
+            var pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, 0.5*_lengthX, 0.5*_widthY, _bdFwhm, rng);
 
             Assert.That(Math.Abs(pos.X - _tp[80]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _tp[81]), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _tp[82]), Is.LessThan(AcceptablePrecision));
             // test for length, width = 0
-            pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, 0.0, 0.0, _bdFWHM, rng);
+            pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, 0.0, 0.0, _bdFwhm, rng);
             Assert.That(Math.Abs(pos.X - _position.X), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Y - _position.Y), Is.LessThan(AcceptablePrecision));
             Assert.That(Math.Abs(pos.Z - _position.Z), Is.LessThan(AcceptablePrecision));
