@@ -3,8 +3,8 @@
 	<TargetFramework>net8.0</TargetFramework>
     <Description>The VTS (Virtual Tissue Simulator) is an open source library for .NET that was designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics.</Description>
     <Company>Virtual Photonics Technology Initiative</Company>
-    <Copyright>Copyright © 2024 Laser Microbeam and Medical Program</Copyright>
-    <Version>12.0.0</Version>
+    <Copyright>Copyright © 2025 Laser Microbeam and Medical Program</Copyright>
+    <Version>12.2.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <PackageId>VirtualPhotonics.Vts</PackageId>
@@ -13,11 +13,11 @@
     <RepositoryUrl>https://github.com/VirtualPhotonics/VTS.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <PackageReleaseNotes>* Updated NuGet packages
-* Code cleanup including
-    *  Fixing issues found by SonarCloud</PackageReleaseNotes>
-    <AssemblyVersion>12.0.0.0</AssemblyVersion>
-    <FileVersion>12.0.0.0</FileVersion>
+    <PackageReleaseNotes>VTS:
+* Updated NuGet packages
+    </PackageReleaseNotes>
+    <AssemblyVersion>12.2.0.0</AssemblyVersion>
+    <FileVersion>12.2.0.0</FileVersion>
     <Configurations>Debug;Release;Benchmark</Configurations>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
@@ -125,17 +125,17 @@
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
-	<PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+	<PackageReference Include="BenchmarkDotNet" Version="0.15.4" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="csmpfit" Version="1.1.2" />
+    <PackageReference Include="csmpfit" Version="1.2.0" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Meta.Numerics" Version="4.1.4" />
+    <PackageReference Include="Meta.Numerics" Version="4.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.4.0" />
-    <PackageReference Include="System.Reactive" Version="6.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NLog" Version="6.0.4" />
+    <PackageReference Include="System.Reactive" Version="6.0.2" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
   </ItemGroup>
 </Project>
