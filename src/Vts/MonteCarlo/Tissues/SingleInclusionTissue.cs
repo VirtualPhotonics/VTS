@@ -172,7 +172,9 @@ namespace Vts.MonteCarlo.Tissues
             if (currentN == nextN) return currentDirection; // no refractive index mismatch
 
             var normal = _inclusionRegion.SurfaceNormal(currentPosition);
-            var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
+            var cosTheta1 = Direction.GetDotProduct(currentDirection, normal); 
+            // if normal and photon in opposite directions change sign of cosTheta1
+            if (cosTheta1 < 0) cosTheta1 = -cosTheta1;
             var nRatio = currentN / nextN;
             var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
             var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);

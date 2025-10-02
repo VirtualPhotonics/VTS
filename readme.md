@@ -37,4 +37,4 @@ _THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPL
 ## Copyright
 Virtual Tissue Simulator (VTS) Project.
 
-Copyright ©2024 [Virtual Photonics Technology Initiative](https://virtualphotonics.org/).
+Copyright ©2025 [Virtual Photonics Technology Initiative](https://virtualphotonics.org/).

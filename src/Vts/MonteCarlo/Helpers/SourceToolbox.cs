@@ -360,9 +360,11 @@ namespace Vts.MonteCarlo.Helpers
                 GetLimit(factorU),
                 rng);
 
+            // The x and y position should be from the center of the circle or radius,
+            // so beamDiameterFwhm should be beamRadiusFwhm = (beamDiameterFwhm/2)
             return new Position(
-                center.X + 0.8493218 * beamDiameterFwhm * x,
-                center.Y + 0.8493218 * beamDiameterFwhm * y,
+                center.X + 0.8493218 * (beamDiameterFwhm / 2) * x,
+                center.Y + 0.8493218 * (beamDiameterFwhm / 2) * y,
                 center.Z);
         }
 
@@ -547,10 +549,12 @@ namespace Vts.MonteCarlo.Helpers
             /*eliminate points outside the ellipse */
             do
             {
-                x = 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
+                // The x and y position should be from the center of the circle or radius,
+                // so beamDiameterFwhm should be beamRadiusFwhm = (beamDiameterFwhm/2)
+                x = 0.8493218 * (beamDiameterFwhm / 2) * GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factorA),
                     rng);
-                y = 0.8493218 * beamDiameterFwhm * GetSingleNormallyDistributedRandomNumber(
+                y = 0.8493218 * (beamDiameterFwhm / 2) * GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factorB),
                     rng);
             }
