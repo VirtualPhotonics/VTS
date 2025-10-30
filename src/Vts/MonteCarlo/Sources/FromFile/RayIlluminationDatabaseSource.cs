@@ -2,33 +2,32 @@
 using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// Implements ISourceInput. Defines input data for Photon Database File Source implementation 
-    /// including emitting position, direction, weight and initial tissue region index.
+    /// Implements ISourceInput. Defines input data for Ray Illumination Database File Source implementation 
+    /// including emitting position, direction, and weight.
     /// </summary>
-    public class PhotonDatabaseFileSourceInput : ISourceInput
+    public class RayIlluminationDatabaseSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of class to read photons from database file 
+        /// Initializes a new instance of class to read rays from database file 
         /// </summary>
         /// <param name="sourceFileName">Source file name</param>
-        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public PhotonDatabaseFileSourceInput(
+        public RayIlluminationDatabaseSourceInput(
             string sourceFileName,
             int initialTissueRegionIndex)
         {
-            SourceType = "PhotonDatabaseFile";
+            SourceType = "RayIlluminationDatabaseFile";
             SourceFileName = sourceFileName;
-            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         /// <summary>
         /// Initializes the default constructor of class to read source photons from file
         /// </summary>
-        public PhotonDatabaseFileSourceInput()
+        public RayIlluminationDatabaseSourceInput()
             : this("", 0)
         {
         }
@@ -55,23 +54,21 @@ namespace Vts.MonteCarlo.Sources
         {
             rng ??= new Random();
 
-            return new PhotonDatabaseFileSource(
-                SourceFileName,
-                InitialTissueRegionIndex)
+            return new RayIlluminationDatabaseSource(
+                SourceFileName)
             { Rng = rng };
         }
     }
 
     /// <summary>
-    /// Implements PhotonDatabaseFileSource with file name, initial 
-    /// tissue region index.
+    /// Implements RayIlluminationDatabaseSource with file name.
     /// </summary>
-    public class PhotonDatabaseFileSource : ISource //: FromFileSourceBase
+    public class RayIlluminationDatabaseSource : ISource //: FromFileSourceBase
     {
         /// <summary>
         /// enumerator that iterates through database
         /// </summary>
-        public IEnumerator<PhotonDataPoint> DatabaseEnumerator { get; set; }
+        public IEnumerator<RayDataPoint> DatabaseEnumerator { get; set; }
         /// <summary>
         /// initial tissue region index
         /// </summary>
@@ -81,11 +78,11 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="sourceFileName">filename of MCCL source DB file</param> 
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public PhotonDatabaseFileSource(
+        public RayIlluminationDatabaseSource(
             string sourceFileName,
             int initialTissueRegionIndex = 0)
         {
-            var sourceDatabase = PhotonDatabase.FromFile(sourceFileName);
+            var sourceDatabase = RayDatabase.FromFile(sourceFileName);
             DatabaseEnumerator = sourceDatabase.DataPoints.GetEnumerator();
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
