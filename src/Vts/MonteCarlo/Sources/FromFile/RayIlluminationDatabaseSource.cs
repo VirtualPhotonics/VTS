@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Vts.Common;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.Sources
@@ -16,12 +15,14 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes a new instance of class to read rays from database file 
         /// </summary>
         /// <param name="sourceFileName">Source file name</param>
+        /// <param name="initialTissueRegionIndex">tissue region to start photons</param>
         public RayIlluminationDatabaseSourceInput(
             string sourceFileName,
             int initialTissueRegionIndex)
         {
-            SourceType = "RayIlluminationDatabaseFile";
+            SourceType = "RayIlluminationDatabase";
             SourceFileName = sourceFileName;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         /// <summary>

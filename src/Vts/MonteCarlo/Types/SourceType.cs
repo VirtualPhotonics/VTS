@@ -110,8 +110,8 @@ namespace Vts.MonteCarlo
                 "FluorescenceEmissionAOfRhoAndZ",
 
                 // FROM FILE
-                // Database containing sources
-                "PhotonDatabaseFile"
+                // Database containing ray sources
+                "RayIlluminationDatabase"
 
                 // ...others, based on Fluence or Radiance?                  
             };
