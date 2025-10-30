@@ -4,19 +4,19 @@ using Vts.IO;
 namespace Vts.MonteCarlo.RayData
 {
     /// <summary>
-    /// Implements ICustomBinaryReader&lt;RayDataPoint&gt; and 
-    /// ICustomBinaryWriter&lt;RayDataPoint&gt;.
+    /// Implements ICustomBinaryReader&lt;PhotonEmissionDataPoint&gt; and 
+    /// ICustomBinaryWriter&lt;PhotonEmissionDataPoint&gt;.
     /// </summary>
-    public class RayDataPointSerializer : 
-        ICustomBinaryReader<RayDataPoint>,
-        ICustomBinaryWriter<RayDataPoint>
+    public class PhotonEmissionDataPointSerializer : 
+        ICustomBinaryReader<PhotonEmissionDataPoint>,
+        ICustomBinaryWriter<PhotonEmissionDataPoint>
     {
         /// <summary>
-        /// method to write RayDataPoint to binary (used by unit tests)
+        /// method to write PhotonEmissionDataPoint to binary
         /// </summary>
         /// <param name="bw">BinaryWriter</param>
         /// <param name="item">RayDataPoint</param>
-        public void WriteToBinary(BinaryWriter bw, RayDataPoint item)
+        public void WriteToBinary(BinaryWriter bw, PhotonEmissionDataPoint item)
         {
             bw.Write(item.Position.X);
             bw.Write(item.Position.Y);
@@ -25,23 +25,25 @@ namespace Vts.MonteCarlo.RayData
             bw.Write(item.Direction.Uy);
             bw.Write(item.Direction.Uz);
             bw.Write(item.Weight);
+            bw.Write(item.TotalTime);
         }
 
         /// <summary>
-        /// method to read RayDataPoint from binary
+        /// method to read PhotonEmissionDataPoint from binary (used by unit tests)
         /// </summary>
         /// <param name="br">BinaryReader</param>
-        /// <returns>RayDataPoint</returns>
-        public RayDataPoint ReadFromBinary(BinaryReader br)
+        /// <returns>PhotonEmissionDataPoint</returns>
+        public PhotonEmissionDataPoint ReadFromBinary(BinaryReader br)
         {
-            var dataPoint = new RayDataPoint(
+            var dataPoint = new PhotonEmissionDataPoint(
                 br.ReadDouble(), // Position X coordinate
                 br.ReadDouble(), // Position Y coordinate
                 br.ReadDouble(), // Position Z coordinate
                 br.ReadDouble(), // Direction Ux coordinate
                 br.ReadDouble(), // Direction Uy coordinate
                 br.ReadDouble(), // Direction Uz coordinate
-                br.ReadDouble() // Weight
+                br.ReadDouble(), // Weight
+                br.ReadDouble() // TotalTime
             );
 
             return dataPoint;

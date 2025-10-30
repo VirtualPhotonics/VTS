@@ -3,15 +3,15 @@ using Vts.MonteCarlo.IO;
 namespace Vts.MonteCarlo.RayData
 {
     /// <summary>
-    /// Describes database for storing and returning ray data points (position, direction, weight).
+    /// Describes database for storing and returning photon emission data points (position, direction, weight, totalTime).
     /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints list of RayDataPoint items
     /// </summary>
-    public class RayDatabase : Database<RayDataPoint>
+    public class PhotonEmissionDatabase : Database<PhotonEmissionDataPoint>
     {
         /// <summary>
         /// Returns an instance of PhotonDatabase
         /// </summary>
-         public RayDatabase()
+         public PhotonEmissionDatabase()
         {
         }
 
@@ -19,11 +19,11 @@ namespace Vts.MonteCarlo.RayData
         /// Static helper method to simplify reading from file
         /// </summary>
         /// <param name="fileName">The base filename for the database (no ".txt")</param>
-        /// <returns>A new instance of PhotonDatabase</returns>
-        public static RayDatabase FromFile(string fileName)
+        /// <returns>A new instance of PhotonEmissionDatabase</returns>
+        public static PhotonEmissionDatabase FromFile(string fileName)
         {
-            var dbReader = new DatabaseReader<RayDatabase, RayDataPoint>(
-                db => new RayDataPointSerializer());
+            var dbReader = new DatabaseReader<PhotonEmissionDatabase, PhotonEmissionDataPoint>(
+                db => new PhotonEmissionDataPointSerializer());
 
             return dbReader.FromFile(fileName);
         }
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.RayData
         /// </summary>
         /// <param name="fileName">The base filename for the database (no ".txt")</param>
         /// <param name="projectName">The project name containing the resource</param>
-        /// <returns>A new instance of RayDatabase</returns>
+        /// <returns>A new instance of PhotonDatabase</returns>
         public static RayDatabase FromFileInResources(string fileName, string projectName)
         {
             var dbReader = new DatabaseReader<RayDatabase, RayDataPoint>(

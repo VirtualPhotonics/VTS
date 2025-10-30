@@ -3,38 +3,10 @@ using Vts.Common;
 namespace Vts.MonteCarlo.RayData
 {
     /// <summary>
-    /// Captures data describing current state of incoming ray and outgoing photons
-    /// to become rays
+    /// Captures data describing current state of incoming rays
     /// </summary>
     public class RayDataPoint
     {
-        /// <summary>
-        /// Ray information for outgoing photons to become rays
-        /// </summary>
-        /// <param name="positionX">X coordinate of position</param>
-        /// <param name="positionY">Y coordinate of position</param>
-        /// <param name="positionZ">Z coordinate of position</param>
-        /// <param name="directionUx">Ux coordinate of direction</param>
-        /// <param name="directionUy">Uy coordinate of direction</param>
-        /// <param name="directionUz">Uz coordinate of direction</param>
-        /// <param name="weight">weight</param>
-        /// <param name="totalTime">total time in tissue</param>
-        public RayDataPoint(
-            double positionX,
-            double positionY,
-            double positionZ,
-            double directionUx,
-            double directionUy,
-            double directionUz,
-            double weight,
-            double totalTime)
-        {
-            Position = new Position(positionX, positionY, positionZ);
-            Direction = new Direction(directionUx, directionUy, directionUz);
-            Weight = weight;
-            TotalTime = totalTime;
-        }
-
         /// Ray information for incoming rays 
         /// <summary>
         /// <param name="positionX">X coordinate of position</param>
@@ -85,7 +57,7 @@ namespace Vts.MonteCarlo.RayData
             return new RayDataPoint(
                 Position.X, Position.Y, Position.Z,
                 Direction.Ux, Direction.Uy, Direction.Uz,
-                Weight, TotalTime);
+                Weight);
         }
 
     }
