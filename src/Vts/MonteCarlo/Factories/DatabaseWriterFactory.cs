@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.Factories
 {
@@ -38,6 +39,7 @@ namespace Vts.MonteCarlo.Factories
                 filePath, outputName)).ToList();
 
         }
+
         /// <summary>
         /// Static method to instantiate correct PhotonDatabaseWriter given a 
         /// virtual boundary DatabaseType, path to where to output database and database filename.
@@ -49,28 +51,24 @@ namespace Vts.MonteCarlo.Factories
         public static PhotonDatabaseWriter GetSurfaceVirtualBoundaryDatabaseWriter(
             DatabaseType databaseType, string filePath, string outputName)
         {
-            switch (databaseType)
+            return databaseType switch
             {
-                case DatabaseType.DiffuseReflectance:
-                    return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
-                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
-                case DatabaseType.DiffuseTransmittance:
-                    return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseTransmittance,
-                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
-                case DatabaseType.SpecularReflectance:
-                    return new PhotonDatabaseWriter(VirtualBoundaryType.SpecularReflectance,
-                        Path.Combine(filePath, outputName, "SpecularReflectanceDatabase"));
-                case DatabaseType.pMCDiffuseReflectance:
-                    return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
-                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
-                case DatabaseType.pMCDiffuseTransmittance:
-                    return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
-                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
-                default:
-                    throw new ArgumentOutOfRangeException(
-                        "Database type not recognized: " + databaseType);
-            }
+                DatabaseType.DiffuseReflectance => new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
+                    Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase")),
+                DatabaseType.DiffuseTransmittance => new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseTransmittance,
+                    Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase")),
+                DatabaseType.SpecularReflectance => new PhotonDatabaseWriter(VirtualBoundaryType.SpecularReflectance,
+                    Path.Combine(filePath, outputName, "SpecularReflectanceDatabase")),
+                DatabaseType.pMCDiffuseReflectance => new PhotonDatabaseWriter(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase")),
+                DatabaseType.pMCDiffuseTransmittance => new PhotonDatabaseWriter(
+                    VirtualBoundaryType.pMCDiffuseTransmittance,
+                    Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase")),
+                _ => throw new ArgumentOutOfRangeException("Database type not recognized: " + databaseType)
+            };
         }
+
         /// <summary>
         /// Static method to provide list of CollisionInfoDatabaseWriters.  It calls the method
         /// to instantiate one CollisionInfoDatabaseWriter, GetCollisionInfoDatabaseWriter,
@@ -88,6 +86,7 @@ namespace Vts.MonteCarlo.Factories
                 filePath, outputName)).ToList();
 
         }
+
         /// <summary>
         /// Static method to instantiate correct CollisionInfoDatabaseWriter given a 
         /// virtual boundary DatabaseType, path to where to output database and database filename.
@@ -119,6 +118,28 @@ namespace Vts.MonteCarlo.Factories
                         "Database type not recognized: " + databaseType);
             }
         }
+
+        /// <summary>
+        /// Static method to instantiate correct PhotonDatabaseWriter given a 
+        /// virtual boundary DatabaseType to return *PhotonEmissionDatabaseWriter*,
+        /// path to where to output database and database filename.
+        /// </summary>
+        /// <param name="databaseType">database type enum</param>
+        /// <param name="filePath">path string of database output</param>
+        /// <param name="outputName">filename string of database file</param>
+        /// <returns>a PhotonEmissionDatabaseWriter</returns>
+        public static PhotonEmissionDatabaseWriter GetSurfacePhotonEmissionDatabaseWriter(
+            DatabaseType databaseType, string filePath, string outputName)
+        {
+            return databaseType switch
+            {
+                DatabaseType.DiffuseReflectance => new PhotonEmissionDatabaseWriter(
+                    VirtualBoundaryType.PhotonEmissionReflectance,
+                    Path.Combine(filePath, outputName, "PhotonEmissionReflectanceDatabase")),
+                _ => throw new ArgumentOutOfRangeException("Database type not recognized: " + databaseType)
+            };
+        }
+
 
     }
 }

@@ -33,6 +33,10 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// pMC diffuse transmittance
         /// </summary>
-        pMCDiffuseTransmittance
+        pMCDiffuseTransmittance,
+        /// <summary>
+        /// Photon Emission reflectance
+        /// </summary>
+        PhotonEmissionReflectance
     }
 }
