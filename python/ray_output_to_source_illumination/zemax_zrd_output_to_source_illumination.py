@@ -1,5 +1,6 @@
 # This is an example of python code to convert Zemax Output to a RayIlluminationDatabase
-#
+# This site provided helpful example code: 
+# https://community.zemax.com/code-exchange-10/python-reading-writing-binary-files-zrd-zbf-dat-sdf-3116
 import sys
 import struct
 import numpy as np
@@ -80,7 +81,6 @@ except FileNotFoundError:
 
 # write data
 with open(output_filename,'wb') as output:
-    output.write(struct.pack('i',loops-1)) # number of rays written
     for i in range(0,loops-1,1):
       output.write(struct.pack('d',X[i]))
       output.write(struct.pack('d',Y[i]))
@@ -89,6 +89,11 @@ with open(output_filename,'wb') as output:
       output.write(struct.pack('d',Uy[i]))
       output.write(struct.pack('d',Uz[i]))
       output.write(struct.pack('d',Intensity[i]))
+# write associated .txt file with number of rays
+ascii_content = "{\n \"NumberOfElements\": " + str(loops-1) + "\n}"
+with open(output_filename + ".txt",'w') as output_text:
+    output_text.write(ascii_content)
+    
       
 
 

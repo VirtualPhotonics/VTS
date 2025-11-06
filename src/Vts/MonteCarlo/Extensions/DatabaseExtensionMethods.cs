@@ -32,6 +32,7 @@ namespace Vts.MonteCarlo.Extensions
                 case DatabaseType.DiffuseReflectance:
                 case DatabaseType.DiffuseTransmittance:
                 case DatabaseType.SpecularReflectance:
+                case DatabaseType.PhotonEmissionReflectance:
                     return false;
                 default:
                     throw new ArgumentOutOfRangeException(
@@ -58,6 +59,8 @@ namespace Vts.MonteCarlo.Extensions
                     return VirtualBoundaryType.pMCDiffuseReflectance;
                 case DatabaseType.pMCDiffuseTransmittance:
                     return VirtualBoundaryType.pMCDiffuseTransmittance;
+                case DatabaseType.PhotonEmissionReflectance:
+                    return VirtualBoundaryType.PhotonEmissionReflectance;
                 default:
                     throw new ArgumentOutOfRangeException(
                         "Database type not recognized: " + databaseType);

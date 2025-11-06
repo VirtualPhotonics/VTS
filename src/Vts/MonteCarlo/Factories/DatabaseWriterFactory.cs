@@ -120,6 +120,24 @@ namespace Vts.MonteCarlo.Factories
         }
 
         /// <summary>
+        /// Static method to provide a list of PhotonEmissionDatabaseWriters.  It calls the method
+        /// to instantiate one PhotonEmissionDatabaseWriter, GetSurfaceEmissionDatabaseWriter,
+        /// for all elements in the list of virtual boundary DatabaseType.
+        /// </summary>
+        /// <param name="databaseTypes">list of database types</param>
+        /// <param name="filePath">path string for database output</param>
+        /// <param name="outputName">name string of output</param>
+        /// <returns>a list of PhotonDatabaseWriter</returns>
+        public static IList<PhotonEmissionDatabaseWriter> GetSurfacePhotonEmissionDatabaseWriters(
+            IList<DatabaseType> databaseTypes, string filePath, string outputName)
+        {
+            return databaseTypes.Select(v => GetSurfacePhotonEmissionDatabaseWriter(v,
+                filePath, outputName)).ToList();
+
+        }
+
+
+        /// <summary>
         /// Static method to instantiate correct PhotonDatabaseWriter given a 
         /// virtual boundary DatabaseType to return *PhotonEmissionDatabaseWriter*,
         /// path to where to output database and database filename.
@@ -133,7 +151,7 @@ namespace Vts.MonteCarlo.Factories
         {
             return databaseType switch
             {
-                DatabaseType.DiffuseReflectance => new PhotonEmissionDatabaseWriter(
+                DatabaseType.PhotonEmissionReflectance => new PhotonEmissionDatabaseWriter(
                     VirtualBoundaryType.PhotonEmissionReflectance,
                     Path.Combine(filePath, outputName, "PhotonEmissionReflectanceDatabase")),
                 _ => throw new ArgumentOutOfRangeException("Database type not recognized: " + databaseType)

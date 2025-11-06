@@ -52,7 +52,9 @@ namespace Vts.MonteCarlo
         private long _numberOfPhotons;
         private DatabaseWriterController _databaseWriterController;
         private pMCDatabaseWriterController _pMcDatabaseWriterController;
+        private PhotonEmissionDatabaseWriterController _photonEmissionDatabaseWriterController;
         private bool _doPmc;
+        private bool _doPhotonEmissionDatabase;
         private string _outputPath;
 
         /// <summary>
@@ -229,7 +231,7 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if (Input.Options.Databases.Any()) InitialDatabases(_doPmc);
+                if (Input.Options.Databases.Any()) InitialDatabases(_doPmc, _doPhotonEmissionDatabase);
 
                 var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                     v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
@@ -283,7 +285,7 @@ namespace Vts.MonteCarlo
 
                     } while (photon.DP.StateFlag.HasFlag(PhotonStateType.Alive)); // end do while
 
-                    if (Input.Options.Databases.Any())  WriteToDatabases(_doPmc, photon);
+                    if (Input.Options.Databases.Any())  WriteToDatabases(_doPmc, _doPhotonEmissionDatabase, photon);
 
                     // note History has possibly 2 more DPs than linux code due to 
                     // final crossing of PseudoReflectedTissueBoundary and then
@@ -300,7 +302,7 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                if (Input.Options.Databases.Any())  CloseDatabases(_doPmc);
+                if (Input.Options.Databases.Any())  CloseDatabases(_doPmc, _doPhotonEmissionDatabase);
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
@@ -368,6 +370,7 @@ namespace Vts.MonteCarlo
                     VirtualBoundaryType.pMCDiffuseReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList(),
                     VirtualBoundaryType.pMCDiffuseTransmittance => Input.DetectorInputs.Where(d => d.TallyDetails.IspMCTransmittanceTally).ToList(),
                     VirtualBoundaryType.BoundingVolume => Input.DetectorInputs.Where(d => d.TallyDetails.IsLateralBoundingVolumeTally).ToList(),
+                    VirtualBoundaryType.PhotonEmissionReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IsReflectanceTally).ToList(),
                     _ => throw new ArgumentOutOfRangeException(
                                                 "Virtual boundary type not recognized: " + vbType),
                 };
@@ -388,12 +391,16 @@ namespace Vts.MonteCarlo
             // set _doPMC flag
             if (Input.Options.Databases.Any(d => d.IspMCDatabase())) _doPmc = true;
 
+            // set _doPhotonEmissionDatabase flag
+            if (Input.Options.Databases.Any(d => d == DatabaseType.PhotonEmissionReflectance))
+                _doPhotonEmissionDatabase = true;
+
             _isCancelled = false;
             _isRunning = false;
             _resultsAvailable = false;
         }
 
-        private void CloseDatabases(bool doPmc)
+        private void CloseDatabases(bool doPmc, bool doPhotonEmissionDatabase)
         {
             if (doPmc)
             {
@@ -401,11 +408,14 @@ namespace Vts.MonteCarlo
             }
             else
             {
-                _databaseWriterController.Dispose();
+                if (doPhotonEmissionDatabase)
+                    _photonEmissionDatabaseWriterController.Dispose();
+                else
+                    _databaseWriterController.Dispose();
             }
         }
 
-        private void WriteToDatabases(bool doPmc, Photon photon)
+        private void WriteToDatabases(bool doPmc, bool doPhotonEmissionDatabase, Photon photon)
         {
             if (doPmc)
             {
@@ -414,7 +424,10 @@ namespace Vts.MonteCarlo
             }
             else
             {
-                _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                if (doPhotonEmissionDatabase)
+                    _photonEmissionDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                else
+                    _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
             }
         }
         /// <summary>
@@ -422,7 +435,8 @@ namespace Vts.MonteCarlo
         /// MC (2 databases)
         /// </summary>
         /// <param name="doPmc">flag indicating whether to do pmc or not</param>
-        private void InitialDatabases(bool doPmc)
+        /// <param name="doPhotonEmissionDatabase">flag indicating whether to create photon emission database or not</param>
+        private void InitialDatabases(bool doPmc, bool doPhotonEmissionDatabase)
         {
             if (doPmc)
             {
@@ -439,11 +453,18 @@ namespace Vts.MonteCarlo
             }
             else
             {
-                _databaseWriterController = new DatabaseWriterController(
-                    DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        Input.Options.Databases,
-                        _outputPath,
-                        Input.OutputName));
+                if (doPhotonEmissionDatabase)
+                    _photonEmissionDatabaseWriterController = new PhotonEmissionDatabaseWriterController(
+                        DatabaseWriterFactory.GetSurfacePhotonEmissionDatabaseWriters(
+                            Input.Options.Databases,
+                            _outputPath,
+                            Input.OutputName));
+                else
+                    _databaseWriterController = new DatabaseWriterController(
+                        DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                            Input.Options.Databases,
+                            _outputPath,
+                            Input.OutputName));
             }
         }
         /// <summary>

@@ -65,7 +65,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -170,7 +170,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -216,7 +216,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -266,7 +266,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -371,7 +371,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -422,7 +422,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -475,7 +475,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -582,7 +582,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -635,7 +635,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -688,7 +688,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -748,7 +748,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -809,7 +809,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -862,7 +862,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     true, // track statistics
                     0.00, // RR threshold -> no RR performed
                     0),
@@ -990,7 +990,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1044,7 +1044,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1101,7 +1101,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1160,7 +1160,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1239,7 +1239,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1294,7 +1294,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1348,7 +1348,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1398,7 +1398,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { }, // databases to be written
+                    new List<DatabaseType>(), // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1451,7 +1451,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType> { DatabaseType.DiffuseReflectance }, // databases to be written
+                    new List<DatabaseType> { DatabaseType.PhotonEmissionReflectance }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1471,14 +1471,7 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     ]
                 ),
-                new List<IDetectorInput>
-                {
-                    new ROfXAndYDetectorInput
-                    { 
-                        X=new DoubleRange(-10, 10,11),
-                        Y=new DoubleRange(-100.0, 100.0, 2)
-                    }
-                }
+                new List<IDetectorInput>() // no detectors specified when creating emission photon database
             );
 
         }

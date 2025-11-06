@@ -36,6 +36,8 @@ namespace Vts.MonteCarlo.Factories
                                         tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString()),
                 VirtualBoundaryType.BoundingVolume => new LateralBoundingVirtualBoundary(
                                         tissue, detectorController, VirtualBoundaryType.BoundingVolume.ToString()),
+                VirtualBoundaryType.PhotonEmissionReflectance => new DiffuseReflectanceVirtualBoundary(
+                                        tissue, detectorController, VirtualBoundaryType.DiffuseReflectance.ToString()),
                 _ => throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " + vbType),
             };
             return vb;
