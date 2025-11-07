@@ -7,6 +7,7 @@ using Vts.IO;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Sources;
 #if BENCHMARK
 using BenchmarkDotNet.Attributes;
 #endif
@@ -354,6 +355,9 @@ namespace Vts.MonteCarlo
                                             (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
 
             _source = SourceFactory.GetSource(Input.SourceInput, Rng);
+            // overwrite _numberOfPhotons if source is from file
+            if (_source is RayIlluminationDatabaseSource source)
+                _numberOfPhotons = source.NumberOfRays;
             // instantiate Virtual Boundaries (and associated detectors) for each VB group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
             var dbVirtualBoundaries = Input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();

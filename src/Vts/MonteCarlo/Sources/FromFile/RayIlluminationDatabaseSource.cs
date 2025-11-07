@@ -71,6 +71,10 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public IEnumerator<RayDataPoint> DatabaseEnumerator { get; set; }
         /// <summary>
+        /// Number of rays in database
+        /// </summary>
+        public long NumberOfRays { get; set; }
+        /// <summary>
         /// initial tissue region index
         /// </summary>
         public int InitialTissueRegionIndex { get; set; }
@@ -84,6 +88,7 @@ namespace Vts.MonteCarlo.Sources
             int initialTissueRegionIndex = 0)
         {
             var sourceDatabase = RayDatabase.FromFile(sourceFileName);
+            NumberOfRays = sourceDatabase.NumberOfElements;
             DatabaseEnumerator = sourceDatabase.DataPoints.GetEnumerator();
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
