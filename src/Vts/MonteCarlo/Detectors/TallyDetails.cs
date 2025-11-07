@@ -34,6 +34,10 @@
         /// </summary>
         public bool IsLateralBoundingVolumeTally { get; set; }
         /// <summary>
+        /// Boolean identifying all tallies to photon emission database
+        /// </summary>
+        public bool IsPhotonEmissionReflectanceTally { get; set; }
+        /// <summary>
         /// Boolean identifying all volume tallies
         /// </summary>
         public bool IsVolumeTally { get; set; }

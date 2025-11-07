@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.RayData;
 
@@ -8,7 +9,7 @@ namespace Vts.MonteCarlo.Controllers
     /// A controller of DatabaseWriter(s).  It handles determining whether data should be written,
     /// and if so, writing the data, and finally disposing of the database.
     /// </summary>
-    public class PhotonEmissionDatabaseWriterController 
+    public class PhotonEmissionDatabaseWriterController : IDisposable
     {
         /// <summary>
         /// class that controls DatabaseWriter(s).
