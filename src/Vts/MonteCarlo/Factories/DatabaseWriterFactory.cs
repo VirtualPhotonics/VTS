@@ -154,6 +154,9 @@ namespace Vts.MonteCarlo.Factories
                 DatabaseType.PhotonEmissionReflectance => new PhotonEmissionDatabaseWriter(
                     VirtualBoundaryType.PhotonEmissionReflectance,
                     Path.Combine(filePath, outputName, "PhotonEmissionReflectanceDatabase")),
+                DatabaseType.PhotonEmissionTransmittance => new PhotonEmissionDatabaseWriter(
+                    VirtualBoundaryType.PhotonEmissionTransmittance,
+                    Path.Combine(filePath, outputName, "PhotonEmissionTransmittanceDatabase")),
                 _ => throw new ArgumentOutOfRangeException("Database type not recognized: " + databaseType)
             };
         }

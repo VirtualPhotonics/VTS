@@ -375,6 +375,7 @@ namespace Vts.MonteCarlo
                     VirtualBoundaryType.pMCDiffuseTransmittance => Input.DetectorInputs.Where(d => d.TallyDetails.IspMCTransmittanceTally).ToList(),
                     VirtualBoundaryType.BoundingVolume => Input.DetectorInputs.Where(d => d.TallyDetails.IsLateralBoundingVolumeTally).ToList(),
                     VirtualBoundaryType.PhotonEmissionReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IsPhotonEmissionReflectanceTally).ToList(),
+                    VirtualBoundaryType.PhotonEmissionTransmittance => Input.DetectorInputs.Where(d => d.TallyDetails.IsPhotonEmissionTransmittanceTally).ToList(),
                     _ => throw new ArgumentOutOfRangeException(
                                                 "Virtual boundary type not recognized: " + vbType),
                 };

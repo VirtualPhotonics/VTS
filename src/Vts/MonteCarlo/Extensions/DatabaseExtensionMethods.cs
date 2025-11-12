@@ -61,6 +61,8 @@ namespace Vts.MonteCarlo.Extensions
                     return VirtualBoundaryType.pMCDiffuseTransmittance;
                 case DatabaseType.PhotonEmissionReflectance:
                     return VirtualBoundaryType.PhotonEmissionReflectance;
+                case DatabaseType.PhotonEmissionTransmittance:
+                    return VirtualBoundaryType.PhotonEmissionTransmittance;
                 default:
                     throw new ArgumentOutOfRangeException(
                         "Database type not recognized: " + databaseType);

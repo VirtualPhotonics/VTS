@@ -37,6 +37,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Photon Emission reflectance
         /// </summary>
-        PhotonEmissionReflectance
+        PhotonEmissionReflectance,   
+        /// <summary>
+        /// Photon Emission transmittance
+        /// </summary>
+        PhotonEmissionTransmittance
+
     }
 }

@@ -41,8 +41,12 @@ namespace Vts.MonteCarlo
         /// </summary>
         BoundingVolume,
         /// <summary>
-        /// Virtual boundary used to capture emission photons to become rays
+        /// Virtual boundary used to capture reflected emission photons to become rays
         /// </summary>
-        PhotonEmissionReflectance
+        PhotonEmissionReflectance,
+        /// <summary>
+        /// Virtual boundary used to capture tranmitted emission photons to become rays
+        /// </summary>
+        PhotonEmissionTransmittance
     }
 }
