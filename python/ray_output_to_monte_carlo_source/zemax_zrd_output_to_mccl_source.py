@@ -1,4 +1,5 @@
 # This is an example of python code to convert Zemax Output to a RayIlluminationDatabase
+# for subsequent reading into MCCL
 # This site provided helpful example code: 
 # https://community.zemax.com/code-exchange-10/python-reading-writing-binary-files-zrd-zbf-dat-sdf-3116
 import sys
@@ -6,7 +7,7 @@ import struct
 import numpy as np
 # check if enough arguments are provided
 if len(sys.argv) < 3:
-   print("Usage: python3 ZemaxOutput2SourceIllumination.py <fileToConvert> <ConvertedFile>")
+   print("Usage: python3 zemax_zrd_output_to_mccl_source.py <fileToConvert> <ConvertedFile>")
 else:
    input_filename = sys.argv[1]
    output_filename = sys.argv[2]
@@ -58,7 +59,7 @@ try:
              dum13 = struct.unpack('d',f.read(8))[0] # 1 double: not needed
              dum14 = struct.unpack('d',f.read(8))[0] # 1 double: not needed
              dum15 = struct.unpack('d',f.read(8))[0] # 1 double: not needed
-             if i==(segs-1):  # only take last segement
+             if i==(segs-1):  # only take last segment
                 print('loops = ' + str(loops))
                 X.append(dumX)
                 Y.append(dumY)
