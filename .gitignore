@@ -101,3 +101,4 @@ src/README.md
 src/Vts.MonteCarlo.CommandLineApplication/Properties/launchSettings.json
 src/Vts/Vts.xml
 src/.github/
+*.zrd

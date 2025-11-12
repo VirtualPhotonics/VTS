@@ -6,7 +6,7 @@ namespace Vts.MonteCarlo.IO
     /// <summary>
     /// This controls the reading of a database of generic-type.
     /// </summary>
-    /// <typeparam name="TDatabase">Database of generic type Time</typeparam>
+    /// <typeparam name="TDatabase">Database of generic type</typeparam>
     /// <typeparam name="TElement">Generic database element</typeparam>
     public class DatabaseReader<TDatabase, TElement> where TDatabase : Database<TElement>
     {
@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.IO
         /// Creates an instance of DatabaseReader with a map to create a binary reader. Use this overload
         /// if you need database-specific information in order to deserialize (e.g. number of subregions, etc)
         /// </summary>
-        /// <param name="binaryReaderCreator">ICustomBonaryReader&lt;TElement&gt;</param>
+        /// <param name="binaryReaderCreator">ICustomBinaryReader&lt;TElement&gt;</param>
         public DatabaseReader(Func<TDatabase, ICustomBinaryReader<TElement>> binaryReaderCreator)
         {
             _binaryReaderCreator = binaryReaderCreator;
@@ -33,10 +33,10 @@ namespace Vts.MonteCarlo.IO
         }
 
         /// <summary>
-        /// Creates a database of generic type Time from an XML file
+        /// Creates a database of generic type from an JSON file
         /// </summary>
-        /// <param name="fileName">Name of the XML file to be read</param>
-        /// <returns>a database of generic type Time</returns>
+        /// <param name="fileName">Name of the JSON file to be read</param>
+        /// <returns>a database of generic type</returns>
         public TDatabase FromFile(string fileName)
         {
             var database = FileIO.ReadFromJson<TDatabase>(fileName + ".txt");
@@ -49,12 +49,13 @@ namespace Vts.MonteCarlo.IO
 
             return database;
         }
+
         /// <summary>
         /// Creates a database of generic type Time from a file in resources
         /// </summary>
-        /// <param name="fileName">Name of the XML file to be read</param>
+        /// <param name="fileName">Name of the JSON file to be read</param>
         /// <param name="projectName">Project name for the location of resources</param>
-        /// <returns>a database of generic type Time</returns>
+        /// <returns>a database of generic type</returns>
         public TDatabase FromFileInResources(string fileName, string projectName)
         {
             var database = FileIO.ReadFromJsonInResources<TDatabase>(fileName + ".txt", projectName);
