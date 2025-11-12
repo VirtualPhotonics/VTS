@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 
@@ -19,14 +20,14 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="name">string name</param>
         public PhotonEmissionTransmittanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
-            _zPlanePosition = ((LayerTissueRegion)tissue.Regions[0]).ZRange.Stop;
+            _zPlanePosition = ((LayerTissueRegion)tissue.Regions.Last(r => r is LayerTissueRegion)).ZRange.Start;
 
             WillHitBoundary = dp =>
-                        dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) &&
-                        dp.Direction.Uz > 0 &&
-                        Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
+                dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) &&
+                dp.Direction.Uz > 0 &&
+                Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-            VirtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
+            VirtualBoundaryType = VirtualBoundaryType.PhotonEmissionTransmittance;
             PhotonStateType = PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary;
 
             DetectorController = detectorController;

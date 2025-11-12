@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
                         dp.Direction.Uz < 0 &&
                         Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-            VirtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
+            VirtualBoundaryType = VirtualBoundaryType.PhotonEmissionReflectance;
             PhotonStateType = PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary;
 
             DetectorController = detectorController;
