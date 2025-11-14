@@ -16,8 +16,9 @@ else:
 # Open MCCL PhotonEmissionDatabase file
 try:
    # read number of photons from JSON file
-   json_data = json.loads(input_filename + '.txt')
-   number_of_photons = json.data('NumberOfElements')
+   with open(input_filename + '.txt', 'r') as json_file:
+      json_data = json.load(json_file)
+      number_of_photons = json_data['NumberOfElements']
    with open(input_filename,'rb') as f:
       # read header
       #version = int.from_bytes(f.read(4),byteorder='little')
@@ -31,34 +32,33 @@ try:
       Uz = []      
       Intensity = []
       TimeInTissue = []
-      while True:
-         for i in range(0,number_of_photons,1):
-             dumX = struct.unpack('d',f.read(8))[0]
-             dumY = struct.unpack('d',f.read(8))[0]
-             dumZ = struct.unpack('d',f.read(8))[0]
-             dumUx = struct.unpack('d',f.read(8))[0]
-             dumUy = struct.unpack('d',f.read(8))[0]
-             dumUz = struct.unpack('d',f.read(8))[0]
-             dumIntensity = struct.unpack('d',f.read(8))[0]
-             dumTimeInTissue = struct.unpack('d',f.read(8))[0]
-             print('loops = ' + str(loops))
-             X.append(dumX)
-             Y.append(dumY)
-             Z.append(dumZ)
-             Ux.append(dumUx)
-             Uy.append(dumUy)
-             Uz.append(dumUz)
-             Intensity.append(dumIntensity)
-             TimeInTissue.append(dumTimeInTissue)
-             print('X = ' + str(X[loops]))
-             print('Y = ' + str(Y[loops]))
-             print('Z = ' + str(Z[loops]))
-             print('Ux = ' + str(Ux[loops]))
-             print('Uy = ' + str(Uy[loops]))
-             print('Uz = ' + str(Uz[loops]))
-             print('Intensity = ' + str(Intensity[loops]))
-             print('TimeInTissue = ' + str(TimeInTissue[loops]))
-             loops = loops + 1
+      for i in range(0,number_of_photons-1,1):
+         print('i=' + str(i) + ' loops=' + str(loops) + ' number of photons=' + str(number_of_photons))
+         dumX = struct.unpack('d',f.read(8))[0]
+         dumY = struct.unpack('d',f.read(8))[0]
+         dumZ = struct.unpack('d',f.read(8))[0]
+         dumUx = struct.unpack('d',f.read(8))[0]
+         dumUy = struct.unpack('d',f.read(8))[0]
+         dumUz = struct.unpack('d',f.read(8))[0]
+         dumIntensity = struct.unpack('d',f.read(8))[0]
+         dumTimeInTissue = struct.unpack('d',f.read(8))[0]
+         X.append(dumX)
+         Y.append(dumY)
+         Z.append(dumZ)
+         Ux.append(dumUx)
+         Uy.append(dumUy)
+         Uz.append(dumUz)
+         Intensity.append(dumIntensity)
+         TimeInTissue.append(dumTimeInTissue)
+         print('X = ' + str(X[loops]))
+         print('Y = ' + str(Y[loops]))
+         print('Z = ' + str(Z[loops]))
+         print('Ux = ' + str(Ux[loops]))
+         print('Uy = ' + str(Uy[loops]))
+         print('Uz = ' + str(Uz[loops]))
+         print('Intensity = ' + str(Intensity[loops]))
+         print('TimeInTissue = ' + str(TimeInTissue[loops]))
+         loops = loops + 1
         
 except FileNotFoundError:
    print("Error: file not found.")

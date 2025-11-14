@@ -105,6 +105,12 @@ namespace Vts.MonteCarlo.Sources
             var dp = DatabaseEnumerator.Current;
 
             if (dp == null) return null;
+            // check if coordinate system of ray read in needs to be
+            // redefined to our coordinate system in which z=0 at tissue surface
+            if (dp.Position.Z > 0)
+            {
+                dp.Position.Z = 0; // THIS MAY NEED UPDATING
+            }
             var photon = new Photon(new Position(
                     dp.Position.X,
                     dp.Position.Y,
