@@ -7,7 +7,8 @@ import struct
 import numpy as np
 # check if enough arguments are provided
 if len(sys.argv) < 3:
-   print("Usage: python3 zemax_zrd_output_to_mccl_source.py <fileToConvert> <ConvertedFile>")
+   print("Usage: python3 zemax_zrd_output_to_mccl_source.py <fileToConvert> <convertedFile or 'debug'>")
+   sys.exit(0)
 else:
    input_filename = sys.argv[1]
    output_filename = sys.argv[2]
@@ -32,11 +33,9 @@ try:
       while True:
          # number of segments for each ray: only need last
          segs = int.from_bytes(f.read(4),byteorder='little')
-         print('segs = ' + str(segs))
          if segs == 0:
             break
          for i in range(0,segs,1):
-             print('i=' + str(i))
              dum1 = int.from_bytes(f.read(40)) # 10 ints: not needed
              dum2 = struct.unpack('d',f.read(8))[0] # 1 double: not needed
              dum3 = struct.unpack('d',f.read(8))[0] # 1 double: not needed
@@ -60,7 +59,6 @@ try:
              dum14 = struct.unpack('d',f.read(8))[0] # 1 double: not needed
              dum15 = struct.unpack('d',f.read(8))[0] # 1 double: not needed
              if i==(segs-1):  # only take last segment
-                print('loops = ' + str(loops))
                 X.append(dumX)
                 Y.append(dumY)
                 Z.append(dumZ)
@@ -68,32 +66,40 @@ try:
                 Uy.append(dumUy)
                 Uz.append(dumUz)
                 Intensity.append(dumIntensity)
-                print('X = ' + str(X[loops]))
-                print('Y = ' + str(Y[loops]))
-                print('Z = ' + str(Z[loops]))
-                print('Ux = ' + str(Ux[loops]))
-                print('Uy = ' + str(Uy[loops]))
-                print('Uz = ' + str(Uz[loops]))
-                print('Intensity = ' + str(Intensity[loops]))
                 loops = loops + 1
         
 except FileNotFoundError:
    print("Error: file not found.")
 
 # write data
-with open(output_filename,'wb') as output:
-    for i in range(0,loops-1,1):
-      output.write(struct.pack('d',X[i]))
-      output.write(struct.pack('d',Y[i]))
-      output.write(struct.pack('d',Z[i]))
-      output.write(struct.pack('d',Ux[i]))
-      output.write(struct.pack('d',Uy[i]))
-      output.write(struct.pack('d',Uz[i]))
-      output.write(struct.pack('d',Intensity[i]))
-# write associated .txt file with number of rays
-ascii_content = "{\n \"NumberOfElements\": " + str(loops-1) + "\n}"
-with open(output_filename + ".txt",'w') as output_text:
-    output_text.write(ascii_content)
+# check if 'debug' output
+if (output_filename == 'debug'):
+    print('DEBUG: first 5 rays')
+    for i in range(0,5,1):
+      print('X = ',X[i])
+      print('Y = ',Y[i])
+      print('Z = ',Z[i])
+      print('Ux = ',Ux[i])
+      print('Uy = ',Uy[i])
+      print('Uz = ',Uz[i])
+      print('Intensity = ',Intensity[i])
+else:
+    with open(output_filename,'wb') as output:
+        for i in range(0,loops-1,1):
+          output.write(struct.pack('d',X[i]))
+          output.write(struct.pack('d',Y[i]))
+          output.write(struct.pack('d',Z[i]))
+          output.write(struct.pack('d',Ux[i]))
+          output.write(struct.pack('d',Uy[i]))
+          output.write(struct.pack('d',Uz[i]))
+          output.write(struct.pack('d',Intensity[i]))
+    # write associated .txt file with number of rays
+    #version = '1.0.0-beta.1'
+    #ascii_content_version = "{\n \"Version\": " + version + "\n}\n"
+    ascii_content_number = "{\n \"NumberOfElements\": " + str(loops-1) + "\n}"
+    with open(output_filename + ".txt",'w') as output_text:
+        #output_text.write(ascii_content_version)
+        output_text.write(ascii_content_number)
     
       
 
