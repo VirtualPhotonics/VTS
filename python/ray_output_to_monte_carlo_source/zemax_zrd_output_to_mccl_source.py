@@ -20,8 +20,8 @@ try:
       # read header
       version = int.from_bytes(f.read(4),byteorder='little')
       max_seg = int.from_bytes(f.read(4),byteorder='little')
-      print('version = ' + str(version))
-      print('max seg = ' + str(max_seg))
+      print('Zemax ZRD version = ' + str(version))
+      print('Zemax max seg = ' + str(max_seg))
       loops = 0
       X = []      
       Y = []      
@@ -94,12 +94,12 @@ else:
           output.write(struct.pack('d',Uz[i]))
           output.write(struct.pack('d',Intensity[i]))
     # write associated .txt file with number of rays
-    #version = '1.0.0-beta.1'
-    #ascii_content_version = "{\n \"Version\": " + version + "\n}\n"
-    ascii_content_number = "{\n \"NumberOfElements\": " + str(loops-1) + "\n}"
+    ascii_content_number = "{\n \"NumberOfElements\": " + str(loops-1) + "\n},\n"
+    version = '2025'   # Ray Illumination database format version
+    ascii_content_version = "{\n \"Version\": " + version + "\n}\n"
     with open(output_filename + ".txt",'w') as output_text:
-        #output_text.write(ascii_content_version)
         output_text.write(ascii_content_number)
+        output_text.write(ascii_content_version)
     
       
 

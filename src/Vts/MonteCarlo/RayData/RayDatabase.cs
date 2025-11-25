@@ -11,9 +11,15 @@ namespace Vts.MonteCarlo.RayData
         /// <summary>
         /// Returns an instance of PhotonDatabase
         /// </summary>
-         public RayDatabase()
+        public RayDatabase()
         {
+            Version = 2025;
         }
+
+        /// <summary>
+        /// Database version
+        /// </summary>
+        public int Version { get; private set; }
 
         /// <summary>
         /// Static helper method to simplify reading from file

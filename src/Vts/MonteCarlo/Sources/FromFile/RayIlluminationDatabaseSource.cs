@@ -15,13 +15,16 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes a new instance of class to read rays from database file 
         /// </summary>
         /// <param name="sourceFileName">Source file name</param>
+        /// <param name="userSpecifiedVersion">user specified version of RayIllumination database</param>
         /// <param name="initialTissueRegionIndex">tissue region to start photons</param>
         public RayIlluminationDatabaseSourceInput(
             string sourceFileName,
+            int userSpecifiedVersion,
             int initialTissueRegionIndex)
         {
             SourceType = "RayIlluminationDatabase";
             SourceFileName = sourceFileName;
+            UserSpecifiedVersion = userSpecifiedVersion;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
@@ -29,7 +32,7 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes the default constructor of class to read source photons from file
         /// </summary>
         public RayIlluminationDatabaseSourceInput()
-            : this("", 0)
+            : this("", 2025,0)
         {
         }
 
@@ -41,6 +44,10 @@ namespace Vts.MonteCarlo.Sources
         /// Source file name
         /// </summary>
         public string SourceFileName { get; set; }
+        /// <summary>
+        /// User specified database version
+        /// </summary>
+        public int UserSpecifiedVersion { get; set; }
         /// <summary>
         /// Initial tissue region index
         /// </summary>
@@ -56,7 +63,7 @@ namespace Vts.MonteCarlo.Sources
             rng ??= new Random();
 
             return new RayIlluminationDatabaseSource(
-                SourceFileName)
+                SourceFileName, UserSpecifiedVersion)
             { Rng = rng };
         }
     }
@@ -66,6 +73,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class RayIlluminationDatabaseSource : ISource //: FromFileSourceBase
     {
+        private readonly RayDatabase _sourceDatabase;
         /// <summary>
         /// enumerator that iterates through database
         /// </summary>
@@ -73,7 +81,11 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Number of rays in database
         /// </summary>
-        public long NumberOfRays { get; set; }
+        public long NumberOfRays { get; set; }        
+        /// <summary>
+        /// Version of database
+        /// </summary>
+        public int UserSpecifiedVersion { get; set; }
         /// <summary>
         /// initial tissue region index
         /// </summary>
@@ -81,15 +93,18 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns an instance of photon from database
         /// </summary>
-        /// <param name="sourceFileName">filename of MCCL source DB file</param> 
+        /// <param name="sourceFileName">filename of MCCL source DB file</param>
+        /// <param name="userSpecifiedVersion">User specified version of Ray Illumination database which designates format</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public RayIlluminationDatabaseSource(
             string sourceFileName,
+            int userSpecifiedVersion,
             int initialTissueRegionIndex = 0)
         {
-            var sourceDatabase = RayDatabase.FromFile(sourceFileName);
-            NumberOfRays = sourceDatabase.NumberOfElements;
-            DatabaseEnumerator = sourceDatabase.DataPoints.GetEnumerator();
+            _sourceDatabase = RayDatabase.FromFile(sourceFileName);
+            NumberOfRays = _sourceDatabase.NumberOfElements;
+            UserSpecifiedVersion = userSpecifiedVersion;
+            DatabaseEnumerator = _sourceDatabase.DataPoints.GetEnumerator();
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
@@ -111,6 +126,10 @@ namespace Vts.MonteCarlo.Sources
             {
                 dp.Position.Z = 0; // THIS MAY NEED UPDATING
             }
+            // check if version is correct
+            if (UserSpecifiedVersion != _sourceDatabase.Version)
+                throw new ArgumentException(
+                    $"Current Ray Illumination database is version {_sourceDatabase.Version}");
             var photon = new Photon(new Position(
                     dp.Position.X,
                     dp.Position.Y,
