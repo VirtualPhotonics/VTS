@@ -95,11 +95,8 @@ else:
           output.write(struct.pack('d',Intensity[i]))
     # write associated .txt file with number of rays
     ascii_content_number = "{\n \"NumberOfElements\": " + str(loops-1) + "\n},\n"
-    version = '2025'   # Ray Illumination database format version
-    ascii_content_version = "{\n \"Version\": " + version + "\n}\n"
     with open(output_filename + ".txt",'w') as output_text:
         output_text.write(ascii_content_number)
-        output_text.write(ascii_content_version)
     
       
 

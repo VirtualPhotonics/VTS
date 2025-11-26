@@ -66,7 +66,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void validate_RayIlluminationDatabaseSource_reads_database_correctly()
         {
-            var source = new RayIlluminationDatabaseSource("testraydatabase", 2025,0);
+            var source = new RayIlluminationDatabaseSource("testraydatabase",0);
             var tissue = new MultiLayerTissue();
             var dp = source.GetNextPhoton(tissue);
             Assert.That(dp.DP.Position.X, Is.EqualTo(1.0));
