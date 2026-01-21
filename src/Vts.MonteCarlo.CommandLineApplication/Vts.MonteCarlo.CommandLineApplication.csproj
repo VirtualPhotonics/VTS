@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>mc</AssemblyName>
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
     <RootNamespace>Vts.MonteCarlo.CommandLineApplication</RootNamespace>
@@ -22,10 +22,6 @@
     <RepositoryType>Git</RepositoryType>
     <Version>8.1.0</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Vts\Vts.csproj" />
