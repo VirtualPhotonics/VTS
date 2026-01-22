@@ -9,7 +9,7 @@ using BenchmarkDotNet.Running;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using Vts.MonteCarlo;
+using Vts.Benchmark.Benchmarks;
 
 namespace Vts.Benchmark
 {
@@ -17,15 +17,13 @@ namespace Vts.Benchmark
     {
         public static void Main(string[] args)
         {
-            // Set up execution of Monte Carlo Command Line application and run benchmark
+            // Set up execution of Monte Carlo Command Line application and run benchmark - We might need to figure this out later
             // collecting estimate of the Mean time of execution and Standard Deviation.
             // Output to CSV file.
-            // Notes: 1) Build Vts.Benchmark in Benchmark configuration (the Post-Processor
-            // Program.cs will show compile errors on the CommandLine.Switch statements but this
-            // is okay since not included in the benchmark
-            // 2) Run with Debug tab -> Start Without Debugging
+            // Notes: 1) Build Vts.Benchmark in Release configuration
+            //        2) Run with Debug tab -> Start Without Debugging
             var config = new ManualConfig()
-                .AddJob(new Job("Benchmark").WithCustomBuildConfiguration("Benchmark"))
+                .AddJob(new Job("Benchmark"))
                 .AddLogger(ConsoleLogger.Default)
                 .AddColumn(TargetMethodColumn.Method,
                     StatisticColumn.Mean, 
@@ -35,11 +33,14 @@ namespace Vts.Benchmark
                 .AddExporter(CsvExporter.Default, HtmlExporter.Default, MarkdownExporter.GitHub)
                 .AddAnalyser(EnvironmentAnalyser.Default);
             config.UnionRule = ConfigUnionRule.Union;
-            var summary = BenchmarkRunner.Run<MonteCarloSimulation>(config);
+            // This line is used to run the non-parallel benchmark, we could add a parameter to switch between them
+            var summary = BenchmarkRunner.Run<MonteCarloSimulationBenchmarks>(config);
+            // This line is used to run the parallel benchmark
+            //var summary = BenchmarkRunner.Run<ParallelMonteCarloSimulationBenchmarks>(config);
             Console.WriteLine(summary);
             // Read CSV file for Mean and Standard Deviation (StDev) data
             var inputPath = Path.GetFullPath(Directory.GetCurrentDirectory());
-            const string csvFile = "\\BenchmarkDotNet.Artifacts\\results\\Vts.MonteCarlo.MonteCarloSimulation-report.csv";
+            const string csvFile = "\\BenchmarkDotNet.Artifacts\\results\\Vts.Benchmark.Benchmarks.MonteCarloSimulationBenchmarks-report.csv";
             var filePath = Path.GetFullPath(inputPath + csvFile);
             using var reader = new StreamReader(filePath);
             // read header line
@@ -67,6 +68,7 @@ namespace Vts.Benchmark
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine(" is within 1-SD of prior mean = {0:F}", priorMean);
             }
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

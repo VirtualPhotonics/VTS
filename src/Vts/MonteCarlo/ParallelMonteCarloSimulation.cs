@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.IO;
 using Vts.MonteCarlo.Factories;
-#if BENCHMARK
-using BenchmarkDotNet.Attributes;
-#endif
 
 namespace Vts.MonteCarlo
 {
@@ -26,21 +23,10 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// SimulationInput class passed in 
         /// </summary>
-#if BENCHMARK
-        [ParamsSource(nameof(SimulationInputs))]
-#endif
         public SimulationInput Input { get; set; }
         /// <summary>
         /// number of CPUs
         /// </summary>
-#if BENCHMARK
-        public IEnumerable<object> SimulationInputs()
-        {
-            yield return new SimulationInput { N = 100 };
-        }
-
-        [Params(4)]
-#endif
         public int NumberOfCPUs { get; set; }
         /// <summary>
         /// simulation statistics
@@ -54,10 +40,8 @@ namespace Vts.MonteCarlo
         /// <param name="numberOfCpus">number of parallel CPUs to be run</param>
         public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCpus)
         {
-#if !BENCHMARK
             Input = input;
             NumberOfCPUs = numberOfCpus;
-#endif
         }
 
         /// <summary>
@@ -69,9 +53,6 @@ namespace Vts.MonteCarlo
         /// Method to run single MC simulation in parallel
         /// </summary>
         /// <returns>array of SimulationOutput</returns>
-#if BENCHMARK
-        [Benchmark]
-#endif
         public SimulationOutput RunSingleInParallel()
         {
             var threads = NumberOfCPUs;
