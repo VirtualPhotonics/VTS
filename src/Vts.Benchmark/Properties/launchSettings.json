@@ -1,8 +1,11 @@
 {
   "profiles": {
-    "Vts.Benchmark": {
-      "commandName": "Project",
-      "commandLineArgs": "" //-p or -parallel to run benchmarks in parallel
+    "BenchmarkMonteCarlo": {
+      "commandName": "Project"
+    },
+    "BenchmarkMonteCarloParallel": {
+      "commandLineArgs": "-p",
+      "commandName": "Project"
     }
   }
 }
