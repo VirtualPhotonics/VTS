@@ -15,13 +15,20 @@ namespace Vts.Benchmark
 {
     public static class Program
     {
+        /// <summary>
+        /// Set up execution of Monte Carlo Command Line application and run benchmark
+        /// collecting estimate of the Mean time of execution and Standard Deviation.
+        /// Output to CSV file.
+        /// Notes: 1) Build Vts.Benchmark in Release configuration
+        ///        2) Run with Debug tab -> Start Without Debugging
+        /// </summary>
+        /// <param name="args">command like parameters</param>
         public static void Main(string[] args)
         {
-            // Set up execution of Monte Carlo Command Line application and run benchmark - We might need to figure this out later
-            // collecting estimate of the Mean time of execution and Standard Deviation.
-            // Output to CSV file.
-            // Notes: 1) Build Vts.Benchmark in Release configuration
-            //        2) Run with Debug tab -> Start Without Debugging
+            // check for -p or --parallel argument to run parallel benchmark
+            var runInParallel = false || (args.Length > 0 && (args[0] == "-p" || args[0] == "--parallel"));
+
+            // configure BenchmarkDotNet
             var config = new ManualConfig()
                 .AddJob(new Job("Benchmark"))
                 .AddLogger(ConsoleLogger.Default)
@@ -33,16 +40,23 @@ namespace Vts.Benchmark
                 .AddExporter(CsvExporter.Default, HtmlExporter.Default, MarkdownExporter.GitHub)
                 .AddAnalyser(EnvironmentAnalyser.Default);
             config.UnionRule = ConfigUnionRule.Union;
-            // This line is used to run the non-parallel benchmark, we could add a parameter to switch between them
-            var summary = BenchmarkRunner.Run<MonteCarloSimulationBenchmarks>(config);
-            // This line is used to run the parallel benchmark
-            //var summary = BenchmarkRunner.Run<ParallelMonteCarloSimulationBenchmarks>(config);
+
+            // run the benchmark
+            var summary = runInParallel ?
+                // This line is used to run the parallel benchmark
+                BenchmarkRunner.Run<ParallelMonteCarloSimulationBenchmarks>(config) :
+                // This line is used to run the non-parallel benchmark
+                BenchmarkRunner.Run<MonteCarloSimulationBenchmarks>(config);
+
             Console.WriteLine(summary);
             // Read CSV file for Mean and Standard Deviation (StDev) data
             var inputPath = Path.GetFullPath(Directory.GetCurrentDirectory());
-            const string csvFile = "\\BenchmarkDotNet.Artifacts\\results\\Vts.Benchmark.Benchmarks.MonteCarloSimulationBenchmarks-report.csv";
-            var filePath = Path.GetFullPath(inputPath + csvFile);
-            using var reader = new StreamReader(filePath);
+            const string filePath = "\\BenchmarkDotNet.Artifacts\\results\\";
+            var csvFile = runInParallel ?
+                $"{typeof(ParallelMonteCarloSimulationBenchmarks).FullName}-report.csv" :
+                $"{typeof(MonteCarloSimulationBenchmarks).FullName}-report.csv";
+            var fullPath = Path.GetFullPath(inputPath + filePath + csvFile);
+            using var reader = new StreamReader(fullPath);
             // read header line
             reader.ReadLine();
             // read data line

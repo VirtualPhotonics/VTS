@@ -12,7 +12,7 @@ public class MonteCarloSimulationBenchmarks
     [ParamsSource(nameof(SimulationInputs))]
     public SimulationInput Input { get; set; }
 
-    public IEnumerable<SimulationInput> SimulationInputs()
+    public static IEnumerable<SimulationInput> SimulationInputs()
     {
         yield return new SimulationInput { N = 100 };
         // we can add more SimulationInput instances with different configurations if needed
