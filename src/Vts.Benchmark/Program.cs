@@ -22,7 +22,7 @@ namespace Vts.Benchmark
         /// Notes: 1) Build Vts.Benchmark in Release configuration
         ///        2) Run with Debug tab -> Start Without Debugging
         /// </summary>
-        /// <param name="args">command like parameters</param>
+        /// <param name="args">command line parameters</param>
         public static void Main(string[] args)
         {
             // check for -p or --parallel argument to run parallel benchmark
