@@ -14,7 +14,7 @@ public class ParallelMonteCarloSimulationBenchmarks
 
     public static IEnumerable<SimulationInput> SimulationInputs()
     {
-        yield return new SimulationInput { N = 100 };
+        yield return new SimulationInput { N = 10000 };
         // we can add more SimulationInput instances with different configurations if needed
     }
 

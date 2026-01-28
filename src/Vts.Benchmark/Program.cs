@@ -46,7 +46,7 @@ public static class Program
         var fullPath = Helpers.CsvTools.GetCsvFullPath(runInParallel);
         var values = Helpers.CsvTools.ReadValuesFromCsv(fullPath);
         // write out result of current run and standard deviation compared against prior mean 
-        var priorMean = runInParallel ? 8.25 : 84.0; // put default values here in case there is no file
+        var priorMean = runInParallel ? 4.35 : 7.76; // [ms] put default values here in case there is no file
         if (values != null)
         {
             var meanValue = Helpers.CsvTools.ReadValue(values, 1); // the mean is the 2nd value
