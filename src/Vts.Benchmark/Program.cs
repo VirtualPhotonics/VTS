@@ -20,6 +20,8 @@ public static class Program
     /// Notes: 1) Build Vts.Benchmark in Release configuration
     ///        2) Pull down enables running BenchmarkMonteCarlo or BenchmarkMonteCarloParallel
     ///        3) Run with Debug tab -> Start Without Debugging
+    ///        4) Prior run mean data (in BenchmarkDotNet.Artifacts) is used as validation mean.
+    ///           If no prior run data, prior mean set in code is used as validation mean.
     /// </summary>
     /// <param name="args">command line parameters</param>
     public static void Main(string[] args)
@@ -79,17 +81,17 @@ public static class Program
 
         // output 1 sigma results
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write(@"SUMMARY: (Mean = {0:F} ms) +/- (3*SD = {1:F} ms)", mean, 3 * standardDeviation);
-        // check if mean is within 3 standard deviation about the prior mean
-        if (mean < priorMean - 3 * standardDeviation || mean > priorMean + 3 * standardDeviation)
+        Console.Write(@"SUMMARY: (Mean = {0:F} ms) +/- (2-SD = {1:F} ms)", mean, 2 * standardDeviation);
+        // check if mean is within 1 standard deviation about the prior mean
+        if (mean < priorMean - 2* standardDeviation || mean > priorMean + 2 * standardDeviation)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine(@" is not within 3-SD of prior mean = {0:F}", priorMean);
+            Console.WriteLine(@" is not within 2-SD (95.4%) of prior mean = {0:F}", priorMean);
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(@" is within 3-SD of prior mean = {0:F}", priorMean);
+            Console.WriteLine(@" is within 2-SD (95.4%) of prior mean = {0:F}", priorMean);
         }
         Console.ForegroundColor = ConsoleColor.White;
     }
