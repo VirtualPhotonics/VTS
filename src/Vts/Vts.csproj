@@ -18,7 +18,7 @@
     </PackageReleaseNotes>
     <AssemblyVersion>12.2.0.0</AssemblyVersion>
     <FileVersion>12.2.0.0</FileVersion>
-    <Configurations>Debug;Release;Benchmark</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
@@ -26,9 +26,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Title>Virtual Tissue Simulator</Title>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
-    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>Vts.xml</DocumentationFile>
@@ -123,9 +120,6 @@
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\Spectra.txt" />
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
-	<PackageReference Include="BenchmarkDotNet" Version="0.15.4" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="csmpfit" Version="1.2.0" />

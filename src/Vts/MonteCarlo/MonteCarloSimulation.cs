@@ -7,9 +7,6 @@ using Vts.IO;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
-#if BENCHMARK
-using BenchmarkDotNet.Attributes;
-#endif
 
 namespace Vts.MonteCarlo
 {
@@ -179,9 +176,6 @@ namespace Vts.MonteCarlo
         /// Run the simulation
         /// </summary>
         /// <returns>SimulationOutput</returns>
-#if BENCHMARK
-        [Benchmark]
-#endif
         public virtual SimulationOutput Run()
         {
             _isCancelled = false;
