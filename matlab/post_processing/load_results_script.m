@@ -1153,3 +1153,6 @@ for mci = 1:length(datanames)
     end
   end
 end
+
+msgfig = msgbox('The MCCL script was completed Successfully!', 'Success', 'modal');
+uiwait(msgfig);
