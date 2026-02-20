@@ -8,7 +8,7 @@
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
     <AssemblyVersion>9.0.0.0</AssemblyVersion>
     <FileVersion>9.0.0.0</FileVersion>
-    <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
+    <Authors>David J. Cuccia; Carole K. Hayakawa; Lisa M. Glover; Janaka C. Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <Company>Virtual Photonics Technology Initiative</Company>
     <Product>MCPP</Product>
     <Description>Monte-Carlo post-processor command-line application</Description>
