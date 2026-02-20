@@ -13,7 +13,7 @@
     <Product>MCCL</Product>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <Description>Monte-Carlo command-line application</Description>
-    <Copyright>Copyright © 2025 Laser Microbeam and Medical Program</Copyright>
+    <Copyright>Copyright © 2026 Laser Microbeam and Medical Program</Copyright>
     <PackageLicenseUrl>https://github.com/VirtualPhotonics/VTS/blob/master/license.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
     <PackageIconUrl>http://virtualphotonics.org/Themes/VP/Content/Images/logo.png</PackageIconUrl>
