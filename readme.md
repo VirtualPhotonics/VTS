@@ -19,7 +19,18 @@ Use the following citation or acknowledgement in publications or applications th
 
 In addition, for any work that utilizes the Virtual Photonics Monte Carlo software, cite the following publication:
 
-__Carole K. Hayakawa, Lisa M. Malenfant, Janaka C. Ranasinghesagara, David J. Cuccia, Jerome Spanier, Vasan Venugopalan, "MCCL: an open-source software application for Monte Carlo simulations of radiative transport," J. Biomed. Opt. 27(8) 083005 (12 April 2022) https://doi.org/10.1117/1.JBO.27.8.083005__
+__Carole K. Hayakawa, Lisa Malenfant, Janaka C. Ranasinghesagara, David J. Cuccia, Jerome Spanier, Vasan Venugopalan, "MCCL: an open-source software application for Monte Carlo simulations of radiative transport," J. Biomed. Opt. 27(8) 083005 (12 April 2022) https://doi.org/10.1117/1.JBO.27.8.083005__
+
+<pre><code>@article{Hayakawa2022,
+  author  = {Hayakawa, Carole K. and Malenfant, Lisa and Ranasinghesagara, Janaka C. and Cuccia, David J. and Spanier, Jerome and Venugopalan, Vasan},
+  title   = {{MCCL}: an open-source software application for Monte Carlo simulations of radiative transport},
+  journal = {Journal of Biomedical Optics},
+  year    = {2022},
+  volume  = {27},
+  number  = {8},
+  pages   = {083005},
+  doi     = {10.1117/1.JBO.27.8.083005}
+}</code></pre>
 
 ## Software
 
