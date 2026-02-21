@@ -23,7 +23,7 @@ __Carole K. Hayakawa, Lisa Malenfant, Janaka C. Ranasinghesagara, David J. Cucci
 
 <pre><code>@article{Hayakawa2022,
   author  = {Hayakawa, Carole K. and Malenfant, Lisa and Ranasinghesagara, Janaka C. and Cuccia, David J. and Spanier, Jerome and Venugopalan, Vasan},
-  title   = {{MCCL}: an open-source software application for Monte Carlo simulations of radiative transport},
+  title   = {&#123;MCCL&#125;: an open-source software application for Monte Carlo simulations of radiative transport},
   journal = {Journal of Biomedical Optics},
   year    = {2022},
   volume  = {27},
