@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "BenchmarkMonteCarlo": {
+      "commandName": "Project"
+    },
+    "BenchmarkMonteCarloParallel": {
+      "commandLineArgs": "-p",
+      "commandName": "Project"
+    }
+  }
+}

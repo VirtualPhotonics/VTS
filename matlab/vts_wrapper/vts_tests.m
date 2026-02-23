@@ -14,3 +14,6 @@ if(runDemosToo)
     vts_solver_demo();    
     vts_mc_demo();
 end
+
+msgfig = msgbox('The MATLAB tests were completed Successfully!', 'Success', 'modal');
+uiwait(msgfig);
