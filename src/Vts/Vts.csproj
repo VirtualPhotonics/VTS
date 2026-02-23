@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
-	<TargetFramework>net8.0</TargetFramework>
+	<TargetFramework>net10.0</TargetFramework>
     <Description>The VTS (Virtual Tissue Simulator) is an open source library for .NET that was designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics.</Description>
     <Company>Virtual Photonics Technology Initiative</Company>
-    <Copyright>Copyright © 2025 Laser Microbeam and Medical Program</Copyright>
-    <Version>12.2.0</Version>
+    <Copyright>Copyright © 2026 Laser Microbeam and Medical Program</Copyright>
+    <Version>13.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
+    <Authors>David J. Cuccia; Carole K. Hayakawa; Lisa M. Glover; Janaka C. Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <PackageId>VirtualPhotonics.Vts</PackageId>
     <PackageTags>C#;Monte-Carlo;NURBS;SDA;Spectral-Data;Reflectance;Fluence;Forward-Solutions;Inverse-Solutions</PackageTags>
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
@@ -16,9 +16,9 @@
     <PackageReleaseNotes>VTS:
 * Updated NuGet packages
     </PackageReleaseNotes>
-    <AssemblyVersion>12.2.0.0</AssemblyVersion>
-    <FileVersion>12.2.0.0</FileVersion>
-    <Configurations>Debug;Release;Benchmark</Configurations>
+    <AssemblyVersion>13.0.0.0</AssemblyVersion>
+    <FileVersion>13.0.0.0</FileVersion>
+    <Configurations>Debug;Release</Configurations>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
@@ -26,9 +26,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Title>Virtual Tissue Simulator</Title>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
-    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>Vts.xml</DocumentationFile>
@@ -124,18 +121,13 @@
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
-	<PackageReference Include="BenchmarkDotNet" Version="0.15.4" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="csmpfit" Version="1.2.0" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="Meta.Numerics" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="NLog" Version="6.0.4" />
-    <PackageReference Include="System.Reactive" Version="6.0.2" />
-    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="NLog" Version="6.1.0" />
+    <PackageReference Include="System.Reactive" Version="6.1.0" />
   </ItemGroup>
 </Project>

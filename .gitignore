@@ -102,3 +102,5 @@ src/Vts.MonteCarlo.CommandLineApplication/Properties/launchSettings.json
 src/Vts/Vts.xml
 src/.github/
 *.zrd
+src/CODE_OF_CONDUCT.md
+src/CONTRIBUTING.md

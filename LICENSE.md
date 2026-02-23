@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 Virtual Photonics Technology Initiative
+Copyright (c) 2026 Virtual Photonics Technology Initiative
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -108,7 +108,7 @@ Copy-Item -Path $MCresults -Destination $MCmatlabdir -Recurse -ErrorAction Ignor
 if (Get-Command "matlab" -ErrorAction SilentlyContinue)
 {
   # run load_results_script (default datanames is set to one_layer_all_detectors) 
-  matlab -wait -r "load_results_script; quit"
+  matlab -wait -r "load_results_script; uiwait; quit;"
 }
 
 #cleanup one_layer_all_detectors folder
