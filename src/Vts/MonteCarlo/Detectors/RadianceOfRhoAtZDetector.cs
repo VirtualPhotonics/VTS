@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.Detectors
             Name = "RadianceOfRhoAtZ";
             Rho = new DoubleRange(0.0, 10, 101);
             ZDepth = 3;
+            ZDirection = 1;
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // assume detector is in air
 
@@ -40,6 +41,10 @@ namespace Vts.MonteCarlo.Detectors
         /// constant defining surface of tally
         /// </summary>
         public double ZDepth { get; set; }
+        /// <summary>
+        /// int defining direction of radiance to be detected 1=downward, -1=upward
+        /// </summary>
+        public int ZDirection { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -59,16 +64,17 @@ namespace Vts.MonteCarlo.Detectors
             return new RadianceOfRhoAtZDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
-                TallyType = this.TallyType,
-                Name = this.Name,
-                TallySecondMoment = this.TallySecondMoment,
-                TallyDetails = this.TallyDetails,
+                TallyType = TallyType,
+                Name = Name,
+                TallySecondMoment = TallySecondMoment,
+                TallyDetails = TallyDetails,
 
                 // optional/custom detector-specific properties
-                Rho = this.Rho,
-                ZDepth = this.ZDepth,
-                NA = this.NA,
-                FinalTissueRegionIndex = this.FinalTissueRegionIndex
+                Rho = Rho,
+                ZDepth = ZDepth,
+                ZDirection = ZDirection,
+                NA = NA,
+                FinalTissueRegionIndex = FinalTissueRegionIndex
             };
         }
     }
@@ -90,7 +96,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// constant defining surface of tally
         /// </summary>
-        public double ZDepth { get; set; }
+        public double ZDepth { get; set; }        
+        /// <summary>
+        /// int defining direction of radiance to be detected 1=downward, -1=upward
+        /// </summary>
+        public int ZDirection { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -130,8 +140,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new double[Rho.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
+            Mean ??= new double[Rho.Count - 1];
+            SecondMoment ??= TallySecondMoment ? new double[Rho.Count - 1] : null;
 
             // initialize any other necessary class fields here
             _tissue = tissue;
@@ -150,7 +160,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean[ir] += photon.DP.Weight / photon.DP.Direction.Uz;
             TallyCount++;
             if (!TallySecondMoment) return;
-            SecondMoment[ir] += (photon.DP.Weight / photon.DP.Direction.Uz) * (photon.DP.Weight / photon.DP.Direction.Uz);
+            SecondMoment[ir] += photon.DP.Weight / photon.DP.Direction.Uz * (photon.DP.Weight / photon.DP.Direction.Uz);
         }
 
         /// <summary>
@@ -198,15 +208,30 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
+            // determine if capturing downward 
+            if (ZDirection > 0) 
+            {
+                if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+                {
+                    var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                    return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                }
+                else // determine n of prior tissue region
+                {
+                    var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                    return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                }
+            }
+            // upward radiance
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
             {
                 var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
             else // determine n of prior tissue region
             {
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
         }
 

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
@@ -12,6 +10,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     public class RadianceVirtualBoundary : IVirtualBoundary
     {
         private readonly double _zPlanePosition;
+        private readonly int _zDirection;
 
         /// <summary>
         /// Radiance virtual boundary
@@ -22,22 +21,29 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         {
             DetectorController = detectorController;
 
-            var dosimetryDetector = DetectorController.Detectors.FirstOrDefault(d => d.TallyDetails.IsInternalSurfaceTally);
+            var detector = DetectorController.Detectors.FirstOrDefault(d => d.TallyDetails.IsInternalSurfaceTally);
 
-            if (dosimetryDetector != null)
+            if (detector == null) return;
+            _zPlanePosition = ((dynamic) detector).ZDepth;
+            _zDirection = ((dynamic)detector).ZDirection;
+
+            if (_zDirection > 0) // downward
             {
-                _zPlanePosition = ((dynamic) dosimetryDetector).ZDepth;
-
                 WillHitBoundary = dp =>
-                                  dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
-                                  dp.Direction.Uz > 0 &&
-                                  Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
-
-                VirtualBoundaryType = VirtualBoundaryType.InternalSurface;
-                PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
-
-                Name = name;
+                    dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
+                    dp.Direction.Uz > 0 &&
+                    Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
             }
+            // upward
+            WillHitBoundary = dp =>
+                dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
+                dp.Direction.Uz < 0 &&
+                Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
+
+            VirtualBoundaryType = VirtualBoundaryType.InternalSurface;
+            PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
+
+            Name = name;
         }       
 
         /// <summary>
@@ -70,14 +76,23 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         {
             var distanceToBoundary = double.PositiveInfinity;
 
-            // since no tissue boundary here, need other checks for whether VB is applied
-            if ((dp.Direction.Uz <= 0.0) || (dp.Position.Z >= _zPlanePosition)) // >= is key here
+            if (_zDirection > 0) // downward
+            {
+                // since no tissue boundary here, need other checks for whether VB is applied
+                if (dp.Direction.Uz <= 0.0 || dp.Position.Z >= _zPlanePosition) // >= is key here
+                {
+                    return distanceToBoundary; // return infinity
+                }
+                // VB applies
+                distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
+            }
+            // upward
+            if (dp.Direction.Uz >= 0.0 || dp.Position.Z <= _zPlanePosition) // <= is key here
             {
                 return distanceToBoundary; // return infinity
             }
             // VB applies
-            distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
-          
+            distanceToBoundary = -(_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
             return distanceToBoundary;
         }
 
