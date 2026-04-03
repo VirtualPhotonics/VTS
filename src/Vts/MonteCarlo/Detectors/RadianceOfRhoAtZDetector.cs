@@ -6,12 +6,16 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// DetectorInput for Radiance(r) for internal surface detector at depth z.
     /// Detector captures radiance in downward direction through plane at depth z.
+    /// Note: this replies on the tissue definition to have a layer interface at
+    /// ZDepth so that a pseudo-collision can be created there and a tally can
+    /// be made.  
     /// </summary>
     public class RadianceOfRhoAtZDetectorInput : DetectorInput, IDetectorInput
     {
@@ -83,9 +87,10 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for reflectance as a function  of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class RadianceOfRhoAtZDetector : Detector, IDetector
+    public class RadianceOfRhoAtZDetector : Detector, IHistoryDetector
     {
         private ITissue _tissue;
+        private double[] _tallyForOnePhoton;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -145,6 +150,30 @@ namespace Vts.MonteCarlo.Detectors
 
             // initialize any other necessary class fields here
             _tissue = tissue;
+            _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
+        }
+
+        /// <summary>
+        /// method to tally given two consecutive photon data points
+        /// </summary>
+        /// <param name="previousDP">previous data point</param>
+        /// <param name="dp">current data point</param>
+        /// <param name="currentRegionIndex">index of region photon current is in</param>
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
+        {
+            // check if datapoint at ZDepth and in correct direction
+            if (Math.Sign(dp.Direction.Uz) != Math.Sign(ZDirection)) return;
+            if (Math.Abs(dp.Position.Z - ZDepth) >= 1E-10) return;
+            
+            if (!IsWithinDetectorAperture(previousDP, dp)) return;
+
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+
+            if (dp.Weight == 0.0) return;
+            Mean[ir] += dp.Weight;  // FIX: do I divide by Uz here?
+            TallyCount++;
+            if (!TallySecondMoment) return;
+            _tallyForOnePhoton[ir] += dp.Weight;
         }
 
         /// <summary>
@@ -153,14 +182,23 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))return;
-           
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-
-            Mean[ir] += photon.DP.Weight / photon.DP.Direction.Uz;
-            TallyCount++;
+            // second moment is calculated AFTER the entire photon biography has been processed
+            if (TallySecondMoment)
+            {
+                Array.Clear(_tallyForOnePhoton, 0, _tallyForOnePhoton.Length);
+            }
+            var previousDp = photon.History.HistoryData.First();
+            foreach (var dp in photon.History.HistoryData.Skip(1))
+            {
+                TallySingle(previousDp, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDp = dp;
+            }
+            // second moment determined after all tallies to each detector bin for ONE photon has been complete
             if (!TallySecondMoment) return;
-            SecondMoment[ir] += photon.DP.Weight / photon.DP.Direction.Uz * (photon.DP.Weight / photon.DP.Direction.Uz);
+            for (var ir = 0; ir < Rho.Count - 1; ir++)
+            {
+                SecondMoment[ir] += _tallyForOnePhoton[ir] * _tallyForOnePhoton[ir];
+            }
         }
 
         /// <summary>
@@ -202,36 +240,40 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// Method to determine if photon is within detector NA
+        /// Method to determine if photon is within detector NA.  This calling signature breaks with
+        /// other detectors because this is unique internal *surface* tally with NA.
         /// </summary>
-        /// <param name="photon">photon</param>
+        /// <param name="previousDataPoint">photon previous data point</param>
+        /// <param name="dataPoint">photon current data point</param>
         /// <returns>Boolean indicating whether photon is within detector</returns>
-        public bool IsWithinDetectorAperture(Photon photon)
+        public bool IsWithinDetectorAperture(PhotonDataPoint previousDataPoint, PhotonDataPoint dataPoint)
         {
+            // determine current region index for dataPoint
+            var currentRegionIndex = _tissue.GetRegionIndex(dataPoint.Position);
             // determine if capturing downward 
             if (ZDirection > 0) 
             {
-                if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+                if (currentRegionIndex == FinalTissueRegionIndex)
                 {
-                    var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                    return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                    var detectorRegionN = _tissue.Regions[currentRegionIndex].RegionOP.N;
+                    return dataPoint.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
                 }
                 else // determine n of prior tissue region
                 {
                     var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-                    return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                    return previousDataPoint.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
                 }
             }
             // upward radiance
-            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            if (currentRegionIndex == FinalTissueRegionIndex)
             {
-                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+                var detectorRegionN = _tissue.Regions[currentRegionIndex].RegionOP.N;
+                return dataPoint.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
             else // determine n of prior tissue region
             {
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+                return previousDataPoint.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
         }
 

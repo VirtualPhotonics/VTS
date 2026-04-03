@@ -19,7 +19,10 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private SimulationInput _inputForPmc;
         private SimulationOutput _outputNa0, _outputNa0P3, _outputNoNaNoFinalTissueRegionSpecified, _outputNa0p3FinalTissueRegion1;
-        private const double DosimetryDepth = 1.0;
+        private const double LayerThickness = 10.0; // make thin so transmittance occurs
+        // specify DosimetryDepth to be bottom of homogeneous tissue.  This is not what would typically
+        // be done but for sake of testing purposes it can satisfy that DosimetryDepth is at layer interface
+        private const double DosimetryDepth = LayerThickness; 
         private pMCDatabase _pMcDatabase;
 
         /// <summary>
@@ -50,7 +53,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                     new LayerTissueRegion( 
-                        new DoubleRange(0.0, 10.0), // make tissue layer thin so transmittance results improved
+                        new DoubleRange(0.0, LayerThickness), // make tissue layer thin so transmittance results improved
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                     new LayerTissueRegion(
                         new DoubleRange(10.0, double.PositiveInfinity),
@@ -76,7 +79,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(0.0, Math.PI / 2, 2), FinalTissueRegionIndex = 2, NA = 0.0},
                     new TOfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.0},
                     new TOfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.0},
-                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 1, NA = 0.0},
+                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.0},
                     new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 11),
@@ -150,7 +153,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoDetectorInput {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.3},
                     new TOfXAndYDetectorInput {X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.3},
                   
-                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 1, NA = 0.3},
+                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.3},
                     new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 11),
@@ -233,7 +236,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         FinalTissueRegionIndex = 0
                     },
 
-                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11)},
+                    new RadianceOfRhoAtZDetectorInput {ZDepth = DosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2},
 
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput
                     {
@@ -411,7 +414,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputNa0P3.T_a[0] - 0.003355), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.T_ra[1, 0] - 0.000217), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.T_xy[4, 7] - 0.000997), Is.LessThan(0.000001));
-            Assert.That(Math.Abs(_outputNa0P3.Rad_r[0] - 0.015929), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNa0P3.Rad_r[1] - 0.007600), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.RefMT_rmt[2, 0] - 0.000599), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.RefMT_xymt[3, 6, 0] - 0.001351), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.TransMT_rmt[1, 0] - 0.001520), Is.LessThan(0.000001));
@@ -449,7 +452,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(_outputNoNaNoFinalTissueRegionSpecified.T_a[0], Is.Not.EqualTo(0.0));
             Assert.That(_outputNoNaNoFinalTissueRegionSpecified.T_ra[1, 0], Is.Not.EqualTo(0.0));
             Assert.That(_outputNoNaNoFinalTissueRegionSpecified.T_xy[0, 2], Is.Not.EqualTo(0.0));
-            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.Rad_r[0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.Rad_r[1], Is.Not.EqualTo(0.0));
             Assert.That(_outputNoNaNoFinalTissueRegionSpecified.RefMT_rmt[1, 0], Is.Not.EqualTo(0.0));
             Assert.That(_outputNoNaNoFinalTissueRegionSpecified.RefMT_xymt[0, 1, 0], Is.Not.EqualTo(0.0));
             Assert.That(_outputNoNaNoFinalTissueRegionSpecified.TransMT_rmt[1, 0], Is.Not.EqualTo(0.0));
@@ -486,7 +489,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(_outputNa0p3FinalTissueRegion1.T_a[0], Is.EqualTo(_outputNa0P3.T_a[0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.T_ra[1, 0], Is.EqualTo(_outputNa0P3.T_ra[1, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.T_xy[4, 7], Is.EqualTo(_outputNa0P3.T_xy[4, 7]));
-            Assert.That(_outputNa0p3FinalTissueRegion1.Rad_r[0], Is.Not.EqualTo(_outputNa0P3.Rad_r[0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.Rad_r[1], Is.Not.EqualTo(_outputNa0P3.Rad_r[1]));
             Assert.That(_outputNa0p3FinalTissueRegion1.RefMT_rmt[2, 0], Is.Not.EqualTo(_outputNa0P3.RefMT_rmt[2, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.RefMT_xymt[3, 6, 0], Is.EqualTo(_outputNa0P3.RefMT_xymt[3, 6, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0], Is.EqualTo(_outputNa0P3.TransMT_rmt[1, 0]));

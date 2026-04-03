@@ -30,16 +30,16 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
         private const double LayerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
-        private const double DosimetryDepth = 1.0;
+        private const double DosimetryDepth = LayerThickness; // RadianceOfRhoAtZ needs layer interface at tally depth
         private double _factor;
 
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private readonly List<string> _listOfTestGeneratedFiles = new()
-        {
-            "file.txt", // file that captures screen output of MC simulation
-        };
+        private readonly List<string> _listOfTestGeneratedFiles =
+        [
+            "file.txt" // file that captures screen output of MC simulation
+        ];
 
         [OneTimeTearDown]
         public void Clear_folders_and_files()
@@ -341,12 +341,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z =  new DoubleRange(0.0, 10.0, 11),
                         TallySecondMoment = true
                     },
-                    new RadianceOfRhoAtZDetectorInput
-                    {
-                        ZDepth = DosimetryDepth, 
-                        Rho= new DoubleRange(0.0, 10.0, 101),
-                        TallySecondMoment = true
-                    },
                     new RadianceOfRhoAndZAndAngleDetectorInput
                     {
                         Rho = new DoubleRange(0.0, 10.0, 101),
@@ -430,6 +424,14 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 ((dynamic) detector).FinalTissueRegionIndex = 3;
             }
+            // add in RadianceOfRhoAtZ now because only makes sense in two layer tissue definition
+            var twoLayerDetector = new RadianceOfRhoAtZDetectorInput
+            {
+                ZDepth = DosimetryDepth,
+                Rho = new DoubleRange(0.0, 10.0, 101),
+                TallySecondMoment = true
+            };
+            detectors.Add(twoLayerDetector);
 
             _inputTwoLayerTissue = new SimulationInput(
                 100,
@@ -437,8 +439,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 simulationOptions,
                 source,
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -451,7 +452,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 detectors);
             _outputTwoLayerTissue = new MonteCarloSimulation(_inputTwoLayerTissue).Run();
@@ -1176,18 +1177,14 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(_outputOneLayerTissue.Rad_xyztp_TallyCount, Is.EqualTo(42334));
             Assert.That(_outputTwoLayerTissue.Rad_xyztp_TallyCount, Is.EqualTo(42334));
         }
-        // Radiance(rho) at depth Z - not sure this detector is defined correctly yet
+        // Radiance(rho) at depth Z (downward is default) validated with prior test
         [Test]
         public void Validate_DAW_RadianceOfRhoAtZ()
         {
-            Assert.That(Math.Abs(_outputOneLayerTissue.Rad_r[0] - 1.95161), Is.LessThan(0.00001));
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 1.95161), Is.LessThan(0.00001));
-            Assert.That(Math.Abs(_outputOneLayerTissue.Rad_r2[0] - 63.5278), Is.LessThan(0.0001));
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r2[0] - 63.5278), Is.LessThan(0.0001));
-            //need radiance detector to compare results, for now make sure both simulations give same results
-            Assert.That(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), Is.LessThan(0.0000001));
-            Assert.That(_outputOneLayerTissue.Rad_r_TallyCount, Is.EqualTo(199));
-            Assert.That(_outputTwoLayerTissue.Rad_r_TallyCount, Is.EqualTo(199));
+            // no tests for single layer tissue because ZDepth needs to be at layer interface
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 8.23682), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r2[0] - 461.747), Is.LessThan(0.001));
+            Assert.That(_outputTwoLayerTissue.Rad_r_TallyCount, Is.EqualTo(1111));
         }
         // sanity checks
         [Test]

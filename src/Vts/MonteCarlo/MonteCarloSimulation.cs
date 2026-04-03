@@ -225,8 +225,10 @@ namespace Vts.MonteCarlo
             {
                 if (Input.Options.Databases.Any()) InitialDatabases(_doPmc);
 
-                var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
-                    v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
+                // determine VBs that have detectors that tally after full transport of photon
+                var internalVBs = _virtualBoundaryController.VirtualBoundaries.Where(
+                    v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary ||
+                         v.VirtualBoundaryType == VirtualBoundaryType.InternalSurface).ToList();
 
                 var parallelOptions = new ParallelOptions();
                 parallelOptions.MaxDegreeOfParallelism = Environment.ProcessorCount;
@@ -279,10 +281,11 @@ namespace Vts.MonteCarlo
 
                     if (Input.Options.Databases.Any())  WriteToDatabases(_doPmc, photon);
 
+                    // tally to History type tallies (e.g. volume and internal surface)
                     // note History has possibly 2 more DPs than linux code due to 
                     // final crossing of PseudoReflectedTissueBoundary and then
                     // PseudoDiffuseReflectanceVB
-                    foreach (var vb in volumeVBs)
+                    foreach (var vb in internalVBs)
                     {
                         vb.DetectorController.Tally(photon); // dc: this should use the optimized loop now...
                     }

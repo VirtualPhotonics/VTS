@@ -111,7 +111,7 @@ namespace Vts.MonteCarlo
                         Z = new DoubleRange(0.0, 10.0, 101),
                         Theta = new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         Phi = new DoubleRange(-Math.PI, Math.PI, 5)}, // phi (azimuthal angle)
-                    new RadianceOfRhoAtZDetectorInput {Rho = new DoubleRange(0.0, 10, 101), ZDepth = 3},
+                    new RadianceOfRhoAtZDetectorInput {Rho = new DoubleRange(0.0, 10, 101), ZDepth = 100}, // ZDepth to align with layer interface to pass validation
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 5)},
                     new ROfFxAndTimeDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 10, 11)},

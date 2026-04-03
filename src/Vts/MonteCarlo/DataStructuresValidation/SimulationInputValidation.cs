@@ -332,46 +332,63 @@ namespace Vts.MonteCarlo
                 // can only run dMC detectors with 1 perturbed region for the present
                 if (detectorInput.TallyType.Contains("dMCdROfRhodMua"))
                 {
-                    return dMCdROfRhodMuaDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = dMCdROfRhodMuaDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
                 if (detectorInput.TallyType.Contains("dMCdROfRhodMus"))
                 {
-                    return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
                 if (detectorInput.TallyType.Contains("dMCdROfRhoAndTimedMua"))
                 {
-                    return dMCdROfRhoAndTimedMuaDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = dMCdROfRhoAndTimedMuaDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
                 if (detectorInput.TallyType.Contains("dMCdROfRhoAndTimedMus"))
                 {
-                    return dMCdROfRhoAndTimedMusDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = dMCdROfRhoAndTimedMusDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
                 if (detectorInput.TallyType.Contains("dMCdROfFxdMua"))
                 {
-                    return dMCdROfFxdMuaDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = dMCdROfFxdMuaDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
                 if (detectorInput.TallyType.Contains("dMCdROfFxdMus"))
                 {
-                    return dMCdROfFxdMusDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult =  dMCdROfFxdMusDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
-                // check that number in blood volume list matches number of tissue subregions
-                var tempResult = ValidateBloodVolumeDetectorConsistencies(input, detectorInput);
-                if (!tempResult.IsValid) return tempResult;
-
+                if (detectorInput.TallyType.Contains("MT"))
+                {
+                    // check that number in blood volume list matches number of tissue subregions
+                    var tempResult = ValidateBloodVolumeDetectorConsistencies(input, detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
+                }
                 // check fiber consistencies
                 if (detectorInput.TallyType.Contains("SurfaceFiber"))
                 {
-                    return SurfaceFiberDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = SurfaceFiberDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
                 if (detectorInput.TallyType.Contains("SlantedRecessedFiber"))
                 {
-                    return SlantedRecessedFiberDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = SlantedRecessedFiberDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
                 }
                 // check any ..RecessedDetectorInput 
                 // this breaks form with prior checks that were on a detector basis
                 if (detectorInput.TallyType.Contains("Recessed"))
                 {
-                    return RecessedDetectorInputValidation.ValidateInput(detectorInput);
+                    var tempResult = RecessedDetectorInputValidation.ValidateInput(detectorInput);
+                    if (!tempResult.IsValid) return tempResult;
+                }
+                if (detectorInput.TallyType.Contains("RadianceOfRhoAtZ"))
+                {
+                    var tempResult = RadianceOfRhoAtZDetectorInputValidation.ValidateInput(detectorInput, 
+                        input.TissueInput.Regions.Select(r => (LayerTissueRegion)r).ToList());
+                    if (!tempResult.IsValid) return tempResult;
                 }
             }
             return new ValidationResult(
