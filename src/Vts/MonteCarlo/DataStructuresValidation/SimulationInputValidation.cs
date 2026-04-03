@@ -327,6 +327,9 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidateCurrentDetectorCapabilities(
             SimulationInput input)
         {
+            // the following loop needs to check all detectorInputs in input
+            // if a detectorInput satisfies an "if" and the tempResult is valid,
+            // then the next detector needs to be checked against the list of "if"s
             foreach (var detectorInput in input.DetectorInputs)
             {
                 // can only run dMC detectors with 1 perturbed region for the present
@@ -360,6 +363,7 @@ namespace Vts.MonteCarlo
                     var tempResult =  dMCdROfFxdMusDetectorInputValidation.ValidateInput(detectorInput);
                     if (!tempResult.IsValid) return tempResult;
                 }
+                // check any detector input with "MT" momentum transfer in name
                 if (detectorInput.TallyType.Contains("MT"))
                 {
                     // check that number in blood volume list matches number of tissue subregions
@@ -377,8 +381,7 @@ namespace Vts.MonteCarlo
                     var tempResult = SlantedRecessedFiberDetectorInputValidation.ValidateInput(detectorInput);
                     if (!tempResult.IsValid) return tempResult;
                 }
-                // check any ..RecessedDetectorInput 
-                // this breaks form with prior checks that were on a detector basis
+                // check any detector input with "Recessed" in name 
                 if (detectorInput.TallyType.Contains("Recessed"))
                 {
                     var tempResult = RecessedDetectorInputValidation.ValidateInput(detectorInput);
