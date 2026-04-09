@@ -428,6 +428,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var twoLayerDetector = new RadianceOfRhoAtZDetectorInput
             {
                 ZDepth = DosimetryDepth,
+                ZDirection = 1,
                 Rho = new DoubleRange(0.0, 10.0, 101),
                 TallySecondMoment = true
             };
@@ -1182,9 +1183,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void Validate_DAW_RadianceOfRhoAtZ()
         {
             // no tests for single layer tissue because ZDepth needs to be at layer interface
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r[54] - 0.005221), Is.LessThan(0.000001));
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r2[54] - 0.002726), Is.LessThan(0.000001));
-            Assert.That(_outputTwoLayerTissue.Rad_r_TallyCount, Is.EqualTo(42));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 1.58393), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r2[0] - 50.1774), Is.LessThan(0.0001));
+            Assert.That(_outputTwoLayerTissue.Rad_r_TallyCount, Is.EqualTo(199));
         }
         // sanity checks
         [Test]

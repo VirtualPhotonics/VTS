@@ -162,13 +162,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="currentRegionIndex">index of region photon current is in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
-            // check dp is a pseudo-collision point where weight does not change
-            if (previousDP.Weight != dp.Weight) return;
-            // check if photon is correct direction
-            if (Math.Sign(dp.Direction.Uz) != Math.Sign(ZDirection)) return;
-            //// check if datapoint below ZDepth if ZDirection > 0 and above ZDepth if ZDirection < 0
-            var crossed = (dp.Position.Z > ZDepth && ZDirection > 0) ||
-                          (dp.Position.Z < ZDepth && ZDirection < 0);
+            // check if previous at pseudo-collision placed when crossing ZDepth and dp crossed in right direction
+            var crossed = (Math.Abs(previousDP.Position.Z - ZDepth) < 1E-10 && 
+                               dp.Position.Z > ZDepth && ZDirection > 0) ||
+                              (Math.Abs(previousDP.Position.Z - ZDepth) < 1E-10 && 
+                               dp.Position.Z < ZDepth && ZDirection < 0);
             // check if crossed
             if (!crossed) return;
             if (!IsWithinDetectorAperture(previousDP, dp)) return;
