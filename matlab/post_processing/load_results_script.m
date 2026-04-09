@@ -59,6 +59,7 @@ show.FluenceOfXAndYAndZAndTime =  1;
 show.FluenceOfXAndYAndZAndOmega =  1;
 show.FluenceOfXAndYAndZAndStartingXAndY = 1;
 show.FluenceOfFxAndZ =          1;
+show.RadianceOfRhoAtZ =        1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
@@ -575,6 +576,12 @@ for mci = 1:length(datanames)
         zdelta = results{di}.FluenceOfFxAndZ.Z(2)-results{di}.FluenceOfFxAndZ.Z(1);
         disp(sprintf('Fluence captured by FluenceOfFxAndZ detector at fx=0: %5.3f',...
             sum(zdelta*results{di}.FluenceOfFxAndZ.Amplitude(:,1))));
+    end
+    if isfield(results{di}, 'RadianceOfRhoAtZ') && show.RadianceOfRhoAtZ
+        figname = sprintf('log10(%s) at Z=%5.3f in direction %d',results{di}.RadianceOfRhoAtZ.Name,results{di}.RadianceOfRhoAtZ.ZDepth,results{di}.RadianceOfRhoAtZ.ZDirection); figure; plot(results{di}.RadianceOfRhoAtZ.Rho_Midpoints, log10(results{di}.RadianceOfRhoAtZ.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('Radiance(\rho) [mm^-^2]');
+        rhodelta = results{di}.RadianceOfRhoAtZ.Rho(2)-results{di}.RadianceOfRhoAtZ.Rho(1);
+        rhonorm = 2 * pi * results{di}.RadianceOfRhoAtZ.Rho_Midpoints * rhodelta;
+        disp(['Radiance captured by RadianceOfRhoAtZdetector: ' num2str(sum(results{di}.RadianceOfRhoAtZ.Mean.*rhonorm'))]);
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
         numrhos = length(results{di}.RadianceOfRhoAndZAndAngle.Rho) - 1;

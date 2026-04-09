@@ -815,6 +815,20 @@ for di = 1:numDetectors
                                                                            - imag(FluenceOfFxAndZ.Mean) .* imag(FluenceOfFxAndZ.Mean)) / json.N);
             end                 
             results{di}.FluenceOfFxAndZ = FluenceOfFxAndZ;
+        case 'RadianceOfRhoAtZ'
+            RadianceOfRhoAtZ.Name = detector.Name;
+            RadianceOfRhoAtZ.ZDepth = detector.ZDepth;
+            RadianceOfRhoAtZ.ZDirection = detector.ZDirection;
+            tempRho = detector.Rho;
+            RadianceOfRhoAtZ.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            RadianceOfRhoAtZ.Rho_Midpoints = (RadianceOfRhoAtZ.Rho(1:end-1) + RadianceOfRhoAtZ.Rho(2:end))/2;
+            RadianceOfRhoAtZ.Mean = readBinaryData([datadir slash detector.Name],length(RadianceOfRhoAtZ.Rho)-1); 
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                RadianceOfRhoAtZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
+                length(RadianceOfRhoAtZ.Rho)-1); 
+                RadianceOfRhoAtZ.Stdev = sqrt((RadianceOfRhoAtZ.SecondMoment - (RadianceOfRhoAtZ.Mean .* RadianceOfRhoAtZ.Mean)) / json.N);               
+            end
+            results{di}.RadianceOfRhoAtZ = RadianceOfRhoAtZ;
         case 'RadianceOfRhoAndZAndAngle'
             RadianceOfRhoAndZAndAngle.Name = detector.Name;
             tempRho = detector.Rho;

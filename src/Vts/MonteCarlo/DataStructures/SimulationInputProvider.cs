@@ -102,6 +102,7 @@ namespace Vts.MonteCarlo
                         StartingX = new DoubleRange(-1, 1, 2), StartingY = new DoubleRange(-10,10,2)},
                     new FluenceOfRhoAndZAndOmegaDetectorInput {Rho = new DoubleRange(0, 10, 101), Z = new DoubleRange(0, 10, 101), Omega = new DoubleRange(0.0, 1, 21)},
                     new FluenceOfFxAndZDetectorInput {Fx = new DoubleRange(0, 0.5, 51), Z = new DoubleRange(0, 10, 101)},
+                    // RadianceOfRhoAtZDetectorInput omitted because it needs a two-layer tissue definition
                     new RadianceOfRhoAndZAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Z = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(0, Math.PI, 5)},
                     new RadianceOfFxAndZAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Z = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(0, Math.PI, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput
@@ -111,7 +112,6 @@ namespace Vts.MonteCarlo
                         Z = new DoubleRange(0.0, 10.0, 101),
                         Theta = new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         Phi = new DoubleRange(-Math.PI, Math.PI, 5)}, // phi (azimuthal angle)
-                    new RadianceOfRhoAtZDetectorInput {Rho = new DoubleRange(0.0, 10, 101), ZDepth = 100}, // ZDepth to align with layer interface to pass validation
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 5)},
                     new ROfFxAndTimeDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 10, 11)},
@@ -1030,7 +1030,8 @@ namespace Vts.MonteCarlo
         #region point source three layer SubRegion Time
         /// <summary>
         /// Point source, three-layer tissue definition, with R(rho,time) and
-        /// ReflectedTimeOfRhoAndSubregionHistDetector detector included
+        /// ReflectedTimeOfRhoAndSubregionHistDetector detector included.
+        /// RadianceOfRhoAtZ added because needs input that includes multi-layer tissue
         /// </summary>
         /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
@@ -1079,7 +1080,14 @@ namespace Vts.MonteCarlo
                     new ReflectedTimeOfRhoAndSubregionHistDetectorInput
                     {
                           Rho = new DoubleRange(0.0, 10.0, 21), // rho bins
-                          Time = new DoubleRange(0.0, 1.0, 11)} // time bins
+                          Time = new DoubleRange(0.0, 1.0, 11)}, // time bins
+                    new RadianceOfRhoAtZDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 21), // rho bins
+                        ZDepth = 5.0,
+                        ZDirection = 1,
+                        FinalTissueRegionIndex = 2
+                    }
                 }
             );
         }

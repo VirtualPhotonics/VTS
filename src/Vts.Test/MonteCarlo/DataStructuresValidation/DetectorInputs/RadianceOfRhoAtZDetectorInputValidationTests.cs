@@ -34,6 +34,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 ]
             );
+            // check a good specification of ZDepth, i.e. at layerThickness
             var detectorInput = new List<IDetectorInput>
             {
                 new RadianceOfRhoAtZDetectorInput
@@ -52,13 +53,32 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
             );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.That(result.IsValid, Is.True);
-            // test case where blood volume list count does not match number tissue regions
+            // test case where ZDepth not at tissue layer interface
             detectorInput =
             [
                 new RadianceOfRhoAtZDetectorInput
                 {
                     Rho = new DoubleRange(-10.0, 10.0, 2),
                     ZDepth = layerThickness + 0.5
+                }
+            ];
+            input = new SimulationInput(
+                10,
+                "",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                tissueInput,
+                detectorInput
+            );
+            result = SimulationInputValidation.ValidateInput(input);
+            Assert.That(result.IsValid, Is.False);
+            // test case where ZDepth specified at bottom of tissue
+            detectorInput =
+            [
+                new RadianceOfRhoAtZDetectorInput
+                {
+                    Rho = new DoubleRange(-10.0, 10.0, 2),
+                    ZDepth = 20
                 }
             ];
             input = new SimulationInput(

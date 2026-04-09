@@ -68,32 +68,16 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public IDetectorController DetectorController { get; }
 
         /// <summary>
-        /// Finds the distance to the virtual boundary given direction of VB and photon
+        /// Finds the distance to the virtual boundary given direction of VB and photon.
+        /// In all VBs that hold onto IHistory tallies this method does not calculate actual
+        /// distance because that is done after trajectory is finished and entire history
+        /// is processed.
         /// </summary>
         /// <param name="dp">photo data point</param>
         /// <returns>distance to virtual boundary</returns>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
-            var distanceToBoundary = double.PositiveInfinity;
-
-            if (_zDirection > 0) // downward
-            {
-                // since no tissue boundary here, need other checks for whether VB is applied
-                if (dp.Direction.Uz <= 0.0 || dp.Position.Z >= _zPlanePosition) // >= is key here
-                {
-                    return distanceToBoundary; // return infinity
-                }
-                // VB applies
-                distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
-            }
-            // upward
-            if (dp.Direction.Uz >= 0.0 || dp.Position.Z <= _zPlanePosition) // <= is key here
-            {
-                return distanceToBoundary; // return infinity
-            }
-            // VB applies
-            distanceToBoundary = -(_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
-            return distanceToBoundary;
+            return double.PositiveInfinity;
         }
 
     }

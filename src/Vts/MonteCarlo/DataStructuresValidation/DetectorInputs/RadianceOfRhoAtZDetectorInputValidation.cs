@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Vts.MonteCarlo.DataStructuresValidation;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
+using ValidationResult = Vts.MonteCarlo.DataStructuresValidation.ValidationResult;
 
 namespace Vts.MonteCarlo
 {
@@ -27,6 +28,16 @@ namespace Vts.MonteCarlo
                     false,
                     "RadianceOfRhoAtZDetectorInput: detector ZDepth needs to be equal to a tissue layer interface",
                     "Modify ZDepth to agree with tissue layer definitions or add tissue layer at ZDepth");
+            }
+            // test if ZDepth is at top or bottom of tissue definition
+            if (Math.Abs(tissueLayers[0].ZRange.Stop - ((RadianceOfRhoAtZDetectorInput)input).ZDepth) < 1E-10 ||
+                Math.Abs(tissueLayers[^1].ZRange.Start - ((RadianceOfRhoAtZDetectorInput)input).ZDepth) < 1E-10)
+            {
+                return new ValidationResult(
+                    false,
+                    "RadianceOfRhoAtZDetectorInput: detector ZDepth cannot be specified at top or bottom of tissue definition",
+                    "Modify ZDepth to agree with tissue layer but not at top or bottom");
+
             }
             return new ValidationResult(
                 true,

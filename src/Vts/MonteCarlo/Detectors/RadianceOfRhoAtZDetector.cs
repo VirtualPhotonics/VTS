@@ -12,10 +12,11 @@ namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// DetectorInput for Radiance(r) for internal surface detector at depth z.
-    /// Detector captures radiance in downward direction through plane at depth z.
+    /// Detector captures radiance in upward or downward direction through plane at depth z.
     /// Note: this replies on the tissue definition to have a layer interface at
     /// ZDepth so that a pseudo-collision can be created there and a tally can
-    /// be made.  
+    /// be made.  Another assumption ZDepth does not equal the top or bottom of
+    /// the tissue definition (checked in input validation).
     /// </summary>
     public class RadianceOfRhoAtZDetectorInput : DetectorInput, IDetectorInput
     {
@@ -150,7 +151,7 @@ namespace Vts.MonteCarlo.Detectors
 
             // initialize any other necessary class fields here
             _tissue = tissue;
-            _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
+            _tallyForOnePhoton ??= (TallySecondMoment ? new double[Rho.Count - 1] : null);
         }
 
         /// <summary>
@@ -161,16 +162,22 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="currentRegionIndex">index of region photon current is in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
-            // check if datapoint at ZDepth and in correct direction
+            // check dp is a pseudo-collision point where weight does not change
+            if (previousDP.Weight != dp.Weight) return;
+            // check if photon is correct direction
             if (Math.Sign(dp.Direction.Uz) != Math.Sign(ZDirection)) return;
-            if (Math.Abs(dp.Position.Z - ZDepth) >= 1E-10) return;
-            
+            //// check if datapoint below ZDepth if ZDirection > 0 and above ZDepth if ZDirection < 0
+            var crossed = (dp.Position.Z > ZDepth && ZDirection > 0) ||
+                          (dp.Position.Z < ZDepth && ZDirection < 0);
+            // check if crossed
+            if (!crossed) return;
             if (!IsWithinDetectorAperture(previousDP, dp)) return;
 
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1,
+                Rho.Delta, Rho.Start);
 
             if (dp.Weight == 0.0) return;
-            Mean[ir] += dp.Weight;  // FIX: do I divide by Uz here?
+            Mean[ir] += dp.Weight; // FIX: do I divide by Uz here?
             TallyCount++;
             if (!TallySecondMoment) return;
             _tallyForOnePhoton[ir] += dp.Weight;

@@ -1182,9 +1182,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void Validate_DAW_RadianceOfRhoAtZ()
         {
             // no tests for single layer tissue because ZDepth needs to be at layer interface
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 8.23682), Is.LessThan(0.00001));
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r2[0] - 461.747), Is.LessThan(0.001));
-            Assert.That(_outputTwoLayerTissue.Rad_r_TallyCount, Is.EqualTo(1111));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r[54] - 0.005221), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r2[54] - 0.002726), Is.LessThan(0.000001));
+            Assert.That(_outputTwoLayerTissue.Rad_r_TallyCount, Is.EqualTo(42));
         }
         // sanity checks
         [Test]
