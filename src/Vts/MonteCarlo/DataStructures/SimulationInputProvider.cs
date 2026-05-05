@@ -103,6 +103,7 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZAndOmegaDetectorInput {Rho = new DoubleRange(0, 10, 101), Z = new DoubleRange(0, 10, 101), Omega = new DoubleRange(0.0, 1, 21)},
                     new FluenceOfFxAndZDetectorInput {Fx = new DoubleRange(0, 0.5, 51), Z = new DoubleRange(0, 10, 101)},
                     // RadianceOfRhoAtZDetectorInput omitted because it needs a two-layer tissue definition
+                    // RadianceOfRhoAndTimeAndMaxDepthAtZDetectorInput omitted because it needs a two-layer tissue definition
                     new RadianceOfRhoAndZAndAngleDetectorInput {Rho = new DoubleRange(0.0, 10, 101), Z = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(0, Math.PI, 5)},
                     new RadianceOfFxAndZAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Z = new DoubleRange(0.0, 10, 101), Angle = new DoubleRange(0, Math.PI, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput
@@ -1031,7 +1032,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, three-layer tissue definition, with R(rho,time) and
         /// ReflectedTimeOfRhoAndSubregionHistDetector detector included.
-        /// RadianceOfRhoAtZ added because needs input that includes multi-layer tissue
+        /// RadianceOfRhoAtZ and RadianceOfRhoAndTimeAndMaxDepth added because needs input that includes multi-layer tissue
         /// </summary>
         /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
@@ -1085,6 +1086,13 @@ namespace Vts.MonteCarlo
                     {
                         Rho = new DoubleRange(0.0, 10.0, 21), // rho bins
                         ZDepth = 5.0,
+                        ZDirection = 1,
+                        FinalTissueRegionIndex = 2 },
+                    new RadianceOfRhoAndTimeAndMaxDepthAtZDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 21), // rho bins
+                        Time = new DoubleRange(0.0, 1.0, 11),  // time bins
+                        MaxDepth = new DoubleRange(0.0, 10, 11), ZDepth = 5.0,
                         ZDirection = 1,
                         FinalTissueRegionIndex = 2
                     }

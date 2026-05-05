@@ -126,8 +126,10 @@ namespace Vts.MonteCarlo
             "TransmittedDynamicMTOfFxAndSubregionHist",
             // Reflected subregion time as a function of source-detector separation (rho) and tissue region 
             "ReflectedTimeOfRhoAndSubregionHist",
-            // Surface radiance as a function of source-detector separation (rho)
+            // Internal radiance as a function of source-detector separation (rho) in upward or downward direction
             "RadianceOfRhoAtZ",
+            // Internal radiance as a function of source-detector separation (rho), time, max depth in upward or downward direction
+            "RadianceOfRhoAndTimeAndMaxDepthAtZ",
             // Volume radiance as a function of source-detector separation (rho), tissue depth (Z) and angle
             "RadianceOfRhoAndZAndAngle",
             // Volume radiance as a function of spatial-frequency (fx), tissue depth (Z) and angle

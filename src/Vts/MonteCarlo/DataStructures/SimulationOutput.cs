@@ -601,17 +601,30 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long Flu_fxz_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "FluenceOfFxAndZ").Name]).TallyCount; } }
         /// <summary>
-        /// Radiance as a function of rho (surface tally) at depth Z
+        /// Radiance as a function of rho (internal surface tally) at depth Z
         /// </summary>
         public double[] Rad_r { get { return (double[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "RadianceOfRhoAtZ").Name]).Mean; } }
         /// <summary>
-        /// Radiance as a function of rho (surface tally) at depth Z 2nd moment
+        /// Radiance as a function of rho (internal surface tally) at depth Z 2nd moment
         /// </summary>
         public double[] Rad_r2 { get { return (double[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "RadianceOfRhoAtZ").Name]).SecondMoment; } }
         /// <summary>
-        /// Radiance as a function of rho (surface tally) at depth Z Tally Count
+        /// Radiance as a function of rho (internal surface tally) at depth Z Tally Count
         /// </summary>
         public long Rad_r_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "RadianceOfRhoAtZ").Name]).TallyCount; } }
+        /// <summary>
+        /// Radiance as a function of rho, time and max depth (internal surface tally) at depth Z
+        /// </summary>
+        public double[,,] Rad_rtd { get { return (double[,,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "RadianceOfRhoAndTimeAndMaxDepthAtZ").Name]).Mean; } }
+        /// <summary>
+        /// Radiance as a function of rho, time and max depth (internal surface tally) at depth Z 2nd moment
+        /// </summary>
+        public double[,,] Rad_rtd2 { get { return (double[,,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "RadianceOfRhoAndTimeAndMaxDepthAtZ").Name]).SecondMoment; } }
+        /// <summary>
+        /// Radiance as a function of rho, time and max depth (internal surface tally) at depth Z Tally Count
+        /// </summary>
+        public long Rad_rtd_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "RadianceOfRhoAndTimeAndMaxDepthAtZ").Name]).TallyCount; } }
+
         /// <summary>
         /// Radiance as a function of rho, z and angle (volume tally)
         /// </summary>

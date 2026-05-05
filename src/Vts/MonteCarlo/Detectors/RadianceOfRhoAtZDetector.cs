@@ -151,7 +151,7 @@ namespace Vts.MonteCarlo.Detectors
 
             // initialize any other necessary class fields here
             _tissue = tissue;
-            _tallyForOnePhoton ??= (TallySecondMoment ? new double[Rho.Count - 1] : null);
+            _tallyForOnePhoton ??= TallySecondMoment ? new double[Rho.Count - 1] : null;
         }
 
         /// <summary>

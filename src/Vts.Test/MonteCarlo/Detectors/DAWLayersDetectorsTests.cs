@@ -424,15 +424,28 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 ((dynamic) detector).FinalTissueRegionIndex = 3;
             }
-            // add in RadianceOfRhoAtZ now because only makes sense in two layer tissue definition
-            var twoLayerDetector = new RadianceOfRhoAtZDetectorInput
+            // add in RadianceOfRhoAtZ and RadianceOfRhoAndTimeAndMaxDepth
+            // now because only makes sense in two layer tissue definition
+            var twoLayerDetectors = new List<IDetectorInput>
             {
-                ZDepth = DosimetryDepth,
-                ZDirection = 1,
-                Rho = new DoubleRange(0.0, 10.0, 101),
-                TallySecondMoment = true
+                new RadianceOfRhoAtZDetectorInput
+                {
+                    ZDepth = DosimetryDepth,
+                    ZDirection = 1,
+                    Rho = new DoubleRange(0.0, 10.0, 101),
+                    TallySecondMoment = true
+                },
+                new RadianceOfRhoAndTimeAndMaxDepthAtZDetectorInput
+                {
+                    ZDepth = DosimetryDepth,
+                    ZDirection = 1,
+                    Rho = new DoubleRange(0.0, 10.0, 101),
+                    Time = new DoubleRange(0.0, 1.0, 11),
+                    MaxDepth = new DoubleRange(0.0, 1.0, 11),
+                    TallySecondMoment = true
+                }
             };
-            detectors.Add(twoLayerDetector);
+            detectors.AddRange(twoLayerDetectors);
 
             _inputTwoLayerTissue = new SimulationInput(
                 100,
@@ -1186,6 +1199,15 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 1.58393), Is.LessThan(0.00001));
             Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_r2[0] - 50.1774), Is.LessThan(0.0001));
             Assert.That(_outputTwoLayerTissue.Rad_r_TallyCount, Is.EqualTo(199));
+        }
+        // Radiance(rho,time,maxdepth) at depth Z (downward is default) validated with prior test
+        [Test]
+        public void Validate_DAW_RadianceOfRhoAndTimeAndMaxDepthAtZ()
+        {
+            // no tests for single layer tissue because ZDepth needs to be at layer interface
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_rtd[0, 0, 9] - 1.58393), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_rtd2[0, 0, 9] - 50.1774), Is.LessThan(0.0001));
+            Assert.That(_outputTwoLayerTissue.Rad_rtd_TallyCount, Is.EqualTo(199));
         }
         // sanity checks
         [Test]
