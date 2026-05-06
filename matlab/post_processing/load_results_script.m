@@ -60,6 +60,7 @@ show.FluenceOfXAndYAndZAndOmega =  1;
 show.FluenceOfXAndYAndZAndStartingXAndY = 1;
 show.FluenceOfFxAndZ =          1;
 show.RadianceOfRhoAtZ =        1;
+show.RadianceOfRhoAndTimeAndMaxDepthAtZ = 1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
@@ -582,6 +583,29 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.RadianceOfRhoAtZ.Rho(2)-results{di}.RadianceOfRhoAtZ.Rho(1);
         rhonorm = 2 * pi * results{di}.RadianceOfRhoAtZ.Rho_Midpoints * rhodelta;
         disp(['Radiance captured by RadianceOfRhoAtZdetector: ' num2str(sum(results{di}.RadianceOfRhoAtZ.Mean.*rhonorm'))]);
+    end
+    if isfield(results{di}, 'RadianceOfRhoAndTimeAndMaxDepthAtZ') && show.RadianceOfRhoAndTimeAndMaxDepthAtZ
+      numrhos = length(results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1;
+        numtimes = length(results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1;
+        numdepths = length(results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth)-1;
+        rhodelta = results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho(2)-results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho(1);
+        timedelta = results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Time(2)-results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Time(1);
+        rhonorm = 2 * pi * results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho_Midpoints * rhodelta;
+        % plot distribution for select rho and time
+        figure; figname = 'Max Depth Distribution';
+        k=1; % index for legend
+        for i=1:10:numrhos % do every 10 rhos
+          for j=1:100:numtimes  % do every 100 times
+            plot(results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth_Midpoints,squeeze(results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean(:,j,i)));
+            br{k}=sprintf('rho=%3.2f mm time=%3.2f ns',results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho_Midpoints(i),results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Time_Midpoints(j));
+            hold on;
+            k=k+1;
+          end
+        end
+        legend(br);
+        title(figname);xlabel('z [mm]');ylabel('max depth');
+        rhomatrix = repmat(rhonorm',[1,numdepths,numtimes]);
+        disp(['Radiance captured by RadianceOfRhoAndTimeAndMaxDepthAtZ detector: ' num2str(sum(sum(sum(timedelta*results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean.*permute(rhomatrix,[3,2,1])))))]);
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
         numrhos = length(results{di}.RadianceOfRhoAndZAndAngle.Rho) - 1;

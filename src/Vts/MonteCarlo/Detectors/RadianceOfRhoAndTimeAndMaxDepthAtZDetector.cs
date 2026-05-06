@@ -246,7 +246,7 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             // normalization accounts for Rho.Start != 0
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Time.Delta;
             for (var ir = 0; ir < Rho.Count - 1; ir++)
             {
                 var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;

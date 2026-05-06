@@ -1205,8 +1205,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void Validate_DAW_RadianceOfRhoAndTimeAndMaxDepthAtZ()
         {
             // no tests for single layer tissue because ZDepth needs to be at layer interface
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_rtd[0, 0, 9] - 1.58393), Is.LessThan(0.00001));
-            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_rtd2[0, 0, 9] - 50.1774), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_rtd[0, 0, 9] - 15.8393), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rad_rtd2[0, 0, 9] - 5017.74), Is.LessThan(0.01));
             Assert.That(_outputTwoLayerTissue.Rad_rtd_TallyCount, Is.EqualTo(199));
         }
         // sanity checks
