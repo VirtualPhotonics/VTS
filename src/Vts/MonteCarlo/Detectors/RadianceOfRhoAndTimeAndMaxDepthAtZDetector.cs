@@ -174,7 +174,6 @@ namespace Vts.MonteCarlo.Detectors
             // initialize any other necessary class fields here
             _tissue = tissue;
             _tallyForOnePhoton ??= TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1, MaxDepth.Count - 1] : null;
-            _maxDepth = 0.0;
         }
 
         /// <summary>
@@ -185,6 +184,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="currentRegionIndex">index of region photon current is in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
+            // keep track of max depth reached in photon history to this point
+            if (dp.Position.Z > _maxDepth) _maxDepth = dp.Position.Z;
             // check if previous at pseudo-collision placed when crossing ZDepth and dp crossed in right direction
             var crossed = (Math.Abs(previousDP.Position.Z - ZDepth) < 1E-10 && 
                                dp.Position.Z > ZDepth && ZDirection > 0) ||
@@ -196,7 +197,6 @@ namespace Vts.MonteCarlo.Detectors
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1,
                 Rho.Delta, Rho.Start);
-            if (dp.Position.Z > _maxDepth) _maxDepth = dp.Position.Z;
             var id = DetectorBinning.WhichBin(_maxDepth, MaxDepth.Count - 1, MaxDepth.Delta, MaxDepth.Start);
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
 
@@ -219,6 +219,8 @@ namespace Vts.MonteCarlo.Detectors
             {
                 Array.Clear(_tallyForOnePhoton, 0, _tallyForOnePhoton.Length);
             }
+            // reinitialize max depth for each photon history
+            _maxDepth = 0.0;
             var previousDp = photon.History.HistoryData.First();
             foreach (var dp in photon.History.HistoryData.Skip(1))
             {
