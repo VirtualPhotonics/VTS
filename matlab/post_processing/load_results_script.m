@@ -604,7 +604,7 @@ for mci = 1:length(datanames)
         end
         legend(br);
         title(figname);xlabel('z [mm]');ylabel('max depth');
-        rhomatrix = repmat(rhonorm',[1,numdepths,numtimes]);
+        rhomatrix = repmat(rhonorm',[1,numtimes,numdepths]);
         disp(['Radiance captured by RadianceOfRhoAndTimeAndMaxDepthAtZ detector: ' num2str(sum(sum(sum(timedelta*results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean.*permute(rhomatrix,[3,2,1])))))]);
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
