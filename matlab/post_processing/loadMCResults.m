@@ -849,8 +849,8 @@ for di = 1:numDetectors
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 RadianceOfRhoAndTimeAndMaxDepthAtZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
                     (length(RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth)-1)*(length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1)*(length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1));
-                 RadianceOfRhoAndTimeAndMaxDepthAtZ.SecondMoment = reshape(RadianceOfRhoAndTimeAndMaxDepth.Mean, ...
-                    [length(ROfRhoAndTimeAndMaxDepth.MaxDepth)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1]);
+                 RadianceOfRhoAndTimeAndMaxDepthAtZ.SecondMoment = reshape(RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean, ...
+                    [length(RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1]);
                 RadianceOfRhoAndTimeAndMaxDepthAtZ.Stdev = sqrt((RadianceOfRhoAndTimeAndMaxDepthAtZ.SecondMoment - (RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean .* RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean)) / json.N);
             end
             results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ = RadianceOfRhoAndTimeAndMaxDepthAtZ;
