@@ -1602,20 +1602,20 @@ for di = 1:numDetectors
             dMCdROfRhodMua.Mean = readBinaryData([datadir slash detector.Name],length(dMCdROfRhodMua.Rho)-1);              
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 dMCdROfRhodMua.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(dMCdROfRhodMua.Rho)-1);
-                dMCROfRhodMua.Stdev = sqrt((dMCdROfRhodMua.SecondMoment - (dMCdROfRhodMua.Mean .* dMCdROfRhodMua.Mean)) / (databaseInputJson.N));
+                dMCdROfRhodMua.Stdev = sqrt((dMCdROfRhodMua.SecondMoment - (dMCdROfRhodMua.Mean .* dMCdROfRhodMua.Mean)) / (databaseInputJson.N));
             end
             results{di}.dMCdROfRhodMua = dMCdROfRhodMua;
-      case 'dMCdROfRhoAndTimedMus'
-            dMCdROfRhoAndTimedMus.Name = detector.Name;
+      case 'dMCdROfRhodMus'
+            dMCdROfRhodMus.Name = detector.Name;
             tempRho = detector.Rho;
-            dMCdROfRhoAndTimedMus.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
-            dMCdROfRhoAndTimedMus.Rho_Midpoints = (dMCdROfRhoAndTimedMus.Rho(1:end-1) + dMCdROfRhoAndTimedMus.Rho(2:end))/2;
-            dMCdROfRhoAndTimedMus.Mean = readBinaryData([datadir slash detector.Name],length(dMCdROfRhoAndTimedMus.Rho)-1);              
+            dMCdROfRhodMus.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            dMCdROfRhodMus.Rho_Midpoints = (dMCdROfRhoAndTimedMus.Rho(1:end-1) + dMCdROfRhodMus.Rho(2:end))/2;
+            dMCdROfRhodMus.Mean = readBinaryData([datadir slash detector.Name],length(dMCdROfRhodMus.Rho)-1);              
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
-                dMCdROfRhoAndTimedMus.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(dMCdROfRhoAndTimedMus.Rho)-1);
-                dMCROfRhoAndTimedMus.Stdev = sqrt((dMCdROfRhoAndTimedMus.SecondMoment - (dMCdROfRhoAndTimedMus.Mean .* dMCdROfRhoAndTimedMus.Mean)) / (databaseInputJson.N));
+                dMCdROfRhodMus.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(dMCdROfRhodMus.Rho)-1);
+                dMCdROfRhodMus.Stdev = sqrt((dMCdROfRhodMus.SecondMoment - (dMCdROfRhodMus.Mean .* dMCdROfRhodMus.Mean)) / (databaseInputJson.N));
             end
-            results{di}.dMCdROfRhoAndTimedMus = dMCdROfRhoAndTimedMus;
+            results{di}.dMCdROfRhodMus = dMCdROfRhodMus;
         case 'pMCROfRhoAndTime'
             pMCROfRhoAndTime.Name = detector.Name;
             tempRho = detector.Rho;
@@ -1705,7 +1705,7 @@ for di = 1:numDetectors
             dMCdROfRhoAndTimedMua.Mean = readBinaryData([datadir slash detector.Name],[length(dMCdROfRhoAndTimedMua.Time)-1,length(dMCdROfRhoAndTimedMua.Rho)-1]);              
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 dMCdROfRhoAndTimedMua.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(dMCdROfRhoAndTimedMua.Time)-1,length(dMCdROfRhoAndTimedMua.Rho)-1]);
-                dMCROfRhoAndTimedMua.Stdev = sqrt((dMCdROfRhoAndTimedMua.SecondMoment - (dMCdROfRhoAndTimedMua.Mean .* dMCdROfRhoAndTimedMua.Mean)) / (databaseInputJson.N));
+                dMCdROfRhoAndTimedMua.Stdev = sqrt((dMCdROfRhoAndTimedMua.SecondMoment - (dMCdROfRhoAndTimedMua.Mean .* dMCdROfRhoAndTimedMua.Mean)) / (databaseInputJson.N));
             end
             results{di}.dMCdROfRhoAndTimedMua = dMCdROfRhoAndTimedMua;
       case 'dMCdROfRhoAndTimedMus'
@@ -1719,7 +1719,7 @@ for di = 1:numDetectors
           dMCdROfRhoAndTimedMus.Mean = readBinaryData([datadir slash detector.Name],[length(dMCdROfRhoAndTimedMus.Time)-1,length(dMCdROfRhoAndTimedMus.Rho)-1]);              
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 dMCdROfRhoAndTimedMus.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(dMCdROfRhoAndTimedMus.Time)-1,length(dMCdROfRhoAndTimedMus.Rho)-1]);
-                dMCROfRhoAndTimedMus.Stdev = sqrt((dMCdROfRhoAndTimedMus.SecondMoment - (dMCdROfRhoAndTimedMus.Mean .* dMCdROfRhoAndTimedMus.Mean)) / (databaseInputJson.N));
+                dMCdROfRhoAndTimedMus.Stdev = sqrt((dMCdROfRhoAndTimedMus.SecondMoment - (dMCdROfRhoAndTimedMus.Mean .* dMCdROfRhoAndTimedMus.Mean)) / (databaseInputJson.N));
             end
             results{di}.dMCdROfRhoAndTimedMus = dMCdROfRhoAndTimedMus;    
          case 'pMCROfXAndY'
