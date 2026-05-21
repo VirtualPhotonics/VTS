@@ -1565,7 +1565,7 @@ for di = 1:numDetectors
                 ReflectedTimeOfRhoAndSubregionHist.Stdev = sqrt((ReflectedTimeOfRhoAndSubregionHist.SecondMoment - (ReflectedTimeOfRhoAndSubregionHist.Mean .* ReflectedTimeOfRhoAndSubregionHist.Mean)) / (N));               
             end
             results{di}.ReflectedTimeOfRhoAndSubregionHist = ReflectedTimeOfRhoAndSubregionHist;
-      case 'pMCATotal'
+        case 'pMCATotal'
             pMCAtotal.Name = detector.Name;           
             pMCATotal_txt = readAndParseJson([datadir slash detector.Name '.txt']);
             pMCATotal.Mean = pMCATotal_txt.Mean;              
@@ -1594,7 +1594,7 @@ for di = 1:numDetectors
                 pMCROfRhoRecessed.Stdev = sqrt((pMCROfRhoRecessed.SecondMoment - (pMCROfRhoRecessed.Mean .* pMCROfRhoRecessed.Mean)) / (databaseInputJson.N));
             end
             results{di}.pMCROfRhoRecessed = pMCROfRhoRecessed;
-      case 'dMCdROfRhodMua'
+        case 'dMCdROfRhodMua'
             dMCdROfRhodMua.Name = detector.Name;
             tempRho = detector.Rho;
             dMCdROfRhodMua.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
@@ -1605,7 +1605,7 @@ for di = 1:numDetectors
                 dMCdROfRhodMua.Stdev = sqrt((dMCdROfRhodMua.SecondMoment - (dMCdROfRhodMua.Mean .* dMCdROfRhodMua.Mean)) / (databaseInputJson.N));
             end
             results{di}.dMCdROfRhodMua = dMCdROfRhodMua;
-      case 'dMCdROfRhodMus'
+        case 'dMCdROfRhodMus'
             dMCdROfRhodMus.Name = detector.Name;
             tempRho = detector.Rho;
             dMCdROfRhodMus.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
@@ -1708,7 +1708,7 @@ for di = 1:numDetectors
                 dMCdROfRhoAndTimedMua.Stdev = sqrt((dMCdROfRhoAndTimedMua.SecondMoment - (dMCdROfRhoAndTimedMua.Mean .* dMCdROfRhoAndTimedMua.Mean)) / (databaseInputJson.N));
             end
             results{di}.dMCdROfRhoAndTimedMua = dMCdROfRhoAndTimedMua;
-      case 'dMCdROfRhoAndTimedMus'
+        case 'dMCdROfRhoAndTimedMus'
             dMCdROfRhoAndTimedMus.Name = detector.Name;
             tempRho = detector.Rho;
             dMCdROfRhoAndTimedMus.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
@@ -1722,7 +1722,7 @@ for di = 1:numDetectors
                 dMCdROfRhoAndTimedMus.Stdev = sqrt((dMCdROfRhoAndTimedMus.SecondMoment - (dMCdROfRhoAndTimedMus.Mean .* dMCdROfRhoAndTimedMus.Mean)) / (databaseInputJson.N));
             end
             results{di}.dMCdROfRhoAndTimedMus = dMCdROfRhoAndTimedMus;    
-         case 'pMCROfXAndY'
+        case 'pMCROfXAndY'
             pMCROfXAndY.Name = detector.Name;
             tempX = detector.X;
             tempY = detector.Y;

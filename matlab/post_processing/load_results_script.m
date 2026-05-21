@@ -76,7 +76,7 @@ show.pMCROfFx =                 1;
 show.pMCROfFxAndTime =          1;
 show.pMCTOfRho =                1;
 show.dMCdROfRhodMua =           1;
-show.dMCdROfRhodMus =            1;
+show.dMCdROfRhodMus =           1;
 show.dMCdROfRhoAndTimedMua =    1;
 show.dMCdROfRhoAndTimedMus =    1;
 show.dMCdROfFxdMua =            1;
@@ -1129,7 +1129,7 @@ for mci = 1:length(datanames)
         rhonorm = 2 * pi * results{di}.dMCdROfRhoAndTimedMua.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by dMCdROfRhoAndTimedMua detector: ' num2str(sum(sum(timedelta*results{di}.dMCdROfRhoAndTimedMua.Mean.*repmat(rhonorm,[numtimes,1]))))]);
     end   
-   if isfield(results{di}, 'dMCdROfRhoAndTimedMus') && show.dMCdROfRhoAndTimedMus
+    if isfield(results{di}, 'dMCdROfRhoAndTimedMus') && show.dMCdROfRhoAndTimedMus
         figname = sprintf('log10(%s)',results{di}.dMCdROfRhoAndTimedMus.Name); figure; imagesc(results{di}.dMCdROfRhoAndTimedMus.Rho_Midpoints, results{di}.dMCdROfRhoAndTimedMus.Time_Midpoints,log10(results{di}.dMCdROfRhoAndTimedMus.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
         numtimes = length(results{di}.dMCdROfRhoAndTimedMus.Time)-1;   
         timedelta = results{di}.dMCdROfRhoAndTimedMus.Time(2)-results{di}.dMCdROfRhoAndTimedMus.Time(1);
