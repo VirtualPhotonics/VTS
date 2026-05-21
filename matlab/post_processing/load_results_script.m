@@ -73,7 +73,14 @@ show.pMCROfXAndY =              1;
 show.pMCROfXAndYAndTimeAndSubregion = 1;
 show.pMCROfXAndYAndTimeAndSubregionRecessed = 1;
 show.pMCROfFx =                 1;
+show.pMCROfFxAndTime =          1;
 show.pMCTOfRho =                1;
+show.dMCdROfRhodMua =           1;
+show.dMCdROfRhodMus =            1;
+show.dMCdROfRhoAndTimedMua =    1;
+show.dMCdROfRhoAndTimedMus =    1;
+show.dMCdROfFxdMua =            1;
+show.dMCdROfFxdMus =            1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
 show.ReflectedMTOfXAndYAndSubregionHist = 1;
 show.TransmittedMTOfRhoAndSubregionHist = 1;
@@ -1057,13 +1064,13 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.pMCROfRho.Rho(2)-results{di}.pMCROfRho.Rho(1);
         rhonorm = 2 * pi * results{di}.pMCROfRho.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by pMCROfRho detector: ' num2str(sum(results{di}.pMCROfRho.Mean.*rhonorm'))]);
-     end
+    end
     if isfield(results{di}, 'pMCROfRhoRecessed') && show.pMCROfRhoRecessed
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoRecessed.Name); figure; plot(results{di}.pMCROfRhoRecessed.Rho_Midpoints, log10(results{di}.pMCROfRhoRecessed.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
         rhodelta = results{di}.pMCROfRhoRecessed.Rho(2)-results{di}.pMCROfRhoRecessed.Rho(1);
         rhonorm = 2 * pi * results{di}.pMCROfRhoRecessed.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by pMCROfRhoRecessed detector: ' num2str(sum(results{di}.pMCROfRhoRecessed.Mean.*rhonorm'))]);
-     end
+    end
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoAndTime.Name); figure; imagesc(results{di}.pMCROfRhoAndTime.Rho_Midpoints, results{di}.pMCROfRhoAndTime.Time_Midpoints,log10(results{di}.pMCROfRhoAndTime.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
         numtimes = length(results{di}.pMCROfRhoAndTime.Time)-1;   
@@ -1071,7 +1078,7 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.pMCROfRhoAndTime.Rho(2)-results{di}.pMCROfRhoAndTime.Rho(1);
         rhonorm = 2 * pi * results{di}.pMCROfRhoAndTime.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' num2str(sum(sum(timedelta*results{di}.pMCROfRhoAndTime.Mean.*repmat(rhonorm,[numtimes,1]))))]);
-     end   
+    end   
     if isfield(results{di}, 'pMCROfRhoAndTimeRecessed') && show.pMCROfRhoAndTimeRecessed
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoAndTimeRecessed.Name); figure; imagesc(results{di}.pMCROfRhoAndTimeRecessed.Rho_Midpoints, results{di}.pMCROfRhoAndTimeRecessed.Time_Midpoints,log10(results{di}.pMCROfRhoAndTimeRecessed.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
         numtimes = length(results{di}.pMCROfRhoAndTimeRecessed.Time)-1;   
@@ -1102,6 +1109,35 @@ for mci = 1:length(datanames)
         rhonorm = 2 * pi * results{di}.pMCROfRhoAndTimeSubregionRecessed.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by ROfRhoAndTimeAndSubregionRecessed detector: ' num2str(sum(sum(timedelta*results{di}.pMCROfRhoAndTimeAndSubregionRecessed.Mean.*repmat(rhonorm,[numtimes,1]))))]);
     end 
+    if isfield(results{di}, 'dMCdROfRhodMua') && show.dMCdROfRhodMua
+        figname = sprintf('log10(%s)',results{di}.dMCdROfRhodMua.Name); figure; plot(results{di}.dMCdROfRhodMua.Rho_Midpoints, log10(results{di}.dMCdROfRhodMua.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('dMC dR(\rho)/dMua [mm^-^2]');
+        rhodelta = results{di}.dMCdROfRhodMua.Rho(2)-results{di}.dMCdROfRhodMua.Rho(1);
+        rhonorm = 2 * pi * results{di}.dMCdROfRhodMua.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by dMCdROfRhodMua detector: ' num2str(sum(results{di}.dMCdROfRhodMua.Mean.*rhonorm'))]);
+    end
+    if isfield(results{di}, 'dMCdROfRhodMus') && show.dMCdROfRhodMus
+        figname = sprintf('log10(%s)',results{di}.dMCdROfRhodMus.Name); figure; plot(results{di}.dMCdROfRhodMus.Rho_Midpoints, log10(results{di}.dMCdROfRhodMus.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('dMC dR(\rho)/dMus [mm^-^2]');
+        rhodelta = results{di}.dMCdROfRhodMus.Rho(2)-results{di}.dMCdROfRhodMus.Rho(1);
+        rhonorm = 2 * pi * results{di}.dMCdROfRhodMus.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by dMCdROfRhodMus detector: ' num2str(sum(results{di}.dMCdROfRhodMus.Mean.*rhonorm'))]);
+    end   
+    if isfield(results{di}, 'dMCdROfRhoAndTimedMua') && show.dMCdROfRhoAndTimedMua
+        figname = sprintf('log10(%s)',results{di}.dMCdROfRhoAndTimedMua.Name); figure; imagesc(results{di}.dMCdROfRhoAndTimedMua.Rho_Midpoints, results{di}.dMCdROfRhoAndTimedMua.Time_Midpoints,log10(results{di}.dMCdROfRhoAndTimedMua.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
+        numtimes = length(results{di}.dMCdROfRhoAndTimedMua.Time)-1;   
+        timedelta = results{di}.dMCdROfRhoAndTimedMua.Time(2)-results{di}.dMCdROfRhoAndTimedMua.Time(1);
+        rhodelta = results{di}.dMCdROfRhoAndTimedMua.Rho(2)-results{di}.dMCdROfRhoAndTimedMua.Rho(1);
+        rhonorm = 2 * pi * results{di}.dMCdROfRhoAndTimedMua.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by dMCdROfRhoAndTimedMua detector: ' num2str(sum(sum(timedelta*results{di}.dMCdROfRhoAndTimedMua.Mean.*repmat(rhonorm,[numtimes,1]))))]);
+    end   
+   if isfield(results{di}, 'dMCdROfRhoAndTimedMus') && show.dMCdROfRhoAndTimedMus
+        figname = sprintf('log10(%s)',results{di}.dMCdROfRhoAndTimedMus.Name); figure; imagesc(results{di}.dMCdROfRhoAndTimedMus.Rho_Midpoints, results{di}.dMCdROfRhoAndTimedMus.Time_Midpoints,log10(results{di}.dMCdROfRhoAndTimedMus.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
+        numtimes = length(results{di}.dMCdROfRhoAndTimedMus.Time)-1;   
+        timedelta = results{di}.dMCdROfRhoAndTimedMus.Time(2)-results{di}.dMCdROfRhoAndTimedMus.Time(1);
+        rhodelta = results{di}.dMCdROfRhoAndTimedMus.Rho(2)-results{di}.dMCdROfRhoAndTimedMus.Rho(1);
+        rhonorm = 2 * pi * results{di}.dMCdROfRhoAndTimedMus.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by dMCdROfRhoAndTimedMus detector: ' num2str(sum(sum(timedelta*results{di}.dMCdROfRhoAndTimedMus.Mean.*repmat(rhonorm,[numtimes,1]))))]);
+    end   
+     
     if isfield(results{di}, 'pMCROfXAndY') && show.pMCROfXAndY
         figname = sprintf('log10(%s)',results{di}.pMCROfXAndY.Name); figure; imagesc(results{di}.pMCROfXAndY.X_Midpoints, results{di}.pMCROfXAndY.Y_Midpoints,log10(results{di}.pMCROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]');
         xdelta = results{di}.ROfXAndYAndTime.X(2)-results{di}.ROfXAndYAndTime.X(1);        
@@ -1143,10 +1179,22 @@ for mci = 1:length(datanames)
     end
     if isfield(results{di}, 'pMCROfFx') && show.pMCROfFx
         figname = sprintf('%s - Amplitude',results{di}.pMCROfFx.Name);figure;plot(results{di}.pMCROfFx.Fx_Midpoints, abs(results{di}.pMCROfFx.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('R(f_x) [unitless]');
-        Fxdelta = results{di}.pMCROfFx.Fx(2)-results{di}.pMCROfFx.Fx(1);
-        Fxnorm = 2 * pi * (results{di}.pMCROfFx.Fx_Midpoints * Fxdelta);
-        disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.pMCROfFx.Mean.*Fxnorm'))]);
+        disp(['Total reflectance captured by pMCROfFx detector: ' num2str(results{di}.pMCROfFx.Amplitude(1))]);
     end     
+    if isfield(results{di}, 'dMCdROfFxdMua') && show.dMCdROfFxdMua
+        figname = sprintf('%s - Amplitude',results{di}.dMCdROfFxdMua.Name);figure;plot(results{di}.dMCdROfFxdMua.Fx_Midpoints, abs(results{di}.dMCdROfFxdMua.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('dR(f_x)/dMua [unitless]');
+        disp(['Total reflectance captured by dMCdROfFxdMua detector: ' num2str(results{di}.dMCdROfFxdMua.Amplitude(1))]);
+    end
+    if isfield(results{di}, 'dMCdROfFxdMus') && show.dMCdROfFxdMus
+        figname = sprintf('%s - Amplitude',results{di}.dMCdROfFxdMus.Name);figure;plot(results{di}.dMCdROfFxdMus.Fx_Midpoints, abs(results{di}.dMCdROfFxdMus.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('dR(f_x)/dMua [unitless]');
+        disp(['Total reflectance captured by dMCdROfFxdMus detector: ' num2str(results{di}.dMCdROfFxdMus.Amplitude(1))]);
+    end
+    if isfield(results{di}, 'pMCROfFxAndTime') && show.pMCROfFxAndTime
+        figname = sprintf('%s - Amplitude',results{di}.pMCROfFxAndTime.Name);figure;imagesc(results{di}.pMCROfFxAndTime.Fx_Midpoints, results{di}.pMCROfFxAndTime.Time_Midpoints, abs(results{di}.pMCROfFxAndTime.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('time [ns]'),title('R(f_x) [unitless]');
+        timedelta = results{di}.pMCROfFx.Time(2)-results{di}.pMCROfFx.Time(1);
+        disp(['Total reflectance captured by pMCROfFxAndTime detector: ' num2str(timedelta*results{di}.pMCROfFxAndTime.Amplitude(1))]);
+    end     
+
     if isfield(results{di}, 'pMCTOfRho') && show.pMCTOfRho
         figname = sprintf('log10(%s)',results{di}.pMCTOfRho.Name); figure; plot(results{di}.pMCTOfRho.Rho_Midpoints, log10(results{di}.pMCTOfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC T(\rho) [mm^-^2]');
         disp(['Total reflectance captured by pMCTOfRho detector: ' num2str(sum(results{di}.pMCTOfRho.Mean(:)))]);
