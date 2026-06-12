@@ -186,13 +186,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             // keep track of max depth reached in photon history to this point
             if (dp.Position.Z > _maxDepth) _maxDepth = dp.Position.Z;
-            // check if previous at pseudo-collision placed when crossing ZDepth and dp crossed in right direction
-            var crossed = (Math.Abs(previousDP.Position.Z - ZDepth) < 1E-10 && 
-                               dp.Position.Z > ZDepth && ZDirection > 0) ||
-                              (Math.Abs(previousDP.Position.Z - ZDepth) < 1E-10 && 
-                               dp.Position.Z < ZDepth && ZDirection < 0);
-            // check if crossed
-            if (!crossed) return;
+
             if (!IsWithinDetectorAperture(previousDP, dp)) return;
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1,
@@ -200,8 +194,8 @@ namespace Vts.MonteCarlo.Detectors
             var id = DetectorBinning.WhichBin(_maxDepth, MaxDepth.Count - 1, MaxDepth.Delta, MaxDepth.Start);
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
 
-
             if (dp.Weight == 0.0) return;
+ 
             Mean[ir, it, id] += dp.Weight; // FIX: do I divide by Uz here?
             TallyCount++;
             if (!TallySecondMoment) return;
@@ -221,12 +215,23 @@ namespace Vts.MonteCarlo.Detectors
             }
             // reinitialize max depth for each photon history
             _maxDepth = 0.0;
-            var previousDp = photon.History.HistoryData.First();
-            foreach (var dp in photon.History.HistoryData.Skip(1))
+            // go though history with a moving window of 3 data points: start at i=1 so that there is a previous data point
+            for (var i = 1; i < photon.History.HistoryData.Count - 3; i++)
             {
-                TallySingle(previousDp, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
-                previousDp = dp;
+                var previousDp = photon.History.HistoryData[i - 1];
+                var dp = photon.History.HistoryData[i];
+                var nextDp = photon.History.HistoryData.ElementAtOrDefault(i + 1);
+
+                // check if dp at pseudo-collision at ZDepth and previous and next straddle ZDepth in right direction
+                if (Math.Abs(dp.Position.Z - ZDepth) < 1E-10 &&
+                    nextDp != null &&
+                    ((previousDp.Position.Z < ZDepth && nextDp.Position.Z > ZDepth && ZDirection > 0) ||
+                     (previousDp.Position.Z > ZDepth && nextDp.Position.Z < ZDepth && ZDirection < 0)))
+                {
+                    TallySingle(previousDp, dp, _tissue.GetRegionIndex(dp.Position));
+                }
             }
+
             // second moment determined after all tallies to each detector bin for ONE photon has been complete
             if (!TallySecondMoment) return;
             for (var ir = 0; ir < Rho.Count - 1; ir++)
