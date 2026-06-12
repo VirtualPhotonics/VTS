@@ -184,9 +184,6 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="currentRegionIndex">index of region photon current is in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
-            // keep track of max depth reached in photon history to this point
-            if (dp.Position.Z > _maxDepth) _maxDepth = dp.Position.Z;
-
             if (!IsWithinDetectorAperture(previousDP, dp)) return;
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1,
@@ -221,6 +218,9 @@ namespace Vts.MonteCarlo.Detectors
                 var previousDp = photon.History.HistoryData[i - 1];
                 var dp = photon.History.HistoryData[i];
                 var nextDp = photon.History.HistoryData.ElementAtOrDefault(i + 1);
+
+                // keep track of max depth reached in photon history to this point
+                if (dp.Position.Z > _maxDepth) _maxDepth = dp.Position.Z;
 
                 // check if dp at pseudo-collision at ZDepth and previous and next straddle ZDepth in right direction
                 if (Math.Abs(dp.Position.Z - ZDepth) < 1E-10 &&
