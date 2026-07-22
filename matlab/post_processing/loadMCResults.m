@@ -99,18 +99,18 @@ for di = 1:numDetectors
             ROfRhoAndTimeAndMaxDepth.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
             ROfRhoAndTimeAndMaxDepth.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));        
             ROfRhoAndTimeAndMaxDepth.MaxDepth = linspace((tempMaxDepth.Start), (tempMaxDepth.Stop), (tempMaxDepth.Count)); ROfRhoAndTimeAndMaxDepth.Rho_Midpoints = (ROfRhoAndTimeAndMaxDepth.Rho(1:end-1) + ROfRhoAndTimeAndMaxDepth.Rho(2:end))/2;
-            ROfRhoAndTimeAndMaxDepth.Rho_Midpoints = (ROfRhoAndMaxDepth.Rho(1:end-1) + ROfRhoAndMaxDepth.Rho(2:end))/2;
+            ROfRhoAndTimeAndMaxDepth.Rho_Midpoints = (ROfRhoAndTimeAndMaxDepth.Rho(1:end-1) + ROfRhoAndMaxDepth.Rho(2:end))/2;
             ROfRhoAndTimeAndMaxDepth.Time_Midpoints = (ROfRhoAndTimeAndMaxDepth.Time(1:end-1) + ROfRhoAndTimeAndMaxDepth.Time(2:end))/2;
-            ROfRhoAndTimeAndMaxDepth.MaxDepth_Midpoints = (ROfRhoAndMaxDepth.MaxDepth(1:end-1) + ROfRhoAndMaxDepth.MaxDepth(2:end))/2;
+            ROfRhoAndTimeAndMaxDepth.MaxDepth_Midpoints = (ROfRhoAndTimeAndMaxDepth.MaxDepth(1:end-1) + ROfRhoAndTimeAndMaxDepth.MaxDepth(2:end))/2;
             ROfRhoAndTimeAndMaxDepth.Mean = readBinaryData([datadir slash detector.Name], ...
                 (length(ROfRhoAndTimeAndMaxDepth.MaxDepth)-1)*(length(ROfRhoAndTimeAndMaxDepth.Time)-1)*(length(ROfRhoAndTimeAndMaxDepth.Rho)-1)); % read column major json binary             
             ROfRhoAndTimeAndMaxDepth.Mean = reshape(ROfRhoAndTimeAndMaxDepth.Mean, ...
                 [length(ROfRhoAndTimeAndMaxDepth.MaxDepth)-1,length(ROfRhoAndTimeAndMaxDepth.Time)-1,length(ROfRhoAndTimeAndMaxDepth.Rho)-1]); % read column major json binary             
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ROfRhoAndTimeAndMaxDepth.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
-                    (length(ROfRhoAndTimeAndMaxDepth)-1)*(length(ROfRhoAndTimeAndMaxDepth.Time)-1)*(length(ROfRhoAndTime.Rho)-1));
+                    (length(ROfRhoAndTimeAndMaxDepth.MaxDepth)-1)*(length(ROfRhoAndTimeAndMaxDepth.Time)-1)*(length(ROfRhoAndTimeAndMaxDepth.Rho)-1));
                 ROfRhoAndTimeAndMaxDepth.SecondMoment = reshape(ROfRhoAndTimeAndMaxDepth.Mean, ...
-                    [length(ROfRhoAndTimeAndMaxDepth)-1,length(ROfRhoAndTimeAndMaxDepth.Time)-1,length(ROfRhoAndTime.Rho)-1]);
+                    [length(ROfRhoAndTimeAndMaxDepth.MaxDepth)-1,length(ROfRhoAndTimeAndMaxDepth.Time)-1,length(ROfRhoAndTimeAndMaxDepth.Rho)-1]);
                 ROfRhoAndTimeAndMaxDepth.Stdev = sqrt((ROfRhoAndTimeAndMaxDepth.SecondMoment - (ROfRhoAndTimeAndMaxDepth.Mean .* ROfRhoAndTimeAndMaxDepth.Mean)) / json.N);
             end
             results{di}.ROfRhoAndTimeAndMaxDepth = ROfRhoAndTimeAndMaxDepth;
