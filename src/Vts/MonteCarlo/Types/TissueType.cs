@@ -28,6 +28,8 @@ namespace Vts.MonteCarlo
             "MultiLayerWithSurfaceFiber",
             // Multiple (2 right now) concentric infinite cylinder
             "MultiConcentricInfiniteCylinder",
+            // Multiple inclusions within multiple layers
+            "MultiInclusion",
             // Multilayer tissue bounded by vertical cylinder laterally
             "BoundingCylinder",
             // Multilayer tissue bounded by voxel laterally
