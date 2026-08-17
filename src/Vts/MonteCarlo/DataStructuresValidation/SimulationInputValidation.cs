@@ -90,6 +90,8 @@ namespace Vts.MonteCarlo
                 SingleVoxelTissueInput => SingleVoxelTissueInputValidation.ValidateInput(tissueInput),
                 SingleInfiniteCylinderTissueInput => SingleInfiniteCylinderTissueInputValidation.ValidateInput(
                     tissueInput),
+                MultiEllipsoidTissueInput => MultiEllipsoidTissueInputValidation.ValidateInput(tissueInput),
+                MultiInfiniteCylinderTissueInput => MultiInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput),
                 MultiConcentricInfiniteCylinderTissueInput => MultiConcentricInfiniteCylinderTissueInputValidation
                     .ValidateInput(tissueInput),
                 BoundingCylinderTissueInput => BoundingCylinderTissueInputValidation.ValidateInput(tissueInput),

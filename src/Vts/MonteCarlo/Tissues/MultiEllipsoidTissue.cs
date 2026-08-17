@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -6,7 +5,7 @@ using Vts.Common;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueInput.  Defines input to SingleEllipsoidTissue class.
+    /// Implements ITissueInput.  Defines input to MultiEllipsoidTissue class.
     /// </summary>
     public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
     {
@@ -32,8 +31,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public MultiEllipsoidTissueInput()
             : this(
-                new ITissueRegion[]
-                {
+                [
                     new EllipsoidTissueRegion(
                         new Position(10, 0, 10),
                         5.0,
@@ -46,9 +44,8 @@ namespace Vts.MonteCarlo.Tissues
                         0,
                         5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4))
-                },
-                new ITissueRegion[]
-                {
+                ],
+                [
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
@@ -58,7 +55,7 @@ namespace Vts.MonteCarlo.Tissues
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
-                })
+                ])
         {
         }
 
@@ -104,7 +101,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>instantiated tissue</returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            throw new NotImplementedException();
+            var t = new MultiInclusionTissue(EllipsoidRegions, LayerRegions);
+
+            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            return t;
         }
     }
 }

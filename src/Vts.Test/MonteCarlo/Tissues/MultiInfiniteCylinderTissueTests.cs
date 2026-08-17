@@ -8,7 +8,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Tissues
 {
     [TestFixture]
-    public class MultiEllipsoidTissueInputTests
+    public class MultiInfiniteCylinderTissueInputTests
     {
         /// <summary>
         /// List of temporary files created by these unit tests
@@ -34,29 +34,29 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_default_constructor()
         {
-            var i = new MultiEllipsoidTissueInput();
-            var ellipsoids = i.EllipsoidRegions;
+            var i = new MultiInfiniteCylinderTissueInput();
+            var infiniteCylinders = i.InfiniteCylinderRegions;
             var layers = i.LayerRegions;
-            Assert.That(ellipsoids[0].Center.X, Is.EqualTo(10.0));
-            Assert.That(ellipsoids[0].Center.Y, Is.EqualTo(0.0));
-            Assert.That(ellipsoids[0].Center.Z, Is.EqualTo(10.0)); 
-            Assert.That(ellipsoids[1].Center.X, Is.EqualTo(0.0));
-            Assert.That(ellipsoids[1].Center.Y, Is.EqualTo(0.0));
-            Assert.That(ellipsoids[1].Center.Z, Is.EqualTo(40.0));
+            Assert.That(infiniteCylinders[0].Center.X, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[0].Center.Y, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[0].Center.Z, Is.EqualTo(1.0)); 
+            Assert.That(infiniteCylinders[1].Center.X, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[1].Center.Y, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[1].Center.Z, Is.EqualTo(5.0));
             Assert.That(layers[1].Center.Z, Is.EqualTo(25.0));
         }
 
         /// <summary>
-        /// verify MultiEllipsoidTissueInput deserializes correctly
+        /// verify MultiInfiniteCylinderTissueInput deserializes correctly
         /// </summary>
         [Test]
         public void Validate_deserialized_class_is_correct()
         {
-            var i = new MultiEllipsoidTissueInput([
-                    new EllipsoidTissueRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
+            var i = new MultiInfiniteCylinderTissueInput([
+                    new InfiniteCylinderTissueRegion(new Position(0, 0, 1), 0.5,
                             new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
-                        new EllipsoidTissueRegion(new Position(0, 1, 0), 0.25, 0.25, 0.25,
-                            new OpticalProperties(0.05, 1.0, 0.8, 1.4))
+                        new InfiniteCylinderTissueRegion(new Position(0, 0, 2), 0.25,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
 
                 ], [
                     new LayerTissueRegion(
@@ -73,20 +73,20 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             var iCloned = i.Clone();
 
-            Assert.That(i.EllipsoidRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.EllipsoidRegions[1].RegionOP.Mus));
+            Assert.That(i.InfiniteCylinderRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.InfiniteCylinderRegions[1].RegionOP.Mus));
             Assert.That(i.Regions[1].RegionOP.Mus, Is.EqualTo(iCloned.Regions[1].RegionOP.Mus));
         }
 
         /// <summary>
-        /// Verify MultiEllipsoidTissueInput deserializes when using FileIO
+        /// Verify MultiInfiniteCylinderTissueInput deserializes when using FileIO
         /// </summary>
         [Test]
         public void Validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            var i = new MultiEllipsoidTissueInput([
-                    new EllipsoidTissueRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
+            var i = new MultiInfiniteCylinderTissueInput([
+                    new InfiniteCylinderTissueRegion(new Position(0, 0, 1), 0.5,
                             new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
-                        new EllipsoidTissueRegion(new Position(0, 1, 0), 0.25, 0.25, 0.25,
+                        new InfiniteCylinderTissueRegion(new Position(0, 1, 0),0.25,
                             new OpticalProperties(0.05, 1.0, 0.8, 1.4))
 
                 ], [
@@ -102,9 +102,9 @@ namespace Vts.Test.MonteCarlo.Tissues
                 ]
             );
             i.WriteToJson("MultiLayerTissue.txt");
-            var iCloned = FileIO.ReadFromJson<MultiEllipsoidTissueInput>("MultiLayerTissue.txt");
+            var iCloned = FileIO.ReadFromJson<MultiInfiniteCylinderTissueInput>("MultiLayerTissue.txt");
 
-            Assert.That(i.EllipsoidRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.EllipsoidRegions[1].RegionOP.Mus));
+            Assert.That(i.InfiniteCylinderRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.InfiniteCylinderRegions[1].RegionOP.Mus));
             Assert.That(i.Regions[1].RegionOP.Mus, Is.EqualTo(iCloned.Regions[1].RegionOP.Mus));
         }
 
@@ -114,10 +114,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Verify_CreateTissue_creates_class()
         {
-            var i = new MultiEllipsoidTissueInput([
-                new EllipsoidTissueRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
+            var i = new MultiInfiniteCylinderTissueInput([
+                new InfiniteCylinderTissueRegion(new Position(0, 0, 1), 0.5,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
-                new EllipsoidTissueRegion(new Position(0, 0, 2), 0.25, 0.25, 0.25,
+                new InfiniteCylinderTissueRegion(new Position(0, 0, 2), 0.25,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4))
 
             ], [

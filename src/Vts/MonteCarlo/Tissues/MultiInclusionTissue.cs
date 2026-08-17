@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// <summary>
     /// Implements ITissue.  All "InclusionTissue" classes define processing for those tissues that use
     /// this class to get created. Defines a tissue geometry comprised of a list of inclusions
-    /// embedded within different layers of a layered slab.  Note that many of the methods in this class are
+    /// embedded within *different* layers of a layered slab.  Note that many of the methods in this class are
     /// invoked by Photon class and Photon masterminds their returns.  For example, when the photon is
     /// on the boundary of the layers or the inclusions, Photon determines whether in the critical angle
     /// and if so whether to reflect or refract, then invokes the methods below accordingly.
@@ -38,9 +38,16 @@ namespace Vts.MonteCarlo.Tissues
 
             _layerRegions = layerRegions.Select(r => (LayerTissueRegion)r).ToList();
             _inclusionRegions = inclusionRegions.Select(r => r).ToList();
-            _layerRegionIndicesOfInclusion = Enumerable.Range(0, _layerRegions.Count)
-                .Where(i => _layerRegions[i].ContainsPosition(_inclusionRegions[i].Center))
-                .ToList();
+            // determine which layers have inclusion
+            _layerRegionIndicesOfInclusion = new List<int>();
+            for (var i = 0; i < _layerRegions.Count - 1; i++)
+            {
+                for (var j = 0; j < _inclusionRegions.Count - 1; j++)
+                {
+                    if (_layerRegions[i].ContainsPosition(_inclusionRegions[j].Center))
+                        _layerRegionIndicesOfInclusion.Add(i);
+                }
+            }
         }
 
         /// <summary>
@@ -169,22 +176,20 @@ namespace Vts.MonteCarlo.Tissues
             // check if we are in a layer region  
             var inLayer = regionIndex >= 1 && regionIndex < _layerRegions.Count - 1;
 
-            if (inLayer) // if in layer could be on boundary of layer or inclusion
+            if (inLayer && Regions[regionIndex].OnBoundary(photon.DP.Position))
             {
+                // if in layer could be on boundary of layer or inclusion
                 // check if on boundary of layer region
-                if (Regions[regionIndex].OnBoundary(photon.DP.Position))
+                // determine which layer region photon is on boundary of, if any
+                var index = -1;
+                for (var i = 0; i < _layerRegions.Count; i++)
                 {
-                    // determine which layer region photon is on boundary of, if any
-                    var index = -1;
-                    for (var i = 0; i < _layerRegions.Count; i++)
+                    if (_layerRegions[i].OnBoundary(photon.DP.Position))
                     {
-                        if (_layerRegions[i].OnBoundary(photon.DP.Position))
-                        {
-                            index = i;
-                        }
+                        index = i;
                     }
-                    if (index != -1) return index;
                 }
+                if (index != -1) return index;
             }
 
             // if we're in a layer region with an inclusion(s) and not on boundary of layer
