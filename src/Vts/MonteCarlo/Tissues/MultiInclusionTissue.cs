@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -40,11 +41,11 @@ namespace Vts.MonteCarlo.Tissues
             _inclusionRegions = inclusionRegions.Select(r => r).ToList();
             // determine which layers have inclusion
             _layerRegionIndicesOfInclusion = new List<int>();
-            for (var i = 0; i < _layerRegions.Count - 1; i++)
+            foreach (var inclusionRegion in _inclusionRegions)
             {
-                for (var j = 0; j < _inclusionRegions.Count - 1; j++)
+                for (var i = 0; i < _layerRegions.Count; i++) 
                 {
-                    if (_layerRegions[i].ContainsPosition(_inclusionRegions[j].Center))
+                    if (_layerRegions[i].ContainsPosition(inclusionRegion.Center))
                         _layerRegionIndicesOfInclusion.Add(i);
                 }
             }
@@ -99,50 +100,42 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>double distance to boundary</returns>
         public override double GetDistanceToBoundary(Photon photon)
         {
-            // first check if closest boundary is a layer
+            // first check if in layer or inclusion
 
             // going "up" in negative z-direction
             var goingUp = photon.DP.Direction.Uz < 0.0;
 
-            // get current and adjacent regions
-            var currentRegionIndex = photon.CurrentRegionIndex;
-            // check if not in embedded tissue region ckh fix 8/10/11
-            var currentRegion = _layerRegions[1];
-            if (currentRegionIndex < _layerRegions.Count)
+            var distanceToLayer = double.PositiveInfinity;
+            var distanceToInclusion = double.PositiveInfinity;
+
+            // get layer index of photon (could be in inclusion in layer)
+            if (photon.CurrentRegionIndex < _layerRegions.Count) // photon in layer
             {
-                currentRegion = _layerRegions[currentRegionIndex];
+                // calculate distance to boundary based on z-projection of photon trajectory
+                distanceToLayer =
+                    goingUp
+                        ? (_layerRegions[photon.CurrentRegionIndex].ZRange.Start - photon.DP.Position.Z) /
+                          photon.DP.Direction.Uz
+                        : (_layerRegions[photon.CurrentRegionIndex].ZRange.Stop - photon.DP.Position.Z) /
+                          photon.DP.Direction.Uz;
             }
-            // calculate distance to boundary based on z-projection of photon trajectory
-            var distanceToLayer =
-                goingUp
-                    ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
-                    : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
-
-            // then check if inclusion boundaries are closer
-            // this is could be optimized by only checking inclusions in the current layer,
-            // but for now check all inclusions
-            var smallestInclusionDistance = double.PositiveInfinity;
-
-            // check that a projected track will hit one of the inclusions
-            var projectedPhoton = new Photon
+            else // photon in some inclusion 
             {
-                DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
-                    photon.DP.TotalTime, photon.DP.StateFlag),
-                S = 100 
-            };
-            foreach (var inclusionRegion in _inclusionRegions)
-            {
-                inclusionRegion.RayIntersectBoundary(projectedPhoton, out var distToInclusion);
-                // first check that photon isn't sitting on boundary of one of the inclusions
-                // note 1e-9 was found by trial and error using unit tests to verify selection
-                // if you change value, need to update InclusionTissueRegion.ContainsPosition eps
-                if (distToInclusion > 1e-9 && distToInclusion < smallestInclusionDistance)
+                // check distance to boundary of inclusion photon is currently in
+                var inclusionRegionIndex = photon.CurrentRegionIndex - _layerRegions.Count;
+
+                // check that a projected track will hit one of the inclusions
+                var projectedPhoton = new Photon
                 {
-                    smallestInclusionDistance = distToInclusion;
-                }
+                    DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
+                        photon.DP.TotalTime, photon.DP.StateFlag),
+                    S = 100
+                };
+                _inclusionRegions[inclusionRegionIndex].RayIntersectBoundary(projectedPhoton, out var distToInclusion);
+                distanceToInclusion = distToInclusion;
             }
 
-            return smallestInclusionDistance < distanceToLayer ? smallestInclusionDistance : distanceToLayer;
+            return distanceToInclusion < distanceToLayer ? distanceToInclusion : distanceToLayer;
         }
 
         /// <summary>
@@ -171,50 +164,31 @@ namespace Vts.MonteCarlo.Tissues
             // 2) in inclusion entering layer of inclusion
             // 3) on layer region boundary
             // first, check what region the photon is in
-            var regionIndex = photon.CurrentRegionIndex;
+            var currentRegionIndex = photon.CurrentRegionIndex;
 
-            // check if we are in a layer region  
-            var inLayer = regionIndex >= 1 && regionIndex < _layerRegions.Count - 1;
+            // check if we are in a layer region
+            var inLayer = currentRegionIndex >= 0 && currentRegionIndex < _layerRegions.Count;
 
-            if (inLayer && Regions[regionIndex].OnBoundary(photon.DP.Position))
+            // check if on boundary of layer, then neighbor is next layer region
+            if (inLayer && Regions[currentRegionIndex].OnBoundary(photon.DP.Position))
             {
-                // if in layer could be on boundary of layer or inclusion
-                // check if on boundary of layer region
-                // determine which layer region photon is on boundary of, if any
-                var index = -1;
-                for (var i = 0; i < _layerRegions.Count; i++)
-                {
-                    if (_layerRegions[i].OnBoundary(photon.DP.Position))
-                    {
-                        index = i;
-                    }
-                }
-                if (index != -1) return index;
+                return base.GetNeighborRegionIndex(photon);
             }
 
             // if we're in a layer region with an inclusion(s) and not on boundary of layer
-            // then on boundary of one of the inclusions
+            // then on boundary of one of the inclusions and could be entering or exiting region
 
-            // check if we are in an inclusion region
-            var inInclusion = regionIndex >= _layerRegions.Count && regionIndex < _inclusionRegions.Count - 1;
-            
-            if (inInclusion)
+            // determine which inclusion photon is on boundary of
+            // use _inclusionRegion to determine if within one of inclusions
+            for (var j = 0; j < _inclusionRegions.Count; j++)
             {
-                // determine which inclusion photon is on boundary of
-                // use _inclusionRegion to determine if within one of inclusions
-                var index = -1;
-                for (var j = 0; j < _inclusionRegions.Count; j++)
-                {
-                    if (_inclusionRegions[j].ContainsPosition(photon.DP.Position))
-                    {
-                        index = _layerRegions.Count + j;
-                    }
-                }
+                if (!_inclusionRegions[j].ContainsPosition(photon.DP.Position)) continue;
 
-                if (index != -1) return index;
+                return currentRegionIndex == _layerRegionIndicesOfInclusion[j] ? _layerRegions.Count + j :  // entering inclusion
+                    _layerRegionIndicesOfInclusion[j]; // exiting into surrounding layer region
             }
 
-            return -1;
+            return -1; // should never get here, but just in case
         }
 
         /// <summary>

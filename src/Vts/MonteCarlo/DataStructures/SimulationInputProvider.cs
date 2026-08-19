@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
+                PointSourceMultiConcentricInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(), // don't change this it is part of documentation
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
@@ -459,16 +460,16 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source multi infinite cylinder A(x,y,z)
+        #region point source multi concentric infinite cylinder A(x,y,z)
         /// <summary>
-        /// Point source, multi infinite cylinder tissue definition, only AOfXAndYAndZ detector included
+        /// Point source, multi *concentric* infinite cylinder tissue definition, only AOfXAndYAndZ detector included
         /// </summary>
         /// <returns>An instance of the SimulationInput class</returns>
-        public static SimulationInput PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector()
+        public static SimulationInput PointSourceMultiConcentricInfiniteCylinderTissueAOfXAndYAndZDetector()
         {
             return new SimulationInput(
                 100,
-                "multi_infinite_cylinder_AOfXAndYAndZ",
+                "multi_concentric_infinite_cylinder_AOfXAndYAndZ",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -514,6 +515,80 @@ namespace Vts.MonteCarlo
                         X = new DoubleRange(-10, 10, 201),
                         Y = new DoubleRange(-10, 10, 2),
                         Z = new DoubleRange(0, 10, 101)},
+                }
+            );
+        }
+        #endregion
+
+        #region point source multi infinite cylinder A(x,y,z)
+        /// <summary>
+        /// Point source, multi infinite cylinder tissue definition, only AOfXAndYAndZ detector included
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector()
+        {
+            return new SimulationInput(
+                100,
+                "multi_infinite_cylinder_AOfXAndYAndZ",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType> { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiInfiniteCylinderTissueInput(
+                    [
+                        new InfiniteCylinderTissueRegion(
+                            new Position(-1, 0, 1),
+                            0.5,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0, 0, 1),
+                            0.5,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                        new InfiniteCylinderTissueRegion(
+                            new Position(1, 0, 1),
+                            0.5,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0, 0, 5),
+                            1.0,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                    ],
+                    [
+                        new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 3.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)), 
+                    new LayerTissueRegion(
+                        new DoubleRange(3.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    ]
+                ),
+                new List<IDetectorInput>
+                {
+                    new AOfXAndYAndZDetectorInput
+                    {
+                        X = new DoubleRange(-10, 10, 201),
+                        Y = new DoubleRange(-10, 10, 2),
+                        Z = new DoubleRange(0, 10, 101)
+                    },
                 }
             );
         }
