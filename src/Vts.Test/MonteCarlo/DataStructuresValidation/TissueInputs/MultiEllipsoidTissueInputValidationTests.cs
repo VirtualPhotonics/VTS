@@ -184,7 +184,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
 
         /// <summary>
         /// Test to check that ellipsoid refractive index mismatch refractive index of
-        /// surrounding layer passes
+        /// surrounding layer is okay and passes
         /// </summary>
         [Test]
         public void validate_ellipsoid_refractive_index_mismatches_that_of_surrounding_layer_is_okay()

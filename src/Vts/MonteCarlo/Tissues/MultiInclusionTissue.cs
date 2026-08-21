@@ -72,6 +72,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>integer index of region position is in</returns>
         public override int GetRegionIndex(Position position)
         {
+            // check layers first because inclusions are embedded in layers and could be in both
             var index = -1;
             // use LayerTissueRegion to determine which region photon resides
             for (var i = 0; i < _layerRegions.Count; i++)

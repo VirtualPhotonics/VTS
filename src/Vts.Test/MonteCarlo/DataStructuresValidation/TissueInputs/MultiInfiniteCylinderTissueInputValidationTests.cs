@@ -191,7 +191,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                             1.0, 
                             new OpticalProperties(0.01, 1.0, 0.9, 1.3)),
                         new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 3), 
+                            new Position(0, 0, 5), 
                             1.0, 
                             new OpticalProperties(0.01, 1.0, 0.9, 1.3))
 
@@ -215,5 +215,94 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.That(result.IsValid, Is.True);
         }
+
+        /// <summary>
+        /// Test to check that InfiniteCylinders are not concentric 
+        /// </summary>
+        [Test]
+        public void validate_InfiniteCylinders_are_not_concentric()
+        {
+            var input = new SimulationInput(
+                10,
+                "",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                new MultiInfiniteCylinderTissueInput(
+                    [
+                        // concentric cylinder definition
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0,0,10),
+                            2.0,
+                            new OpticalProperties()
+                        ),
+                        new InfiniteCylinderTissueRegion( 
+                            new Position(0,0,10),
+                            1.0,
+                            new OpticalProperties())
+                    ],
+                    [
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 20.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(20.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    ]
+                ),
+                new List<IDetectorInput>
+                {
+                    new AOfXAndYAndZDetectorInput()
+                });
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.That(result.IsValid, Is.False);
+        }
+
+        /// <summary>
+        /// Test to check that InfiniteCylinders do not overlap
+        /// </summary>
+        [Test]
+        public void validate_InfiniteCylinders_do_not_overlap()
+        {
+            var input = new SimulationInput(
+                10,
+                "",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                new MultiInfiniteCylinderTissueInput(
+                    [
+                        // overlapping cylinders
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0,0,9),
+                            2.0,
+                            new OpticalProperties()
+                        ),
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0,0,10),
+                            1.0,
+                            new OpticalProperties())
+                    ],
+                    [
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 20.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(20.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    ]
+                ),
+                new List<IDetectorInput>
+                {
+                    new AOfXAndYAndZDetectorInput()
+                });
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.That(result.IsValid, Is.False);
+        }
+
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vts.IO;
 using Vts.MonteCarlo.DataStructuresValidation;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;
@@ -88,6 +90,38 @@ namespace Vts.MonteCarlo
                         "MultiInfiniteCylinderTissueInput: resize Radius of InfiniteCylinder dimension so that 2*Radius<thickness of layer of inclusion");
 
                 }
+            }
+
+            // check that the multiple infinite cylinders do not intersect
+            for (var i = 0; i < infiniteCylinders.Count; i++)
+            {
+                for (var j = i + 1; j < infiniteCylinders.Count; j++)
+                {
+                    // determine distance between centers
+                    var d = Math.Sqrt((infiniteCylinders[i].Center.X - infiniteCylinders[j].Center.X) *
+                                      (infiniteCylinders[i].Center.X - infiniteCylinders[j].Center.X) +
+                                      (infiniteCylinders[i].Center.Z - infiniteCylinders[j].Center.Z) *
+                                      (infiniteCylinders[i].Center.Z - infiniteCylinders[j].Center.Z));
+                    // check if one inside the other
+                    if (d < Math.Abs(infiniteCylinders[i].Radius - infiniteCylinders[j].Radius))
+                    {
+                        tempResult = new ValidationResult(
+                            false,
+                            "MultiInfiniteCylinderTissueInput: InfiniteCylinders must not be contained within each other",
+                            "MultiInfiniteCylinderTissueInput: redefine cylinders so that they are not concentric");
+
+                    }
+                    // check if intersection, i.e. |r_1 - r_2| < d < r_1 + r_2
+                    if (d > Math.Abs(infiniteCylinders[i].Radius - infiniteCylinders[j].Radius) &&
+                        d < infiniteCylinders[i].Radius + infiniteCylinders[j].Radius)
+                    {
+                        tempResult = new ValidationResult(
+                            false,
+                            "MultiInfiniteCylinderTissueInput: InfiniteCylinders cannot intersect",
+                            "MultiInfiniteCylinderTissueInput: redefine cylinders so that they do not intersect");
+                    }
+                }
+
             }
 
             if (!tempResult.IsValid) return tempResult;
