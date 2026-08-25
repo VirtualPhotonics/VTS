@@ -112,8 +112,7 @@ namespace Vts.MonteCarlo
 
                     }
                     // check if intersection, i.e. |r_1 - r_2| < d < r_1 + r_2
-                    if (d > Math.Abs(infiniteCylinders[i].Radius - infiniteCylinders[j].Radius) &&
-                        d < infiniteCylinders[i].Radius + infiniteCylinders[j].Radius)
+                    if (d < infiniteCylinders[i].Radius + infiniteCylinders[j].Radius)
                     {
                         tempResult = new ValidationResult(
                             false,
