@@ -9,9 +9,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _infiniteCylinderRegions;
-        private ITissueRegion[] _layerRegions;
-
         /// <summary>
         /// allows definition of single InfiniteCylinder tissue
         /// </summary>
@@ -68,11 +65,11 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] InfiniteCylinderRegions
         {
-            get => _infiniteCylinderRegions;
+            get;
             set
             {
-                _infiniteCylinderRegions = value;
-                if (LayerRegions != null) Regions = LayerRegions.Concat(_infiniteCylinderRegions).ToArray();
+                field = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(field).ToArray();
             }
         }
 
@@ -81,11 +78,11 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] LayerRegions
         {
-            get => _layerRegions;
+            get;
             set
             {
-                _layerRegions = value;
-                if (InfiniteCylinderRegions != null) Regions = _layerRegions.Concat(InfiniteCylinderRegions).ToArray();
+                field = value;
+                if (InfiniteCylinderRegions != null) Regions = field.Concat(InfiniteCylinderRegions).ToArray();
             }
         }
 

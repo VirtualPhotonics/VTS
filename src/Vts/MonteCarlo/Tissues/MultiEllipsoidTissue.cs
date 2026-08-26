@@ -9,9 +9,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _ellipsoidRegions;
-        private ITissueRegion[] _layerRegions;
-
         /// <summary>
         /// allows definition of single ellipsoid tissue
         /// </summary>
@@ -70,11 +67,11 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] EllipsoidRegions
         {
-            get => _ellipsoidRegions;
+            get;
             set
             {
-                _ellipsoidRegions = value;
-                if (LayerRegions != null) Regions = LayerRegions.Concat(_ellipsoidRegions).ToArray();
+                field = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(field).ToArray();
             }
         }
 
@@ -83,11 +80,11 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] LayerRegions
         {
-            get => _layerRegions;
+            get;
             set
             {
-                _layerRegions = value;
-                if (EllipsoidRegions != null) Regions = _layerRegions.Concat(EllipsoidRegions).ToArray();
+                field = value;
+                if (EllipsoidRegions != null) Regions = field.Concat(EllipsoidRegions).ToArray();
             }
         }
 
