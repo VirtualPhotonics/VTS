@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -72,26 +71,17 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>integer index of region position is in</returns>
         public override int GetRegionIndex(Position position)
         {
-            // check layers first because inclusions are embedded in layers and could be in both
-            var index = -1;
-            // use LayerTissueRegion to determine which region photon resides
-            for (var i = 0; i < _layerRegions.Count; i++)
-            {
-                if (_layerRegions[i].ContainsPosition(position))
-                {
-                    index = i; // this gets set but could get overwritten below if also in inclusion
-                }
-            }
-            // use InclusionTissueRegion to determine if within one of the inclusions.
+            // if it's in an inclusion, return inclusion region index
             // Inclusions are indexed after the layer regions, so add _layerRegions.Count to index
             for (var j = 0; j < _inclusionRegions.Count; j++)
             {
                 if (_inclusionRegions[j].ContainsPosition(position))
                 {
-                    index = _layerRegions.Count + j;
+                    return _layerRegions.Count + j;
                 }
             }
-            return index;
+            // else return index of layer
+            return base.GetRegionIndex(position);
         }
 
         /// <summary>
