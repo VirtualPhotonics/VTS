@@ -95,6 +95,7 @@ namespace Vts.MonteCarlo
                 MultiConcentricInfiniteCylinderTissueInput => MultiConcentricInfiniteCylinderTissueInputValidation
                     .ValidateInput(tissueInput),
                 BoundingCylinderTissueInput => BoundingCylinderTissueInputValidation.ValidateInput(tissueInput),
+                BoundingVoxelMultiInfiniteCylinderTissueInput => BoundingVoxelMultiInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput),
                 _ => new ValidationResult(true, "Tissue input must be valid",
                     "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.")
             };

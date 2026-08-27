@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissueInput.  Defines input to BoundingVoxelWithMultiInfiniteCylindersTissue class which is comprised of
     /// multilayer tissue bounded laterally by a voxel and with infinite cylinders in the layers
     /// </summary>
-    public class BoundingVoxelWithMultiInfiniteCylindersTissueInput : TissueInput, ITissueInput
+    public class BoundingVoxelMultiInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
 
         /// <summary>
@@ -18,12 +18,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="caplessVoxelRegion">bounding vertical cylinder region specification</param>
         /// <param name="inclusionRegions">tissue inclusions within one or more layers</param>
         /// <param name="layerRegions">tissue layer specification</param>
-        public BoundingVoxelWithMultiInfiniteCylindersTissueInput(
+        public BoundingVoxelMultiInfiniteCylinderTissueInput(
             ITissueRegion caplessVoxelRegion, 
             ITissueRegion[] inclusionRegions,
             ITissueRegion[] layerRegions)
         {
-            TissueType = "BoundingVoxelWithMultiInfiniteCylinders";
+            TissueType = "BoundingVoxelMultiInfiniteCylinder";
             VoxelRegion = (CaplessVoxelTissueRegion)caplessVoxelRegion;
             InclusionRegions = inclusionRegions;
             LayerRegions = layerRegions;
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Tissues
         /// BoundingVoxelWithMultiInfiniteCylindersTissueInput default constructor provides homogeneous tissue with bounding 
         /// voxel with height same as MultiLayerTissue thickness
         /// </summary>
-        public BoundingVoxelWithMultiInfiniteCylindersTissueInput()
+        public BoundingVoxelMultiInfiniteCylinderTissueInput()
             : this(
                 new CaplessVoxelTissueRegion(
                     new DoubleRange(-10.0, 10),
@@ -96,7 +96,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>instantiated tissue class</returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            var t = new BoundedWithMultiInclusionTissue(VoxelRegion, InclusionRegions, LayerRegions);
+            var t = new BoundedMultiInclusionTissue(VoxelRegion, InclusionRegions, LayerRegions);
 
             t.Initialize(awt, pft, russianRouletteWeightThreshold);
 

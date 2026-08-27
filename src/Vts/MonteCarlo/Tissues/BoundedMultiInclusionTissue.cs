@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissue.  Defines a tissue geometry comprised of a layered slab
     /// with multiple inclusions bounded laterally by a TissueRegion.
     /// </summary>
-    public class BoundedWithMultiInclusionTissue : MultiLayerTissue, ITissue
+    public class BoundedMultiInclusionTissue : MultiLayerTissue, ITissue
     {
         private readonly ITissueRegion _boundingRegion;
         private readonly IList<ITissueRegion> _layerRegions;
@@ -26,12 +26,12 @@ namespace Vts.MonteCarlo.Tissues
         /// Creates an instance of a BoundedWithMultiInclusionTissue
         /// </summary>
         /// <param name="boundingRegion">Tissue region defining later extent of tissue (must span top to bottom of tissue layers)</param>
-        /// <param name="layerRegions">The tissue layers</param>
         /// <param name="inclusions">The tissue inclusions within the layers</param>
-        public BoundedWithMultiInclusionTissue(
+        /// <param name="layerRegions">The tissue layers</param>
+        public BoundedMultiInclusionTissue(
             ITissueRegion boundingRegion,
-            IList<ITissueRegion> layerRegions,
-            IList<ITissueRegion> inclusions)
+            IList<ITissueRegion> inclusions,
+            IList<ITissueRegion> layerRegions)
             : base(layerRegions)
         {
             // boundingRegionExteriorIndex is the area *outside* of the bounding region
@@ -69,9 +69,18 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Creates a default instance of a BoundingTissue
         /// </summary>
-        public BoundedWithMultiInclusionTissue()
+        public BoundedMultiInclusionTissue()
             : this(
                 new CaplessVoxelTissueRegion(),
+                new List<ITissueRegion>
+                {
+                    new InfiniteCylinderTissueRegion(
+                        new Position(0, 0, 5), 1,
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new InfiniteCylinderTissueRegion(
+                        new Position(0, 0, 15), 1,
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                },
                 new List<ITissueRegion>
                 {
                     new LayerTissueRegion(
@@ -86,16 +95,8 @@ namespace Vts.MonteCarlo.Tissues
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                },
-                new List<ITissueRegion>
-                {
-                    new InfiniteCylinderTissueRegion(
-                        new Position(0, 0, 5), 1,
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                    new InfiniteCylinderTissueRegion(
-                        new Position(0, 0, 15), 1,
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4))
-                })
+                }
+               )
         {
         }
 
