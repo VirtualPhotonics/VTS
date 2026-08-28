@@ -6,8 +6,14 @@ using Vts.Extensions;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueInput.  Defines input to BoundingVoxelWithMultiInfiniteCylindersTissue class which is comprised of
-    /// multilayer tissue bounded laterally by a voxel and with infinite cylinders in the layers
+    /// Implements ITissueInput.  Defines input to BoundingVoxelMultiInfiniteCylinderTissue class.
+    /// Defines a tissue geometry comprised of a list of infinite cylinders with axis along the y-axis,
+    /// embedded within *multiple* (non-air) layers of a layered slab and bounded laterally by a voxel.
+    /// An example would be a two layer phantom with multiple infinite cylinders in each layer. The
+    /// layers are bounded in the x and y directions by the voxel region. The infinite cylinders can be 
+    /// located anywhere within the layers, but can not overlap with each other, or with the layer
+    /// boundaries, or with the bounding region.  The tissue is assumed to be surrounded by air above
+    /// and below, which must be specified as the first and last layers in the list of LayerTissueRegion objects.
     /// </summary>
     public class BoundingVoxelMultiInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {

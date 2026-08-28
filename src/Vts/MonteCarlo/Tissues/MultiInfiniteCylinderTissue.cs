@@ -6,6 +6,13 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiInfiniteCylinderTissue class.
+    /// Defines a tissue geometry comprised of a list of infinite cylinders with axis along the y-axis,
+    /// embedded within *multiple* (non-air) layers of a layered slab.  An example would be a two layer
+    /// phantom with multiple infinite cylinders in each layer. The layers are assumed to be infinite in the
+    /// x and y directions. The infinite cylinders can be located anywhere within the layers, but can not
+    /// overlap with each other or with the layer boundaries.  The tissue is assumed to be
+    /// surrounded by air above and below, which must be specified as the first and last layers in the
+    /// list of LayerTissueRegion objects.
     /// </summary>
     public class MultiInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
@@ -61,7 +68,7 @@ namespace Vts.MonteCarlo.Tissues
         public ITissueRegion[] Regions { get; private set; }
 
         /// <summary>
-        /// tissue InfiniteCylinder region
+        /// tissue InfiniteCylinder regions
         /// </summary>
         public ITissueRegion[] InfiniteCylinderRegions
         {

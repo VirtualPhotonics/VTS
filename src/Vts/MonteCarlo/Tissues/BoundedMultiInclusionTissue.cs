@@ -9,8 +9,21 @@ namespace Vts.MonteCarlo.Tissues
 {
 
     /// <summary>
-    /// Implements ITissue.  Defines a tissue geometry comprised of a layered slab
-    /// with multiple inclusions bounded laterally by a TissueRegion.
+    /// Implements ITissue.  All "InclusionTissue" classes define processing for those tissues that use
+    /// this class to get created. Defines a tissue geometry comprised of a list of inclusions (e.g. ellipsoids,
+    /// infinite cylinders, etc.) embedded within *multiple* (non-air) layers of a layered slab, bounded by a tissue
+    /// region (ITissueRegion).  An example would be a two layer phantom with multiple inclusions in each layer.
+    /// The layers in the x and y directions are bounded by the bounding region. The inclusions can be of any shape
+    /// that implements ITissueRegion. The layers are assumed to be stacked in the z direction, with the first layer
+    /// at the top (z=0) and the last layer at the bottom (z=Zmax). The bounding region "height" along the z-axis needs
+    /// to be defined to be equal to the total height of the tissue layers. The inclusions can be located anywhere within
+    /// the layers, but can not overlap with each other, or with the layer boundaries, or with the bounding region.
+    /// The tissue is assumed to be surrounded by air above and below, which must be specified as the first and last
+    /// layers in the list of LayerTissueRegion objects.
+    /// Note that many of the methods in this class are invoked by Photon class and Photon masterminds their
+    /// returns.  For example, when the photon on the boundary of the layers or the inclusions, Photon
+    /// determines whether in the critical angle and if so whether to reflect or refract, then invokes the
+    /// methods below accordingly.
     /// </summary>
     public class BoundedMultiInclusionTissue : MultiLayerTissue, ITissue
     {
@@ -35,10 +48,10 @@ namespace Vts.MonteCarlo.Tissues
             : base(layerRegions)
         {
             // boundingRegionExteriorIndex is the area *outside* of the bounding region
-            _boundingRegionExteriorIndex = layerRegions.Count + inclusions.Count; // index is, by convention, after the layer region and inclusion indices
+            _boundingRegionExteriorIndex = layerRegions.Count; // index is, by convention, after the layer region
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             // the concat is with the outside of the bounding region by convention
-            Regions = layerRegions.Concat(inclusions).Concat(boundingRegion).ToArray();
+            Regions = layerRegions.Concat(boundingRegion).Concat(inclusions).ToArray();
             _layerRegions = layerRegions;
             _inclusionRegions = inclusions;
             _boundingRegion = boundingRegion;
@@ -52,7 +65,7 @@ namespace Vts.MonteCarlo.Tissues
             _tissueInclusionsInsideBoundIndices = new List<int>();
             for (var j = 1; j < inclusions.Count - 1; j++)
             {
-                _tissueInclusionsInsideBoundIndices.Add(j + _tissueLayersInsideBoundIndices.Count);
+                _tissueInclusionsInsideBoundIndices.Add(j + _tissueLayersInsideBoundIndices.Count + 1); // +1 for bounding region exterior index
             }
             // determine which layers have inclusion
             _layerRegionIndicesOfInclusion = new List<int>();
@@ -107,8 +120,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>integer tissue region index</returns>
         public override int GetRegionIndex(Position position)
         {
-            // if it's in the bounding region, return bounding region index
-            if (_boundingRegion.ContainsPosition(position))
+            // if it's not inside bounding region, then outside which is bounding region index
+            if (!_boundingRegion.ContainsPosition(position))
                 return _boundingRegionExteriorIndex;
             // if it's in an inclusion, return inclusion region index
             // Inclusions are indexed after the layer regions, so add _layerRegions.Count to index
@@ -116,7 +129,7 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (_inclusionRegions[j].ContainsPosition(position))
                 {
-                    return _layerRegions.Count + j;
+                    return _layerRegions.Count + j + 1; // +1 for bounding region exterior index
                 }
             }
             // else return index of layer
@@ -180,40 +193,46 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>index of neighbor index</returns>
         public override int GetNeighborRegionIndex(Photon photon)
         {
-            // if we're not on the boundary of the bounding region, check inclusions
-            if (_boundingRegion.OnBoundary(photon.DP.Position)) return _boundingRegionExteriorIndex;
-
-            // on some internal boundary at this point, possibilities include
-            // 1) in layer of inclusion entering inclusion
-            // 2) in inclusion entering layer of inclusion
-            // 3) on layer region boundary
-            // first, check what region the photon is in
+            // first check what region the photon is in 
             var currentRegionIndex = photon.CurrentRegionIndex;
 
-            // check if we are in a layer region
-            var inLayer = currentRegionIndex >= 0 && currentRegionIndex < _layerRegions.Count;
+            // if photon is on bounding region, then neighbor must be layer so call base
+            if (currentRegionIndex == _boundingRegionExteriorIndex &&
+                _boundingRegion.OnBoundary(photon.DP.Position)) return base.GetRegionIndex(photon.DP.Position);
+            
 
-            // check if on boundary of layer, then neighbor is next layer region
-            if (inLayer && Regions[currentRegionIndex].OnBoundary(photon.DP.Position))
-            {
+            // if photon is in layer and on boundary of bounding region, then neighbor is bounding region
+            if (currentRegionIndex < _layerRegions.Count &&
+                _boundingRegion.OnBoundary(photon.DP.Position)) return _boundingRegionExteriorIndex;
+
+            // at this point on some internal boundary, possibilities include
+            // 1) on layer region boundary away from bounding region
+            // 2) in layer on inclusion entering inclusion
+            // 3) in inclusion exiting into layer
+
+            // check if on layer boundary, if so call base to get neighbor region index
+            if (currentRegionIndex < _layerRegions.Count && 
+                _layerRegions[currentRegionIndex].OnBoundary(photon.DP.Position)) 
                 return base.GetNeighborRegionIndex(photon);
-            }
 
-            // if we're in a layer region with an inclusion(s) and not on boundary of layer
-            // then on boundary of one of the inclusions and could be entering or exiting region
-
-            // determine which inclusion photon is on boundary of
-            // use _inclusionRegion to determine if within one of inclusions
-            for (var j = 0; j < _inclusionRegions.Count; j++)
+            // check if in inclusion and on boundary, then neighbor is surrounding layer
+            if (currentRegionIndex >= _layerRegions.Count &&
+                _inclusionRegions[currentRegionIndex - _layerRegions.Count].OnBoundary(photon.DP.Position))
             {
-                if (!_inclusionRegions[j].ContainsPosition(photon.DP.Position)) continue;
-
-                return currentRegionIndex == _layerRegionIndicesOfInclusion[j]
-                    ? _layerRegions.Count + j
-                    : // entering inclusion
-                    _layerRegionIndicesOfInclusion[j]; // exiting into surrounding layer region
+                return _layerRegionIndicesOfInclusion[currentRegionIndex - _layerRegions.Count];
             }
-            return _boundingRegionExteriorIndex;
+
+            // check if in layer and on boundary of inclusion, then neighbor is inclusion
+            if (currentRegionIndex < _layerRegions.Count)
+            {
+                for (var i = 0; i < _inclusionRegions.Count; i++)
+                {
+                    if (_inclusionRegions[i].ContainsPosition(photon.DP.Position))
+                        return _layerRegions.Count + i + 1; // +1 for bounding region exterior index
+                }
+            }
+            return -1; // should never get here, but just in case, return -1 to indicate no neighbor found
+
         }
 
         /// <summary>
@@ -389,9 +408,25 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return base.GetAngleRelativeToBoundaryNormal(photon);
             }
+            // check if photon on cylinder 
+            var inclusionIndex = -1;
+            for (var i = 0; i < _inclusionRegions.Count; i++)
+            {
+                if (_inclusionRegions[i].ContainsPosition(photon.DP.Position)) 
+                    inclusionIndex = i; // +1 for bounding region exterior index
+            }
 
-            return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
-                photon.DP.Direction, _boundingRegion.SurfaceNormal(photon.DP.Position)));
+            // Since this method is called by Photon and used in Optics/Fresnel, definition used
+            // there calls for cos(theta) of normal to surface interface (normal to both sides).
+            // This is why the Abs is taken
+            if (inclusionIndex != -1)
+                return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
+                    photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
+
+
+            // if not on any inclusion, must be on bounding region       
+                return Math.Abs(Direction.GetDotProduct(
+                    photon.DP.Direction, _boundingRegion.SurfaceNormal(photon.DP.Position)));
         }
     }
 }

@@ -6,6 +6,13 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiEllipsoidTissue class.
+    /// Defines a tissue geometry comprised of a list of ellipsoids with axes aligned with Cartesian axes,
+    /// embedded within *multiple* (non-air) layers of a layered slab.  An example would be a two layer
+    /// phantom with multiple ellipsoids in each layer. The layers are assumed to be infinite in the
+    /// x and y directions. The ellipsoids can be located anywhere within the layers, but can not
+    /// overlap with each other or with the layer boundaries.  The tissue is assumed to be
+    /// surrounded by air above and below, which must be specified as the first and last layers in the
+    /// list of LayerTissueRegion objects.
     /// </summary>
     public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
     {
@@ -63,7 +70,7 @@ namespace Vts.MonteCarlo.Tissues
         public ITissueRegion[] Regions { get; private set; }
 
         /// <summary>
-        /// tissue ellipsoid region
+        /// tissue ellipsoid regions
         /// </summary>
         public ITissueRegion[] EllipsoidRegions
         {

@@ -8,11 +8,19 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissue.  All "InclusionTissue" classes define processing for those tissues that use
-    /// this class to get created. Defines a tissue geometry comprised of a list of inclusions
-    /// embedded within *different* layers of a layered slab.  Note that many of the methods in this class are
-    /// invoked by Photon class and Photon masterminds their returns.  For example, when the photon is
-    /// on the boundary of the layers or the inclusions, Photon determines whether in the critical angle
-    /// and if so whether to reflect or refract, then invokes the methods below accordingly.
+    /// this class to get created. Defines a tissue geometry comprised of a list of inclusions (e.g. ellipsoids,
+    /// infinite cylinders, etc.) embedded within *multiple* (non-air) layers of a layered slab.  An example
+    /// would be a two layer phantom with multiple inclusions in each layer. The layers are assumed to be
+    /// infinite in the x and y directions, and the inclusions can be of any shape that implements
+    /// ITissueRegion. The layers are assumed to be stacked in the z direction, with the first layer at the
+    /// top (z=0) and the last layer at the bottom (z=Zmax).  The inclusions can be located anywhere within
+    /// the layers, but can not overlap with each other or with the layer boundaries.  The tissue is assumed to be
+    /// surrounded by air above and below, which must be specified as the first and last layers in the
+    /// list of LayerTissueRegion objects.
+    /// Note that many of the methods in this class are invoked by Photon class and Photon masterminds their
+    /// returns.  For example, when the photon on the boundary of the layers or the inclusions, Photon
+    /// determines whether in the critical angle and if so whether to reflect or refract, then invokes the
+    /// methods below accordingly.
     /// </summary>
     public class MultiInclusionTissue : MultiLayerTissue, ITissue
     {
