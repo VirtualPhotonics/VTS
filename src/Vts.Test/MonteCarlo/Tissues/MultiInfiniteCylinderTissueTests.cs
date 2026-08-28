@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Tissues
     public class MultiInfiniteCylinderTissueInputTests
     {
         private MultiInclusionTissue _oneLayerTissueMultiInfiniteCylinder,
-            _twoLayerTissueMultiInfiniteCylinder;
+            _twoLayerTissueMultiInfiniteCylinder, _threeLayerTissueMultiInfiniteCylinder;
 
         /// <summary>
         /// List of temporary files created by these unit tests
@@ -40,10 +40,10 @@ namespace Vts.Test.MonteCarlo.Tissues
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
                     new LayerTissueRegion(
-                        new DoubleRange(0.0, 100.0),
+                        new DoubleRange(0.0, 10.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
                     new LayerTissueRegion(
-                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new DoubleRange(10.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 ]);
             _twoLayerTissueMultiInfiniteCylinder =
@@ -67,12 +67,44 @@ namespace Vts.Test.MonteCarlo.Tissues
                         new DoubleRange(0.0, 3.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
                     new LayerTissueRegion(
-                        new DoubleRange(3.0, 100.0),
+                        new DoubleRange(3.0, 10.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
                     new LayerTissueRegion(
-                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new DoubleRange(10.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 ]);
+            // define a 3-layer tissue with 2 cylinders only in one layer
+            _threeLayerTissueMultiInfiniteCylinder =
+                new MultiInclusionTissue(
+                    [
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0, 0, 4.5),
+                            1.0,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                        new InfiniteCylinderTissueRegion(
+                            new Position(3, 0, 4.5),
+                            1.0,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4))
+                    ],
+                    [
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 3.0),
+                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(3.0, 6.0),
+                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(6.0, 10.0),
+                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(10.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    ]);
+
         }
 
         [OneTimeTearDown]
@@ -210,6 +242,11 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.That(index, Is.EqualTo(4));
             index = _twoLayerTissueMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 5)); // 2nd layer cylinder
             Assert.That(index, Is.EqualTo(5));
+            // three layer results indices: air(0)-top layer(1)-mid layer(2)-bot layer(3)-air(4)-top cylinder(5)-bot cylinder(6)
+            index = _threeLayerTissueMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 4.5)); // 1st cylinder
+            Assert.That(index, Is.EqualTo(5));
+            index = _threeLayerTissueMultiInfiniteCylinder.GetRegionIndex(new Position(3, 0, 4.5)); // 2nd cylinder
+            Assert.That(index, Is.EqualTo(6));
         }
 
         /// <summary>
@@ -237,6 +274,25 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Random());
             index = _twoLayerTissueMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
             Assert.That(index, Is.EqualTo(5));
+            // check inclusions in three layer tissue
+            photon = new Photon( // on side of first inclusion, pointing into it
+                new Position(-1, 0, 4.5),
+                new Direction(1.0, 0, 0),
+                1.0,
+                _threeLayerTissueMultiInfiniteCylinder,
+                2,
+                new Random());
+            index = _threeLayerTissueMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
+            Assert.That(index, Is.EqualTo(5));
+            photon = new Photon( // on side of 2nd inclusion pointing into it
+                new Position(2, 0, 4.5),
+                new Direction(1.0, 0, 0),
+                1.0,
+                _threeLayerTissueMultiInfiniteCylinder,
+                2,
+                new Random());
+            index = _threeLayerTissueMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
+            Assert.That(index, Is.EqualTo(6));
         }
 
 
