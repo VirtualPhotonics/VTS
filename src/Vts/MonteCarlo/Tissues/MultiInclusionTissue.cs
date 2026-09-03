@@ -99,42 +99,44 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>double distance to boundary</returns>
         public override double GetDistanceToBoundary(Photon photon)
         {
-            // first check if in layer or inclusion
+            // get current region
+            var currentRegionIndex = photon.CurrentRegionIndex;
 
+            // first check if closest boundary is layer
             // going "up" in negative z-direction
             var goingUp = photon.DP.Direction.Uz < 0.0;
-
             var distanceToLayer = double.PositiveInfinity;
-            var distanceToInclusion = double.PositiveInfinity;
-
-            // get layer index of photon (could be in inclusion in layer)
             if (photon.CurrentRegionIndex < _layerRegions.Count) // photon in layer
             {
+                var currentRegion = _layerRegions[currentRegionIndex];
                 // calculate distance to boundary based on z-projection of photon trajectory
                 distanceToLayer =
                     goingUp
-                        ? (_layerRegions[photon.CurrentRegionIndex].ZRange.Start - photon.DP.Position.Z) /
-                          photon.DP.Direction.Uz
-                        : (_layerRegions[photon.CurrentRegionIndex].ZRange.Stop - photon.DP.Position.Z) /
-                          photon.DP.Direction.Uz;
+                        ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
+                        : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
             }
-            else // photon in some inclusion 
+
+            // then check if inclusion boundaries are closer
+            var smallestInclusionDistance = double.PositiveInfinity;
+            // check that a projected track will hit one of the inclusions
+            var projectedPhoton = new Photon
             {
-                // check distance to boundary of inclusion photon is currently in
-                var inclusionRegionIndex = photon.CurrentRegionIndex - _layerRegions.Count;
-
-                // check that a projected track will hit one of the inclusions
-                var projectedPhoton = new Photon
+                DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
+                    photon.DP.TotalTime, photon.DP.StateFlag),
+                S = 100
+            };
+            foreach (var inclusionRegion in _inclusionRegions)
+            {
+                inclusionRegion.RayIntersectBoundary(projectedPhoton, out var distToInclusion);
+                // first check that photon isn't sitting on boundary of one of the inclusions
+                // note 1e-9 was found by trial and error using unit tests to verify selection
+                // if you change value, need to update InclusionTissueRegion.ContainsPosition eps
+                if (distToInclusion > 1e-9 && distToInclusion < smallestInclusionDistance)
                 {
-                    DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
-                        photon.DP.TotalTime, photon.DP.StateFlag),
-                    S = 100
-                };
-                _inclusionRegions[inclusionRegionIndex].RayIntersectBoundary(projectedPhoton, out var distToInclusion);
-                distanceToInclusion = distToInclusion;
+                    smallestInclusionDistance = distToInclusion;
+                }
             }
-
-            return distanceToInclusion < distanceToLayer ? distanceToInclusion : distanceToLayer;
+            return smallestInclusionDistance < distanceToLayer ? smallestInclusionDistance : distanceToLayer;
         }
 
         /// <summary>
