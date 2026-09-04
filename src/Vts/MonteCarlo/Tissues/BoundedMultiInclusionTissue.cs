@@ -143,33 +143,51 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>distance to boundary</returns>
         public override double GetDistanceToBoundary(Photon photon)
         {
-            // smallest distance to bounding volume, layers or inclusions
-            var smallestDistance = double.PositiveInfinity;
-            // check that a projected track will hit bounding volume, if so, check layers and find minimum
-            // if not, check distance to layers
+            // first check what region the photon is in 
+            var currentRegionIndex = photon.CurrentRegionIndex;
+
+            // first check if closest boundary is layer
+            // going "up" in negative z-direction
+            var goingUp = photon.DP.Direction.Uz < 0.0;
+            var distanceToLayer = double.PositiveInfinity;
+            if (photon.CurrentRegionIndex < _layerRegions.Count) // photon in layer
+            {
+                var currentRegion = (LayerTissueRegion)_layerRegions[currentRegionIndex];
+                // calculate distance to boundary based on z-projection of photon trajectory
+                distanceToLayer =
+                    goingUp
+                        ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
+                        : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
+            }
+
+            // then check if inclusion boundaries are closer
+            var smallestInclusionDistance = double.PositiveInfinity;
+            // check that a projected track will hit one of the inclusions
             var projectedPhoton = new Photon
             {
                 DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
                     photon.DP.TotalTime, photon.DP.StateFlag),
                 S = 100
             };
-            if (_boundingRegion.RayIntersectBoundary(projectedPhoton, out var distanceToBoundingBoundary))
-                smallestDistance = distanceToBoundingBoundary;
-            
-            // check if photon will hit inclusion
-            foreach (var inclusion in _inclusionRegions)
+            foreach (var inclusionRegion in _inclusionRegions)
             {
-                if (!inclusion.RayIntersectBoundary(projectedPhoton, out var distanceToInclusion)) continue;
-                if (distanceToInclusion < smallestDistance)
-                    smallestDistance = distanceToInclusion;
+                inclusionRegion.RayIntersectBoundary(projectedPhoton, out var distToInclusion);
+                // first check that photon isn't sitting on boundary of one of the inclusions
+                // note 1e-9 was found by trial and error using unit tests to verify selection
+                // if you change value, need to update InclusionTissueRegion.ContainsPosition eps
+                if (distToInclusion > 1e-9 && distToInclusion < smallestInclusionDistance)
+                {
+                    smallestInclusionDistance = distToInclusion;
+                }
             }
 
-            // check if photon will hit layer boundary
-            var distanceToLayerBoundary = base.GetDistanceToBoundary(photon);
-            if (distanceToLayerBoundary < smallestDistance)
-                smallestDistance = distanceToLayerBoundary;
+            // finally check bounding region 
+            _boundingRegion.RayIntersectBoundary(projectedPhoton, out var distanceToBoundingRegion);
 
-            return smallestDistance;
+            var minimumDistance = new[] { distanceToLayer,
+                smallestInclusionDistance, distanceToBoundingRegion}.Min();
+            return minimumDistance;
+
         }
 
         /// <summary>
@@ -342,6 +360,8 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
+            if (Math.Abs(currentN - nextN) < 1e-6) return currentDirection; // no refractive index mismatch
+
             // determine surfaceNormal based on if on inclusion, layer, or bounding volume
             Direction surfaceNormal = null;
             // if on boundary of an inclusion, check which one
@@ -403,17 +423,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Uz=cos(theta)</returns>
         public override double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(photon.DP.Position))
-            {
-                return base.GetAngleRelativeToBoundaryNormal(photon);
-            }
             // check if photon on cylinder 
             var inclusionIndex = -1;
             for (var i = 0; i < _inclusionRegions.Count; i++)
             {
-                if (_inclusionRegions[i].ContainsPosition(photon.DP.Position)) 
-                    inclusionIndex = i; // +1 for bounding region exterior index
+                if (_inclusionRegions[i].ContainsPosition(photon.DP.Position)) inclusionIndex = i;
             }
 
             // Since this method is called by Photon and used in Optics/Fresnel, definition used
@@ -423,10 +437,13 @@ namespace Vts.MonteCarlo.Tissues
                 return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
                     photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
 
-
-            // if not on any inclusion, must be on bounding region       
+            // else check if on bounding region
+            if (_boundingRegion.OnBoundary(photon.DP.Position))
                 return Math.Abs(Direction.GetDotProduct(
                     photon.DP.Direction, _boundingRegion.SurfaceNormal(photon.DP.Position)));
+
+            // else on layer
+            return base.GetAngleRelativeToBoundaryNormal(photon);
         }
     }
 }

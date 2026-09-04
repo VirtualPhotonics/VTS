@@ -206,16 +206,40 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Direction(0.0, 0, 1.0),
                 1,
                 _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
+                0,
                 new Random());
             var cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
             Assert.That(cosTheta, Is.EqualTo(1));
-            photon = new Photon( // on bounding voxel pointed into it
-                new Position(-2, 0, 1.0),
+            photon = new Photon( // on top of 2nd layer pointed into it, inside voxel
+                new Position(-1, 0, 3.0),
+                new Direction(0.0, 0, 1.0),
+                1,
+                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
+                1,
+                new Random());
+            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.That(cosTheta, Is.EqualTo(1));
+            // put on side of bottom infinite cylinder pointing in
+            photon.DP.Position = new Position(-1.0, 0.0, 5.0);
+            photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
+            photon.CurrentRegionIndex = 2;
+            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.That(cosTheta, Is.EqualTo(1));
+            photon = new Photon( // on top of tissue pointed into it
+                new Position(0, 0, 0.0),
+                new Direction(0.0, 0, 1.0),
+                1,
+                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
+                1,
+                new Random());
+            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.That(cosTheta, Is.EqualTo(1));
+            photon = new Photon( // on bounding voxel pointed into it from top layer
+                new Position(-2.0, 0, 1.0), // add a bit so not right on boundary
                 new Direction(-1.0, 0, 0.0),
                 1,
                 _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                2,
+                1,
                 new Random());
             cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
             Assert.That(cosTheta, Is.EqualTo(1));

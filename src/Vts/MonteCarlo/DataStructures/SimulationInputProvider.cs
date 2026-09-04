@@ -1430,13 +1430,25 @@ namespace Vts.MonteCarlo
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
-                new BoundingVoxelTissueInput(
+                new BoundingVoxelMultiInfiniteCylinderTissueInput(
                     new CaplessVoxelTissueRegion(
                         new DoubleRange(-1, 1, 2),
                         new DoubleRange(-1, 1, 2),
                         new DoubleRange(0, 100.0),
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
+                    [
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0, 0, 1),
+                            0.5,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0, 0, 5),
+                            1.0,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                    ],
                     [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -1447,8 +1459,7 @@ namespace Vts.MonteCarlo
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    ]
-                ),
+                ]),
                 new List<IDetectorInput>
                 {
                     new ATotalBoundingVolumeDetectorInput()

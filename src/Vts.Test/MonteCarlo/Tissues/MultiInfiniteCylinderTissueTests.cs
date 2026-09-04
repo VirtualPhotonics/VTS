@@ -294,7 +294,40 @@ namespace Vts.Test.MonteCarlo.Tissues
             index = _threeLayerTissueMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
             Assert.That(index, Is.EqualTo(6));
         }
-
+        /// <summary>
+        /// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean.
+        /// Boundaries are considered to be top and bottom of tissue and bounding.
+        /// Note: Math.Abs taken in method to ensure that the angle is always positive,
+        /// so Assert check is always positive.
+        /// </summary>
+        [Test]
+        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        {
+            var photon = new Photon( // on top of tissue pointed into it
+                new Position(0, 0, 0.0),
+                new Direction(0.0, 0, 1.0),
+                1,
+                _twoLayerTissueMultiInfiniteCylinder,
+                1,
+                new Random());
+            var cosTheta = _twoLayerTissueMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.That(cosTheta, Is.EqualTo(1));
+            photon = new Photon( // on top of 2nd layer pointed into it
+                new Position(-2, 0, 3.0),
+                new Direction(0.0, 0, 1.0),
+                1,
+                _twoLayerTissueMultiInfiniteCylinder,
+                1,
+                new Random());
+            cosTheta = _twoLayerTissueMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.That(cosTheta, Is.EqualTo(1));
+            // put on side of bottom infinite cylinder pointing in
+            photon.DP.Position = new Position(-1.0, 0.0, 5.0);
+            photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
+            photon.CurrentRegionIndex = 2;
+            cosTheta = _twoLayerTissueMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.That(cosTheta, Is.EqualTo(1));
+        }
 
     }
 }

@@ -276,8 +276,7 @@ namespace Vts.MonteCarlo.Tissues
             for (var i = 0; i < _inclusionRegions.Count; i++)
             {
                 if (_inclusionRegions[i].ContainsPosition(currentPosition)) inclusionIndex = i;
-            }
-            // must be on inclusions for now no reflection 
+            } 
             // Theta1 = incident, Theta2 = transmitted relative to normal
             var normal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
             var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
@@ -307,22 +306,22 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Uz=cos(theta)</returns>
         public new double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(photon.DP.Position))
-            {
-                return base.GetAngleRelativeToBoundaryNormal(photon);
-            }
-            // otherwise determine which cylinder photon is on
-            var inclusionIndex = 0;
+            // determine which cylinder photon is on
+            var inclusionIndex = -1;
             for (var i = 0; i < _inclusionRegions.Count; i++)
             {
-                if (_inclusionRegions[i].OnBoundary(photon.DP.Position)) inclusionIndex = i;
+                if (_inclusionRegions[i].ContainsPosition(photon.DP.Position)) inclusionIndex = i;
             }
             // Since this method is called by Photon and used in Optics/Fresnel, definition used
             // there calls for cos(theta) of normal to surface interface (normal to both sides).
             // This is why the Abs is taken.
-            return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
-                photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
+            if (inclusionIndex != -1)  // on inclusion boundary
+            {
+                return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
+                    photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
+            }
+            // else on layer boundary
+            return base.GetAngleRelativeToBoundaryNormal(photon);
 
         }
     }
