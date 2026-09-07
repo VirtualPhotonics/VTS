@@ -116,6 +116,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Verify_GetNeighborRegionIndex_method_returns_correct_result()
         {
+            // check one layer results
             var photon = new Photon( // on side of voxel pointed into it
                 new Position(-2, 0, 1),
                 new Direction(1.0, 0, 0),

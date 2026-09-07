@@ -154,16 +154,15 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// Method to determine index of region photon is about to enter
+        /// Method to determine index of region photon is about to enter.
+        /// Options:
+        /// 1) if in layer -> neighbor could be a) next layer, b) inclusion, c) bounding region
+        /// 2) if in inclusion -> neighbor could only be surrounding layer
         /// </summary>
         /// <param name="photon">photon info including position and direction</param>
         /// <returns>region index</returns>
         public override int GetNeighborRegionIndex(Photon photon)
         {
-            // on some boundary at this point, possibilities include
-            // 1) in layer of inclusion entering inclusion
-            // 2) in inclusion entering layer of inclusion
-            // 3) on layer region boundary
             // first, check what region the photon is in
             var currentRegionIndex = photon.CurrentRegionIndex;
 
