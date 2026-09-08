@@ -371,6 +371,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long Td_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TDiffuse").Name]).TallyCount; } }
         /// <summary>
+        /// Diffuse Transmittance in bounding volume
+        /// </summary>
+        public double TdBV { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TDiffuseBoundingVolume").Name]).Mean; } }
+        /// <summary>
+        /// Diffuse Transmittance 2nd moment
+        /// </summary>
+        public double TdBV2 { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TDiffuseBoundingVolume").Name]).SecondMoment; } }
+        /// <summary>
+        /// Diffuse Transmittance Tally Count
+        /// </summary>
+        public long TdBV_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TDiffuseBoundingVolume").Name]).TallyCount; } }
+        /// <summary>
         /// Transmittance as a function of rho (source-detector separation)
         /// </summary>
         public double[] T_r { get { return (double[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TOfRho").Name]).Mean; } }

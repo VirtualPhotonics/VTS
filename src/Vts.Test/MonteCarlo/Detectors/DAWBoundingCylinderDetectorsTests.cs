@@ -25,15 +25,15 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
-        {
-            "file.txt", // file that captures screen output of MC simulation
-        };
+        private readonly List<string> _listOfTestGeneratedFiles =
+        [
+            "file.txt" // file that captures screen output of MC simulation
+        ];
 
         [OneTimeTearDown]
         public void clear_folders_and_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -50,8 +50,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // delete previously generated files
             clear_folders_and_files();
 
-            var cylinderRadius = 5.0;
-            var tissueThickness = 2.0;
+            const double cylinderRadius = 5.0;
+            const double tissueThickness = 2.0;
 
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
@@ -59,7 +59,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
-                new List<DatabaseType>() { }, // databases to be written
+                new List<DatabaseType>(), // databases to be written
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -83,13 +83,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new List<IDetectorInput>  
                 {
                     new RSpecularDetectorInput(),
-                    new RDiffuseDetectorInput(), new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)}, 
+                    new RDiffuseDetectorInput(), new ROfRhoDetectorInput {Rho=new DoubleRange(0.0, cylinderRadius, 11)}, 
                     new TDiffuseDetectorInput(),
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)},
-                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11),
+                    new TOfRhoDetectorInput {Rho=new DoubleRange(0.0, cylinderRadius, 11)},
+                    new AOfRhoAndZDetectorInput {Rho=new DoubleRange(0.0, cylinderRadius, 11),
                         Z=new DoubleRange(0, tissueThickness, 11)},
                     new ATotalDetectorInput(),
-                    new ATotalBoundingVolumeDetectorInput() { TallySecondMoment = true }
+                    new ATotalBoundingVolumeDetectorInput { TallySecondMoment = true },
+                    new TDiffuseBoundingVolumeDetectorInput { TallySecondMoment = true }
                 };
 
             _inputBoundedTissue = new SimulationInput(
@@ -104,8 +105,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         tissueThickness,
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.4) 
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -118,7 +118,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new LayerTissueRegion(
                             new DoubleRange(tissueThickness, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 detectors);
             _outputBoundedTissue = new MonteCarloSimulation(_inputBoundedTissue).Run();
@@ -126,7 +126,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         // Diffuse Reflectance
         [Test]
-        public void validate_DAW_boundingcylinder_RDiffuse()
+        public void validate_DAW_bounding_cylinder_RDiffuse()
         {
               Assert.That(Math.Abs(_outputBoundedTissue.Rd - 0.238231), Is.LessThan(0.000001));
         }
@@ -138,38 +138,46 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Diffuse Transmittance
         [Test]
-        public void validate_DAW_boundingcylinder_TDiffuse()
+        public void validate_DAW_bounding_cylinder_TDiffuse()
         {
              Assert.That(Math.Abs(_outputBoundedTissue.Td - 0.256878), Is.LessThan(0.000001));
         }
         // Transmittance T(rho)
         [Test]
-        public void validate_DAW_boundingcylinder_TOfRho()
+        public void validate_DAW_bounding_cylinder_TOfRho()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.T_r[1] - 0.003941), Is.LessThan(0.000001));
         }
         // Total Absorption
         [Test]
-        public void validate_DAW_boundingcylinder_ATotal()
+        public void validate_DAW_bounding_cylinder_ATotal()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.Atot - 0.047790), Is.LessThan(0.000001));
         }
         // Total Absorption in Bounding Volume
+        // Note this equals Total Transmission in Bounding Volume because 
         [Test]
-        public void validate_DAW_boundingcylinder_ATotalBoundingCylinder()
+        public void validate_DAW_bounding_cylinder_ATotalBoundingCylinder()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.AtotBV - 0.427099), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputBoundedTissue.AtotBV2 - 0.405981), Is.LessThan(0.000001));
         }
+        // Total Transmission in Bounding Volume
+        [Test]
+        public void validate_DAW_bounding_cylinder_TDiffuseBoundingCylinder()
+        {
+            Assert.That(Math.Abs(_outputBoundedTissue.TdBV - 0.427099), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputBoundedTissue.TdBV2 - 0.405981), Is.LessThan(0.000001));
+        }
         // Absorption(x,y,z)
         [Test]
-        public void validate_DAW_boundingcylinder_AOfRhoAndZ()
+        public void validate_DAW_bounding_cylinder_AOfRhoAndZ()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.000746), Is.LessThan(0.000001));
         }
         // sanity checks
         [Test]
-        public void validate_DAW_boundingcylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        public void validate_DAW_bounding_cylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // add specular because photons started outside tissue
             Assert.That(Math.Abs(_outputBoundedTissue.Rd + _outputBoundedTissue.Atot + _outputBoundedTissue.Rspec +

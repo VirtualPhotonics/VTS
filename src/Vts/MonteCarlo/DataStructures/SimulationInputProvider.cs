@@ -1462,7 +1462,7 @@ namespace Vts.MonteCarlo
                 ]),
                 new List<IDetectorInput>
                 {
-                    new ATotalBoundingVolumeDetectorInput()
+                    new TDiffuseBoundingVolumeDetectorInput()
                 }
             );
         }

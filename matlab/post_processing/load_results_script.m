@@ -41,6 +41,7 @@ show.ROfFxAndAngle =            1;
 show.ROfFxAndMaxDepth =         1;
 show.RSpecular =                1;
 show.TDiffuse =                 1;
+show.TDiffuseBoundingVolume =   1;
 show.TOfRho =                   1;
 show.TOfRhoAndAngle =           1;
 show.TOfAngle =                 1;
@@ -390,6 +391,9 @@ for mci = 1:length(datanames)
         
     if isfield(results{di}, 'TDiffuse') && show.TDiffuse
         disp(['Total transmittance captured by TDiffuse detector: ' num2str(results{di}.TDiffuse.Mean)]);
+    end        
+    if isfield(results{di}, 'TDiffuseBoundingVolume') && show.TDiffuseBoundingVolume
+        disp(['Total transmittance captured by TDiffuseBoundingVolume detector: ' num2str(results{di}.TDiffuseBoundingVolume.Mean)]);
     end
     if isfield(results{di}, 'TOfRho') && show.TOfRho
          figname = sprintf('log10(%s)',results{di}.TOfRho.Name); figure; plot(results{di}.TOfRho.Rho_Midpoints, log10(results{di}.TOfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('T(\rho) [mm^-^2]');
