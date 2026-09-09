@@ -90,23 +90,31 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Verify_GetRegionIndex_method_returns_correct_result()
         {
-            // one layer results indices: air(0)-tissue(1)-air(2)-voxel(3)-top cylinder(4)-bot cylinder(5)
-            var index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 1.5)); // 1st layer 1st cylinder
+            // one layer results indices: air(0)-tissue(1)-air(2)-top cylinder(3)-bot cylinder(4)-voxel(5)
+            // 1st layer 1st cylinder
+            var index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 1.5)); 
+            Assert.That(index, Is.EqualTo(3));
+            // 1st layer 2nd cylinder
+            index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 5)); 
             Assert.That(index, Is.EqualTo(4));
-            index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 5)); // 1st layer 2nd cylinder
-            Assert.That(index, Is.EqualTo(5));
-            index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 0)); // on voxel considered in
+            // on voxel considered in
+            index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 0)); 
             Assert.That(index, Is.EqualTo(1));
-            // two layer results indices: air(0)-top layer(1)-bot layer(2)-air(3)-voxel(4)-top cylinder(5)-bot cylinder(6)
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 1.5)); // 1st layer cylinder
-            Assert.That(index, Is.EqualTo(5));
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 5)); // 2nd layer cylinder
-            Assert.That(index, Is.EqualTo(6));
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(10, 0, 0)); // outside voxel
+            // two layer results indices: air(0)-top layer(1)-bot layer(2)-air(3)-top cylinder(4)-bot cylinder(5)-voxel(6)
+            // 1st layer cylinder
+            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 1.5)); 
             Assert.That(index, Is.EqualTo(4));
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 2.5)); // inside voxel top layer 1st cylinder
+            // 2nd layer cylinder
+            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 5)); 
             Assert.That(index, Is.EqualTo(5));
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 0)); // on voxel is considered in
+            // outside voxel
+            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(10, 0, 0)); 
+            Assert.That(index, Is.EqualTo(6));
+            // inside voxel top layer 1st cylinder
+            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 2.5)); 
+            Assert.That(index, Is.EqualTo(4));
+            // on voxel is considered in
+            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 0)); 
             Assert.That(index, Is.EqualTo(1));
         }
 
@@ -122,7 +130,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Direction(1.0, 0, 0),
                 1.0,
                 _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                3,
+                5,
                 new Random());
             var index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon); 
             Assert.That(index, Is.EqualTo(1));
@@ -134,14 +142,14 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(3));
+            Assert.That(index, Is.EqualTo(5));
             // check two layer results
             photon = new Photon( // on side of voxel pointed into LAYER 1
                 new Position(2, 0, 0.5),  
                 new Direction(1.0, 0, 0),
                 1.0,
                 _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                4,
+                6,
                 new Random());
             index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
             Assert.That(index, Is.EqualTo(1));
@@ -153,13 +161,13 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(4));
+            Assert.That(index, Is.EqualTo(6));
             photon = new Photon( // on side of voxel pointed into LAYER 2
                 new Position(-2, 0, 3.5),
                 new Direction(1.0, 0, 0),
                 1.0,
                 _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                4,
+                6,
                 new Random());
             index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
             Assert.That(index, Is.EqualTo(2));
@@ -171,7 +179,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(4));
+            Assert.That(index, Is.EqualTo(6));
             // check inclusions in two layer tissue
             photon = new Photon( // on side of top inclusion layer 1, pointing into it
                 new Position(-1, 0, 1.5),
@@ -181,7 +189,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(5));
+            Assert.That(index, Is.EqualTo(4));
             photon = new Photon( // on side of bottom inclusion layer 2, pointing into it
                 new Position(-1, 0, 5),
                 new Direction(1.0, 0, 0),
@@ -190,7 +198,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(6));
+            Assert.That(index, Is.EqualTo(5));
         }
 
         /// <summary>
