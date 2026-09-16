@@ -284,6 +284,7 @@ namespace Vts.MonteCarlo.Tissues
             }
             // determine surfaceNormal based on if on inclusion, layer, or bounding volume
             Direction surfaceNormal = null;
+
             // if on boundary of an inclusion, check which one
             var inclusionIndex = -1;
             for (var i = 0; i < _inclusionRegions.Count; i++)
@@ -298,7 +299,6 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     return currentDirection; // no refractive index mismatch
                 }
-
                 surfaceNormal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
             }
 
@@ -308,18 +308,8 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (_layerRegions[i].ContainsPosition(currentPosition)) layerIndex = i;
             }
-            // if on inclusion boundary set surface normal if refractive index mismatch
-            if (inclusionIndex != -1)
-            {
-                if (Math.Abs(_inclusionRegions[inclusionIndex].RegionOP.N -
-                             Regions[_layerRegionIndicesOfInclusion[inclusionIndex]].RegionOP.N) < 1e-6)
-                {
-                    return currentDirection; // no refractive index mismatch
-                }
+            if (layerIndex != -1) return base.GetReflectedDirection(currentPosition, currentDirection);
 
-                surfaceNormal = new Direction(0,0, 1); // surface normal of tissue layer
-            }
-           
             if (surfaceNormal == null)  // must be on bounding volume
                 surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
             // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
@@ -359,6 +349,7 @@ namespace Vts.MonteCarlo.Tissues
 
             // determine surfaceNormal based on if on inclusion, layer, or bounding volume
             Direction surfaceNormal = null;
+
             // if on boundary of an inclusion, check which one
             var inclusionIndex = -1;
             for (var i = 0; i < _inclusionRegions.Count; i++)
@@ -373,7 +364,6 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     return currentDirection; // no refractive index mismatch
                 }
-
                 surfaceNormal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
             }
 
@@ -383,17 +373,8 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (_layerRegions[i].ContainsPosition(currentPosition)) layerIndex = i;
             }
-            // if on inclusion boundary set surface normal if refractive index mismatch
-            if (inclusionIndex != -1)
-            {
-                if (Math.Abs(_inclusionRegions[inclusionIndex].RegionOP.N -
-                             Regions[_layerRegionIndicesOfInclusion[inclusionIndex]].RegionOP.N) < 1e-6)
-                {
-                    return currentDirection; // no refractive index mismatch
-                }
-
-                surfaceNormal = new Direction(0,0,1); // surface normal of tissue layer
-            }
+            if (layerIndex != -1)
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
 
             if (surfaceNormal == null)  // must be on bounding volume
                 surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
