@@ -1,265 +1,164 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Unit tests for BoundingVoxelMultiInfiniteCylinderTissue 
+    /// Unit tests for BoundingVoxelMultiInfiniteCylinderTissue: this has base class
+    /// BoundedMultiInclusionTissue so methods in BoundedMultiInclusionTissue are tested in the
+    /// BoundedMultiInclusionTissue unit tests.
     /// </summary>
     [TestFixture]
     public class BoundingVoxelMultiInfiniteCylinderTissueTests
     {
-        private BoundedMultiInclusionTissue _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder, 
-            _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder;
         /// <summary>
         /// Validate general constructor of Tissue for a one layer and two layer tissue voxel
         /// </summary>
+        /// <summary>
+        /// List of temporary files created by these unit tests
+        /// </summary>
+        private readonly List<string> _listOftestGeneratedFiles = ["MultiLayerTissue.txt"];
+
         [OneTimeSetUp]
-        public void Create_instance_of_class()
+        [OneTimeTearDown]
+        public void Clear_folders_and_files()
         {
-            _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder = 
-                new BoundedMultiInclusionTissue(
-                    new CaplessVoxelTissueRegion(
-                        new DoubleRange(-2, 2, 2), // x range
-                        new DoubleRange(-2, 2, 2), // y range
-                        new DoubleRange(0, 10.0, 2),  // z range spans tissue
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)), 
-                    [
-                        new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 1.5),
-                            1.0,
-                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
-                        ),
-                        new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 5),
-                            1.0,
-                            new OpticalProperties(0.05, 1.0, 0.8, 1.4))
-                            ],
-                    [
-                    new LayerTissueRegion(
-                        new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
-                    new LayerTissueRegion(
-                        new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                ]);
-            _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder = 
-                new BoundedMultiInclusionTissue(
-                    new CaplessVoxelTissueRegion(
-                        new DoubleRange(-2, 2, 2), // x range
-                        new DoubleRange(-2, 2, 2), // y range
-                        new DoubleRange(0, 100.0, 2),  // z range spans tissue
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                    [
-                        new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 1.5),
-                            1.0,
-                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
-                        ),
-                        new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 5),
-                            1.0,
-                            new OpticalProperties(0.05, 1.0, 0.8, 1.4))
-                    ],
+            foreach (var file in _listOftestGeneratedFiles)
+            {
+                FileIO.FileDelete(file);
+            }
+        }
+
+        /// <summary>
+        /// Test default constructor
+        /// </summary>
+        [Test]
+        public void Validate_default_constructor()
+        {
+            var i = new BoundingVoxelMultiInfiniteCylinderTissueInput();
+            var infiniteCylinders = i.InclusionRegions;
+            var layers = i.LayerRegions;
+            Assert.That(infiniteCylinders[0].Center.X, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[0].Center.Y, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[0].Center.Z, Is.EqualTo(1.0));
+            Assert.That(infiniteCylinders[1].Center.X, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[1].Center.Y, Is.EqualTo(0.0));
+            Assert.That(infiniteCylinders[1].Center.Z, Is.EqualTo(5.0));
+            Assert.That(layers[1].Center.Z, Is.EqualTo(5.0));
+        }
+
+        /// <summary>
+        /// verify MultiInfiniteCylinderTissueInput deserializes correctly
+        /// </summary>
+        [Test]
+        public void Validate_deserialized_class_is_correct()
+        {
+            var i = new BoundingVoxelMultiInfiniteCylinderTissueInput(
+                new CaplessVoxelTissueRegion(
+                    new DoubleRange(-1, 1, 2), // x range
+                    new DoubleRange(-1, 1, 2), // y range
+                    new DoubleRange(0, 100.0, 2),  // z range spans tissue
+                    new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                 [
+                    new InfiniteCylinderTissueRegion(new Position(0, 0, 1), 0.5,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+                        new InfiniteCylinderTissueRegion(new Position(0, 0, 2), 0.25,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+
+                ], [
                     new LayerTissueRegion(
-                        new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.0, 3.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
-                    new LayerTissueRegion(
-                        new DoubleRange(3.0, 100.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
-                    new LayerTissueRegion(
-                        new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                ]);
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                ]
+            );
+
+            var iCloned = i.Clone();
+
+            Assert.That(i.InclusionRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.InclusionRegions[1].RegionOP.Mus));
+            Assert.That(i.Regions[1].RegionOP.Mus, Is.EqualTo(iCloned.Regions[1].RegionOP.Mus));
         }
 
         /// <summary>
-        /// Validate method GetRegionIndex return correct Boolean.
-        /// Order of tissue region indices: layers, bounding region, inclusions.
+        /// Verify MultiInfiniteCylinderTissueInput deserializes when using FileIO
         /// </summary>
         [Test]
-        public void Verify_GetRegionIndex_method_returns_correct_result()
+        public void Validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            // one layer results indices: air(0)-tissue(1)-air(2)-top cylinder(3)-bot cylinder(4)-voxel(5)
-            // 1st layer 1st cylinder
-            var index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 1.5)); 
-            Assert.That(index, Is.EqualTo(3));
-            // 1st layer 2nd cylinder
-            index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 5)); 
-            Assert.That(index, Is.EqualTo(4));
-            // on voxel considered in
-            index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 0)); 
-            Assert.That(index, Is.EqualTo(1));
-            // two layer results indices: air(0)-top layer(1)-bot layer(2)-air(3)-top cylinder(4)-bot cylinder(5)-voxel(6)
-            // 1st layer cylinder
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 1.5)); 
-            Assert.That(index, Is.EqualTo(4));
-            // 2nd layer cylinder
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 5)); 
-            Assert.That(index, Is.EqualTo(5));
-            // outside voxel
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(10, 0, 0)); 
-            Assert.That(index, Is.EqualTo(6));
-            // inside voxel top layer 1st cylinder
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 2.5)); 
-            Assert.That(index, Is.EqualTo(4));
-            // on voxel is considered in
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetRegionIndex(new Position(0, 0, 0)); 
-            Assert.That(index, Is.EqualTo(1));
+            var i = new BoundingVoxelMultiInfiniteCylinderTissueInput(
+                new CaplessVoxelTissueRegion(
+                    new DoubleRange(-1, 1, 2), // x range
+                    new DoubleRange(-1, 1, 2), // y range
+                    new DoubleRange(0, 100.0, 2),  // z range spans tissue
+                    new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                [
+                    new InfiniteCylinderTissueRegion(new Position(0, 0, 1), 0.5,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+                        new InfiniteCylinderTissueRegion(new Position(0, 1, 0),0.25,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4))
+
+                ], [
+                    new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                ]
+            );
+            i.WriteToJson("MultiLayerTissue.txt");
+            var iCloned = FileIO.ReadFromJson<BoundingVoxelMultiInfiniteCylinderTissueInput>("MultiLayerTissue.txt");
+
+            Assert.That(i.InclusionRegions[1].RegionOP.Mus, Is.EqualTo(iCloned.InclusionRegions[1].RegionOP.Mus));
+            Assert.That(i.Regions[1].RegionOP.Mus, Is.EqualTo(iCloned.Regions[1].RegionOP.Mus));
         }
 
         /// <summary>
-        /// Validate method GetNeighborRegionIndex return correct Boolean
+        /// Verify CreateTissue generates ITissue
         /// </summary>
         [Test]
-        public void Verify_GetNeighborRegionIndex_method_returns_correct_result()
+        public void Verify_CreateTissue_creates_class()
         {
-            // check one layer results
-            var photon = new Photon( // on side of voxel pointed into it
-                new Position(-2, 0, 1),
-                new Direction(1.0, 0, 0),
-                1.0,
-                _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                5,
-                new Random());
-            var index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon); 
-            Assert.That(index, Is.EqualTo(1));
-            photon = new Photon( // on side of voxel pointed out of it
-                new Position(-2, 0, 1),
-                new Direction(-1.0, 0, 0),
-                1.0,
-                _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            index = _oneLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(5));
-            // check two layer results
-            photon = new Photon( // on side of voxel pointed into LAYER 1
-                new Position(2, 0, 0.5),  
-                new Direction(1.0, 0, 0),
-                1.0,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                6,
-                new Random());
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(1));
-            photon = new Photon( // on side of voxel in LAYER 1 pointed out of it
-                new Position(2, 0, 0.5),
-                new Direction(1.0, 0, 0),
-                1.0,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(6));
-            photon = new Photon( // on side of voxel pointed into LAYER 2
-                new Position(-2, 0, 3.5),
-                new Direction(1.0, 0, 0),
-                1.0,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                6,
-                new Random());
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(2));
-            photon = new Photon( // on side of voxel in LAYER 2 pointed out of it
-                new Position(-2, 0, 3.5),
-                new Direction(-1.0, 0, 0),
-                1.0,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(6));
-            // check inclusions in two layer tissue
-            photon = new Photon( // on side of top inclusion layer 1, pointing into it
-                new Position(-1, 0, 1.5),
-                new Direction(1.0, 0, 0),
-                1.0,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(4));
-            photon = new Photon( // on side of bottom inclusion layer 2, pointing into it
-                new Position(-1, 0, 5),
-                new Direction(1.0, 0, 0),
-                1.0,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            index = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(5));
-        }
+            var i = new BoundingVoxelMultiInfiniteCylinderTissueInput(
+                new CaplessVoxelTissueRegion(
+                    new DoubleRange(-1, 1, 2), // x range
+                    new DoubleRange(-1, 1, 2), // y range
+                    new DoubleRange(0, 100.0, 2),  // z range spans tissue
+                    new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+            [
+                new InfiniteCylinderTissueRegion(new Position(0, 0, 1), 0.5,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+                new InfiniteCylinderTissueRegion(new Position(0, 0, 2), 0.25,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4))
 
-        /// <summary>
-        /// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean.
-        /// Boundaries are considered to be top and bottom of tissue and bounding.
-        /// Note: Math.Abs taken in method to ensure that the angle is always positive,
-        /// so Assert check is always positive.
-        /// </summary>
-        [Test]
-        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
-        {
-            var photon = new Photon( // on top of tissue pointed into it
-                new Position(0, 0, 0.0),
-                new Direction(0.0, 0, 1.0),
-                1,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                0,
-                new Random());
-            var cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.That(cosTheta, Is.EqualTo(1));
-            photon = new Photon( // on top of 2nd layer pointed into it, inside voxel
-                new Position(-1, 0, 3.0),
-                new Direction(0.0, 0, 1.0),
-                1,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.That(cosTheta, Is.EqualTo(1));
-            // put on side of bottom infinite cylinder pointing in
-            photon.DP.Position = new Position(-1.0, 0.0, 5.0);
-            photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
-            photon.CurrentRegionIndex = 2;
-            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.That(cosTheta, Is.EqualTo(1));
-            photon = new Photon( // on top of tissue pointed into it
-                new Position(0, 0, 0.0),
-                new Direction(0.0, 0, 1.0),
-                1,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.That(cosTheta, Is.EqualTo(1));
-            photon = new Photon( // on bounding voxel pointed into it from top layer
-                new Position(-2.0, 0, 1.0), // add a bit so not right on boundary
-                new Direction(-1.0, 0, 0.0),
-                1,
-                _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder,
-                1,
-                new Random());
-            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.That(cosTheta, Is.EqualTo(1));
-            // put on side of bottom infinite cylinder pointing in
-            photon.DP.Position = new Position(-1.0, 0.0, 5.0);
-            photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
-            photon.CurrentRegionIndex = 2;
-            cosTheta = _twoLayerTissueBoundedByVoxelMultiInfiniteCylinder.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.That(cosTheta, Is.EqualTo(1));
+            ], [
+                new LayerTissueRegion(
+                    new DoubleRange(double.NegativeInfinity, 0.0),
+                    new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                new LayerTissueRegion(
+                    new DoubleRange(0.0, 100.0),
+                    new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                new LayerTissueRegion(
+                    new DoubleRange(100.0, double.PositiveInfinity),
+                    new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+            ]);
+            Assert.That(i.CreateTissue(
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    0.0), Is.InstanceOf<ITissue>());
         }
-
 
     }
 }

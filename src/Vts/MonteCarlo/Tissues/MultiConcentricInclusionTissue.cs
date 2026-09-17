@@ -222,13 +222,15 @@ namespace Vts.MonteCarlo.Tissues
             Position currentPosition,
             Direction currentDirection)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            // note that inner layer reflections handled by Photon.CrossRegionOrReflect by calling
-            // _tissue.GetRefractedDirection
-            if (base.OnDomainBoundary(currentPosition)) // OnDomainBoundary checks if on tissue boundary
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
             {
-                return base.GetReflectedDirection(currentPosition, currentDirection);
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
             }
+            if (layerIndex != -1)
+                return base.GetReflectedDirection(currentPosition, currentDirection);
 
             var inclusionIndex = 0;
             // on boundary of an inclusion, check which one
@@ -270,13 +272,18 @@ namespace Vts.MonteCarlo.Tissues
             double nextN,
             double cosThetaSnell)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
-            {
-                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            }
-
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
             if (Math.Abs(currentN - nextN) < 1e-6) return currentDirection; // no refractive index mismatch
+
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
+            {
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
+            }
+            if (layerIndex != -1)
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
 
             var inclusionIndex = 0;
             // on boundary of an inclusion, check which one

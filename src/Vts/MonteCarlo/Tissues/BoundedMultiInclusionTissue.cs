@@ -1,3 +1,4 @@
+using MathNet.Numerics.Distributions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -277,12 +278,17 @@ namespace Vts.MonteCarlo.Tissues
             // the following checks 1) top or bottom layer, 2) inclusions, 3) layers, then on bounding volume
             // note that inclusions checked before layers because ContainsPosition could be in both
 
-            // call MultiLayerTissue if crossing top or bottom layer
-            if (base.OnDomainBoundary(currentPosition))
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
             {
-                return base.GetReflectedDirection(currentPosition, currentDirection);
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
             }
-            // determine surfaceNormal based on if on inclusion, layer, or bounding volume
+            if (layerIndex != -1)
+                return base.GetReflectedDirection(currentPosition, currentDirection);
+
+            // determine surfaceNormal based on if on inclusion or bounding volume
             Direction surfaceNormal = null;
 
             // if on boundary of an inclusion, check which one
@@ -301,14 +307,6 @@ namespace Vts.MonteCarlo.Tissues
                 }
                 surfaceNormal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
             }
-
-            // if on boundary of a layer, check which one
-            var layerIndex = -1;
-            for (var i = 1; i < _layerRegions.Count - 1; i++)
-            {
-                if (_layerRegions[i].ContainsPosition(currentPosition)) layerIndex = i;
-            }
-            if (layerIndex != -1) return base.GetReflectedDirection(currentPosition, currentDirection);
 
             if (surfaceNormal == null)  // must be on bounding volume
                 surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
@@ -337,15 +335,18 @@ namespace Vts.MonteCarlo.Tissues
             double nextN,
             double cosThetaSnell)
         {
-            // the following checks 1) top or bottom layer, 2) inclusions, 3) layers, then on bounding volume
-            // note that inclusions checked before layers because ContainsPosition could be in both
-
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
-            {
-                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            }
+            // if no refractive index mismatch, then just return current direction
             if (Math.Abs(currentN - nextN) < 1e-6) return currentDirection; // no refractive index mismatch
+
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
+            {
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
+            }
+            if (layerIndex != -1)
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
 
             // determine surfaceNormal based on if on inclusion, layer, or bounding volume
             Direction surfaceNormal = null;
@@ -358,29 +359,19 @@ namespace Vts.MonteCarlo.Tissues
             }
             // if on inclusion boundary set surface normal if refractive index mismatch
             if (inclusionIndex != -1)
-            {
-                if (Math.Abs(_inclusionRegions[inclusionIndex].RegionOP.N -
-                             Regions[_layerRegionIndicesOfInclusion[inclusionIndex]].RegionOP.N) < 1e-6)
-                {
-                    return currentDirection; // no refractive index mismatch
-                }
                 surfaceNormal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
-            }
-
-            // if on boundary of a layer, check which one
-            var layerIndex = -1;
-            for (var i = 1; i < _layerRegions.Count - 1; i++)
-            {
-                if (_layerRegions[i].ContainsPosition(currentPosition)) layerIndex = i;
-            }
-            if (layerIndex != -1)
-                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-
+            
             if (surfaceNormal == null)  // must be on bounding volume
                 surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
             var cosTheta1 = Direction.GetDotProduct(currentDirection, surfaceNormal);
+            // the following code follows de Greve fairly closely but needed following 2 lines
+            // from https://stackoverflow.com/questions/26087106/refraction-in-raytracing
+            if (cosTheta1 > 0.0) surfaceNormal = new Direction(-surfaceNormal.Ux, -surfaceNormal.Uy, -surfaceNormal.Uz);
+            else cosTheta1 = -cosTheta1;
             var nRatio = currentN / nextN;
             var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
+            // check for internal reflection
+            if (currentN > nextN && sinTheta2Squared > 1.0) return GetReflectedDirection(currentPosition, currentDirection);
             var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
             var newX = nRatio * currentDirection.Ux + factor * surfaceNormal.Ux;
             var newY = nRatio * currentDirection.Uy + factor * surfaceNormal.Uy;
