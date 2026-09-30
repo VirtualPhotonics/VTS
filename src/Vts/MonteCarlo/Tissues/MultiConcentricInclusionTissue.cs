@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NLog.LayoutRenderers.Wrappers;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 
@@ -164,39 +165,40 @@ namespace Vts.MonteCarlo.Tissues
             // 3) in inner inclusion entering neighbor inclusion
             // 4) on layer region boundary
             // first, check what region the photon is in
-            var regionIndex = photon.CurrentRegionIndex;
+            var currentRegionIndex = photon.CurrentRegionIndex;
+            Direction surfaceNormal;
 
             // if we're in the layer region of the outermost inclusion and not on boundary of layer
             // then on boundary of outermost inclusion
-            if (regionIndex == _layerRegionIndexOfInclusion &&
-                !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position))
+            switch (currentRegionIndex)
             {
-                return _layerRegions.Count;  // index of outer inclusion
+                case var _ when currentRegionIndex == _layerRegionIndexOfInclusion &&
+                    !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position): // case 1)
+                    {
+                        return _layerRegions.Count; // index of outer inclusion
+                    }
+
+                case var _ when currentRegionIndex == _layerRegions.Count: // index of outer inclusion case 2)
+                    {
+                        surfaceNormal = Regions[currentRegionIndex].SurfaceNormal(photon.DP.Position);
+                        return Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0 ? _layerRegionIndexOfInclusion : currentRegionIndex + 1;
+                    }
+                case var _ when currentRegionIndex == Regions.Count - 1: // in innermost inclusion case 3)
+                    return currentRegionIndex - 1;
+                case var _ when currentRegionIndex > _layerRegions.Count && currentRegionIndex < Regions.Count - 1:
+                    // else on an inner inclusion but not outermost or innermost                 
+                    // dot product with surface normal will tell if outgoing or incoming
+                    surfaceNormal = Regions[currentRegionIndex].SurfaceNormal(photon.DP.Position);
+                    if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
+                        return currentRegionIndex - 1;
+                    return currentRegionIndex + 1;
+                case var _ when currentRegionIndex <= _layerRegions.Count - 1: // on layer boundary case 4)
+                    return base.GetNeighborRegionIndex(photon);
+                default:
+                    throw new ArgumentOutOfRangeException("Neighbor Index not found of: " +
+                                                          photon.DP.Position);
+
             }
-
-            // check if in outermost inclusion
-            Direction surfaceNormal;
-            if (regionIndex == _layerRegions.Count) // index of outer inclusion
-            {
-                surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
-                if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
-                    return _layerRegionIndexOfInclusion;
-                else
-                    return regionIndex + 1;
-            }
-
-            // check if in innermost inclusion
-            if (regionIndex == Regions.Count - 1) return regionIndex - 1;
-
-            // else if in an inner inclusion but not outermost or innermost
-            if (regionIndex <= _layerRegions.Count - 1) return base.GetNeighborRegionIndex(photon); // photon on one of inclusions
-            // dot product with surface normal will tell if outgoing or incoming
-            surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
-            if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
-                return regionIndex - 1;
-            return regionIndex + 1;
-
-            // otherwise return neighbor layer index
         }
 
         /// <summary>

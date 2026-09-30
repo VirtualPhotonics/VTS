@@ -221,32 +221,31 @@ namespace Vts.MonteCarlo.Tissues
             // first check what region the photon is in 
             var currentRegionIndex = photon.CurrentRegionIndex;
 
-            if (currentRegionIndex < _layerRegions.Count)
+            switch (currentRegionIndex)
             {
-                // Option 1a) in layer boundary and on bounding region 
-                if (_boundingRegion.OnBoundary(photon.DP.Position))
-                    return _boundingRegionExteriorIndex;
-                //Option 1b) in layer and on boundary of inclusion, then neighbor is inclusion
-                for (var i = 0; i < _inclusionRegions.Count; i++)
-                {
-                    if (_inclusionRegions[i].ContainsPosition(photon.DP.Position))
-                        return _layerRegions.Count + i; 
-                }
-                // Option 1c)
-                return base.GetNeighborRegionIndex(photon);
+                case var _ when currentRegionIndex < _layerRegions.Count: // photon on layer boundary 
+                    // Option 1a) in layer boundary and on bounding region 
+                    if (_boundingRegion.OnBoundary(photon.DP.Position))
+                        return _boundingRegionExteriorIndex;
+                    //Option 1b) in layer and on boundary of inclusion, then neighbor is inclusion
+                    for (var i = 0; i < _inclusionRegions.Count; i++)
+                    {
+                        if (_inclusionRegions[i].ContainsPosition(photon.DP.Position))
+                            return _layerRegions.Count + i;
+                    }
+                    // Option 1c)
+                    return base.GetNeighborRegionIndex(photon);
+                case var _ when currentRegionIndex == Regions.Count - 1: //photon on bounding region boundary
+                    // Option 3) if photon is on bounding region, then neighbor must be layer so call base
+                    return base.GetRegionIndex(photon.DP.Position); // neighbor is layer
+                case var _ when currentRegionIndex >= _layerRegions.Count && 
+                                currentRegionIndex < Regions.Count - 1: // photon on inclusion boundary
+                    // Option 2) check if in inclusion and on boundary, then neighbor is surrounding layer
+                    return _layerRegionIndicesOfInclusion[currentRegionIndex - _layerRegions.Count];
+                default: 
+                    throw new ArgumentOutOfRangeException("Neighbor Index not found of: " + 
+                                                          photon.DP.Position);
             }
-
-            // Option 3) if photon is on bounding region, then neighbor must be layer so call base
-            if (currentRegionIndex == Regions.Count - 1 &&
-                _boundingRegion.OnBoundary(photon.DP.Position)) return base.GetRegionIndex(photon.DP.Position);
-
-            // Option 2) check if in inclusion and on boundary, then neighbor is surrounding layer
-            if (currentRegionIndex >= _layerRegions.Count && currentRegionIndex < Regions.Count - 1)
-                return _layerRegionIndicesOfInclusion[currentRegionIndex - _layerRegions.Count];
-
-            // at this point have checked all options, if get here then something is wrong
-            return -1; // should never get here, but just in case, return -1 to indicate no neighbor found
-
         }
 
         /// <summary>

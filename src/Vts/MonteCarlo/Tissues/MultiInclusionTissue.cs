@@ -156,7 +156,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Method to determine index of region photon is about to enter.
         /// Options:
-        /// 1) if in layer -> neighbor could be a) next layer, b) inclusion, c) bounding region
+        /// 1) if in layer -> neighbor could be a) next layer, b) inclusion
         /// 2) if in inclusion -> neighbor could only be surrounding layer
         /// </summary>
         /// <param name="photon">photon info including position and direction</param>
@@ -166,29 +166,28 @@ namespace Vts.MonteCarlo.Tissues
             // first, check what region the photon is in
             var currentRegionIndex = photon.CurrentRegionIndex;
 
-            // check if we are in a layer region
-            var inLayer = currentRegionIndex >= 0 && currentRegionIndex < _layerRegions.Count;
-
-            // check if on boundary of layer, then neighbor is next layer region
-            if (inLayer && Regions[currentRegionIndex].OnBoundary(photon.DP.Position))
+            switch (currentRegionIndex)
             {
-                return base.GetNeighborRegionIndex(photon);
+                case var _ when currentRegionIndex < _layerRegions.Count: // photon on layer boundary 
+                    // Option 1a)
+                    if (_layerRegions[currentRegionIndex].OnBoundary(photon.DP.Position))
+                    {
+                        return base.GetNeighborRegionIndex(photon);
+                    }
+                    //Option 1b) in layer and on boundary of inclusion, then neighbor is inclusion
+                    for (var i = 0; i < _inclusionRegions.Count; i++)
+                    {
+                        if (_inclusionRegions[i].ContainsPosition(photon.DP.Position))
+                            return _layerRegions.Count + i;
+                    }
+                    break;
+                case var _ when currentRegionIndex >= _layerRegions.Count: // photon on inclusion boundary
+                    // Option 2) check if in inclusion and on boundary, then neighbor is surrounding layer
+                    return _layerRegionIndicesOfInclusion[currentRegionIndex - _layerRegions.Count];
             }
+            throw new ArgumentOutOfRangeException("Neighbor Index not found of: " +
+                                                  photon.DP.Position);
 
-            // if we're in a layer region with an inclusion(s) and not on boundary of layer
-            // then on boundary of one of the inclusions and could be entering or exiting region
-
-            // determine which inclusion photon is on boundary of
-            // use _inclusionRegion to determine if within one of inclusions
-            for (var j = 0; j < _inclusionRegions.Count; j++)
-            {
-                if (!_inclusionRegions[j].ContainsPosition(photon.DP.Position)) continue;
-
-                return currentRegionIndex == _layerRegionIndicesOfInclusion[j] ? _layerRegions.Count + j :  // entering inclusion
-                    _layerRegionIndicesOfInclusion[j]; // exiting into surrounding layer region
-            }
-
-            return -1; // should never get here, but just in case
         }
 
         /// <summary>
