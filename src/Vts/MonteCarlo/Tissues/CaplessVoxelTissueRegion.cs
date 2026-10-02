@@ -200,7 +200,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean indicating whether on boundary or not</returns>
         public bool OnBoundary(Position position)
         {
-            const double tol = 1e-10;
+            const double tol = 1e-8;
             if (((Math.Abs(position.X - X.Start) < tol || Math.Abs(position.X - X.Stop) < tol) &&
                   position.Y >= Y.Start && position.Y <= Y.Stop &&
                   position.Z >= Z.Start && position.Z <= Z.Stop) ||
