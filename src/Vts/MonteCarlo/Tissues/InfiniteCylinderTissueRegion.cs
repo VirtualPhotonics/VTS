@@ -64,9 +64,9 @@ namespace Vts.MonteCarlo.Tissues
             {
                 // the epsilon needs to match MultiConcentricInfiniteCylinder
                 // GetDistanceToBoundary or code goes through cycles at cylinder boundary            
-                case < -1e-9:
+                case < -1e-8:
                     return true;
-                case > 1e-9:
+                case > 1e-8:
                     return false;
                 default:
                     _onBoundary = true;
