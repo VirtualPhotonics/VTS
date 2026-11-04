@@ -64,7 +64,9 @@ namespace Vts.MonteCarlo
             "ROfFxAndMaxDepth",
             // Total diffuse transmittance
             "TDiffuse",
-            // Transmittance as a functino of source-detector separation (rho)
+            // Total diffuse transmittance in bounding volume
+            "TDiffuseBoundingVolume",
+            // Transmittance as a function of source-detector separation (rho)
             "TOfRho",
             // Transmittance as a function of angle
             "TOfAngle",

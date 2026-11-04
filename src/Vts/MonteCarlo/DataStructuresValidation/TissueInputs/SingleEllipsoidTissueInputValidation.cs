@@ -23,12 +23,6 @@ namespace Vts.MonteCarlo
             var layers = ((SingleEllipsoidTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
             var ellipsoid = (EllipsoidTissueRegion)((SingleEllipsoidTissueInput)input).EllipsoidRegion;
             var tempResult = ValidateGeometry(layers, ellipsoid);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
-            tempResult = ValidateRefractiveIndexMatch(layers, ellipsoid);
-
             return tempResult;
         }
         /// <summary>
@@ -45,7 +39,7 @@ namespace Vts.MonteCarlo
 
             if (!tempResult.IsValid) return tempResult;
 
-            if (ellipsoid.Dx == 0 || ellipsoid.Dy == 0 || ellipsoid.Dz == 0)
+            if (ellipsoid.Dx <= 0 || ellipsoid.Dy <= 0 || ellipsoid.Dz <= 0)
             {
                 tempResult = new ValidationResult(
                     false,
@@ -93,36 +87,5 @@ namespace Vts.MonteCarlo
                 "SingleEllipsoidTissueInput: geometry and refractive index settings validated");
         }
 
-        /// <summary>
-        /// Method to verify refractive index of tissue layer and ellipsoid match.
-        /// Code does not yet include reflecting/refracting off ellipsoid surface.
-        /// </summary>
-        /// <param name="layers">list of LayerTissueRegion</param>
-        /// <param name="ellipsoid">EllipsoidTissueRegion></param>
-        /// <returns>An instance of the ValidationResult class</returns>
-        private static ValidationResult ValidateRefractiveIndexMatch(
-            IList<LayerTissueRegion> layers, EllipsoidTissueRegion ellipsoid)
-        {
-            var containingLayerIndex = -1;
-            for (var i = 0; i < layers.Count - 1; i++)
-            {
-                if (layers[i].ContainsPosition(ellipsoid.Center) &&
-                    ellipsoid.Center.Z + ellipsoid.Dz <= layers[i].ZRange.Stop &&
-                    ellipsoid.Center.Z - ellipsoid.Dz >= layers[i].ZRange.Start)
-                {
-                    containingLayerIndex = i;
-                }
-            }
-            if (containingLayerIndex != -1 && layers[containingLayerIndex].RegionOP.N != ellipsoid.RegionOP.N)
-            {
-                return new ValidationResult(
-                    false,
-                    "SingleEllipsoidTissueInput: refractive index of tissue layer must match that of ellipsoid",
-                    "Change N of ellipsoid to match tissue layer N");
-            }
-            return new ValidationResult(
-                true,
-                "SingleEllipsoidTissueInput: refractive index of tissue and ellipsoid match");
-        }
     }
 }

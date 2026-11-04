@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -6,13 +5,17 @@ using Vts.Common;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueInput.  Defines input to SingleEllipsoidTissue class.
+    /// Implements ITissueInput.  Defines input to MultiEllipsoidTissue class.
+    /// Defines a tissue geometry comprised of a list of ellipsoids with axes aligned with Cartesian axes,
+    /// embedded within *multiple* (non-air) layers of a layered slab.  An example would be a two layer
+    /// phantom with multiple ellipsoids in each layer. The layers are assumed to be infinite in the
+    /// x and y directions. The ellipsoids can be located anywhere within the layers, but can not
+    /// overlap with each other or with the layer boundaries.  The tissue is assumed to be
+    /// surrounded by air above and below, which must be specified as the first and last layers in the
+    /// list of LayerTissueRegion objects.
     /// </summary>
     public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _ellipsoidRegions;
-        private ITissueRegion[] _layerRegions;
-
         /// <summary>
         /// allows definition of single ellipsoid tissue
         /// </summary>
@@ -32,8 +35,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public MultiEllipsoidTissueInput()
             : this(
-                new ITissueRegion[]
-                {
+                [
                     new EllipsoidTissueRegion(
                         new Position(10, 0, 10),
                         5.0,
@@ -46,9 +48,8 @@ namespace Vts.MonteCarlo.Tissues
                         0,
                         5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4))
-                },
-                new ITissueRegion[]
-                {
+                ],
+                [
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
@@ -58,7 +59,7 @@ namespace Vts.MonteCarlo.Tissues
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
-                })
+                ])
         {
         }
 
@@ -69,15 +70,15 @@ namespace Vts.MonteCarlo.Tissues
         public ITissueRegion[] Regions { get; private set; }
 
         /// <summary>
-        /// tissue ellipsoid region
+        /// tissue ellipsoid regions
         /// </summary>
         public ITissueRegion[] EllipsoidRegions
         {
-            get => _ellipsoidRegions;
+            get;
             set
             {
-                _ellipsoidRegions = value;
-                if (LayerRegions != null) Regions = LayerRegions.Concat(_ellipsoidRegions).ToArray();
+                field = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(field).ToArray();
             }
         }
 
@@ -86,11 +87,11 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] LayerRegions
         {
-            get => _layerRegions;
+            get;
             set
             {
-                _layerRegions = value;
-                if (EllipsoidRegions != null) Regions = _layerRegions.Concat(EllipsoidRegions).ToArray();
+                field = value;
+                if (EllipsoidRegions != null) Regions = field.Concat(EllipsoidRegions).ToArray();
             }
         }
 
@@ -104,7 +105,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>instantiated tissue</returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            throw new NotImplementedException();
+            var t = new MultiInclusionTissue(EllipsoidRegions, LayerRegions);
+
+            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            return t;
         }
     }
 }

@@ -90,9 +90,12 @@ namespace Vts.MonteCarlo
                 SingleVoxelTissueInput => SingleVoxelTissueInputValidation.ValidateInput(tissueInput),
                 SingleInfiniteCylinderTissueInput => SingleInfiniteCylinderTissueInputValidation.ValidateInput(
                     tissueInput),
+                MultiEllipsoidTissueInput => MultiEllipsoidTissueInputValidation.ValidateInput(tissueInput),
+                MultiInfiniteCylinderTissueInput => MultiInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput),
                 MultiConcentricInfiniteCylinderTissueInput => MultiConcentricInfiniteCylinderTissueInputValidation
                     .ValidateInput(tissueInput),
                 BoundingCylinderTissueInput => BoundingCylinderTissueInputValidation.ValidateInput(tissueInput),
+                BoundingVoxelMultiInfiniteCylinderTissueInput => BoundingVoxelMultiInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput),
                 _ => new ValidationResult(true, "Tissue input must be valid",
                     "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.")
             };

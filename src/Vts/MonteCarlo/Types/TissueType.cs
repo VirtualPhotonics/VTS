@@ -18,20 +18,24 @@ namespace Vts.MonteCarlo
             "SingleEllipsoid",
             // Tissue slab with embedded cylinder
             "SingleCylinder",
-            // Tissue slab with multiple embedded ellipsoids
-            "MultiEllipsoid", 
             // Tissue slab with embedded voxel
-            "SingleVoxel",
+            "SingleVoxel", 
             // Tissue slab with embedded infinite cylinder
             "SingleInfiniteCylinder",
+            // Tissue slab with multiple embedded ellipsoids
+            "MultiEllipsoid",
+            // Multiple (2 right now) concentric infinite cylinder within single layer
+            "MultiConcentricInfiniteCylinder",
+            // Multiple infinite cylinders within multiple layers
+            "MultiInfiniteCylinder",
             // MultiLayer tissue with a surface fiber circle with different OPs
             "MultiLayerWithSurfaceFiber",
-            // Multiple (2 right now) concentric infinite cylinder
-            "MultiConcentricInfiniteCylinder",
             // Multilayer tissue bounded by vertical cylinder laterally
             "BoundingCylinder",
             // Multilayer tissue bounded by voxel laterally
-            "BoundingVoxel"
+            "BoundingVoxel",
+            // Multilayer tissue with infinite cylinders in one or more layers, bounded by voxel
+            "BoundingVoxelMultiInfiniteCylinder"
         };
     }
 }

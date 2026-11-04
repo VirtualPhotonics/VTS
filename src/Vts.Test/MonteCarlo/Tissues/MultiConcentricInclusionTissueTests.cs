@@ -21,8 +21,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Create_instance_of_class()
         {
             _tissue = new MultiConcentricInclusionTissue(
-                new ITissueRegion[]
-                {
+                [
                     new InfiniteCylinderTissueRegion(
                         new Position(0, 0, 3),
                         2.95,
@@ -33,19 +32,21 @@ namespace Vts.Test.MonteCarlo.Tissues
                         2.5,
                         new OpticalProperties(0.05, 0.0, 0.8, 1.4)
                     )
-                },
-                new ITissueRegion []
-                {
+                ],
+                [
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
                     new LayerTissueRegion(
-                        new DoubleRange(0.0, 100.0),
+                        new DoubleRange(0.0, 10.0),
+                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(10.0, 100.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                }
+                ]
             );
         }
 
@@ -58,9 +59,9 @@ namespace Vts.Test.MonteCarlo.Tissues
             var index = _tissue.GetRegionIndex(new Position(0, 0, 7)); // outside both infinite cylinders
             Assert.That(index, Is.EqualTo(1));
             index = _tissue.GetRegionIndex(new Position(0, 0, 0.1)); // inside outer cylinder outside inner
-            Assert.That(index, Is.EqualTo(3));
-            index = _tissue.GetRegionIndex(new Position(0, 0, 1.0)); // inside inner cylinder
             Assert.That(index, Is.EqualTo(4));
+            index = _tissue.GetRegionIndex(new Position(0, 0, 1.0)); // inside inner cylinder
+            Assert.That(index, Is.EqualTo(5));
         }
 
         /// <summary>
@@ -77,13 +78,13 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(3));
+            Assert.That(index, Is.EqualTo(4));
             photon = new Photon( // on bottom of outer infinite cylinder pointed out of it
-                new Position(0, 0, 6.0),
+                new Position(0, 0, 5.95),
                 new Direction(0.0, 0, 1.0),
                 1.0,
                 _tissue,
-                3,
+                4,
                 new Random());
             index = _tissue.GetNeighborRegionIndex(photon);
             Assert.That(index, Is.EqualTo(1));
@@ -92,28 +93,28 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Direction(0.0, 0, -1.0),
                 1.0,
                 _tissue,
-                3,
+                4,
                 new Random());
             index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(4));
+            Assert.That(index, Is.EqualTo(5));
             photon = new Photon( // on bottom of inner infinite cylinder pointed out of it
                 new Position(0, 0, 5.5),
                 new Direction(0.0, 0, 1.0),
                 1.0,
                 _tissue,
-                4,
+                5,
                 new Random());
             index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(3));
+            Assert.That(index, Is.EqualTo(4));
             photon = new Photon( // on bottom of slab pointed out
                 new Position(0, 0, 100.0),
                 new Direction(0.0, 0, 1.0),
                 1.0,
                 _tissue,
-                1,
+                2,
                 new Random());
             index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.That(index, Is.EqualTo(2));
+            Assert.That(index, Is.EqualTo(3));
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Direction(0.0, 0, 1.0),
                 1.0,
                 _tissue,
-                1,
+                2,
                 new Random())
             {
                 S = 0
@@ -198,7 +199,14 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.That(reflectedDir.Ux, Is.EqualTo(1 / Math.Sqrt(2)));
             Assert.That(reflectedDir.Uy, Is.EqualTo(0));
             Assert.That(reflectedDir.Uz, Is.EqualTo(-1 / Math.Sqrt(2))); // reflection off layer just flips sign of Uz
-
+            // put photon on boundary of two tissue layers with refractive index mismatch
+            currentPosition = new Position(0, 0, 10);
+            currentDirection = new Direction(1 / Math.Sqrt(2), 0, 1 / Math.Sqrt(2));
+            reflectedDir = _tissue.GetReflectedDirection(
+                currentPosition, currentDirection);
+            Assert.That(reflectedDir.Ux, Is.EqualTo(1 / Math.Sqrt(2)));
+            Assert.That(reflectedDir.Uy, Is.EqualTo(0));
+            Assert.That(reflectedDir.Uz, Is.EqualTo(-1 / Math.Sqrt(2))); // reflection off layer just flips sign of Uz
             // check reflection between outer cylinder and surrounding layer: concave up reflection
             // index matched perpendicular: instance of class defines layer and outer cylinder n=1.4
             currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
@@ -334,6 +342,14 @@ namespace Vts.Test.MonteCarlo.Tissues
             Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
             refractedDir = _tissue.GetRefractedDirection(
                 currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            Assert.That(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
+            Assert.That(refractedDir.Uy, Is.EqualTo(0));
+            Assert.That(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6, Is.True); // refracted
+            // put photon on boundary of two tissue layers with refractive index mismatch
+            currentPosition = new Position(0, 0, 10);
+            currentDirection = new Direction(1 / Math.Sqrt(2), 0, 1 / Math.Sqrt(2));
+            refractedDir = _tissue.GetReflectedDirection(
+                currentPosition, currentDirection);
             Assert.That(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
             Assert.That(refractedDir.Uy, Is.EqualTo(0));
             Assert.That(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6, Is.True); // refracted

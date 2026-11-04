@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Unit tests for MultiConcentricInfiniteCylinderTissue
+    /// Unit tests for MultiConcentricInfiniteCylinderTissue: this has base class
+    /// MultiConcentricInclusionTissue so methods in MultiConcentricInclusionTissue are tested in
+    /// the MultiConcentricInclusionTissue unit tests.
     /// </summary>
     [TestFixture]
     public class MultiConcentricInfiniteCylinderTissueTests

@@ -38,7 +38,7 @@ namespace Vts.MonteCarlo
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
             if (!tempResult.IsValid) return tempResult; 
 
-            if (infiniteCylinder.Radius == 0.0)
+            if (infiniteCylinder.Radius <= 0.0)
             {
                 tempResult = new ValidationResult(
                     false,

@@ -466,6 +466,13 @@ for di = 1:numDetectors
             TDiffuse.SecondMoment = TDiffuse_txt.SecondMoment; 
             TDiffuse.Stdev = sqrt((TDiffuse.SecondMoment - (TDiffuse.Mean .* TDiffuse.Mean)) / json.N);
             results{di}.TDiffuse = TDiffuse;
+        case 'TDiffuseBoundingVolume'
+            TDiffuseBoundingVolume.Name = detector.Name;
+            TDiffuseBoundingVolume_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            TDiffuseBoundingVolume.Mean = TDiffuseBoundingVolume_txt.Mean;              
+            TDiffuseBoundingVolume.SecondMoment = TDiffuseBoundingVolume_txt.SecondMoment; 
+            TDiffuseBoundingVolume.Stdev = sqrt((TDiffuseBoundingVolume.SecondMoment - (TDiffuseBoundingVolume.Mean .* TDiffuseBoundingVolume.Mean)) / (json.N));
+            results{di}.TDiffuseBoundingVolume = TDiffuseBoundingVolume;
         case 'TOfRho'
             TOfRho.Name = detector.Name;
             tempRho = detector.Rho;

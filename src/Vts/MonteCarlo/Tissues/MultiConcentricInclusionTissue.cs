@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NLog.LayoutRenderers.Wrappers;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 
@@ -8,7 +9,7 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissue.  All "InclusionTissue" classes define processing for those tissues that use
-    /// this class to get created. Defines a tissue geometry comprised of a list of concentric inclusions
+    /// this class to get created. Defines a tissue geometry comprised of a *single* list of concentric inclusions
     /// (of same type) embedded within a layered slab.  Note that many of the methods in this class are
     /// invoked by Photon class and Photon masterminds their returns.  For example, when the photon is
     /// on the boundary of the layers or the inclusions, Photon determines whether in the critical angle
@@ -164,39 +165,40 @@ namespace Vts.MonteCarlo.Tissues
             // 3) in inner inclusion entering neighbor inclusion
             // 4) on layer region boundary
             // first, check what region the photon is in
-            var regionIndex = photon.CurrentRegionIndex;
+            var currentRegionIndex = photon.CurrentRegionIndex;
+            Direction surfaceNormal;
 
             // if we're in the layer region of the outermost inclusion and not on boundary of layer
             // then on boundary of outermost inclusion
-            if (regionIndex == _layerRegionIndexOfInclusion &&
-                !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position))
+            switch (currentRegionIndex)
             {
-                return _layerRegions.Count;  // index of outer inclusion
+                case var _ when currentRegionIndex == _layerRegionIndexOfInclusion &&
+                    !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position): // case 1)
+                    {
+                        return _layerRegions.Count; // index of outer inclusion
+                    }
+
+                case var _ when currentRegionIndex == _layerRegions.Count: // index of outer inclusion case 2)
+                    {
+                        surfaceNormal = Regions[currentRegionIndex].SurfaceNormal(photon.DP.Position);
+                        return Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0 ? _layerRegionIndexOfInclusion : currentRegionIndex + 1;
+                    }
+                case var _ when currentRegionIndex == Regions.Count - 1: // in innermost inclusion case 3)
+                    return currentRegionIndex - 1;
+                case var _ when currentRegionIndex > _layerRegions.Count && currentRegionIndex < Regions.Count - 1:
+                    // else on an inner inclusion but not outermost or innermost                 
+                    // dot product with surface normal will tell if outgoing or incoming
+                    surfaceNormal = Regions[currentRegionIndex].SurfaceNormal(photon.DP.Position);
+                    if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
+                        return currentRegionIndex - 1;
+                    return currentRegionIndex + 1;
+                case var _ when currentRegionIndex <= _layerRegions.Count - 1: // on layer boundary case 4)
+                    return base.GetNeighborRegionIndex(photon);
+                default:
+                    throw new ArgumentOutOfRangeException("Neighbor Index not found of: " +
+                                                          photon.DP.Position);
+
             }
-
-            // check if in outermost inclusion
-            Direction surfaceNormal;
-            if (regionIndex == _layerRegions.Count) // index of outer inclusion
-            {
-                surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
-                if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
-                    return _layerRegionIndexOfInclusion;
-                else
-                    return regionIndex + 1;
-            }
-
-            // check if in innermost inclusion
-            if (regionIndex == Regions.Count - 1) return regionIndex - 1;
-
-            // else if in an inner inclusion but not outermost or innermost
-            if (regionIndex <= _layerRegions.Count - 1) return base.GetNeighborRegionIndex(photon); // photon on one of inclusions
-            // dot product with surface normal will tell if outgoing or incoming
-            surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
-            if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
-                return regionIndex - 1;
-            return regionIndex + 1;
-
-            // otherwise return neighbor layer index
         }
 
         /// <summary>
@@ -222,13 +224,15 @@ namespace Vts.MonteCarlo.Tissues
             Position currentPosition,
             Direction currentDirection)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            // note that inner layer reflections handled by Photon.CrossRegionOrReflect by calling
-            // _tissue.GetRefractedDirection
-            if (base.OnDomainBoundary(currentPosition)) // OnDomainBoundary checks if on tissue boundary
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
             {
-                return base.GetReflectedDirection(currentPosition, currentDirection);
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
             }
+            if (layerIndex != -1)
+                return base.GetReflectedDirection(currentPosition, currentDirection);
 
             var inclusionIndex = 0;
             // on boundary of an inclusion, check which one
@@ -270,13 +274,18 @@ namespace Vts.MonteCarlo.Tissues
             double nextN,
             double cosThetaSnell)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
-            {
-                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            }
-
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
             if (Math.Abs(currentN - nextN) < 1e-6) return currentDirection; // no refractive index mismatch
+
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
+            {
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
+            }
+            if (layerIndex != -1)
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
 
             var inclusionIndex = 0;
             // on boundary of an inclusion, check which one

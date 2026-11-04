@@ -1,0 +1,415 @@
+using MathNet.Numerics.Distributions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Vts.Common;
+using Vts.Extensions;
+using Vts.MonteCarlo.PhotonData;
+
+namespace Vts.MonteCarlo.Tissues
+{
+
+    /// <summary>
+    /// Implements ITissue.  All "InclusionTissue" classes define processing for those tissues that use
+    /// this class to get created. Defines a tissue geometry comprised of a list of inclusions (e.g. ellipsoids,
+    /// infinite cylinders, etc.) embedded within *multiple* (non-air) layers of a layered slab, bounded by a tissue
+    /// region (ITissueRegion).  An example would be a two layer phantom with multiple inclusions in each layer.
+    /// The layers in the x and y directions are bounded by the bounding region. The inclusions can be of any shape
+    /// that implements ITissueRegion. The layers are assumed to be stacked in the z direction, with the first layer
+    /// at the top (z=0) and the last layer at the bottom (z=Zmax). The bounding region "height" along the z-axis needs
+    /// to be defined to be equal to the total height of the tissue layers. The inclusions can be located anywhere within
+    /// the layers, but can not overlap with each other, or with the layer boundaries, or with the bounding region.
+    /// The tissue is assumed to be surrounded by air above and below, which must be specified as the first and last
+    /// layers in the list of LayerTissueRegion objects.
+    /// Note that many of the methods in this class are invoked by Photon class and Photon masterminds their
+    /// returns.  For example, when the photon on the boundary of the layers or the inclusions, Photon
+    /// determines whether in the critical angle and if so whether to reflect or refract, then invokes the
+    /// methods below accordingly.
+    /// </summary>
+    public class BoundedMultiInclusionTissue : MultiLayerTissue, ITissue
+    {
+        private readonly ITissueRegion _boundingRegion;
+        private readonly IList<ITissueRegion> _layerRegions;
+        private readonly IList<ITissueRegion> _inclusionRegions;
+        private readonly int _boundingRegionExteriorIndex;
+        private readonly IList<int> _tissueLayersInsideBoundIndices;
+        private readonly IList<int> _tissueInclusionsInsideBoundIndices;
+        private readonly IList<int> _layerRegionIndicesOfInclusion;
+
+        /// <summary>
+        /// Creates an instance of a BoundedWithMultiInclusionTissue
+        /// </summary>
+        /// <param name="boundingRegion">Tissue region defining later extent of tissue (must span top to bottom of tissue layers)</param>
+        /// <param name="inclusions">The tissue inclusions within the layers</param>
+        /// <param name="layerRegions">The tissue layers</param>
+        public BoundedMultiInclusionTissue(
+            ITissueRegion boundingRegion,
+            IList<ITissueRegion> inclusions,
+            IList<ITissueRegion> layerRegions)
+            : base(layerRegions)
+        {
+            // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
+           
+            // bounding region is always last by convention
+            Regions = layerRegions.Concat(inclusions).Concat(boundingRegion).ToArray();
+            _layerRegions = layerRegions;
+            _inclusionRegions = inclusions;
+            _boundingRegion = boundingRegion;
+            // boundingRegionExteriorIndex is the area *outside* of the bounding region
+            _boundingRegionExteriorIndex = Regions.Count - 1; // index is, by convention last of all regions
+            // create list of tissue layers inside bounding region, assumes air-multilayer-air tissue
+            _tissueLayersInsideBoundIndices = new List<int>();
+            for (var i = 1; i < layerRegions.Count - 1; i++)
+            {
+                _tissueLayersInsideBoundIndices.Add(i);
+            }
+            // create list of inclusions inside bounding region
+            _tissueInclusionsInsideBoundIndices = new List<int>();
+            for (var j = 1; j < inclusions.Count - 1; j++)
+            {
+                _tissueInclusionsInsideBoundIndices.Add(j + _tissueLayersInsideBoundIndices.Count + 1); // +1 for bounding region exterior index
+            }
+            // determine which layers have inclusion
+            _layerRegionIndicesOfInclusion = new List<int>();
+            foreach (var inclusionRegion in _inclusionRegions)
+            {
+                for (var i = 0; i < _layerRegions.Count; i++)
+                {
+                    if (_layerRegions[i].ContainsPosition(inclusionRegion.Center))
+                        _layerRegionIndicesOfInclusion.Add(i);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a default instance of a BoundingTissue
+        /// </summary>
+        public BoundedMultiInclusionTissue()
+            : this(
+                new CaplessVoxelTissueRegion(),
+                new List<ITissueRegion>
+                {
+                    new InfiniteCylinderTissueRegion(
+                        new Position(0, 0, 5), 1,
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new InfiniteCylinderTissueRegion(
+                        new Position(0, 0, 15), 1,
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                },
+                new List<ITissueRegion>
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 10.0),
+                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(10.0, 100.0),
+                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                }
+               )
+        {
+        }
+
+        /// <summary>
+        /// method to get tissue region index of photon's current position
+        /// </summary>
+        /// <param name="position">photon Position</param>
+        /// <returns>integer tissue region index</returns>
+        public override int GetRegionIndex(Position position)
+        {
+            // if it's not inside bounding region, then outside which is bounding region index
+            if (!_boundingRegion.ContainsPosition(position))
+                return _boundingRegionExteriorIndex;
+            // if it's in an inclusion, return inclusion region index
+            // Inclusions are indexed after the layer regions, so add _layerRegions.Count to index
+            for (var j = 0; j < _inclusionRegions.Count; j++)
+            {
+                if (_inclusionRegions[j].ContainsPosition(position))
+                {
+                    return _layerRegions.Count + j; 
+                }
+            }
+            // else return index of layer
+            return base.GetRegionIndex(position);  
+        }
+
+        /// <summary>
+        /// Method to get distance from current photon position and direction to boundary of region
+        /// </summary>
+        /// <param name="photon">Photon</param>
+        /// <returns>distance to boundary</returns>
+        public override double GetDistanceToBoundary(Photon photon)
+        {
+            // first check what region the photon is in 
+            var currentRegionIndex = photon.CurrentRegionIndex;
+
+            // first check if closest boundary is layer
+            // going "up" in negative z-direction
+            var goingUp = photon.DP.Direction.Uz < 0.0;
+            var distanceToLayer = double.PositiveInfinity;
+            if (photon.CurrentRegionIndex < _layerRegions.Count) // photon in layer
+            {
+                var currentRegion = (LayerTissueRegion)_layerRegions[currentRegionIndex];
+                // calculate distance to boundary based on z-projection of photon trajectory
+                distanceToLayer =
+                    goingUp
+                        ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
+                        : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
+            }
+
+            // then check if inclusion boundaries are closer
+            var smallestInclusionDistance = double.PositiveInfinity;
+            // check that a projected track will hit one of the inclusions
+            var projectedPhoton = new Photon
+            {
+                DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
+                    photon.DP.TotalTime, photon.DP.StateFlag),
+                S = 100
+            };
+            foreach (var inclusionRegion in _inclusionRegions)
+            {
+                inclusionRegion.RayIntersectBoundary(projectedPhoton, out var distToInclusion);
+                // first check that photon isn't sitting on boundary of one of the inclusions
+                // note 1e-9 was found by trial and error using unit tests to verify selection
+                // if you change value, need to update InclusionTissueRegion.ContainsPosition eps
+                if (distToInclusion > 1e-9 && distToInclusion < smallestInclusionDistance)
+                {
+                    smallestInclusionDistance = distToInclusion;
+                }
+            }
+
+            // finally check bounding region 
+            _boundingRegion.RayIntersectBoundary(projectedPhoton, out var distanceToBoundingRegion);
+
+            var minimumDistance = new[] { distanceToLayer,
+                smallestInclusionDistance, distanceToBoundingRegion}.Min();
+            return minimumDistance;
+
+        }
+
+        /// <summary>
+        /// Method to determine if on boundary of tissue, i.e. at tissue/air interface
+        /// or bounding volume
+        /// </summary>
+        /// <param name="position">photon position</param>
+        /// <returns>Boolean indicating whether on boundary or not</returns>
+        public override bool OnDomainBoundary(Position position)
+        {
+            // this code assumes that the first and last layer is air
+            return _boundingRegion.OnBoundary(position) ||
+                position.Z < 1e-10 ||
+                Math.Abs(position.Z - ((LayerTissueRegion)_layerRegions.Last()).ZRange.Start) < 1e-10;
+        }
+
+        /// <summary>
+        /// Method to get index of neighbor tissue region when photon on boundary of two regions.
+        /// Options:
+        /// 1) if in layer -> neighbor could be a) next layer, b) inclusion, c) bounding region
+        /// 2) if in inclusion -> neighbor could only be surrounding layer
+        /// 3) if in bounding region -> neighbor could only be a layer at location of photon
+        /// Note: Region index order layers->bounding region->inclusions
+        /// </summary>
+        /// <param name="photon">Photon</param>
+        /// <returns>index of neighbor index</returns>
+        public override int GetNeighborRegionIndex(Photon photon)
+        {
+            // first check what region the photon is in 
+            var currentRegionIndex = photon.CurrentRegionIndex;
+
+            switch (currentRegionIndex)
+            {
+                case var _ when currentRegionIndex < _layerRegions.Count: // photon on layer boundary 
+                    // Option 1a) in layer boundary and on bounding region 
+                    if (_boundingRegion.OnBoundary(photon.DP.Position))
+                        return _boundingRegionExteriorIndex;
+                    //Option 1b) in layer and on boundary of inclusion, then neighbor is inclusion
+                    for (var i = 0; i < _inclusionRegions.Count; i++)
+                    {
+                        if (_inclusionRegions[i].ContainsPosition(photon.DP.Position))
+                            return _layerRegions.Count + i;
+                    }
+                    // Option 1c)
+                    return base.GetNeighborRegionIndex(photon);
+                case var _ when currentRegionIndex == Regions.Count - 1: //photon on bounding region boundary
+                    // Option 3) if photon is on bounding region, then neighbor must be layer so call base
+                    return base.GetRegionIndex(photon.DP.Position); // neighbor is layer
+                case var _ when currentRegionIndex >= _layerRegions.Count && 
+                                currentRegionIndex < Regions.Count - 1: // photon on inclusion boundary
+                    // Option 2) check if in inclusion and on boundary, then neighbor is surrounding layer
+                    return _layerRegionIndicesOfInclusion[currentRegionIndex - _layerRegions.Count];
+                default: 
+                    throw new ArgumentOutOfRangeException("Neighbor Index not found of: " + 
+                                                          photon.DP.Position);
+            }
+        }
+
+        /// <summary>
+        /// Method to determine photon state type of photon exiting tissue boundary
+        /// </summary>
+        /// <param name="position">photon position</param>
+        /// <returns>PhotonStateType</returns>
+        public new PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        {
+            if (position.Z < 1e-10)
+            {
+                return PhotonStateType.PseudoReflectedTissueBoundary;
+            }
+            return Math.Abs(position.Z - ((LayerTissueRegion)_layerRegions.Last()).ZRange.Start) < 1e-10
+                ? PhotonStateType.PseudoTransmittedTissueBoundary
+                : PhotonStateType.PseudoBoundingVolumeTissueBoundary;
+        }
+
+        /// <summary>
+        /// Method that provides reflected direction when photon reflects off boundary
+        /// </summary>
+        /// <param name="currentPosition">Position</param>
+        /// <param name="currentDirection">Direction</param>
+        /// <returns>new Direction</returns>
+        public override Direction GetReflectedDirection(
+            Position currentPosition,
+            Direction currentDirection)
+        {
+            // the following checks 1) top or bottom layer, 2) inclusions, 3) layers, then on bounding volume
+            // note that inclusions checked before layers because ContainsPosition could be in both
+
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
+            {
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
+            }
+            if (layerIndex != -1)
+                return base.GetReflectedDirection(currentPosition, currentDirection);
+
+            // determine surfaceNormal based on if on inclusion or bounding volume
+            Direction surfaceNormal = null;
+
+            // if on boundary of an inclusion, check which one
+            var inclusionIndex = -1;
+            for (var i = 0; i < _inclusionRegions.Count; i++)
+            {
+                if (_inclusionRegions[i].ContainsPosition(currentPosition)) inclusionIndex = i;
+            }
+            // if on inclusion boundary set surface normal if refractive index mismatch
+            if (inclusionIndex != -1)
+            {
+                if (Math.Abs(_inclusionRegions[inclusionIndex].RegionOP.N -
+                             Regions[_layerRegionIndicesOfInclusion[inclusionIndex]].RegionOP.N) < 1e-6)
+                {
+                    return currentDirection; // no refractive index mismatch
+                }
+                surfaceNormal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
+            }
+
+            if (surfaceNormal == null)  // must be on bounding volume
+                surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
+            // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
+            var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
+            var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
+            var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
+            var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
+        }
+
+        /// <summary>
+        /// Method that provides refracted direction when photon refracts off boundary
+        /// </summary>
+        /// <param name="currentPosition">Position</param>
+        /// <param name="currentDirection">Direction</param>
+        /// <param name="currentN">refractive index N of current tissue region</param>
+        /// <param name="nextN">refractive index N of next tissue region</param>
+        /// <param name="cosThetaSnell">cosine of theta per Snell's</param>
+        /// <returns>new Direction</returns>
+        public override Direction GetRefractedDirection(
+            Position currentPosition,
+            Direction currentDirection,
+            double currentN,
+            double nextN,
+            double cosThetaSnell)
+        {
+            // if no refractive index mismatch, then just return current direction
+            if (Math.Abs(currentN - nextN) < 1e-6) return currentDirection; // no refractive index mismatch
+
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 1; i < _layerRegions.Count - 1; i++)
+            {
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
+            }
+            if (layerIndex != -1)
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+
+            // determine surfaceNormal based on if on inclusion, layer, or bounding volume
+            Direction surfaceNormal = null;
+
+            // if on boundary of an inclusion, check which one
+            var inclusionIndex = -1;
+            for (var i = 0; i < _inclusionRegions.Count; i++)
+            {
+                if (_inclusionRegions[i].ContainsPosition(currentPosition)) inclusionIndex = i;
+            }
+            // if on inclusion boundary set surface normal if refractive index mismatch
+            if (inclusionIndex != -1)
+                surfaceNormal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
+            
+            if (surfaceNormal == null)  // must be on bounding volume
+                surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
+            var cosTheta1 = Direction.GetDotProduct(currentDirection, surfaceNormal);
+            // the following code follows de Greve fairly closely but needed following 2 lines
+            // from https://stackoverflow.com/questions/26087106/refraction-in-raytracing
+            if (cosTheta1 > 0.0) surfaceNormal = new Direction(-surfaceNormal.Ux, -surfaceNormal.Uy, -surfaceNormal.Uz);
+            else cosTheta1 = -cosTheta1;
+            var nRatio = currentN / nextN;
+            var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
+            // check for internal reflection
+            if (currentN > nextN && sinTheta2Squared > 1.0) return GetReflectedDirection(currentPosition, currentDirection);
+            var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
+            var newX = nRatio * currentDirection.Ux + factor * surfaceNormal.Ux;
+            var newY = nRatio * currentDirection.Uy + factor * surfaceNormal.Uy;
+            var newZ = nRatio * currentDirection.Uz + factor * surfaceNormal.Uz;
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
+            
+        }
+
+        /// <summary>
+        /// Method to get cosine of the angle between photons current direction and boundary normal.
+        /// When this method is called photon is sitting on boundary of region and CurrentRegionIndex is Index
+        /// of region photon had been in.
+        /// </summary>
+        /// <param name="photon"></param>
+        /// <returns>Uz=cos(theta)</returns>
+        public override double GetAngleRelativeToBoundaryNormal(Photon photon)
+        {
+            // check if photon on cylinder 
+            var inclusionIndex = -1;
+            for (var i = 0; i < _inclusionRegions.Count; i++)
+            {
+                if (_inclusionRegions[i].ContainsPosition(photon.DP.Position)) inclusionIndex = i;
+            }
+
+            // Since this method is called by Photon and used in Optics/Fresnel, definition used
+            // there calls for cos(theta) of normal to surface interface (normal to both sides).
+            // This is why the Abs is taken
+            if (inclusionIndex != -1)
+                return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
+                    photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
+
+            // else check if on bounding region
+            if (_boundingRegion.OnBoundary(photon.DP.Position))
+                return Math.Abs(Direction.GetDotProduct(
+                    photon.DP.Direction, _boundingRegion.SurfaceNormal(photon.DP.Position)));
+
+            // else on layer
+            return base.GetAngleRelativeToBoundaryNormal(photon);
+        }
+    }
+}

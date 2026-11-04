@@ -26,6 +26,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         {
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",
+            "multi_concentric_infinite_cylinder_AOfXAndYAndZ",
             "multi_infinite_cylinder_AOfXAndYAndZ",
             "fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder",
             "embedded_directional_circular_source_ellip_tissue",

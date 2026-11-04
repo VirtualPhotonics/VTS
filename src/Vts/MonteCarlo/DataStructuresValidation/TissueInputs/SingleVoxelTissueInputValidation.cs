@@ -24,13 +24,9 @@ namespace Vts.MonteCarlo
             var voxel = (VoxelTissueRegion)((SingleVoxelTissueInput)input).VoxelRegion;
             
             var tempResult = ValidateGeometry(layers, voxel);
-            if (!tempResult.IsValid) return tempResult;
-
-            tempResult = ValidateRefractiveIndexMatch(layers, voxel);
-            if (!tempResult.IsValid) return tempResult;
-
             return tempResult;
         }
+
         /// <summary>
         /// Method to validate that the geometry of tissue layers and Voxel agree with capabilities
         /// of code.
@@ -89,37 +85,8 @@ namespace Vts.MonteCarlo
 
             return new ValidationResult(
                 true,
-                "SingleVoxelTissueInput: geometry and refractive index settings validated");
+                "SingleVoxelTissueInput: geometry settings validated");
         }
 
-        /// <summary>
-        /// Method to verify refractive index of tissue layer and Voxel match.
-        /// Code does not yet include reflecting/refracting off Voxel surface.
-        /// </summary>
-        /// <param name="layers">list of LayerTissueRegion</param>
-        /// <param name="voxel">VoxelTissueRegion></param>
-        /// <returns>An instance of the ValidationResult class</returns>
-        private static ValidationResult ValidateRefractiveIndexMatch(
-            IList<LayerTissueRegion> layers, VoxelTissueRegion voxel)
-        {
-            var containingLayerIndex = -1;
-            for (var i = 0; i < layers.Count - 1; i++)
-            {
-                if (voxel.Z.Start <= layers[i].ZRange.Start ||
-                    voxel.Z.Stop > layers[i].ZRange.Stop) continue;
-                containingLayerIndex = i;
-            }
-            if (containingLayerIndex != -1 && 
-                layers[containingLayerIndex].RegionOP.N != voxel.RegionOP.N)
-            {
-                return new ValidationResult(
-                    false,
-                    "SingleVoxelTissueInput: refractive index of tissue layer must match that of voxel",
-                    "Change N of voxel to match tissue layer N");
-            }
-            return new ValidationResult(
-                true,
-                "SingleVoxelTissueInput: refractive index of tissue and voxel match");
-        }
     }
 }

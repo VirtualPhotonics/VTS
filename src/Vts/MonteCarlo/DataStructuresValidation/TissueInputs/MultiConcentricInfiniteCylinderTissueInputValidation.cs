@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
             if (!tempResult.IsValid){ return tempResult; }
 
-            if (infiniteCylinders.Any(region => region.Radius == 0.0))
+            if (infiniteCylinders.Any(region => region.Radius <= 0.0))
             {
                 tempResult = new ValidationResult(
                     false,
@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo
 
             return new ValidationResult(
                 true,
-                "MultiConcentricInfiniteCylinderTissueInput: geometry and refractive index settings validated");
+                "MultiConcentricInfiniteCylinderTissueInput: geometry settings validated");
         }
     }
 }
