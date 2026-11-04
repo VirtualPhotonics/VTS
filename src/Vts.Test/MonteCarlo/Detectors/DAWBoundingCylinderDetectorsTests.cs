@@ -45,7 +45,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// and verify results agree.
         /// </summary>
         [OneTimeSetUp]
-        public void execute_Monte_Carlo()
+        public void Execute_Monte_Carlo()
         {
             // delete previously generated files
             clear_folders_and_files();
@@ -126,13 +126,13 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         // Diffuse Reflectance
         [Test]
-        public void validate_DAW_bounding_cylinder_RDiffuse()
+        public void Validate_DAW_bounding_cylinder_RDiffuse()
         {
               Assert.That(Math.Abs(_outputBoundedTissue.Rd - 0.238231), Is.LessThan(0.000001));
         }
         // Reflection R(rho)
         [Test]
-        public void validate_DAW_boundingcylinder_ROfRho()
+        public void Validate_DAW_boundingcylinder_ROfRho()
         {
              Assert.That(Math.Abs(_outputBoundedTissue.R_r[0] - 0.0), Is.LessThan(0.12381000001));
         }
@@ -144,20 +144,20 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Transmittance T(rho)
         [Test]
-        public void validate_DAW_bounding_cylinder_TOfRho()
+        public void Validate_DAW_bounding_cylinder_TOfRho()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.T_r[1] - 0.003941), Is.LessThan(0.000001));
         }
         // Total Absorption
         [Test]
-        public void validate_DAW_bounding_cylinder_ATotal()
+        public void Validate_DAW_bounding_cylinder_ATotal()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.Atot - 0.047790), Is.LessThan(0.000001));
         }
         // Total Absorption in Bounding Volume
         // Note this equals Total Transmission in Bounding Volume because 
         [Test]
-        public void validate_DAW_bounding_cylinder_ATotalBoundingCylinder()
+        public void Validate_DAW_bounding_cylinder_ATotalBoundingCylinder()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.AtotBV - 0.427099), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputBoundedTissue.AtotBV2 - 0.405981), Is.LessThan(0.000001));
@@ -171,13 +171,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Absorption(x,y,z)
         [Test]
-        public void validate_DAW_bounding_cylinder_AOfRhoAndZ()
+        public void Validate_DAW_bounding_cylinder_AOfRhoAndZ()
         {
             Assert.That(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.000746), Is.LessThan(0.000001));
         }
         // sanity checks
         [Test]
-        public void validate_DAW_bounding_cylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        public void Validate_DAW_bounding_cylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // add specular because photons started outside tissue
             Assert.That(Math.Abs(_outputBoundedTissue.Rd + _outputBoundedTissue.Atot + _outputBoundedTissue.Rspec +
