@@ -162,6 +162,34 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
         }
 
         /// <summary>
+        /// Test to verify input cylindrical detector and cylinder in tissue issues warning
+        /// but continues as valid input
+        /// </summary>
+        [Test]
+        public void Validate_cylinder_tissue_without_cylindrical_symmetry_and_cylindrical_detectors_issues_warning()
+        {
+            // generate input embedded cylinder tissue and cylindrical detector
+            var input = new SimulationInput
+            {
+                TissueInput = new SingleCylinderTissueInput
+                {
+                    CylinderRegion = new CylinderTissueRegion
+                    {
+                        // define off-axis cylinder in tissue
+                        Center = new Position(1, 0, 5), Radius = 1.0, Height = 2.0
+                    }
+                },
+                DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput() }
+            };
+            // set to catch Console output
+            var output = new StringWriter();
+            Console.SetOut(output);
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.That(result.IsValid, Is.True); // only warning
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: off center cylinder in tissue with cylindrical detector defined: user discretion advised"));
+        }
+
+        /// <summary>
         /// Test to verify input cylindrical detector and voxel in tissue issues warning
         /// but continues as valid input
         /// </summary>

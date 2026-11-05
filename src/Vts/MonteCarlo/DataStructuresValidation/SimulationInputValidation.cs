@@ -88,6 +88,7 @@ namespace Vts.MonteCarlo
                 MultiLayerTissueInput => MultiLayerTissueInputValidation.ValidateInput(tissueInput),
                 SingleEllipsoidTissueInput => SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput),
                 SingleVoxelTissueInput => SingleVoxelTissueInputValidation.ValidateInput(tissueInput),
+                SingleCylinderTissueInput => SingleCylinderTissueInputValidation.ValidateInput(tissueInput),
                 SingleInfiniteCylinderTissueInput => SingleInfiniteCylinderTissueInputValidation.ValidateInput(
                     tissueInput),
                 MultiConcentricInfiniteCylinderTissueInput => MultiConcentricInfiniteCylinderTissueInputValidation
@@ -206,6 +207,15 @@ namespace Vts.MonteCarlo
                     if (!tempResult.IsValid) return tempResult;
                     break;
                 }
+                // check that if single cylinder (axis=z-axis) tissue specified and (r,z) detector specified,
+                // that (1) cylinder is centered at x=0, y=0, (2) cylinder is cylindrically symmetric (dx=dy)
+                case SingleCylinderTissueInput tissueWithCylinder:
+                {
+                    var cylinder = (CylinderTissueRegion)tissueWithCylinder.CylinderRegion;
+                    var tempResult = ValidateSingleCylinderTissueCombinedWithDetectors(input, cylinder);
+                    if (!tempResult.IsValid) return tempResult;
+                    break;
+                }
                 // check that if single voxel or single infinite cylinder tissue specified,
                 // cannot specify (r,z) detector 
                 case SingleVoxelTissueInput:
@@ -267,6 +277,37 @@ namespace Vts.MonteCarlo
                             true,
                             "Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined",
                             "User discretion advised: change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
+                }
+
+                // theory assumes homogeneous tissue for R(fx), however users can continue with warning
+                if (detectorInput.TallyType != TallyType.ROfFx) continue;
+                Console.WriteLine("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised");
+                return new ValidationResult(
+                    true,
+                    "Warning: R(fx) theory assumes a homogeneous or layered tissue geometry",
+                    "User discretion advised");
+            }
+            return new ValidationResult(
+                true,
+                "Input options or tissue/detector combinations are valid",
+                "");
+        }
+
+        private static ValidationResult ValidateSingleCylinderTissueCombinedWithDetectors(
+            SimulationInput input, CylinderTissueRegion cylinder)
+        {
+            foreach (var detectorInput in input.DetectorInputs)
+            {
+                switch (detectorInput.TallyDetails.IsCylindricalTally)
+                {
+                    // check if Cylinder off center, then not cylindrically symmetric, continue with warning
+                    case true when
+                        Math.Abs(cylinder.Center.X) > 1e-6 || Math.Abs(cylinder.Center.Y) > 1e-6:
+                        Console.WriteLine("Warning: off center cylinder in tissue with cylindrical detector defined: user discretion advised");
+                        return new ValidationResult(
+                        true,
+                        "Warning: off center cylinder in tissue with cylindrical detector defined",
+                        "User discretion advised: change Cylinder center to (0,0) or specify non-cylindrical type tally");
                 }
 
                 // theory assumes homogeneous tissue for R(fx), however users can continue with warning

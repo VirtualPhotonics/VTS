@@ -45,6 +45,7 @@ namespace Vts.MonteCarlo.Tissues
             : this(
                 new EllipsoidTissueRegion(),
                 new MultiLayerTissueInput().Regions) { }
+
         /// <summary>
         /// Method to get tissue region index of photon's current position
         /// </summary>
@@ -80,6 +81,7 @@ namespace Vts.MonteCarlo.Tissues
                 // otherwise we can do this with the base class method
                 base.GetNeighborRegionIndex(photon);
         }
+
         /// <summary>
         /// Method to get distance from current photon position and direction to boundary of region
         /// </summary>
@@ -90,7 +92,7 @@ namespace Vts.MonteCarlo.Tissues
             // first, check what region the photon is in
             var regionIndex = photon.CurrentRegionIndex;
 
-            if ((regionIndex != _layerRegionIndexOfInclusion) && (regionIndex != _inclusionRegionIndex))
+            if (regionIndex != _layerRegionIndexOfInclusion && regionIndex != _inclusionRegionIndex)
                 return base.GetDistanceToBoundary(photon);
             // check if current track will hit the inclusion boundary, returning the correct distance
             if (_inclusionRegion.RayIntersectBoundary(photon, out var distanceToBoundary))
@@ -195,11 +197,13 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Uz=cos(theta)</returns>
         public override double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            return base.OnDomainBoundary(photon.DP.Position)
-                ? base.GetAngleRelativeToBoundaryNormal(photon)
-                : Math.Abs(Direction.GetDotProduct( // need Abs here for unit tests but not sure correct
+            // check inclusion
+            if (_inclusionRegion.ContainsPosition(photon.DP.Position))
+                return Math.Abs(Direction.GetDotProduct(
                     photon.DP.Direction, _inclusionRegion.SurfaceNormal(photon.DP.Position)));
+            
+            // needs to call MultiLayerTissue when crossing layer
+            return base.GetAngleRelativeToBoundaryNormal(photon);
         }
     }
 }

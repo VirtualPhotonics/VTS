@@ -121,5 +121,37 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.That(result, Is.True);
             Assert.That(distanceToBoundary, Is.EqualTo(1.0));
         }
+
+        /// <summary>
+        /// Validate method SurfaceNormal return correct normal vector.  Should be outward directed normal.
+        /// </summary>
+        [Test]
+        public void Verify_SurfaceNormal_method_returns_correct_result()
+        {
+            var result = _cylinderTissueRegion.SurfaceNormal(new Position(0, 0, 1.0)); // on cylinder top cap
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(-1));
+            result = _cylinderTissueRegion.SurfaceNormal(new Position(0, 0, 3.0)); // on cylinder bottom cap
+            Assert.That(result.Ux, Is.EqualTo(0));
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(1));
+            // select position on front of cylinder (x=0, y=1, z=2)
+            var x = 0.0;
+            var y = 1.0;
+            var z = 2.0;
+            result = _cylinderTissueRegion.SurfaceNormal(new Position(x, y, z));
+            Assert.That(result.Ux, Is.EqualTo(0)); 
+            Assert.That(Math.Abs(result.Uy - 1) < 1e-6, Is.True);
+            Assert.That(result.Uz, Is.EqualTo(0));
+            // select position on right side of cylinder (x=1, y=0, z=2)
+            x = 1.0;
+            y = 0.0;
+            z = 2.0;
+            result = _cylinderTissueRegion.SurfaceNormal(new Position(x, y, z));
+            Assert.That(Math.Abs(result.Ux - 1) < 1e-6, Is.True);
+            Assert.That(result.Uy, Is.EqualTo(0));
+            Assert.That(result.Uz, Is.EqualTo(0));
+        }
     }
 }

@@ -27,8 +27,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                         new DoubleRange(1, 5),
                         new OpticalProperties()),
                     // define layer tissues that are incorrect
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -38,13 +37,14 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>() { }
             );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.That(result.IsValid, Is.False);
         }
+
         /// <summary>
         /// Test to check that voxel has non-zero axis definitions.
         /// </summary>
@@ -61,9 +61,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                     new VoxelTissueRegion(new DoubleRange(0, 0),
                         new DoubleRange(-10, 10), 
                         new DoubleRange(1, 5),
-                        new OpticalProperties()), 
-                    new ITissueRegion[]
-                    { 
+                        new OpticalProperties()),
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -73,13 +72,14 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.That(result.IsValid, Is.False);
         }
+
         /// <summary>
         /// Test to check that at least one tissue layer is defined
         /// </summary>
@@ -92,22 +92,22 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new SimulationOptions(),
                 new DirectionalPointSourceInput(),
                 new SingleVoxelTissueInput(
-                    new VoxelTissueRegion(), 
-                    new ITissueRegion[]
-                    { 
+                    new VoxelTissueRegion(),
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ), 
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.That(result.IsValid, Is.False);
         }
+
         /// <summary>
         /// Test to check that voxel is entirely contained within tissue layer
         /// </summary>
@@ -123,9 +123,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                     new VoxelTissueRegion(new DoubleRange(-5, 5), 
                         new DoubleRange(-5, 5),
                         new DoubleRange(0, 10), // eheck that voxel not at surface
-                        new OpticalProperties()), 
-                    new ITissueRegion[]
-                    { 
+                        new OpticalProperties()),
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -135,46 +134,13 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ), 
                 new List<IDetectorInput>() { }
             );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.That(result.IsValid, Is.False);
         }
-        /// <summary>
-        /// Test to check that voxel refractive index matches refractive index of surrounding layer
-        /// </summary>
-        [Test]
-        public void validate_voxel_refractive_index_matches_that_of_surrounding_layer()
-        {
-            var input = new SimulationInput(
-                10,
-                "",
-                new SimulationOptions(),
-                new DirectionalPointSourceInput(),
-                new SingleVoxelTissueInput(
-                    new VoxelTissueRegion(new DoubleRange(-5, 5),  
-                        new DoubleRange(-5, 5),
-                        new DoubleRange(1, 2),
-                        new OpticalProperties(0.01, 1.0, 0.9, 1.3)),
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerTissueRegion(
-                            new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
-                new List<IDetectorInput>() { }
-            );
-            var result = SimulationInputValidation.ValidateInput(input);
-            Assert.That(result.IsValid, Is.False);
-        }
+
     }
 }

@@ -64,12 +64,12 @@ namespace Vts.MonteCarlo.Tissues
         {
             var radialPosition = Math.Sqrt(position.X * position.X + position.Y * position.Y);
             // check if within caps vertically and within radius
-            return (position.Z <= Center.Z + Height / 2) && (position.Z >= Center.Z - Height / 2) &&
-                (radialPosition < Radius);
+            return position.Z <= Center.Z + Height / 2 && position.Z >= Center.Z - Height / 2 &&
+                radialPosition < Radius;
         }
+
         /// <summary>
         /// Method to determine if photon on boundary of cylinder.
-        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>Boolean</returns>
@@ -123,24 +123,24 @@ namespace Vts.MonteCarlo.Tissues
 
             // distanceToSides is initialized to double.PositiveInfinity at start of RayIntersect
             // first check if intersect with infinite cylinder
-            var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
+            var intersectSides = CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
                 CylinderTissueRegionAxisType.Z, Center, Radius,
-                out var distanceToSides));
+                out var distanceToSides);
             // then check if intersect caps, create three tissue layers 1) above cylinder, 2) cylinder, 3) below
 
             var topLayer = new LayerTissueRegion(
-                new DoubleRange(0, Center.Z - (Height / 2)),
+                new DoubleRange(0, Center.Z - Height / 2),
                 new OpticalProperties()); // doesn't matter what OPs are
             var intersectTopLayer = topLayer.RayIntersectBoundary(photon, out var distanceToTopLayer);
 
             var enclosingLayer =
                 new LayerTissueRegion(
-                    new DoubleRange(Center.Z - (Height / 2), Center.Z + (Height / 2)),
+                    new DoubleRange(Center.Z - Height / 2, Center.Z + Height / 2),
                     new OpticalProperties());
             var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out var distanceToCapLayer);
 
             var bottomLayer = new LayerTissueRegion(
-                new DoubleRange(Center.Z + (Height / 2), double.PositiveInfinity),
+                new DoubleRange(Center.Z + Height / 2, double.PositiveInfinity),
                 new OpticalProperties()); // doesn't matter what OPs are
             var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out var distanceToBottomLayer);
             var hitCaps = false;
@@ -151,8 +151,8 @@ namespace Vts.MonteCarlo.Tissues
                 var xto = p1.X + distanceToCap * d1.Ux;
                 var yto = p1.Y + distanceToCap * d1.Uy;
                 var zto = p1.Z + distanceToCap * d1.Uz;
-                if ((Math.Abs(zto - (Center.Z + (Height / 2))) < 1e-10 ||
-                     Math.Abs(zto - (Center.Z - (Height / 2))) < 1e-10) &&
+                if ((Math.Abs(zto - (Center.Z + Height / 2)) < 1e-10 ||
+                     Math.Abs(zto - (Center.Z - Height / 2)) < 1e-10) &&
                     Math.Sqrt(xto * xto + yto * yto) < Radius)
                 {
                     hitCaps = true;
@@ -164,7 +164,7 @@ namespace Vts.MonteCarlo.Tissues
                 return true;
             }
 
-            if (!intersectSides || (distanceToSides >= distanceToCapLayer)) return false;
+            if (!intersectSides || distanceToSides >= distanceToCapLayer) return false;
             distanceToBoundary = distanceToSides;
 
             return true;
@@ -178,7 +178,24 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            throw new NotImplementedException();
+            var onCylinder = Math.Abs(
+                Math.Sqrt(position.X * position.X + position.Y * position.Y) - Radius) < 1e-10;
+            if (onCylinder)
+            {
+                // Return the normal vector for the cylindrical surface
+                var norm = Math.Sqrt(4 * (position.X - Center.X) * (position.X - Center.X) +
+                                     4 * (position.Y - Center.Y) * (position.Y - Center.Y));
+                return new Direction(
+                    2 * (position.X - Center.X) / norm,
+                    2 * (position.Y - Center.Y) / norm,
+                    0.0);
+            }
+            var inRadius = Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius;
+            var onTopCap = Math.Abs(position.Z - (Center.Z - Height / 2)) < 1e-10;
+            var onBottomCap = Math.Abs(position.Z - (Center.Z + Height / 2)) < 1e-10;
+            if (onTopCap && inRadius) return new Direction(0, 0, -1); // top cap normal points up
+            if (onBottomCap && inRadius) return new Direction(0, 0, 1); // bottom cap normal points down)
+            throw new ArgumentException("Position is not on the surface of the cylinder.");
         }
     }
 }
