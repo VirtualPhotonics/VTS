@@ -815,45 +815,6 @@ for di = 1:numDetectors
                                                                            - imag(FluenceOfFxAndZ.Mean) .* imag(FluenceOfFxAndZ.Mean)) / json.N);
             end                 
             results{di}.FluenceOfFxAndZ = FluenceOfFxAndZ;
-        case 'RadianceOfRhoAtZ'
-            RadianceOfRhoAtZ.Name = detector.Name;
-            RadianceOfRhoAtZ.ZDepth = detector.ZDepth;
-            RadianceOfRhoAtZ.ZDirection = detector.ZDirection;
-            tempRho = detector.Rho;
-            RadianceOfRhoAtZ.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
-            RadianceOfRhoAtZ.Rho_Midpoints = (RadianceOfRhoAtZ.Rho(1:end-1) + RadianceOfRhoAtZ.Rho(2:end))/2;
-            RadianceOfRhoAtZ.Mean = readBinaryData([datadir slash detector.Name],length(RadianceOfRhoAtZ.Rho)-1); 
-            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
-                RadianceOfRhoAtZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
-                length(RadianceOfRhoAtZ.Rho)-1); 
-                RadianceOfRhoAtZ.Stdev = sqrt((RadianceOfRhoAtZ.SecondMoment - (RadianceOfRhoAtZ.Mean .* RadianceOfRhoAtZ.Mean)) / json.N);               
-            end
-            results{di}.RadianceOfRhoAtZ = RadianceOfRhoAtZ;
-        case 'RadianceOfRhoAndTimeAndMaxDepthAtZ'
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.Name = detector.Name;
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.ZDepth = detector.ZDepth;
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.ZDirection = detector.ZDirection;
-            tempRho = detector.Rho;
-            tempTime = detector.Time;
-            tempMaxDepth = detector.MaxDepth;
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho_Midpoints = (RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho(1:end-1) + RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho(2:end))/2;
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.Time_Midpoints = (RadianceOfRhoAndTimeAndMaxDepthAtZ.Time(1:end-1) + RadianceOfRhoAndTimeAndMaxDepthAtZ.Time(2:end))/2;
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth = linspace((tempMaxDepth.Start), (tempMaxDepth.Stop), (tempMaxDepth.Count));
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth_Midpoints = (RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth(1:end-1) + RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth(2:end))/2;
-               RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean = readBinaryData([datadir slash detector.Name], ...
-                (length(RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth)-1)*(length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1)*(length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1)); % read column major json binary             
-            RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean = reshape(RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean, ...
-                [length(RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1]); % read column major json binary             
-            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
-                RadianceOfRhoAndTimeAndMaxDepthAtZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
-                    (length(RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth)-1)*(length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1)*(length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1));
-                 RadianceOfRhoAndTimeAndMaxDepthAtZ.SecondMoment = reshape(RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean, ...
-                    [length(RadianceOfRhoAndTimeAndMaxDepthAtZ.MaxDepth)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Time)-1,length(RadianceOfRhoAndTimeAndMaxDepthAtZ.Rho)-1]);
-                RadianceOfRhoAndTimeAndMaxDepthAtZ.Stdev = sqrt((RadianceOfRhoAndTimeAndMaxDepthAtZ.SecondMoment - (RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean .* RadianceOfRhoAndTimeAndMaxDepthAtZ.Mean)) / json.N);
-            end
-            results{di}.RadianceOfRhoAndTimeAndMaxDepthAtZ = RadianceOfRhoAndTimeAndMaxDepthAtZ;
      case 'RadianceOfRhoAndZAndAngle'
             RadianceOfRhoAndZAndAngle.Name = detector.Name;
             tempRho = detector.Rho;
