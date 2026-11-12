@@ -37,12 +37,11 @@ namespace Vts.Test.MonteCarlo.Tissues
         }
         /// <summary>
         /// Validate method OnBoundary return correct Boolean.
-        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         [Test]
         public void Verify_OnBoundary_method_returns_correct_result()
         {
-            // OnBoundary returns false if *exactly* on boundary
+            // OnBoundary returns false if *exactly* on boundary (see method summary)
             var result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 1.0));
             Assert.That(result, Is.False);
             // but returns true if outside ellipsoid which doesn't make sense but it is how code is written

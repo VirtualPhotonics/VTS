@@ -60,7 +60,10 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public double Dz { get; set; }
         /// <summary>
-        /// method to determine if given Position lies within ellipsoid allows for floating point imprecision
+        /// method to determine if given Position lies within ellipsoid allows for floating
+        /// point imprecision.
+        /// True is returned if photon is within or on boundary of ellipsoid, false if outside.
+        /// _onBoundary is set to true if photon is on boundary, false otherwise.
         /// </summary>
         /// <param name="position">Position</param>
         /// <returns>Boolean, true if within or on, false otherwise</returns>
@@ -82,12 +85,13 @@ namespace Vts.MonteCarlo.Tissues
                 default:
                     // on boundary means ellipsoid contains position
                     _onBoundary = true;
-                    return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
+                    return true;  
             }
         }
         /// <summary>
         /// Method to determine if given Position lies on boundary of ellipsoid.
-        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
+        /// ContainsPosition will return true if on boundary and set _onBoundary to true, so this
+        /// will return false if strictly on boundary.  This is consistent with other tissue regions.
         /// </summary>
         /// <param name="position">position to be checked</param>
         /// <returns>true if on boundary, false otherwise</returns>
@@ -95,6 +99,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             return !ContainsPosition(position) && _onBoundary;
         }
+
         /// <summary>
         /// method to determine normal to surface at given position. Note this returns outward facing normal.
         /// </summary>

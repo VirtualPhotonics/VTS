@@ -56,7 +56,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Verify_OnBoundary_method_returns_correct_result()
         {
-            // OnBoundary returns false if *exactly* on boundary
+            // OnBoundary returns false if *exactly* on boundary (see method summary)
             var result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
             Assert.That(result, Is.False);
             // but returns true if outside infinite cylinder which doesn't make sense but it is how code is written

@@ -47,10 +47,12 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of cylinder
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
-        
+
         /// <summary>
         /// Method to determine if photon position within or on cylinder.  The loss of precision in floating
-        /// point operations necessitates the checks of if "inside" is close but not exact
+        /// point operations necessitates the checks of if "inside" is close but not exact.
+        /// True is returned if photon is within or on boundary of infinite cylinder, false if outside.
+        /// _onBoundary is set to true if photon is on boundary, false otherwise.
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>Boolean</returns>
@@ -69,20 +71,22 @@ namespace Vts.MonteCarlo.Tissues
                 case > 1e-9:
                     return false;
                 default:
+                    // on boundary means ellipsoid contains position
                     _onBoundary = true;
-                    return true;  // ckh 2/28/19 this has to return true or unit tests fail
+                    return true;  
             }
         }
 
         /// <summary>
         /// Method to determine if photon on boundary of infinite cylinder.
-        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
+        /// ContainsPosition will return true if on boundary and set _onBoundary to true, so this
+        /// will return false if strictly on boundary.  This is consistent with other tissue regions.
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>Boolean</returns>
         public bool OnBoundary(Position position)
         {
-            return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
+            return !ContainsPosition(position) && _onBoundary; // consistent with other tissue regions
         }
 
         /// <summary>

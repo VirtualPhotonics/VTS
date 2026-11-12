@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo.Tissues
         private readonly ITissueRegion _inclusionRegion;
         private readonly int _inclusionRegionIndex;
         private readonly int _layerRegionIndexOfInclusion;
+        private readonly IList<LayerTissueRegion> _layerRegions;
 
         /// <summary>
         /// Creates an instance of a SingleInclusionTissue
@@ -31,7 +32,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(inclusionRegion).ToArray();
-
+            _layerRegions = layerRegions.Select(r=>(LayerTissueRegion)r).ToList();
             _inclusionRegion = inclusionRegion;
             _inclusionRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
             _layerRegionIndexOfInclusion = Enumerable.Range(0, layerRegions.Count)
@@ -107,9 +108,16 @@ namespace Vts.MonteCarlo.Tissues
                     photon.DP.TotalTime, photon.DP.StateFlag),
                 S = 100
             };
-            return _inclusionRegion.RayIntersectBoundary(projectedPhoton, out distanceToBoundary) ? distanceToBoundary :
-                // if not hitting the inclusion, call the base (layer) method
-                base.GetDistanceToBoundary(photon);
+            if (_inclusionRegion.RayIntersectBoundary(projectedPhoton, out distanceToBoundary))
+            {
+                return distanceToBoundary; 
+            }
+            // if not hitting the inclusion, call the base (layer) method
+            // when calling base MultiLayerTissue, need to adjust CurrentRegionIndex so that LayerTissueRegion 
+            // determines distance to layer boundary
+            projectedPhoton.CurrentRegionIndex = _layerRegionIndexOfInclusion;
+            var layerDistance = base.GetDistanceToBoundary(projectedPhoton);
+            return layerDistance > 0 ? layerDistance : double.PositiveInfinity;
         }
 
         /// <summary>
