@@ -138,8 +138,7 @@ for mci = 1:length(datanames)
         ylabel('R(\rho) [mm^-^2]');
         rhodelta = diff(d.Rho(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * rhodelta;
-        fprintf('Total reflectance captured by ROfRho detector: %g\n', ...
-            sum(d.Mean .* rhonorm'));
+        fprintf('Total reflectance captured by ROfRho detector: %g\n', sum(d.Mean .* rhonorm'));
     end
     
     if isfield(results{di}, 'ROfRhoRecessed') && show.ROfRhoRecessed
@@ -154,7 +153,7 @@ for mci = 1:length(datanames)
         rhodelta = diff(d.Rho(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * rhodelta;
         total = sum(d.Mean .* rhonorm');
-        disp(['Total reflectance captured by ROfRhoRecessed detector: ' num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoRecessed detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfAngle') && show.ROfAngle
@@ -169,7 +168,7 @@ for mci = 1:length(datanames)
         angledelta = diff(d.Angle(1:2));
         anglenorm = 2 * pi * sin(d.Angle_Midpoints) * angledelta;
         total = sum(d.Mean .* anglenorm');
-        disp(['Total reflectance captured by ROfAngle detector: ' num2str(total)]);
+        fprintf('Total reflectance captured by ROfAngle detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
@@ -186,7 +185,7 @@ for mci = 1:length(datanames)
         xlabel('\rho [mm]');
         ylabel('time [ns]');
         total = timedelta * sum(d.Mean .* rhonorm(:).', 'all');
-        disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndTime detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfRhoAndTimeAndMaxDepth') && show.ROfRhoAndTimeAndMaxDepth
@@ -213,7 +212,7 @@ for mci = 1:length(datanames)
         xlabel('z [mm]');
         ylabel('max depth');
         total = timedelta * sum(bsxfun(@times, d.Mean, reshape(rhonorm, 1, 1, [])), 'all');
-        disp(['Total reflectance captured by ROfRhoAndTimeAndMaxDepth detector: ' num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndTimeAndMaxDepth detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfRhoAndMaxDepth') && show.ROfRhoAndMaxDepth
@@ -239,7 +238,7 @@ for mci = 1:length(datanames)
         xlabel('z [mm]');
         ylabel('max depth');
         total = sum(d.Mean .* rhonorm(:).', 'all');
-        disp(['Total reflectance captured by ROfRhoAndMaxDepth detector: ' num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndMaxDepth detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfRhoAndMaxDepthRecessed') && show.ROfRhoAndMaxDepthRecessed
@@ -262,8 +261,7 @@ for mci = 1:length(datanames)
         xlabel('z [mm]');
         ylabel('max depth');
         total = sum(d.Mean .* rhonorm, 'all');
-        disp(['Total reflectance captured by ROfRhoAndMaxDepthRecessed detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndMaxDepthRecessed detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle
@@ -281,8 +279,7 @@ for mci = 1:length(datanames)
         rhonorm = 2 * pi * d.Rho_Midpoints(:).' * rhodelta;
         anglenorm = 2 * pi * sin(d.Angle_Midpoints(:)) * angledelta;
         total = sum(d.Mean .* anglenorm .* rhonorm, 'all');
-        disp(['Total reflectance captured by ROfRhoAndAngle detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndAngle detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfRhoAndOmega') && show.ROfRhoAndOmega
@@ -303,8 +300,7 @@ for mci = 1:length(datanames)
         xlabel('\rho [mm]');
         ylabel('\omega [GHz]');
         total = sum(d.Amplitude(1, :) .* rhonorm, 'all');
-        disp(['Total reflectance captured by ROfRhoAndOmega detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndOmega detector: %g\n', total);
     end
 
     if isfield(results{di}, 'ROfXAndY') && show.ROfXAndY
@@ -325,8 +321,8 @@ for mci = 1:length(datanames)
             xlabel('X [mm]');
             ylabel('R(x) [mm^-^2]');
         end
-        disp(['Total reflectance captured by ROfXAndY detector: ' ...
-            num2str(sum(d.Mean, 'all') * xynorm)]);
+        fprintf('Total reflectance captured by ROfXAndY detector: %g\n', ...
+            sum(d.Mean, 'all') * xynorm);
         [r, c] = find(d.Mean);
         if ~isempty(r)
             fprintf('ROfXAndY: x non-zero span [%d %d]\n', min(r), max(r));
@@ -358,8 +354,7 @@ for mci = 1:length(datanames)
         for i = 1:10:numel(d.Time)-1
             figname = sprintf('log10(%s) time=%5.3f ns', d.Name, d.Time_Midpoints(i));
             figure;
-            imagesc(d.X_Midpoints, d.Y_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, :))));
+            imagesc(d.X_Midpoints, d.Y_Midpoints, log10(squeeze(d.Mean(i, :, :))));
             colormap(jet);
             colorbar;
             title(figname);
@@ -411,6 +406,7 @@ for mci = 1:length(datanames)
         % the following does not integrate to diffuse R
         fprintf('Total reflectance captured by %s detector: %g\n', ...
             d.Name, binvol * sum(d.Mean, 'all'));
+        % but this does
         fprintf('Total reflectance captured by %s detector - ROfXAndY: %g\n', ...
             d.Name, diff(d.X(1:2)) * diff(d.Y(1:2)) * sum(d.ROfXAndY, 'all'));
     end
@@ -434,6 +430,7 @@ for mci = 1:length(datanames)
         % the following does not integrate to diffuse R
         fprintf('Total reflectance captured by %s detector: %g\n', ...
             d.Name, binvol * sum(d.Mean, 'all'));
+        % but this does
         fprintf('Total reflectance captured by %s detector - ROfXAndY: %g\n', ...
             d.Name, diff(d.X(1:2)) * diff(d.Y(1:2)) * sum(d.ROfXAndY, 'all'));
     end
@@ -469,8 +466,7 @@ for mci = 1:length(datanames)
             figname = sprintf('log10(%s) depth=%5.3f mm', ...
                 d.Name, d.MaxDepth_Midpoints(i));
             figure;
-            imagesc(d.X_Midpoints, d.Y_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, :))));
+            imagesc(d.X_Midpoints, d.Y_Midpoints, log10(squeeze(d.Mean(i, :, :))));
             colormap(jet);
             colorbar;
             title(figname);
@@ -491,8 +487,7 @@ for mci = 1:length(datanames)
             figname = sprintf('log10(%s) depth=%5.3f mm', ...
                 d.Name, d.MaxDepth_Midpoints(i));
             figure;
-            imagesc(d.X_Midpoints, d.Y_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, :))));
+            imagesc(d.X_Midpoints, d.Y_Midpoints, log10(squeeze(d.Mean(i, :, :))));
             colormap(jet);
             colorbar;
             title(figname);
@@ -543,7 +538,6 @@ for mci = 1:length(datanames)
         colorbar;
         xlabel('angle [rad]');
         ylabel('f_x [/mm]');
-
         angledelta = diff(d.Angle(1:2));
         anglenorm = 2 * pi * sin(d.Angle_Midpoints) * angledelta;
         fprintf('Total reflectance captured by %s detector: %g\n', ...
@@ -560,7 +554,6 @@ for mci = 1:length(datanames)
         colorbar;
         xlabel('depth [mm]');
         ylabel('f_x [/mm]');
-
         fprintf('Total reflectance captured by %s detector: %g\n', ...
             d.Name, sum(d.Amplitude(:, 1)));
     end
@@ -641,8 +634,7 @@ for mci = 1:length(datanames)
         for i = 2:d.NumberOfRegions - 1
             figname = sprintf('log10(%s) region idx=%d', d.Name, i - 1);
             figure;
-            imagesc(d.X_Midpoints, d.Time_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, y0idx, :))));
+            imagesc(d.X_Midpoints, d.Time_Midpoints,  log10(squeeze(d.Mean(i, :, y0idx, :))));
             colorbar;
             title(figname);
             set(gcf, 'Name', figname);
@@ -729,11 +721,9 @@ for mci = 1:length(datanames)
         d = results{di}.FluenceOfRhoAndZAndTime;
         numtimes = numel(d.Time) - 1;
         for i = 1:10:numtimes
-            figname = sprintf('log10(%s) time=%5.3f ns', ...
-                d.Name, d.Time_Midpoints(i));
+            figname = sprintf('log10(%s) time=%5.3f ns', d.Name, d.Time_Midpoints(i));
             figure;
-            imagesc(d.Rho_Midpoints, d.Z_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, :))));
+            imagesc(d.Rho_Midpoints, d.Z_Midpoints, log10(squeeze(d.Mean(i, :, :))));
             colormap(jet);
             colorbar;
             title(figname);
@@ -753,8 +743,7 @@ for mci = 1:length(datanames)
         d = results{di}.FluenceOfRhoAndZAndOmega;
         numzs = numel(d.Z) - 1;
         for i = 1:10:numel(d.Omega_Midpoints)
-            figname = sprintf('log10(%s:amplitude) omega=%5.3f GHz', ...
-                d.Name, d.Omega_Midpoints(i));
+            figname = sprintf('log10(%s:amplitude) omega=%5.3f GHz', d.Name, d.Omega_Midpoints(i));
             figure;
             imagesc(d.Rho_Midpoints, d.Z_Midpoints, log10(squeeze(d.Amplitude(i, :, :))));
             colormap(jet);
@@ -793,11 +782,9 @@ for mci = 1:length(datanames)
         d = results{di}.FluenceOfXAndYAndZAndTime;
         center = floor((numel(d.Y) - 1) / 2) + 1;
         for i = 1:10:numel(d.Time_Midpoints)
-            figname = sprintf('log10(%s) y=0 time=%5.3f ns', ...
-                d.Name, d.Time_Midpoints(i));
+            figname = sprintf('log10(%s) y=0 time=%5.3f ns', d.Name, d.Time_Midpoints(i));
             figure;
-            imagesc(d.X_Midpoints, d.Z_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, center, :))));
+            imagesc(d.X_Midpoints, d.Z_Midpoints, log10(squeeze(d.Mean(i, :, center, :))));
             colormap(jet);
             colorbar;
             title(figname);
@@ -878,8 +865,7 @@ for mci = 1:length(datanames)
             figname = sprintf('log10(%s) %5.3f<angle<%5.3f', ...
                 d.Name, (i - 1) * pi / numAngles, i * pi / numAngles);
             figure;
-            imagesc(d.Rho_Midpoints, d.Z_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, :))));
+            imagesc(d.Rho_Midpoints, d.Z_Midpoints, log10(squeeze(d.Mean(i, :, :))));
             colormap(jet);
             colorbar;
             caxis([log10(minRadiance), log10(maxRadiance)]);
@@ -954,11 +940,9 @@ for mci = 1:length(datanames)
         numThetas = numel(d.Theta) - 1;
         for i = 1:numThetas
             thetaLimits = [(i - 1), i] * pi / numThetas;
-            figname = sprintf('log10(%s) %5.3f<Theta<%5.3f', ...
-                d.Name, thetaLimits);
+            figname = sprintf('log10(%s) %5.3f<Theta<%5.3f', d.Name, thetaLimits);
             figure;
-            imagesc(d.X_Midpoints, d.Z_Midpoints, ...
-                log10(squeeze(d.Mean(1, i, :, 1, :))), [-20, -5]);
+            imagesc(d.X_Midpoints, d.Z_Midpoints, log10(squeeze(d.Mean(1, i, :, 1, :))), [-20, -5]);
             colormap(jet);
             colorbar;
             title(figname);
@@ -990,8 +974,7 @@ for mci = 1:length(datanames)
         % Dimensions: [fractional MT bins, subregions, MT bins, rho bins]
         for j = 2:min(3, numel(d.SubregionIndices))
             for i = 1:20:numRhos
-                figname = sprintf( ...
-                    'Reflected Fractional MT in Region %2d, Rho = %5.3f mm', ...
+                figname = sprintf('Reflected Fractional MT in Region %2d, Rho = %5.3f mm', ...
                     j - 1, d.Rho_Midpoints(i));
                 layerfrac = squeeze(d.FractionalMT(:, j, :, i));
                 figure;
@@ -1033,8 +1016,7 @@ for mci = 1:length(datanames)
         for j = 2:min(3, numSubregions)
             for i = xIndices
                 layerfrac = squeeze(d.FractionalMT(:, j, :, 1, i));
-                figname = sprintf( ...
-                    'Reflected Fractional MT in Region %2d, X = %5.3f mm', ...
+                figname = sprintf('Reflected Fractional MT in Region %2d, X = %5.3f mm', ...
                     j - 1, d.X_Midpoints(i));
                 figure;
                 bar(d.MTBins_Midpoints, layerfrac', 'stacked');
@@ -1074,8 +1056,7 @@ for mci = 1:length(datanames)
         for j = 2:min(3, numSubregions)
             for i = 1:20:numRhos
                 layerfrac = squeeze(d.FractionalMT(:, j, :, i));
-                figname = sprintf( ...
-                    'Transmitted Fractional MT in Region %2d, Rho = %5.3f mm', ...
+                figname = sprintf('Transmitted Fractional MT in Region %2d, Rho = %5.3f mm', ...
                     j - 1, d.Rho_Midpoints(i));
                 figure;
                 bar(d.MTBins_Midpoints, layerfrac', 'stacked');
@@ -1117,8 +1098,7 @@ for mci = 1:length(datanames)
         for j = 2:min(3, numSubregions)
             for i = xIndices
                 layerfrac = squeeze(d.FractionalMT(:, j, :, 1, i));
-                figname = sprintf( ...
-                    'Transmitted Fractional MT in Region %2d, X = %5.3f mm', ...
+                figname = sprintf('Transmitted Fractional MT in Region %2d, X = %5.3f mm', ...
                     j - 1, d.X_Midpoints(i));
                 figure;
                 bar(d.MTBins_Midpoints, layerfrac', 'stacked');
@@ -1156,8 +1136,7 @@ for mci = 1:length(datanames)
         colormap(jet);
         for i = 1:20:numRhos
             figure;
-            figname = sprintf( ...
-                'Reflected Fractional Dynamic MT, Rho = %5.3f mm', ...
+            figname = sprintf('Reflected Fractional Dynamic MT, Rho = %5.3f mm', ...
                 d.Rho_Midpoints(i));
             layerfrac = squeeze(d.FractionalMT(:, :, i));
             bar(d.MTBins_Midpoints, layerfrac', 'stacked');
@@ -1178,20 +1157,14 @@ for mci = 1:length(datanames)
             end
             legend(labels);
             figure;
-            figname = sprintf( ...
-                'Reflected Total MT of Z, Rho = %5.3f mm', ...
-                d.Rho_Midpoints(i));
-            errorbar(d.Z_Midpoints, d.TotalMTOfZ(:, i), ...
-                d.TotalMTOfZStdev(:, i));
+            figname = sprintf('Reflected Total MT of Z, Rho = %5.3f mm', d.Rho_Midpoints(i));
+            errorbar(d.Z_Midpoints, d.TotalMTOfZ(:, i), d.TotalMTOfZStdev(:, i));
             title(figname);
             xlabel('z (mm)');
             ylabel('Total MT');
             figure;
-            figname = sprintf( ...
-                'Reflected Dynamic MT of Z, Rho = %5.3f mm', ...
-                d.Rho_Midpoints(i));
-            errorbar(d.Z_Midpoints, d.DynamicMTOfZ(:, i), ...
-                d.DynamicMTOfZStdev(:, i));
+            figname = sprintf('Reflected Dynamic MT of Z, Rho = %5.3f mm', d.Rho_Midpoints(i));
+            errorbar(d.Z_Midpoints, d.DynamicMTOfZ(:, i), d.DynamicMTOfZStdev(:, i));
             title(figname);
             xlabel('z (mm)');
             ylabel('Dynamic MT');
@@ -1221,8 +1194,7 @@ for mci = 1:length(datanames)
         xcenter = max(1, floor(numxs / 2));
         ycenter = max(1, floor(numys / 2));
         for i = xcenter:min(xcenter + 1, numxs)
-            figname = sprintf( ...
-                'Reflected Fractional Dynamic MT, X = %5.3f mm, Y = %5.3f mm', ...
+            figname = sprintf('Reflected Fractional Dynamic MT, X = %5.3f mm, Y = %5.3f mm', ...
                 d.X_Midpoints(i), d.Y_Midpoints(ycenter));
             figure;
             layerfrac = squeeze(d.FractionalMT(:, :, 1, i));
@@ -1243,8 +1215,7 @@ for mci = 1:length(datanames)
                 end
             end
             legend(labels);
-            figname = sprintf( ...
-                'Reflected Total MT of Z, X = %5.3f mm, Y = %5.3f mm', ...
+            figname = sprintf('Reflected Total MT of Z, X = %5.3f mm, Y = %5.3f mm', ...
                 d.X_Midpoints(i), d.Y_Midpoints(ycenter));
             figure;
             plot(d.Z_Midpoints, d.TotalMTOfZ(:, 1, i));
@@ -1343,8 +1314,7 @@ for mci = 1:length(datanames)
         ylabel('Dynamic MT');
         set(gcf, 'Name', figname);
         for i = 1:20:numRhos
-            figname = sprintf( ...
-                'Transmitted Fractional Dynamic MT, Rho = %5.3f mm', ...
+            figname = sprintf('Transmitted Fractional Dynamic MT, Rho = %5.3f mm', ...
                 d.Rho_Midpoints(i));
             layerfrac = squeeze(d.FractionalMT(:, :, i));
             figure;
@@ -1366,16 +1336,14 @@ for mci = 1:length(datanames)
                 end
             end
             legend(labels);
-            figname = sprintf( ...
-                'Transmitted Total MT of Z, Rho = %5.3f mm', ...
+            figname = sprintf('Transmitted Total MT of Z, Rho = %5.3f mm', ...
                 d.Rho_Midpoints(i));
             figure;
             plot(d.Z_Midpoints, d.TotalMTOfZ(:, i));
             title(figname);
             xlabel('z (mm)');
             ylabel('Total MT');
-            figname = sprintf( ...
-                'Transmitted Dynamic MT of Z, Rho = %5.3f mm', ...
+            figname = sprintf('Transmitted Dynamic MT of Z, Rho = %5.3f mm', ...
                 d.Rho_Midpoints(i));
             figure;
             plot(d.Z_Midpoints, d.DynamicMTOfZ(:, i));
@@ -1410,8 +1378,7 @@ for mci = 1:length(datanames)
         ylabel('Dynamic MT');
         set(gcf, 'Name', figname);
         for i = xIndices
-            figname = sprintf( ...
-                'Transmitted Fractional Dynamic MT, X = %5.3f mm, Y = %5.3f mm', ...
+            figname = sprintf('Transmitted Fractional Dynamic MT, X = %5.3f mm, Y = %5.3f mm', ...
                 d.X_Midpoints(i), d.Y_Midpoints(yIndex));
             layerfrac = squeeze(d.FractionalMT(:, :, yIndex, i));
             figure;
@@ -1433,16 +1400,14 @@ for mci = 1:length(datanames)
                 end
             end
             legend(labels);
-            figname = sprintf( ...
-                'Transmitted Total MT of Z, X = %5.3f mm, Y = %5.3f mm', ...
+            figname = sprintf('Transmitted Total MT of Z, X = %5.3f mm, Y = %5.3f mm', ...
                 d.X_Midpoints(i), d.Y_Midpoints(yIndex));
             figure;
             plot(d.Z_Midpoints, d.TotalMTOfZ(:, yIndex, i));
             title(figname);
             xlabel('z (mm)');
             ylabel('Total MT');
-            figname = sprintf( ...
-                'Transmitted Dynamic MT of Z, X = %5.3f mm, Y = %5.3f mm', ...
+            figname = sprintf('Transmitted Dynamic MT of Z, X = %5.3f mm, Y = %5.3f mm', ...
                 d.X_Midpoints(i), d.Y_Midpoints(yIndex));
             figure;
             plot(d.Z_Midpoints, d.DynamicMTOfZ(:, yIndex, i));
@@ -1473,9 +1438,7 @@ for mci = 1:length(datanames)
         set(gcf, 'Name', figname);
         colormap(jet);
         for i = 1:10:numFxs
-            figname = sprintf( ...
-                'Transmitted Fractional Dynamic MT, Fx = %5.3f mm', ...
-                d.Fx_Midpoints(i));
+            figname = sprintf('Transmitted Fractional Dynamic MT, Fx = %5.3f mm', d.Fx_Midpoints(i));
             layerfrac = squeeze(abs(d.FractionalMT(:, :, i)));
             figure;
             bar(d.MTBins_Midpoints, layerfrac', 'stacked');
@@ -1498,21 +1461,15 @@ for mci = 1:length(datanames)
                 end
             end
             legend(labels);
-            figname = sprintf( ...
-                'Transmitted Total MT of Z, Fx = %5.3f mm', ...
-                d.Fx_Midpoints(i));
+            figname = sprintf('Transmitted Total MT of Z, Fx = %5.3f mm', d.Fx_Midpoints(i));
             figure;
-            errorbar(d.Z_Midpoints, abs(d.TotalMTOfZ(:, i)), ...
-                abs(d.TotalMTOfZStdev(:, i)));
+            errorbar(d.Z_Midpoints, abs(d.TotalMTOfZ(:, i)),  abs(d.TotalMTOfZStdev(:, i)));
             title(figname);
             xlabel('z (mm)');
             ylabel('Total MT');
-            figname = sprintf( ...
-                'Transmitted Dynamic MT of Z, Fx = %5.3f mm', ...
-                d.Fx_Midpoints(i));
+            figname = sprintf('Transmitted Dynamic MT of Z, Fx = %5.3f mm', d.Fx_Midpoints(i));
             figure;
-            errorbar(d.Z_Midpoints, d.DynamicMTOfZ(:, i), ...
-                d.DynamicMTOfZStdev(:, i));
+            errorbar(d.Z_Midpoints, d.DynamicMTOfZ(:, i), d.DynamicMTOfZStdev(:, i));
             title(figname);
             xlabel('z (mm)');
             ylabel('Dynamic MT');
@@ -1532,8 +1489,7 @@ for mci = 1:length(datanames)
         for i = 1:numel(d.SubregionIndices)
             figname = sprintf('%s Region Index %d', d.Name, i - 1);
             figure;
-            imagesc(d.Rho_Midpoints, d.Time_Midpoints, ...
-                log10(squeeze(d.Mean(:, i, :))'));
+            imagesc(d.Rho_Midpoints, d.Time_Midpoints,  log10(squeeze(d.Mean(:, i, :))'));
             colorbar;
             caxis([-15 0]);
             title(figname);
@@ -1549,13 +1505,12 @@ for mci = 1:length(datanames)
         set(gcf, 'Name', figname);
         ylabel('subregion index');
         xlabel('\rho [mm]');
-        disp(['Time in Subregion captured by ReflectedTimeOfRhoAndSubregionHist ' ...
-            'detector: ' num2str(sum(d.Mean(:)))]);
+        fprintf('Time in Subregion captured by ReflectedTimeOfRhoAndSubregionHist detector: %g\n', sum(d.Mean(:)));
     end
 
     if isfield(results{di}, 'pMCATotal') && show.pMCATotal
-        disp(['Total absorption captured by pMCATotal detector: ' ...
-            num2str(results{di}.pMCATotal.Mean)]);
+        fprintf('Total absorption captured by pMCATotal detector: %g\n', ...
+            results{di}.pMCATotal.Mean);
     end
 
     if isfield(results{di}, 'pMCROfRho') && show.pMCROfRho
@@ -1568,8 +1523,7 @@ for mci = 1:length(datanames)
         xlabel('\rho [mm]');
         ylabel('pMC R(\rho) [mm^{-2}]');
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
-        disp(['Total reflectance captured by pMCROfRho detector: ' ...
-            num2str(sum(d.Mean .* rhonorm'))]);
+        fprintf('Total reflectance captured by pMCROfRho detector: %g\n', sum(d.Mean .* rhonorm'));
     end
 
     if isfield(results{di}, 'pMCROfRhoRecessed') && ...
@@ -1583,8 +1537,7 @@ for mci = 1:length(datanames)
         xlabel('\rho [mm]');
         ylabel('pMC R(\rho) [mm^{-2}]');
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
-        disp(['Total reflectance captured by pMCROfRhoRecessed detector: ' ...
-            num2str(sum(d.Mean .* rhonorm'))]);
+        fprintf('Total reflectance captured by pMCROfRhoRecessed detector: %g\n', sum(d.Mean .* rhonorm'));
     end
 
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
@@ -1600,8 +1553,7 @@ for mci = 1:length(datanames)
         timedelta = diff(d.Time(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
         total = timedelta * sum(d.Mean .* repmat(rhonorm, numtimes, 1), 'all');
-        disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by pMCROfRhoAndTime detector: %g\n', total);
     end
 
     if isfield(results{di}, 'pMCROfRhoAndTimeRecessed') && ...
@@ -1618,8 +1570,7 @@ for mci = 1:length(datanames)
         timedelta = diff(d.Time(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
         total = timedelta * sum(d.Mean .* repmat(rhonorm, numtimes, 1), 'all');
-        disp(['Total reflectance captured by ROfRhoAndTimeRecessed detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndTimeRecessed detector: %g\n', total);
     end
 
     if isfield(results{di}, 'pMCROfRhoAndTimeAndSubregion') && ...
@@ -1640,8 +1591,7 @@ for mci = 1:length(datanames)
         timedelta = diff(d.Time(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
         total = timedelta * sum(d.Mean .* repmat(rhonorm, [1, 1, size(d.Mean, 1)]), 'all');
-        disp(['Total reflectance captured by ROfRhoAndTimeAndSubregion detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndTimeAndSubregion detector: %g\n', total);
     end
 
     if isfield(results{di}, 'pMCROfRhoAndTimeAndSubregionRecessed') && ...
@@ -1662,8 +1612,7 @@ for mci = 1:length(datanames)
         timedelta = diff(d.Time(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
         total = timedelta * sum(d.Mean .* reshape(rhonorm, 1, [], 1), 'all');
-        disp(['Total reflectance captured by ROfRhoAndTimeAndSubregionRecessed detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by ROfRhoAndTimeAndSubregionRecessed detector: %g\n', total);
     end
 
     if isfield(results{di}, 'dMCdROfRhodMua') && show.dMCdROfRhodMua
@@ -1676,8 +1625,8 @@ for mci = 1:length(datanames)
         xlabel('\rho [mm]');
         ylabel('dMC dR(\rho)/dMua [mm^{-2}]');
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
-        disp(['Total reflectance captured by dMCdROfRhodMua detector: ' ...
-            num2str(sum(d.Mean .* rhonorm'))]);
+        fprintf('Total reflectance captured by dMCdROfRhodMua detector: %g\n', ...
+            sum(d.Mean .* rhonorm'));
     end
 
     if isfield(results{di}, 'dMCdROfRhodMus') && show.dMCdROfRhodMus
@@ -1690,8 +1639,7 @@ for mci = 1:length(datanames)
         xlabel('\rho [mm]');
         ylabel('dMC dR(\rho)/dMus [mm^{-2}]');
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
-        disp(['Total reflectance captured by dMCdROfRhodMus detector: ' ...
-            num2str(sum(d.Mean .* rhonorm'))]);
+        fprintf('Total reflectance captured by dMCdROfRhodMus detector: %g\n', sum(d.Mean .* rhonorm'));
     end
 
     if isfield(results{di}, 'dMCdROfRhoAndTimedMua') && ...
@@ -1708,8 +1656,7 @@ for mci = 1:length(datanames)
         timedelta = diff(d.Time(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
         total = timedelta * sum(d.Mean .* reshape(rhonorm, 1, []), 'all');
-        disp(['Total reflectance captured by dMCdROfRhoAndTimedMua detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by dMCdROfRhoAndTimedMua detector: %g\n', total);
     end
 
     if isfield(results{di}, 'dMCdROfRhoAndTimedMus') && ...
@@ -1726,8 +1673,7 @@ for mci = 1:length(datanames)
         timedelta = diff(d.Time(1:2));
         rhonorm = 2 * pi * d.Rho_Midpoints * diff(d.Rho(1:2));
         total = timedelta * sum(d.Mean .* reshape(rhonorm, 1, []), 'all');
-        disp(['Total reflectance captured by dMCdROfRhoAndTimedMus detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by dMCdROfRhoAndTimedMus detector: %g\n', total);
     end
 
     if isfield(results{di}, 'pMCROfXAndY') && show.pMCROfXAndY
@@ -1743,8 +1689,7 @@ for mci = 1:length(datanames)
         xdelta = diff(d.X(1:2));
         ydelta = diff(d.Y(1:2));
         total = xdelta * ydelta * sum(d.Mean, 'all');
-        disp(['Total reflectance captured by pMCROfXAndY detector: ' ...
-            num2str(total)]);
+        fprintf('Total reflectance captured by pMCROfXAndY detector: %g\n', total);
     end
 
     if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregion') && ...
@@ -1767,8 +1712,8 @@ for mci = 1:length(datanames)
         timedelta = diff(d.Time(1:2));
         disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector: ' ...
             num2str(xdelta * ydelta * timedelta * sum(d.Mean, 'all'))]);
-        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' ...
-            num2str(xdelta * ydelta * sum(d.ROfXAndY, 'all'))]);
+        fprintf(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ' ...
+            'ROfXAndY: %g\n'], xdelta * ydelta * sum(d.ROfXAndY, 'all'));
     end
 
     if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregionRecessed') && ...
@@ -1778,8 +1723,7 @@ for mci = 1:length(datanames)
         for i = 2:d.NumberOfRegions - 1
             figname = sprintf('log10(%s) region idx=%d', d.Name, i - 1);
             figure;
-            imagesc(d.X_Midpoints, d.Time_Midpoints, ...
-                log10(squeeze(d.Mean(i, :, y0idx, :))));
+            imagesc(d.X_Midpoints, d.Time_Midpoints, log10(squeeze(d.Mean(i, :, y0idx, :))));
             colorbar;
             title(figname);
             set(gcf, 'Name', figname);
@@ -1789,10 +1733,10 @@ for mci = 1:length(datanames)
         xdelta = diff(d.X(1:2));
         ydelta = diff(d.Y(1:2));
         timedelta = diff(d.Time(1:2));
-        disp(['Total reflectance captured by ' d.Name ': ' ...
-            num2str(xdelta * ydelta * timedelta * sum(d.Mean, 'all'))]);
-        disp(['Total reflectance captured by ' d.Name ' - ROfXAndY: ' ...
-            num2str(xdelta * ydelta * sum(d.ROfXAndY, 'all'))]);
+        fprintf(['Total reflectance captured by %s: %g\n'], d.Name, ...
+            xdelta * ydelta * timedelta * sum(d.Mean, 'all'));
+        fprintf(['Total reflectance captured by %s - ROfXAndY: %g\n'], ...
+            d.Name, xdelta * ydelta * sum(d.ROfXAndY, 'all'));
     end
 
     if isfield(results{di}, 'pMCROfFx') && show.pMCROfFx
@@ -1804,8 +1748,7 @@ for mci = 1:length(datanames)
         set(gcf, 'Name', figname);
         xlabel('f_x [/mm]');
         ylabel('R(f_x) [unitless]');
-        disp(['Total reflectance captured by ' d.Name ': ' ...
-            num2str(d.Amplitude(1))]);
+        fprintf('Total reflectance captured by %s: %g\n', d.Name, d.Amplitude(1));
     end
 
     if isfield(results{di}, 'dMCdROfFxdMua') && show.dMCdROfFxdMua
@@ -1817,8 +1760,7 @@ for mci = 1:length(datanames)
         set(gcf, 'Name', figname);
         xlabel('f_x [/mm]');
         ylabel('dR(f_x)/dMua [unitless]');
-        disp(['Total reflectance captured by ' d.Name ': ' ...
-            num2str(d.Amplitude(1))]);
+        fprintf('Total reflectance captured by %s: %g\n', d.Name, d.Amplitude(1));
     end
 
     if isfield(results{di}, 'dMCdROfFxdMus') && show.dMCdROfFxdMus
@@ -1830,8 +1772,7 @@ for mci = 1:length(datanames)
         set(gcf, 'Name', figname);
         xlabel('f_x [/mm]');
         ylabel('dR(f_x)/dMus [unitless]');
-        disp(['Total reflectance captured by ' d.Name ': ' ...
-            num2str(d.Amplitude(1))]);
+        fprintf('Total reflectance captured by %s: %g\n', d.Name, d.Amplitude(1));
     end
 
     if isfield(results{di}, 'pMCROfFxAndTime') && show.pMCROfFxAndTime
@@ -1846,8 +1787,7 @@ for mci = 1:length(datanames)
         ylabel('time [ns]');
 
         timedelta = diff(d.Time(1:2));
-        disp(['Total reflectance captured by ' d.Name ': ' ...
-            num2str(timedelta * d.Amplitude(1))]);
+        fprintf('Total reflectance captured by %s: %g\n', d.Name, timedelta * d.Amplitude(1));
     end
 
     if isfield(results{di}, 'pMCTOfRho') && show.pMCTOfRho
@@ -1859,8 +1799,7 @@ for mci = 1:length(datanames)
         set(gcf, 'Name', figname);
         xlabel('\rho [mm]');
         ylabel('pMC T(\rho) [mm^{-2}]');
-        disp(['Total reflectance captured by pMCTOfRho detector: ' ...
-            num2str(sum(d.Mean, 'all'))]);
+        fprintf('Total reflectance captured by pMCTOfRho detector: %g\n', sum(d.Mean, 'all'));
     end
   end
 end
