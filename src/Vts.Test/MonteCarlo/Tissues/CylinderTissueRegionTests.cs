@@ -192,18 +192,26 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.That(Math.Abs(distanceToBoundary - 0.7071) < 1e-4, Is.True);
             // put cylinder off axis
             // off x-axis
-            _cylinderTissueRegion.Center.X = 1.0;
+            var offCenterCylinder = new CylinderTissueRegion(
+                new Position(1, 0, 2), // center
+                1.0,
+                2.0, // z goes from z=1 to 3
+                new OpticalProperties(0.01, 1.0, 0.8, 1.4));
             photon.DP.Position = new Position(3, 0, 2);
             photon.DP.Direction = new Direction(-1, 0, 0);
             photon.S = 5.0; // definitely intersect side
-            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            result = offCenterCylinder.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.That(result, Is.True); Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             // off y-axis
-            _cylinderTissueRegion.Center = new Position(0, 1, 2);
+            offCenterCylinder = new CylinderTissueRegion(
+                new Position(0, 1, 2), // center
+                1.0,
+                2.0, // z goes from z=1 to 3
+                new OpticalProperties(0.01, 1.0, 0.8, 1.4));
             photon.DP.Position = new Position(0, 3, 2);
             photon.DP.Direction = new Direction(0, -1, 0);
             photon.S = 5.0; // definitely intersect side
-            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            result = offCenterCylinder.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.That(result, Is.True); Assert.That(distanceToBoundary, Is.EqualTo(1.0));
         }
 
