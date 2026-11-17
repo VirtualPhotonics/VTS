@@ -71,8 +71,13 @@ namespace Vts.Test.MonteCarlo.Tissues
             // ContainsPosition returns true if inside
             var result = _cylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
             Assert.That(result, Is.True);
-            // ContainsPosition returns true if *exactly* on boundary
+            // ContainsPosition returns true if *exactly* on cap boundary
             result = _cylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // on boundary
+            Assert.That(result, Is.True);
+            // ContainsPosition returns true if *exactly* on cylinder boundary
+            result = _cylinderTissueRegion.ContainsPosition(new Position(1, 0, 2));
+            Assert.That(result, Is.True);
+            result = _cylinderTissueRegion.ContainsPosition(new Position(0.7071, 0.7071, 2));
             Assert.That(result, Is.True);
         }
 
@@ -185,6 +190,21 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.That(result, Is.True);
             Assert.That(Math.Abs(distanceToBoundary - 0.7071) < 1e-4, Is.True);
+            // put cylinder off axis
+            // off x-axis
+            _cylinderTissueRegion.Center.X = 1.0;
+            photon.DP.Position = new Position(3, 0, 2);
+            photon.DP.Direction = new Direction(-1, 0, 0);
+            photon.S = 5.0; // definitely intersect side
+            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.That(result, Is.True); Assert.That(distanceToBoundary, Is.EqualTo(1.0));
+            // off y-axis
+            _cylinderTissueRegion.Center = new Position(0, 1, 2);
+            photon.DP.Position = new Position(0, 3, 2);
+            photon.DP.Direction = new Direction(0, -1, 0);
+            photon.S = 5.0; // definitely intersect side
+            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.That(result, Is.True); Assert.That(distanceToBoundary, Is.EqualTo(1.0));
         }
 
         /// <summary>

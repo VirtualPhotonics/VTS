@@ -91,33 +91,33 @@ namespace Vts.MonteCarlo.Tissues
         public override double GetDistanceToBoundary(Photon photon)
         {
             // first, check what region the photon is in
-            var regionIndex = photon.CurrentRegionIndex;
+            var currentRegionIndex = photon.CurrentRegionIndex;
 
-            if (regionIndex != _layerRegionIndexOfInclusion && regionIndex != _inclusionRegionIndex)
-                return base.GetDistanceToBoundary(photon);
-            // check if current track will hit the inclusion boundary, returning the correct distance
-            if (_inclusionRegion.RayIntersectBoundary(photon, out var distanceToBoundary))
+            var goingUp = photon.DP.Direction.Uz < 0.0;
+            var distanceToLayer = double.PositiveInfinity;
+            if (photon.CurrentRegionIndex < _layerRegions.Count) // photon in layer
             {
-                return distanceToBoundary;
+                var currentRegion = _layerRegions[currentRegionIndex];
+                distanceToLayer =
+                    goingUp 
+                    ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
+                    : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
             }
 
-            // otherwise, check that a projected track will hit the inclusion boundary
+            var distanceToInclusion = double.PositiveInfinity;
+            // check that a projected track will hit the inclusion boundary
             var projectedPhoton = new Photon
             {
                 DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
                     photon.DP.TotalTime, photon.DP.StateFlag),
                 S = 100
             };
-            if (_inclusionRegion.RayIntersectBoundary(projectedPhoton, out distanceToBoundary))
+            if (_inclusionRegion.RayIntersectBoundary(projectedPhoton, out var distanceToBoundary))
             {
-                return distanceToBoundary; 
+                distanceToInclusion = distanceToBoundary;
             }
-            // if not hitting the inclusion, call the base (layer) method
-            // when calling base MultiLayerTissue, need to adjust CurrentRegionIndex so that LayerTissueRegion 
-            // determines distance to layer boundary
-            projectedPhoton.CurrentRegionIndex = _layerRegionIndexOfInclusion;
-            var layerDistance = base.GetDistanceToBoundary(projectedPhoton);
-            return layerDistance > 0 ? layerDistance : double.PositiveInfinity;
+            return distanceToInclusion < distanceToLayer 
+                ? distanceToInclusion : distanceToLayer;
         }
 
         /// <summary>
@@ -130,19 +130,21 @@ namespace Vts.MonteCarlo.Tissues
             Position currentPosition,
             Direction currentDirection)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            // note that inner layer reflections handled by Photon.CrossRegionOrReflect by calling
-            // _tissue.GetRefractedDirection
-            if (base.OnDomainBoundary(currentPosition)) // OnDomainBoundary checks if on tissue boundary
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 0; i < _layerRegions.Count - 1; i++)
             {
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
+            }
+            if (layerIndex != -1)
                 return base.GetReflectedDirection(currentPosition, currentDirection);
-            }
 
-            // on boundary of inclusion
-            if (_inclusionRegion.RegionOP.N == Regions[_layerRegionIndexOfInclusion].RegionOP.N)
-            {
-                return currentDirection;  // no refractive index mismatch
-            }
+            // must be on inclusion
+            // first check if refractive index of inclusion matches that of surrounding layer
+            if (Math.Abs(_inclusionRegion.RegionOP.N -
+                         Regions[_layerRegionIndexOfInclusion].RegionOP.N) < 1e-6)
+                return currentDirection;
 
             // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
             var surfaceNormal = _inclusionRegion.SurfaceNormal(currentPosition);
@@ -171,14 +173,20 @@ namespace Vts.MonteCarlo.Tissues
             double nextN,
             double cosThetaSnell)
         {
-            // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
+            // if no refractive index mismatch, then just return current direction
+            if (Math.Abs(currentN - nextN) < 1e-6) return currentDirection;
+
+            // needs to call MultiLayerTissue when crossing top, bottom and internal layers
+            // if on boundary of a layer, check which one
+            var layerIndex = -1;
+            for (var i = 0; i < _layerRegions.Count - 1; i++)
             {
-                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+                if (_layerRegions[i].OnBoundary(currentPosition)) layerIndex = i;
             }
+            if (layerIndex != -1)
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
 
-            if (currentN == nextN) return currentDirection; // no refractive index mismatch
-
+            // must be on inclusion
             var normal = _inclusionRegion.SurfaceNormal(currentPosition);
             var cosTheta1 = Direction.GetDotProduct(currentDirection, normal); 
             // if normal and photon in opposite directions change sign of cosTheta1

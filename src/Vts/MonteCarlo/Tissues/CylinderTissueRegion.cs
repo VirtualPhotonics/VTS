@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class CylinderTissueRegion : ITissueRegion
     {
-        private const double SidesTolerance = 1e-8;
+        private const double SidesTolerance = 1e-10;
         private const double CapTolerance = 1e-13;
         private bool _onBoundary;
 
@@ -234,11 +234,15 @@ namespace Vts.MonteCarlo.Tissues
                     0.0);
             }
             var inRadius = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) + 
-                                          (position.Y - Center.Y) * (position.Y - Center.Y)) < Radius;
+                                          (position.Y - Center.Y) * (position.Y - Center.Y)) < Radius + CapTolerance;
             var onTopCap = Math.Abs(position.Z - (Center.Z - Height / 2)) < CapTolerance;
             var onBottomCap = Math.Abs(position.Z - (Center.Z + Height / 2)) < CapTolerance;
-            if (onTopCap && inRadius) return new Direction(0, 0, -1); // top cap normal points up
+            if (onTopCap) return new Direction(0, 0, -1); // top cap normal points up
             // must be on bottom cap
+            //if (position.Z != 11.1)
+            //{
+            //    Console.WriteLine("here");
+            //}
             return new Direction(0, 0, 1);
         }
     }
