@@ -121,7 +121,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean indicating intersection or not</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
-            var capTolForIntersection = 1e-6;
+            const double capTolForIntersection = 1e-6;
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
             var dp = photon.DP;
@@ -211,7 +211,16 @@ namespace Vts.MonteCarlo.Tissues
                 }
             }
             distanceToBoundary = Math.Min(distanceToSides, Math.Min(distanceToTopCap, distanceToBottomCap));
-            return !double.IsPositiveInfinity(distanceToBoundary);
+            switch (distanceToBoundary)
+            {
+                // did not intersect cylinder
+                case double.PositiveInfinity:
+                // photon already on boundary
+                case < 1e-10:
+                    return false;
+                default:
+                    return true;
+            }
         }
 
         /// <summary>
@@ -237,7 +246,7 @@ namespace Vts.MonteCarlo.Tissues
                     0.0);
             }
             var inRadius = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) + 
-                                          (position.Y - Center.Y) * (position.Y - Center.Y)) < Radius + CapTolerance;
+                                          (position.Y - Center.Y) * (position.Y - Center.Y)) < Radius + SidesTolerance;
             var onTopCap = Math.Abs(position.Z - (Center.Z - Height / 2)) < CapTolerance;
             var onBottomCap = Math.Abs(position.Z - (Center.Z + Height / 2)) < CapTolerance;
             if (onTopCap) return new Direction(0, 0, -1); // top cap normal points up

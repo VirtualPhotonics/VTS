@@ -28,10 +28,11 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
-        {
-            "file.txt", // file that captures screen output of MC simulation
-        };
+        private readonly List<string> _listOfTestGeneratedFiles =
+        [
+            "file.txt" // file that captures screen output of MC simulation
+        ];
+
         [OneTimeTearDown]
         public void Clear_folders_and_files()
         {
@@ -40,6 +41,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 FileIO.FileDelete(file);
             }
         }
+
         /// <summary>
         /// SingleInclusionTissue with InfiniteCylinderTissueRegion
         /// </summary>
@@ -55,7 +57,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
-                new List<DatabaseType>() { }, // databases to be written
+                new List<DatabaseType>(), // databases to be written
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -67,10 +69,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput() { Angle=new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-200.0, 200.0, 401),Y=new DoubleRange(-200.0, 200.0, 401)}, 
+                    new ROfAngleDetectorInput { Angle=new DoubleRange(Math.PI / 2 , Math.PI, 2)},
+                    new ROfXAndYDetectorInput {X=new DoubleRange(-200.0, 200.0, 401),Y=new DoubleRange(-200.0, 200.0, 401)}, 
                     new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfAngleDetectorInput {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new ATotalDetectorInput(),
                 };
             _inputOneRegionTissue = new SimulationInput(
@@ -79,8 +81,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 simulationOptions,
                 source,
                 new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -90,7 +91,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 detectors);             
             _outputOneRegionTissue = new MonteCarloSimulation(_inputOneRegionTissue).Run();
@@ -105,10 +106,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new Position(0, 0, 2), // center
                         1, // radius
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4) 
-                    ), 
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
+                    ),
+                     [
+                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
@@ -117,7 +117,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                     ]
                 ),
                 detectors);
             _outputTwoRegionMatchedTissue = new MonteCarloSimulation(_inputTwoRegionMatchedTissue).Run();
@@ -133,8 +133,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         1, // radius
                         new OpticalProperties(0.01, 1.0, 0.8, 1.5) // mismatched n=1.5
                     ),
-                    new ITissueRegion[]
-                    {
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -144,7 +143,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
+                    ]
                 ),
                 detectors);
             _outputTwoRegionMismatchedTissue = new MonteCarloSimulation(_inputTwoRegionMismatchedTissue).Run();
@@ -163,7 +162,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.Rd * _factor - 0.565017749), Is.LessThan(0.000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.Rd * _factor - 0.565017749), Is.LessThan(0.000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Rd - 0.646391), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Rd - 0.650916), Is.LessThan(0.000001));
         }
 
         // Reflection R(angle)
@@ -172,7 +171,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.R_a[0] * _factor - 0.0809612757), Is.LessThan(0.0000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.R_a[0] * _factor - 0.0809612757), Is.LessThan(0.0000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_a[0] - 0.092621), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_a[0] - 0.093269), Is.LessThan(0.000001));
         }
 
         // Diffuse Transmittance
@@ -181,7 +180,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.Td * _factor - 0.0228405921), Is.LessThan(0.000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.Td * _factor - 0.0228405921), Is.LessThan(0.000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Td - 0.020237), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Td - 0.012972), Is.LessThan(0.000001));
         }
 
         // Transmittance T(angle)
@@ -190,7 +189,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.T_a[0] * _factor - 0.00327282369), Is.LessThan(0.00000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.T_a[0] * _factor - 0.00327282369), Is.LessThan(0.00000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.T_a[0] - 0.002899), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.T_a[0] - 0.001858), Is.LessThan(0.000001));
         }
 
         // Reflectance R(x,y)
@@ -199,7 +198,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.R_xy[198, 201] * _factor - 0.00825301), Is.LessThan(0.00000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.R_xy[198, 201] * _factor - 0.00825301), Is.LessThan(0.00000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_xy[198, 201] - 0.009802), Is.LessThan(0.000001));
+            // pick another bin because [198,201] is 0.0
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.R_xy[197, 201] - 0.021175), Is.LessThan(0.000001));
         }
 
         // Total Absorption
@@ -208,7 +208,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_outputOneRegionTissue.Atot * _factor - 0.384363881), Is.LessThan(0.000000001));
             Assert.That(Math.Abs(_outputTwoRegionMatchedTissue.Atot * _factor - 0.384363881), Is.LessThan(0.000000001));
-            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Atot - 0.333370), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoRegionMismatchedTissue.Atot - 0.336111), Is.LessThan(0.000001));
         }
        
         // sanity checks
