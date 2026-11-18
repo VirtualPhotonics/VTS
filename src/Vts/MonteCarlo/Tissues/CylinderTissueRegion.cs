@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class CylinderTissueRegion : ITissueRegion
     {
-        private const double SidesTolerance = 1e-10;
+        private const double SidesTolerance = 1e-8; // matches infinite cylinder tolerance
         private const double CapTolerance = 1e-13;
         private bool _onBoundary;
 
@@ -121,6 +121,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean indicating intersection or not</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
+            var capTolForIntersection = 1e-6;
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
             var dp = photon.DP;
@@ -161,24 +162,24 @@ namespace Vts.MonteCarlo.Tissues
             var distanceToTopCap = double.PositiveInfinity;
             // determine intersection of plane of top cap with p1 -> p2 or p2 -> p1
             var topCapZPlane = Center.Z - Height / 2;
-            if (p1.Z < topCapZPlane && p2.Z > topCapZPlane)
+            if (p1.Z < topCapZPlane && p2.Z > topCapZPlane) // photon going down
             {
                 var t = (topCapZPlane - p1.Z) / d1.Uz;
                 var xIntercept = p1.X + t * d1.Ux;
                 var yIntercept = p1.Y + t * d1.Uy;
                 if (Math.Sqrt((xIntercept - Center.X) * (xIntercept - Center.X) +
-                              (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius)
+                              (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius + capTolForIntersection)
                 {
                     distanceToTopCap = Math.Abs(t);
                 }
             }
-            if (p1.Z > topCapZPlane && p2.Z < topCapZPlane)
+            if (p1.Z > topCapZPlane && p2.Z < topCapZPlane) // photon going up
             {
-                var t = (p1.Z - topCapZPlane) / d1.Uz;
+                var t = (topCapZPlane - p1.Z) / d1.Uz;
                 var xIntercept = p1.X + t * d1.Ux;
                 var yIntercept = p1.Y + t * d1.Uy;
                 if (Math.Sqrt((xIntercept - Center.X) * (xIntercept - Center.X) +
-                              (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius)
+                              (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius + capTolForIntersection)
                 {
                     distanceToTopCap = Math.Abs(t); // t could be negative but distance always positive
                 }
@@ -186,26 +187,28 @@ namespace Vts.MonteCarlo.Tissues
             // determine intersection of plane of bottom cap with p1 -> p2 or p2 -> p1
             var distanceToBottomCap = double.PositiveInfinity;
             var bottomCapZPlane = Center.Z + Height / 2;
-            if (p1.Z < bottomCapZPlane && p2.Z > bottomCapZPlane)
+            if (p1.Z < bottomCapZPlane && p2.Z > bottomCapZPlane) // photon going down
             {
-                var t = (p1.Z - bottomCapZPlane) / d1.Uz;
+                var t = (bottomCapZPlane - p1.Z) / d1.Uz;
                 var xIntercept = p1.X + t * d1.Ux;
                 var yIntercept = p1.Y + t * d1.Uy;
                 if (Math.Sqrt((xIntercept - Center.X) * (xIntercept - Center.X) +
-                              (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius)
+                              (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius + capTolForIntersection)
                 {
                     distanceToBottomCap = Math.Abs(t); // t could be negative but distance always positive
                 }
             }
 
-            if (p1.Z > bottomCapZPlane && p2.Z < bottomCapZPlane)
+            if (p1.Z > bottomCapZPlane && p2.Z < bottomCapZPlane) // photon going up
             {
-                var t = (p1.Z - bottomCapZPlane) / d1.Uz;
+                var t = (bottomCapZPlane - p1.Z) / d1.Uz;
                 var xIntercept = p1.X + t * d1.Ux;
                 var yIntercept = p1.Y + t * d1.Uy;
-                if (!(Math.Sqrt((xIntercept - Center.X) * (xIntercept - Center.X) +
-                                (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius)) return false;
-                distanceToBottomCap = Math.Abs(t); // t could be negative but distance always positive
+                if (Math.Sqrt((xIntercept - Center.X) * (xIntercept - Center.X) +
+                              (yIntercept - Center.Y) * (yIntercept - Center.Y)) < Radius + capTolForIntersection) 
+                {
+                    distanceToBottomCap = Math.Abs(t); // t could be negative but distance always positive
+                }
             }
             distanceToBoundary = Math.Min(distanceToSides, Math.Min(distanceToTopCap, distanceToBottomCap));
             return !double.IsPositiveInfinity(distanceToBoundary);

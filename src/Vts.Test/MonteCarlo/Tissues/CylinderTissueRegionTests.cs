@@ -202,6 +202,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon.S = 5.0; // definitely intersect side
             result = offCenterCylinder.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.That(result, Is.True); Assert.That(distanceToBoundary, Is.EqualTo(1.0));
+            Assert.That(Math.Abs(distanceToBoundary - 1) < 1e-6, Is.True);
             // off y-axis
             offCenterCylinder = new CylinderTissueRegion(
                 new Position(0, 1, 2), // center
@@ -212,7 +213,23 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon.DP.Direction = new Direction(0, -1, 0);
             photon.S = 5.0; // definitely intersect side
             result = offCenterCylinder.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.That(Math.Abs(distanceToBoundary - 1) < 1e-6, Is.True);
             Assert.That(result, Is.True); Assert.That(distanceToBoundary, Is.EqualTo(1.0));
+            // from inside intersect top cap then infinite cylinder beyond cylinder
+            // back to centered cylinder
+            photon.DP.Position = new Position(0, 0, 1.5);
+            photon.DP.Direction = new Direction(0.7071, 0, -0.7071);
+            photon.S = 10.0; // make sure intersects top cap then infinite cylinder above
+            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.That(result, Is.True); 
+            Assert.That(Math.Abs(distanceToBoundary - 0.7071) < 1e-4, Is.True);
+            // from inside on cylinder boundary intersect top cap then infinite cylinder beyond cylinder
+            photon.DP.Position = new Position(1, 0, 2);
+            photon.DP.Direction = new Direction(0.0, 0, -1.0);
+            photon.S = 10.0; // make sure intersects top cap then infinite cylinder above
+            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.That(result, Is.True);
+            Assert.That(Math.Abs(distanceToBoundary - 1.0) < 1e-6, Is.True);
         }
 
         /// <summary>
