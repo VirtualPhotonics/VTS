@@ -95,7 +95,8 @@ show.ReflectedTimeOfRhoAndSubregionHist = 1;
 
 for mci = 1:length(datanames)
   dataname = datanames{mci};
-  results = loadMCResults(outdir, dataname);  
+  % loadMCResults reads MCCL output and returns results and N, number of photons launched
+  [results, N] = loadMCResults(outdir, dataname);  
   for di = 1:size(results, 2)
       
     result = results{di};

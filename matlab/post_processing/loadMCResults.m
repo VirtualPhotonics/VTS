@@ -1,9 +1,10 @@
-function results = loadMCResults(outdir, dataname)
+function [results, N] = loadMCResults(outdir, dataname)
 
 slash = filesep;  % get correct path delimiter for platform
 datadir = [outdir slash dataname];
 
 json = readAndParseJson([datadir slash dataname '.txt']);
+N = json.N;
 
 postProcessorResults = false;
 if (exist([datadir slash dataname '_database_infile.txt'],'file'))
