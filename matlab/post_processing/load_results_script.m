@@ -201,7 +201,7 @@ for mci = 1:length(datanames)
         k = 1;
         for i = rhoIndices
             for j = timeIndices
-                plot(d.MaxDepth_Midpoints, d.Mean(:, j, i));
+                plot(d.MaxDepth_Midpoints, squeeze(d.Mean(:, j, i)));
                 labels{k} = sprintf('rho=%3.2f mm time=%3.2f ns', ...
                     d.Rho_Midpoints(i), d.Time_Midpoints(j));
                 k = k + 1;
