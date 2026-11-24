@@ -571,6 +571,14 @@ for di = 1:numDetectors
             TDiffuse.SecondMoment = data.SecondMoment;
             TDiffuse.Stdev = sqrt((TDiffuse.SecondMoment -  TDiffuse.Mean.^2) / json.N);
             results{di}.TDiffuse = TDiffuse;
+        case 'TDiffuseBoundingVolume'
+            TDiffuseBoundingVolume.Name = detector.Name;
+            dataFile = [datadir slash detector.Name '.txt'];
+            data = readAndParseJson(dataFile);
+            TDiffuseBoundingVolume.Mean = data.Mean;
+            TDiffuseBoundingVolume.SecondMoment = data.SecondMoment;
+            TDiffuseBoundingVolume.Stdev = sqrt((TDiffuseBoundingVolume.SecondMoment -  TDiffuseBoundingVolume.Mean.^2) / json.N);
+            results{di}.TDiffuseBoundingVolume = TDiffuseBoundingVolume;
         case 'TOfRho'
             TOfRho.Name = detector.Name;
             tempRho = detector.Rho;
@@ -1002,6 +1010,21 @@ for di = 1:numDetectors
                     abs(RadianceOfRhoAndZAndAngle.Mean).^2) / json.N);
             end
             results{di}.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
+        case 'RadianceOfRhoAtZ'
+            RadianceOfRhoAtZ.Name = detector.Name;
+            tempRho = detector.Rho;
+            RadianceOfRhoAtZ.Rho = linspace(tempRho.Start, tempRho.Stop, tempRho.Count);
+            RadianceOfRhoAtZ.Rho_Midpoints = (RadianceOfRhoAtZ.Rho(1:end-1) + RadianceOfRhoAtZ.Rho(2:end)) / 2;
+            RadianceOfRhoAtZ.Mean = readBinaryData( ...
+                [datadir slash detector.Name], numel(RadianceOfRhoAtZ.Rho) - 1);
+            secondMomentFile = [datadir slash detector.Name '_2'];
+            if detector.TallySecondMoment && exist(secondMomentFile, 'file')
+                RadianceOfRhoAtZ.SecondMoment = readBinaryData( ...
+                    secondMomentFile, numel(RadianceOfRhoAtZ.Rho) - 1);
+                RadianceOfRhoAtZ.Stdev = sqrt( ...
+                    (RadianceOfRhoAtZ.SecondMoment - RadianceOfRhoAtZ.Mean.^2) / json.N);
+            end
+            results{di}.RadianceOfRhoAtZ = RadianceOfRhoAtZ;
         case 'RadianceOfFxAndZAndAngle'
             RadianceOfFxAndZAndAngle.Name = detector.Name;
             tempFx = detector.Fx;
@@ -2135,8 +2158,8 @@ for di = 1:numDetectors
                     pMCTOfRho.Mean.^2) / databaseInputJson.N);
             end
             results{di}.pMCTOfRho = pMCTOfRho;
-    end %detector.Name switch
-end
+    end % switch on TallyType
+end % for all detectors
 
 function json_parsed = readAndParseJson(filename)
 json_parsed = loadjson(filename);
